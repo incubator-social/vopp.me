@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:production": "npm build",
+    "build:production": "next build",
     "start": "next start",
+    "test": "echo \"Tests are not configured yet\" && exit 0",
     "lint": "next lint"
   },
   "dependencies": {
