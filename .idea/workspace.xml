@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="677543f6-467c-41c2-a4ea-2cdbbb0f9aab" name="Changes" comment="add &quot;5 files&quot;">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="677543f6-467c-41c2-a4ea-2cdbbb0f9aab" name="Changes" comment="pull request 1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -203,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1755188311178</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="pull request 1">
+      <created>1755189156245</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1755189156245</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,6 +241,7 @@
     <MESSAGE value="test pull request 9" />
     <MESSAGE value="test pull request 10" />
     <MESSAGE value="add &quot;5 files&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="add &quot;5 files&quot;" />
+    <MESSAGE value="pull request 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="pull request 1" />
   </component>
 </project>
