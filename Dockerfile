@@ -7,6 +7,7 @@ RUN apk add --no-cache git
 # Установка зависимостей
 FROM base as dependencies
 COPY package.json pnpm-lock.yaml ./
+RUN pnpm add -D @types/testing-library__jest-dom
 RUN pnpm install --frozen-lockfile
 
 # Сборка проекта
