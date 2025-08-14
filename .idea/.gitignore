@@ -1,0 +1,48 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+
+# Зависимости
+/node_modules
+/.pnp
+.pnp.js
+
+# Кеши и временные файлы
+.npm
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnpm-debug.log
+
+# Логи и настройки IDE
+.DS_Store
+*.log
+.idea
+.vscode
+*.swp
+*.swo
+
+# Environment variables
+.env.local
+.env.development
+.env.test
+.env.production
+.env
+
+# Сборка и выходные файлы
+/dist
+/build
+/out
+.next
+.cache
+
+# Тестовые покрытия
+/coverage
+*.lcov
+
+# Debug
+debug.log
