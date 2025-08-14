@@ -1,19 +1,21 @@
-# Устанавливаем зависимости
-FROM node:20.11-alpine as dependencies
+# Базовый образ с активированным corepack
+FROM node:20.11-alpine as base
 WORKDIR /app
-COPY package*.json ./
-RUN corepack enable && pnpm install
+RUN corepack enable
+
+# Устанавливаем зависимости
+FROM base as dependencies
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 # Билдим приложение
-FROM node:20.11-alpine as builder
-WORKDIR /app
-COPY . .
+FROM base as builder
 COPY --from=dependencies /app/node_modules ./node_modules
+COPY . .
 RUN pnpm run build:production
 
-# Стейдж запуска
-FROM node:20.11-alpine as runner
-WORKDIR /app
+# Финальный образ
+FROM base as runner
 ENV NODE_ENV production
 COPY --from=builder /app/ ./
 EXPOSE 3000
