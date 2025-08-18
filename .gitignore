@@ -76,3 +76,6 @@ next-env.d.ts
 ### Оптимизация/Кэш ###
 .cache/
 .turbo/
+*storybook.log
+storybook-static
+stories/
