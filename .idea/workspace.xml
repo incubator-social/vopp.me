@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="677543f6-467c-41c2-a4ea-2cdbbb0f9aab" name="Changes" comment="pull request 2 (add &quot;test&quot;)" />
+    <list default="true" id="677543f6-467c-41c2-a4ea-2cdbbb0f9aab" name="Changes" comment="add ESLint / Prettier / Stylelint">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,6 +48,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "C:\\voppme\\node_modules\\prettier",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "ts.external.directory.path": "C:\\voppme\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
@@ -80,6 +85,8 @@
       <workItem from="1755185417999" duration="622000" />
       <workItem from="1755187186945" duration="890000" />
       <workItem from="1755188103747" duration="626000" />
+      <workItem from="1755521297174" duration="741000" />
+      <workItem from="1755526369727" duration="6038000" />
     </task>
     <task id="LOCAL-00001" summary="install NextJS">
       <created>1755158328170</created>
@@ -214,7 +221,28 @@
       <option name="project" value="LOCAL" />
       <updated>1755189630767</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="pull request 3 (next build)">
+      <created>1755189996636</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1755189996636</updated>
+    </task>
+    <task id="LOCAL-00021" summary="add ESLint / Prettier / Stylelint">
+      <created>1755529309125</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1755529309125</updated>
+    </task>
+    <task id="LOCAL-00022" summary="add ESLint / Prettier / Stylelint">
+      <created>1755531373666</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1755531373666</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,6 +278,8 @@
     <MESSAGE value="add &quot;5 files&quot;" />
     <MESSAGE value="pull request 1" />
     <MESSAGE value="pull request 2 (add &quot;test&quot;)" />
-    <option name="LAST_COMMIT_MESSAGE" value="pull request 2 (add &quot;test&quot;)" />
+    <MESSAGE value="pull request 3 (next build)" />
+    <MESSAGE value="add ESLint / Prettier / Stylelint" />
+    <option name="LAST_COMMIT_MESSAGE" value="add ESLint / Prettier / Stylelint" />
   </component>
 </project>
