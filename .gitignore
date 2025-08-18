@@ -5,6 +5,11 @@
 *.iml
 *.ipr
 
+# husky
+.husky/*
+!.husky/_
+!.husky/*.sh
+
 # VS Code
 .vscode/
 !.vscode/settings.json  # Можно добавить общие настройки команды
