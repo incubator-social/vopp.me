@@ -40,8 +40,6 @@ body {
 :root {
   /* Basic styles */
   --background: #4c4c4c;
-}
-:root :root {
   /* COLORS */
   /* Accent Colors */
   --accent-100: #73a5ff;

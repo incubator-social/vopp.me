@@ -6,69 +6,68 @@
   /* Basic styles */
   --background: #{colors.$dark-100};
 
-  :root {
-    /* COLORS */
+  /* COLORS */
 
-    /* Accent Colors */
-    --accent-100: #{colors.$accent-100};
-    --accent-300: #{colors.$accent-300};
-    --accent-500: #{colors.$accent-500};
-    --accent-700: #{colors.$accent-700};
-    --accent-900: #{colors.$accent-900};
+  /* Accent Colors */
+  --accent-100: #{colors.$accent-100};
+  --accent-300: #{colors.$accent-300};
+  --accent-500: #{colors.$accent-500};
+  --accent-700: #{colors.$accent-700};
+  --accent-900: #{colors.$accent-900};
 
-    /* Success Colors */
-    --success-100: #{colors.$success-100};
-    --success-300: #{colors.$success-300};
-    --success-500: #{colors.$success-500};
-    --success-700: #{colors.$success-700};
-    --success-900: #{colors.$success-900};
+  /* Success Colors */
+  --success-100: #{colors.$success-100};
+  --success-300: #{colors.$success-300};
+  --success-500: #{colors.$success-500};
+  --success-700: #{colors.$success-700};
+  --success-900: #{colors.$success-900};
 
-    /* Danger Colors */
-    --danger-100: #{colors.$danger-100};
-    --danger-300: #{colors.$danger-300};
-    --danger-500: #{colors.$danger-500};
-    --danger-700: #{colors.$danger-700};
-    --danger-900: #{colors.$danger-900};
+  /* Danger Colors */
+  --danger-100: #{colors.$danger-100};
+  --danger-300: #{colors.$danger-300};
+  --danger-500: #{colors.$danger-500};
+  --danger-700: #{colors.$danger-700};
+  --danger-900: #{colors.$danger-900};
 
-    /* Warning Colors */
-    --warning-100: #{colors.$warning-100};
-    --warning-300: #{colors.$warning-300};
-    --warning-500: #{colors.$warning-500};
-    --warning-700: #{colors.$warning-700};
-    --warning-900: #{colors.$warning-900};
+  /* Warning Colors */
+  --warning-100: #{colors.$warning-100};
+  --warning-300: #{colors.$warning-300};
+  --warning-500: #{colors.$warning-500};
+  --warning-700: #{colors.$warning-700};
+  --warning-900: #{colors.$warning-900};
 
-    /* Dark Colors */
-    --dark-100: #{colors.$dark-100};
-    --dark-300: #{colors.$dark-300};
-    --dark-500: #{colors.$dark-500};
-    --dark-700: #{colors.$dark-700};
-    --dark-900: #{colors.$dark-900};
+  /* Dark Colors */
+  --dark-100: #{colors.$dark-100};
+  --dark-300: #{colors.$dark-300};
+  --dark-500: #{colors.$dark-500};
+  --dark-700: #{colors.$dark-700};
+  --dark-900: #{colors.$dark-900};
 
-    /* Light Colors */
-    --light-100: #{colors.$light-100};
-    --light-300: #{colors.$light-300};
-    --light-500: #{colors.$light-500};
-    --light-700: #{colors.$light-700};
-    --light-900: #{colors.$light-900};
+  /* Light Colors */
+  --light-100: #{colors.$light-100};
+  --light-300: #{colors.$light-300};
+  --light-500: #{colors.$light-500};
+  --light-700: #{colors.$light-700};
+  --light-900: #{colors.$light-900};
 
-    /* Semantic Variables */
-    --primary: #{vars.$primary};
-    --primary-hover: #{vars.$primary-hover};
-    --primary-active: #{vars.$primary-active};
-    --text-primary: #{vars.$text-primary};
-    --text-secondary: #{vars.$text-secondary};
-    --text-inverted: #{vars.$text-inverted};
-    --bg-primary: #{vars.$bg-primary};
-    --bg-secondary: #{vars.$bg-secondary};
-    --bg-dark: #{vars.$bg-dark};
-    --success: #{vars.$success};
-    --error: #{vars.$error};
-    --warning: #{vars.$warning};
+  /* Semantic Variables */
+  --primary: #{vars.$primary};
+  --primary-hover: #{vars.$primary-hover};
+  --primary-active: #{vars.$primary-active};
+  --text-primary: #{vars.$text-primary};
+  --text-secondary: #{vars.$text-secondary};
+  --text-inverted: #{vars.$text-inverted};
+  --bg-primary: #{vars.$bg-primary};
+  --bg-secondary: #{vars.$bg-secondary};
+  --bg-dark: #{vars.$bg-dark};
+  --success: #{vars.$success};
+  --error: #{vars.$error};
+  --warning: #{vars.$warning};
 
-    /* Global Variables */
+  /* Global Variables */
 
-    /* ... */
-  }
+  /* ... */
+
 
   :export {
     // Accent colors
