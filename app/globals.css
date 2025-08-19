@@ -44,100 +44,100 @@ body {
 :root :root {
   /* COLORS */
   /* Accent Colors */
-  --accent-100: #73A5FF;
-  --accent-300: #4C8DFF;
-  --accent-500: #397DF6;
-  --accent-700: #2F68CC;
-  --accent-900: #234E99;
+  --accent-100: #73a5ff;
+  --accent-300: #4c8dff;
+  --accent-500: #397df6;
+  --accent-700: #2f68cc;
+  --accent-900: #234e99;
   /* Success Colors */
-  --success-100: #80FFBF;
-  --success-300: #22E584;
-  --success-500: #14CC70;
-  --success-700: #0F9954;
-  --success-900: #0A6638;
+  --success-100: #80ffbf;
+  --success-300: #22e584;
+  --success-500: #14cc70;
+  --success-700: #0f9954;
+  --success-900: #0a6638;
   /* Danger Colors */
-  --danger-100: #FF8099;
-  --danger-300: #F23D61;
-  --danger-500: #CC1439;
-  --danger-700: #990F2B;
-  --danger-900: #660A1D;
+  --danger-100: #ff8099;
+  --danger-300: #f23d61;
+  --danger-500: #cc1439;
+  --danger-700: #990f2b;
+  --danger-900: #660a1d;
   /* Warning Colors */
-  --warning-100: #FFD073;
-  --warning-300: #E5AC39;
-  --warning-500: #D99000;
+  --warning-100: #ffd073;
+  --warning-300: #e5ac39;
+  --warning-500: #d99000;
   --warning-700: #996600;
   --warning-900: #664400;
   /* Dark Colors */
-  --dark-100: #4C4C4C;
+  --dark-100: #4c4c4c;
   --dark-300: #333333;
   --dark-500: #171717;
-  --dark-700: #0D0D0D;
+  --dark-700: #0d0d0d;
   --dark-900: #000000;
   /* Light Colors */
-  --light-100: #FFFFFF;
-  --light-300: #F7FBFF;
-  --light-500: #EDF3FA;
-  --light-700: #D5DAE0;
-  --light-900: #8D9094;
+  --light-100: #ffffff;
+  --light-300: #f7fbff;
+  --light-500: #edf3fa;
+  --light-700: #d5dae0;
+  --light-900: #8d9094;
   /* Semantic Variables */
-  --primary: #397DF6;
-  --primary-hover: #4C8DFF;
-  --primary-active: #2F68CC;
+  --primary: #397df6;
+  --primary-hover: #4c8dff;
+  --primary-active: #2f68cc;
   --text-primary: #000000;
   --text-secondary: #171717;
-  --text-inverted: #FFFFFF;
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F7FBFF;
+  --text-inverted: #ffffff;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7fbff;
   --bg-dark: #171717;
-  --success: #14CC70;
-  --error: #CC1439;
-  --warning: #D99000;
+  --success: #14cc70;
+  --error: #cc1439;
+  --warning: #d99000;
   /* Global Variables */
   /* ... */
 }
 :root :export {
-  accent100: #73A5FF;
-  accent300: #4C8DFF;
-  accent500: #397DF6;
-  accent700: #2F68CC;
-  accent900: #234E99;
-  success100: #80FFBF;
-  success300: #22E584;
-  success500: #14CC70;
-  success700: #0F9954;
-  success900: #0A6638;
-  danger100: #FF8099;
-  danger300: #F23D61;
-  danger500: #CC1439;
-  danger700: #990F2B;
-  danger900: #660A1D;
-  warning100: #FFD073;
-  warning300: #E5AC39;
-  warning500: #D99000;
+  accent100: #73a5ff;
+  accent300: #4c8dff;
+  accent500: #397df6;
+  accent700: #2f68cc;
+  accent900: #234e99;
+  success100: #80ffbf;
+  success300: #22e584;
+  success500: #14cc70;
+  success700: #0f9954;
+  success900: #0a6638;
+  danger100: #ff8099;
+  danger300: #f23d61;
+  danger500: #cc1439;
+  danger700: #990f2b;
+  danger900: #660a1d;
+  warning100: #ffd073;
+  warning300: #e5ac39;
+  warning500: #d99000;
   warning700: #996600;
   warning900: #664400;
-  dark100: #4C4C4C;
+  dark100: #4c4c4c;
   dark300: #333333;
   dark500: #171717;
-  dark700: #0D0D0D;
+  dark700: #0d0d0d;
   dark900: #000000;
-  light100: #FFFFFF;
-  light300: #F7FBFF;
-  light500: #EDF3FA;
-  light700: #D5DAE0;
-  light900: #8D9094;
-  primary: #397DF6;
-  primaryHover: #4C8DFF;
-  primaryActive: #2F68CC;
+  light100: #ffffff;
+  light300: #f7fbff;
+  light500: #edf3fa;
+  light700: #d5dae0;
+  light900: #8d9094;
+  primary: #397df6;
+  primaryHover: #4c8dff;
+  primaryActive: #2f68cc;
   textPrimary: #000000;
   textSecondary: #171717;
-  textInverted: #FFFFFF;
-  bgPrimary: #FFFFFF;
-  bgSecondary: #F7FBFF;
+  textInverted: #ffffff;
+  bgPrimary: #ffffff;
+  bgSecondary: #f7fbff;
   bgDark: #171717;
-  success: #14CC70;
-  error: #CC1439;
-  warning: #D99000;
+  success: #14cc70;
+  error: #cc1439;
+  warning: #d99000;
 }
 
 @media (prefers-color-scheme: dark) {
