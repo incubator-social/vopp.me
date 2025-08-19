@@ -1,0 +1,21 @@
+@use 'colors' as c;
+
+// Primary colors
+$primary: c.$accent-500;
+$primary-hover: c.$accent-300;
+$primary-active: c.$accent-700;
+
+// Text colors
+$text-primary: c.$dark-900;
+$text-secondary: c.$dark-500;
+$text-inverted: c.$light-100;
+
+// Background colors
+$bg-primary: c.$light-100;
+$bg-secondary: c.$light-300;
+$bg-dark: c.$dark-500;
+
+// Status colors
+$success: c.$success-500;
+$error: c.$danger-500;
+$warning: c.$warning-500;
