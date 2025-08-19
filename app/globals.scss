@@ -8,6 +8,7 @@
 
   :root {
     /* COLORS */
+
     /* Accent Colors */
     --accent-100: #{colors.$accent-100};
     --accent-300: #{colors.$accent-300};
@@ -54,20 +55,18 @@
     --primary: #{vars.$primary};
     --primary-hover: #{vars.$primary-hover};
     --primary-active: #{vars.$primary-active};
-
     --text-primary: #{vars.$text-primary};
     --text-secondary: #{vars.$text-secondary};
     --text-inverted: #{vars.$text-inverted};
-
     --bg-primary: #{vars.$bg-primary};
     --bg-secondary: #{vars.$bg-secondary};
     --bg-dark: #{vars.$bg-dark};
-
     --success: #{vars.$success};
     --error: #{vars.$error};
     --warning: #{vars.$warning};
 
     /* Global Variables */
+
     /* ... */
   }
 
