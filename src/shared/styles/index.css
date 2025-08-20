@@ -34,5 +34,7 @@ body {
   font-family: var(--font-family-primary), sans-serif;
   line-height: var(--line-height-m);
   color: var(--color-text-primary);
-  background-color: var(--color-bg-primary);
+  background-color: var(--bg-dark);
 }
+
+/*# sourceMappingURL=index.css.map */
