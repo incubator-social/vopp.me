@@ -24,6 +24,11 @@ option {
   color: inherit;
 }
 
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
 a:visited {
   color: inherit;
 }
@@ -31,7 +36,7 @@ a:visited {
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-family-primary), sans-serif;
+  font-family: var(--font-family-primary);
   line-height: var(--line-height-m);
   color: var(--color-text-primary);
   background-color: var(--color-bg-primary);
