@@ -1,0 +1,68 @@
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.checkboxWrapper {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  &:hover:not(.disabled) .checkboxBg {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:focus-within:not(.disabled) .checkboxBg {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.checkboxBg {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%; // круг сзади
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+  z-index: 0;
+}
+
+.checkboxRoot {
+  position: relative;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.checkboxIndicator {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  transition: color 0.2s ease;
+}
+
+.disabledLabel {
+  cursor: default;
+  color: gray;
+}
