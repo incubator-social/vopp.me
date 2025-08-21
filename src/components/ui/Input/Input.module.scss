@@ -6,75 +6,82 @@
 }
 
 .label {
+  font-family: var(--font-family-primary);
+  font-weight: 400;
   font-size: 14px;
-  font-weight: 500;
-  color: #374151;
+  line-height: var(--line-height-m);
+  color: var(--color-light-900);
   margin-bottom: 2px;
 }
 
+.labelDisabled {
+  color: var(--color-dark-100);
+  opacity: 0.6;
+}
+
 .input {
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+  width: 279px;
+  height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--color-dark-100);
+  border-radius: 2px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  font-family: var(--font-family-primary);
+  font-weight: 400;
   font-size: 16px;
-  width: 100%;
+  line-height: 150%;
+  color: var(--color-light-100);
+
   box-sizing: border-box;
-}
+  background: var(--color-dark-700);
 
-.default {
-  border-color: #d1d5db;
-}
+  &::placeholder {
+    font-family: var(--font-family-primary);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--color-light-900);
+    opacity: 1;
+  }
 
-.default:hover {
-  border-color: #9ca3af;
-}
+  &:hover:not(:disabled):not(.error) {
+    border-color: var(--color-dark-300);
+  }
 
-.default:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
+  &:focus:not(:disabled):not(.error) {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-hover);
+  }
 
-.active {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
+  &.error {
+    border-color: var(--color-danger-500);
+  }
 
-.active:hover {
-  border-color: #2563eb;
-}
+  &:disabled {
+    background: var(--color-dark-700);
+    border-color: var(--color-light-700);
+    color: var(--color-light-900);
+    opacity: 0.6;
+    cursor: not-allowed;
 
-.active:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-.error {
-  border-color: #ef4444 !important;
-}
-
-.error:hover {
-  border-color: #dc2626;
-}
-
-.error:focus {
-  border-color: #ef4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-}
-
-.disabled {
-  background-color: #f3f4f6;
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.disabled:hover {
-  border-color: #d1d5db;
+    &::placeholder {
+      font-family: var(--font-family-primary);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 150%;
+      color: var(--color-dark-100);
+      opacity: 0.6;
+    }
+  }
 }
 
 .errorMessage {
+  font-family: var(--font-family-primary);
+  font-weight: 400;
   font-size: 14px;
-  color: #ef4444;
+  line-height: 171%; // 24px для 14px шрифта
+  color: var(--color-danger-500); // #cc1439
   margin-top: 2px;
 }
