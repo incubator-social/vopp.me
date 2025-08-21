@@ -23,7 +23,6 @@
   box-sizing: border-box;
 }
 
-/* Default вариант */
 .default {
   border-color: #d1d5db;
 }
@@ -37,7 +36,6 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* Active вариант */
 .active {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
@@ -52,7 +50,6 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
-/* Error вариант */
 .error {
   border-color: #ef4444 !important;
 }
@@ -66,7 +63,6 @@
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
-/* Disabled состояние */
 .disabled {
   background-color: #f3f4f6;
   opacity: 0.5;
@@ -77,7 +73,6 @@
   border-color: #d1d5db;
 }
 
-/* Сообщение об ошибке */
 .errorMessage {
   font-size: 14px;
   color: #ef4444;
