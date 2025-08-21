@@ -1,10 +1,10 @@
-$font-family-primary: 'Inter', sans-serif;
+@use 'sass:map';
+@use 'sass:string';
 
-$typography: (
-        large: (size: 26px, line: 36px, weight: 600),
-        h1: (size: 20px, line: 36px, weight: 700),
-        h2: (size: 18px, line: 24px, weight: 700),
-        h3: (size: 16px, line: 24px, weight: 600),
+$font-family-primary: inter, sans-serif;
+
+// prettier-ignore
+$text-styles: (
         regular-text-16: (size: 16px, line: 24px, weight: 400),
         bold-text-16: (size: 16px, line: 24px, weight: 700),
         regular-text-14: (size: 14px, line: 24px, weight: 400),
@@ -16,35 +16,43 @@ $typography: (
         small-link: (size: 12px, line: 16px, weight: 400)
 );
 
-@each $name, $props in $typography {
+// prettier-ignore
+$basic-tags: (
+        h1: (size: 20px, line: 36px, weight: 700),
+        h2: (size: 18px, line: 24px, weight: 700),
+        h3: (size: 16px, line: 24px, weight: 600),
+        a: (size: 14px, line: 24px, weight: 400)
+);
+
+@each $tag, $props in $basic-tags {
+  #{$tag} {
+    font-family: $font-family-primary;
+    font-size: map.get($props, size);
+    line-height: map.get($props, line);
+    font-weight: map.get($props, weight);
+  }
+}
+
+@each $name, $props in $text-styles {
   .#{$name} {
     font-family: $font-family-primary;
-    font-size: map-get($props, size);
-    line-height: map-get($props, line);
-    font-weight: map-get($props, weight);
+    font-size: map.get($props, size);
+    line-height: map.get($props, line);
+    font-weight: map.get($props, weight);
 
-    @if str-index($name, 'link') {
+    @if string.index($name, 'link') {
       text-decoration: underline;
-      color: inherit;
     }
   }
 }
 
 :root {
-  --font-family-primary: 'Roboto', sans-serif;
+  --font-family-primary: #{$font-family-primary};
 
   // line heights
   --line-height-s: 16px;
   --line-height-m: 24px;
   --line-height-l: 36px;
-
-  // font sizes
-  --font-size-xs: 0.75rem;
-  --font-size-s: 0.875rem;
-  --font-size-m: 1rem;
-  --font-size-l: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-xxl: 1.625rem;
 
   // font weights
   --font-weight-regular: 400;
