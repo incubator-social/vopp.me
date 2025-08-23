@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import styles from './Input.module.scss';
-import svgoPlugin from '@svgr/plugin-svgo';
 import { SearchIcon } from '@storybook/icons';
 
 type InputProps = {
-  type: 'email' | 'password' | 'search';
+  type?: React.HTMLInputTypeAttribute;
   label?: string;
   placeholder?: string;
   disabled?: boolean;
   errorMessage?: string;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'placeholder' | 'disabled'>;
 
 const searchIcon = ({ color = 'currentColor' }) => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,20 +77,39 @@ const EyeClosedIcon = ({ color = 'currentColor' }) => (
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ type, label, placeholder, disabled = false, errorMessage, className, ...props }, ref) => {
-    const getAutoLabel = () => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const getAutoLabel = (): string | undefined => {
       if (label) return label;
+      if (type === 'search') return undefined;
 
       switch (type) {
         case 'email':
           return 'Email';
         case 'password':
           return 'Password';
-        case 'search':
-          return null;
+        case 'tel':
+          return 'Phone';
+        case 'number':
+          return 'Number';
+        case 'url':
+          return 'URL';
+        case 'date':
+          return 'Date';
+        case 'time':
+          return 'Time';
+        case 'color':
+          return 'Color';
+        case 'range':
+          return 'Range';
+        case 'file':
+          return 'File';
+        default:
+          return 'Input';
       }
     };
 
-    const getAutoPlaceholder = () => {
+    const getAutoPlaceholder = (): string | undefined => {
       if (placeholder) return placeholder;
 
       switch (type) {
@@ -100,32 +118,89 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         case 'password':
           return 'Enter your password';
         case 'search':
-          return 'Input search';
+          return 'Search...';
+        case 'tel':
+          return 'Enter your phone number';
+        case 'number':
+          return 'Enter a number';
+        case 'url':
+          return 'https://example.com';
+        case 'date':
+          return 'Select date';
+        case 'time':
+          return 'Select time';
+        case 'color':
+          return 'Select color';
+        case 'range':
+          return 'Adjust value';
+        case 'file':
+          return 'Choose file';
+        default:
+          return 'Enter text';
       }
+    };
+
+    const togglePasswordVisibility = () => {
+      if (!disabled) {
+        setShowPassword(!showPassword);
+      }
+    };
+
+    const getInputType = () => {
+      if (type === 'password') {
+        return showPassword ? 'text' : 'password';
+      }
+      return type;
+    };
+
+    const getIconColor = () => {
+      if (disabled) return 'var(--color-dark-100)';
+      if (errorMessage) return 'var(--color-danger-500)';
+      return 'var(--color-light-100)';
     };
 
     const autoLabel = getAutoLabel();
 
     const currentVariant = errorMessage ? 'error' : 'default';
 
-    const inputClasses = clsx(styles.input, styles[currentVariant], disabled && styles.disabled, className);
+    const iconColor = getIconColor();
+
+    const inputClasses = clsx(
+      styles.input,
+      styles[currentVariant],
+      disabled && styles.disabled,
+      type === 'search' && styles.withLeftIcon,
+      type === 'password' && styles.withRightIcon
+    );
 
     return (
       <div className={styles.container}>
         {autoLabel && <label className={clsx(styles.label, disabled && styles.labelDisabled)}>{autoLabel}</label>}
-
-        <input
-          ref={ref}
-          type={type}
-          placeholder={getAutoPlaceholder()}
-          disabled={disabled}
-          className={inputClasses}
-          {...props}
-        />
-
-        <SearchIcon color="orange" />
-        <EyeClosedIcon color={'red'} />
-        <EyeOpenIcon color="green" />
+        <div className={styles.inputWrapper}>
+          <input
+            ref={ref}
+            type={getInputType()}
+            placeholder={getAutoPlaceholder()}
+            disabled={disabled}
+            className={inputClasses}
+            {...props}
+          />
+          {type === 'search' && (
+            <div className={clsx(styles.icon, styles.leftIcon)}>
+              <SearchIcon />
+            </div>
+          )}
+          {type === 'password' && (
+            <button
+              type="button"
+              className={clsx(styles.iconButton, styles.rightIcon)}
+              onClick={togglePasswordVisibility}
+              disabled={disabled}
+            >
+              {showPassword ? <EyeClosedIcon color={iconColor} /> : <EyeOpenIcon color={iconColor} />}
+            </button>
+          )}
+        </div>
 
         {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}
       </div>

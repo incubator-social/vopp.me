@@ -6,30 +6,26 @@ const meta: Meta<typeof Input> = {
   component: Input,
   tags: ['autodocs'],
   parameters: {
-    layout: 'centered',
+    layout: 'centered'
   },
   argTypes: {
     type: {
       control: 'select',
-      options: ['email', 'password', 'search'],
-    },
-    variant: {
-      control: 'select',
-      options: ['default', 'active', 'error'],
+      options: ['email', 'password', 'search', 'tel', 'number', 'url', 'date', 'time', 'range', 'file', 'color']
     },
     label: {
-      control: 'text',
+      control: 'text'
     },
     disabled: {
-      control: 'boolean',
+      control: 'boolean'
     },
     placeholder: {
-      control: 'text',
+      control: 'text'
     },
     errorMessage: {
-      control: 'text',
-    },
-  },
+      control: 'text'
+    }
+  }
 };
 
 export default meta;
@@ -37,60 +33,53 @@ type Story = StoryObj<typeof Input>;
 
 export const Email: Story = {
   args: {
-    type: 'email',
-    variant: 'default',
-  },
+    type: 'email'
+  }
 };
 
 export const Password: Story = {
   args: {
-    type: 'password',
-    variant: 'default',
-  },
+    type: 'password'
+  }
 };
 
 export const Search: Story = {
   args: {
-    type: 'search',
-    variant: 'default',
+    type: 'search'
   },
   parameters: {
     docs: {
       description: {
-        story: 'Поле поиска без лейбла',
-      },
-    },
-  },
+        story: 'Поле поиска без лейбла'
+      }
+    }
+  }
 };
 
 export const ActiveState: Story = {
   args: {
-    type: 'email',
-    variant: 'active',
-  },
+    type: 'email'
+  }
 };
 
 export const ErrorState: Story = {
   args: {
     type: 'email',
-    variant: 'error',
-    errorMessage: 'Invalid email format',
-  },
+    errorMessage: 'Invalid email format'
+  }
 };
 
 export const DisabledState: Story = {
   args: {
     type: 'email',
-    variant: 'default',
-    disabled: true,
-  },
+    disabled: true
+  }
 };
 
 export const CustomLabelAndPlaceholder: Story = {
   args: {
     type: 'email',
-    variant: 'default',
     label: 'Your Email',
-    placeholder: 'Enter your email address',
-  },
+    placeholder: 'Enter your email address'
+  }
 };

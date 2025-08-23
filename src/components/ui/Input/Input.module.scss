@@ -1,26 +1,47 @@
+/**
+ * Input Component Styles
+ * Контейнер для поля ввода
+ */
 .container {
   display: flex;
   flex-direction: column;
   gap: 4px;
   width: 100%;
   background: var(--color-dark-700);
-  margin: 30px;
 }
 
+/**
+ * Метка поля ввода
+ */
 .label {
   font-weight: 400;
   font-size: 14px;
-  line-height: var(--line-height-m);
+  line-height: 24px;
   color: var(--color-light-900);
   margin-bottom: 2px;
 }
 
+/**
+ * Отключенное состояние метки
+ */
 .labelDisabled {
   font-family: var(--font-family-primary);
   color: var(--color-dark-100);
   opacity: 0.6;
 }
 
+/**
+ * Обертка для позиционирования иконок
+ */
+.inputWrapper {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+}
+
+/**
+ * Основные стили поля ввода
+ */
 .input {
   width: 279px;
   height: 36px;
@@ -28,49 +49,65 @@
   border: 1px solid var(--color-dark-100);
   border-radius: 2px;
   outline: none;
-  
+
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  
+
   font-family: var(--font-family-primary);
   font-weight: 400;
   font-size: 16px;
-  line-height: 150%;
+  line-height: 24px;
   color: var(--color-light-100);
-  
+
   box-sizing: border-box;
   background: var(--color-dark-700);
-  
+
+  // Стили плейсхолдера
   &::placeholder {
     font-weight: 400;
     font-size: 16px;
-    line-height: 150%;
+    line-height: 24px;
     color: var(--color-light-900);
     opacity: 1;
   }
 
-   &:not(:placeholder-shown):not([type="search"]) {
+  // Отступы для полей с иконками
+  &.withLeftIcon {
+    padding-left: 40px;
+  }
+
+  &.withRightIcon {
+    padding-right: 40px;
+  }
+
+  // Активное состояние (когда есть текст)
+  &:not(:placeholder-shown):not([type="search"]) {
     border-color: var(--color-light-100);
     background: var(--color-dark-500);
     color: var(--color-light-100);
   }
-  
+
+  // Состояние ошибки
   &.error:not(:placeholder-shown) {
     border-color: var(--color-danger-500);
     background: var(--color-dark-700);
   }
 
+  // Ховер состояние
   &:hover:not(:disabled):not(.error){
     border-color: var(--color-light-900);
   }
 
+  // Фокус состояние
   &:focus:not(:disabled):not(.error) {
     border: 2px solid var(--color-primary);
   }
 
+  // Базовое состояние ошибки
   &.error {
     border-color: var(--color-danger-500);
   }
 
+  // Отключенное состояние
   &:disabled {
     border-color: var(--color-dark-100);
     color: var(--color-dark-100);
@@ -80,17 +117,105 @@
     &::placeholder {
       font-weight: 400;
       font-size: 16px;
-      line-height: 150%;
+      line-height: 24px;
       color: var(--color-dark-100);
       opacity: 0.6;
     }
   }
 }
 
+/**
+ * Базовые стили для иконок
+ * Управление цветом иконки поиска через CSS
+ */
+.icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-light-900);
+  transition: color 0.2s ease;
+}
+
+// Активное состояние иконки поиска (когда есть текст)
+.input.withLeftIcon:not(:placeholder-shown) + .icon {
+  color: var(--color-light-100);
+}
+
+// Состояние ошибки иконки
+.input.error + .icon {
+  color: var(--color-light-100);
+}
+
+// Отключенное состояние иконки
+.input.disabled + .icon {
+  color: var(--color-dark-100);
+}
+
+// Фокус состояние иконки (без текста)
+.input:focus:not(.disabled):not(.error) + .icon {
+  color: var(--color-light-900);
+}
+
+// Фокус состояние иконки с текстом
+.input.withLeftIcon:focus:not(:placeholder-shown):not(.disabled):not(.error) + .icon {
+  color: var(--color-light-100);
+}
+
+// Позиционирование иконки слева (поиск)
+.leftIcon {
+  left: 12px;
+}
+
+/**
+ * Стили для кнопки-иконки (глаз)
+ * Управление цветом через JS логику
+ */
+.iconButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease;
+
+
+  // Активное состояние
+  &:active:not(:disabled) {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  // Отключенное состояние
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Позиционирование иконки справа (глаз)
+.rightIcon {
+  right: 12px;
+}
+
+/**
+ * Сообщение об ошибке
+ */
 .errorMessage {
   font-weight: 400;
   font-size: 14px;
-  line-height: 171%;
+  line-height: 24px;
   color: var(--color-danger-500);
   margin-top: 2px;
 }
