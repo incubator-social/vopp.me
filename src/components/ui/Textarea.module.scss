@@ -1,0 +1,139 @@
+/**
+ * Textarea Component Styles
+ * Контейнер для текстовой области
+ */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  background: var(--color-dark-700);
+}
+
+/**
+ * Метка текстовой области
+ */
+.label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--color-light-900);
+  margin-bottom: 2px;
+  font-family: var(--font-family-primary);
+}
+
+/**
+ * Отключенное состояние метки
+ */
+.labelDisabled {
+  color: var(--color-dark-100);
+  opacity: 0.6;
+}
+
+/**
+ * Основные стили текстовой области
+ */
+.textarea {
+  width: 279px;
+  min-height: 84px; // 36px * 2 + 12px padding
+  padding: 6px 12px;
+  border: 1px solid var(--color-dark-100);
+  border-radius: 2px;
+  outline: none;
+  resize: vertical;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  font-family: var(--font-family-primary);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-light-100);
+
+  box-sizing: border-box;
+  background: var(--color-dark-700);
+
+  // Стили плейсхолдера
+  &::placeholder {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-light-900);
+    opacity: 1;
+  }
+
+  // Активное состояние (когда есть текст)
+  &:not(:placeholder-shown) {
+    border-color: var(--color-light-100);
+    background: var(--color-dark-500);
+    color: var(--color-light-100);
+  }
+
+  // Состояние ошибки
+  &.error:not(:placeholder-shown) {
+    border-color: var(--color-danger-500);
+    background: var(--color-dark-700);
+  }
+
+  // Ховер состояние
+  &:hover:not(:disabled):not(.error){
+    border-color: var(--color-light-900);
+  }
+
+  // Фокус состояние
+  &:focus:not(:disabled):not(.error) {
+    border: 2px solid var(--color-primary);
+  }
+
+  // Базовое состояние ошибки
+  &.error {
+    border-color: var(--color-danger-500);
+  }
+
+  // Отключенное состояние
+  &:disabled {
+    border-color: var(--color-dark-100);
+    color: var(--color-dark-100);
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    &::placeholder {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--color-dark-100);
+      opacity: 0.6;
+    }
+  }
+}
+
+/**
+ * Варианты resize
+ */
+.resizeNone {
+  resize: none;
+}
+
+.resizeBoth {
+  resize: both;
+}
+
+.resizeHorizontal {
+  resize: horizontal;
+}
+
+.resizeVertical {
+  resize: vertical;
+}
+
+/**
+ * Сообщение об ошибке
+ */
+.errorMessage {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--color-danger-500);
+  margin-top: 2px;
+  font-family: var(--font-family-primary);
+}
