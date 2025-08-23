@@ -1,11 +1,4 @@
-export const RadioButton = ({
-  value,
-  checked,
-  onChange,
-  disabled,
-  name,
-  labelText,
-}: RadioButtonProps) => {
+export const RadioButton = ({ value, checked, onChange, disabled, name, label }: RadioButtonProps) => {
   const handleChange = () => {
     if (!disabled) {
       onChange(value);
@@ -22,7 +15,7 @@ export const RadioButton = ({
         disabled={disabled || false}
         name={name}
       />
-      {labelText}
+      {label}
     </label>
   );
 };
@@ -35,5 +28,5 @@ type RadioButtonProps = {
   onChange: (value: string) => void;
   disabled?: boolean;
   name: string;
-  labelText: string;
+  label: string;
 };
