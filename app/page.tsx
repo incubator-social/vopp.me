@@ -1,8 +1,11 @@
+import { Input } from '@/src/components/ui/Input/Input';
+
 export default function Home() {
   return (
     <div style={{ padding: '10px' }}>
       <div>
         <h1>VOPP.ME</h1>
+        <Input variant={'error'} type="email" disabled />
       </div>
       <main>
         <p className="regular-text-16">Добро пожаловать! Это пример текста.</p>
