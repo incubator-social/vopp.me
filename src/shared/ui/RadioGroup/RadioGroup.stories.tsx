@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { action } from 'storybook/actions';
-import { RadioGroup, RadioGroupProps } from './RadioGroup';
+import RadioGroup, { RadioGroupProps } from './RadioGroup';
 
 const options = [
   { option: '1', label: 'Option 1' },
@@ -13,6 +13,18 @@ export default {
   component: RadioGroup,
   argTypes: {
     onChange: { action: 'changed' }
+  },
+  parameters: {
+    actions: {
+      handles: ['focus']
+    },
+    backgrounds: {
+      options: {
+        dark: { name: 'Dark', value: '#232323' },
+        light: { name: 'Light', value: '#F7F9F2' },
+        gray: { name: 'Gray', value: '#f0f0f0' }
+      }
+    }
   }
 };
 

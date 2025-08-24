@@ -1,8 +1,9 @@
-import { RadioGroup } from '@radix-ui/react-radio-group';
-import './RadioGroup.scss';
-import { RadioButton } from '@/src/shared/ui/RadioGroup/RadioButton/RadioButton';
+'use client';
 
-export const RadioGroup = ({
+import { Root, Item, Indicator } from '@radix-ui/react-radio-group';
+import styles from './RadioGroup.module.scss';
+
+export default function RadioGroup({
   name,
   options = [],
   selectedValue,
@@ -10,22 +11,29 @@ export const RadioGroup = ({
   required = false,
   onChange,
   className
-}: RadioGroupProps) => {
+}: RadioGroupProps) {
   const value = selectedValue || defaultValue || (options.length > 0 ? options[0].option : null);
   return (
-    <RadioGroup.Root className={className || ''} value={value} onValueChange={onChange} required={required}>
-      {options.map(({ option, label }, index) => {
-        const id = `${name}-${index}`;
-        return (
-          <RadioGroup.Item id={id} key={index} value={option} checked={defaultValue || selectedValue === option}>
-            <RadioGroup.Indicator />
-            <label htmlFor={id}>{label}</label>
-          </RadioGroup.Item>
-        );
-      })}
-    </RadioGroup.Root>
+    <Root
+      className={className || styles.radioGroup}
+      name={name}
+      value={value}
+      onValueChange={onChange}
+      required={required}
+    >
+      {options.map(({ option, label }, index) => (
+        <div className={styles.itemWrap} key={index}>
+          <Item className={styles.item} id={`${name}-${index}`} value={option} tabIndex={0}>
+            <Indicator className={styles.indicator} />
+          </Item>
+          <label className={styles.label} htmlFor={`${name}-${index}`}>
+            {label}
+          </label>
+        </div>
+      ))}
+    </Root>
   );
-};
+}
 
 //type
 export type RadioGroupProps = {
