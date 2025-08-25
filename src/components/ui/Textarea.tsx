@@ -11,19 +11,10 @@ type TextareaProps = {
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ label, placeholder, disabled = false, errorMessage, resize = 'vertical', className, ...props }, ref) => {
-    const getAutoLabel = (): string | undefined => {
-      if (label) return label;
-      return 'Text';
-    };
-
-    const getAutoPlaceholder = (): string | undefined => {
-      if (placeholder) return placeholder;
-      return 'Enter your text...';
-    };
-
-    const autoLabel = getAutoLabel();
-    const autoPlaceholder = getAutoPlaceholder();
+  (
+    { label, placeholder = 'Enter text', disabled = false, errorMessage, resize = 'vertical', className, ...props },
+    ref
+  ) => {
     const currentVariant = errorMessage ? 'error' : 'default';
 
     const textareaClasses = clsx(
@@ -36,9 +27,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     return (
       <div className={styles.container}>
-        {autoLabel && <label className={clsx(styles.label, disabled && styles.labelDisabled)}>{autoLabel}</label>}
+        {label && <label className={clsx(styles.label, disabled && styles.labelDisabled)}>{label}</label>}
 
-        <textarea ref={ref} placeholder={autoPlaceholder} disabled={disabled} className={textareaClasses} {...props} />
+        <textarea ref={ref} placeholder={placeholder} disabled={disabled} className={textareaClasses} {...props} />
 
         {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}
       </div>

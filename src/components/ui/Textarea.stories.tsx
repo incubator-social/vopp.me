@@ -1,6 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/nextjs';
-// import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Textarea } from './Textarea';
 
 const meta = {
@@ -38,9 +37,6 @@ const meta = {
     }
   },
   args: {
-    // onChange: fn(),
-    // onFocus: fn(),
-    // onBlur: fn(),
     rows: 3
   }
 } satisfies Meta<typeof Textarea>;
@@ -48,12 +44,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Базовая textarea
 export const Default: Story = {
   args: {}
 };
 
-// С лейблом
 export const WithLabel: Story = {
   args: {
     label: 'Description',
@@ -61,7 +55,6 @@ export const WithLabel: Story = {
   }
 };
 
-// С ошибкой
 export const Error: Story = {
   args: {
     label: 'Bio',
@@ -69,7 +62,6 @@ export const Error: Story = {
   }
 };
 
-// Disabled состояние
 export const Disabled: Story = {
   args: {
     label: 'Read Only',
@@ -78,7 +70,6 @@ export const Disabled: Story = {
   }
 };
 
-// Без resize
 export const NoResize: Story = {
   args: {
     label: 'No Resize',
@@ -87,7 +78,6 @@ export const NoResize: Story = {
   }
 };
 
-// Много строк
 export const MultipleRows: Story = {
   args: {
     label: 'Long Text',
@@ -96,7 +86,6 @@ export const MultipleRows: Story = {
   }
 };
 
-// Кастомный плейсхолдер
 export const CustomPlaceholder: Story = {
   args: {
     label: 'Custom',
@@ -104,7 +93,6 @@ export const CustomPlaceholder: Story = {
   }
 };
 
-// Все состояния
 export const AllStates: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '400px' }}>
