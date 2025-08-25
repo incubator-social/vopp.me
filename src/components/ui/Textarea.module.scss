@@ -2,6 +2,7 @@
  * Textarea Component Styles
  * Контейнер для текстовой области
  */
+
 .container {
   display: flex;
   flex-direction: column;
@@ -15,11 +16,11 @@
  */
 .label {
   font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-primary);
   font-size: 14px;
   line-height: var(--line-height-m);
   color: var(--color-light-900);
   margin-bottom: 2px;
-  font-family: var(--font-family-primary);
 }
 
 /**
@@ -54,11 +55,16 @@
   background: var(--color-dark-700);
 
   &::placeholder {
-    font-weight: var(--font-weight-regular);
-    font-size: 16px;
-    line-height: var(--line-height-m);
     color: var(--color-light-900);
     opacity: 1;
+  }
+
+  &:hover:not(:disabled):not(.error){
+    border-color: var(--color-light-900);
+  }
+
+  &:focus:not(:disabled):not(.error) {
+    border: 2px solid var(--color-primary);
   }
 
   &:not(:placeholder-shown) {
@@ -72,14 +78,6 @@
     background: var(--color-dark-700);
   }
 
-  &:hover:not(:disabled):not(.error){
-    border-color: var(--color-light-900);
-  }
-
-  &:focus:not(:disabled):not(.error) {
-    border: 2px solid var(--color-primary);
-  }
-
   &.error {
     border-color: var(--color-danger-500);
   }
@@ -91,9 +89,6 @@
     cursor: not-allowed;
 
     &::placeholder {
-      font-weight: var(--font-weight-regular);
-      font-size: 16px;
-      line-height: var(--line-height-m);
       color: var(--color-dark-100);
       opacity: 0.6;
     }
@@ -123,10 +118,10 @@
  * Сообщение об ошибке
  */
 .errorMessage {
+  font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
   font-size: 14px;
   line-height: var(--line-height-m);
   color: var(--color-danger-500);
   margin-top: 2px;
-  font-family: var(--font-family-primary);
 }
