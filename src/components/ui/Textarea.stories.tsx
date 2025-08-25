@@ -93,6 +93,14 @@ export const CustomPlaceholder: Story = {
   }
 };
 
+export const WithCustomId: Story = {
+  args: {
+    id: 'custom-textarea-id',
+    label: 'With Custom ID',
+    placeholder: 'This has a custom ID for accessibility'
+  }
+};
+
 export const AllStates: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '400px' }}>
