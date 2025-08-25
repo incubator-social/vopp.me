@@ -4,11 +4,11 @@ import styles from './Textarea.module.scss';
 
 type TextareaProps = {
   label?: string;
-  placeholder?: string;
-  disabled?: boolean;
   errorMessage?: string;
   resize?: 'none' | 'both' | 'horizontal' | 'vertical';
-} & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+  placeholder?: string;
+  disabled?: boolean;
+} & Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'placeholder' | 'disabled'>;
 
 /**
  * Кастомное текстовое поле с расширенными возможностями стилизации.
