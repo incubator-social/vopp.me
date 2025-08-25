@@ -4,82 +4,99 @@ import { Input } from './Input';
 const meta: Meta<typeof Input> = {
   title: 'Components/UI/Input',
   component: Input,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered'
   },
+  tags: ['autodocs'],
   argTypes: {
-    type: {
-      control: 'select',
-      options: ['email', 'password', 'search', 'tel', 'number', 'url', 'date', 'time', 'range', 'file', 'color']
-    },
     label: {
-      control: 'text'
-    },
-    disabled: {
-      control: 'boolean'
+      control: 'text',
+      description: 'Текст метки поля ввода'
     },
     placeholder: {
-      control: 'text'
+      control: 'text',
+      description: 'Текст плейсхолдера'
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Состояние disabled'
     },
     errorMessage: {
-      control: 'text'
+      control: 'text',
+      description: 'Текст ошибки'
+    },
+    type: {
+      control: 'select',
+      options: ['text', 'email', 'password', 'search', 'tel', 'number', 'url'],
+      description: 'Тип поля ввода'
     }
+  },
+  args: {
+    placeholder: 'Enter text'
   }
 };
 
 export default meta;
 type Story = StoryObj<typeof Input>;
 
-export const Email: Story = {
+export const Default: Story = {
+  args: {}
+};
+
+export const WithLabel: Story = {
   args: {
-    type: 'email'
+    label: 'Email',
+    placeholder: 'Enter your email'
   }
 };
 
-export const Password: Story = {
+export const Error: Story = {
   args: {
-    type: 'password'
+    label: 'Email',
+    errorMessage: 'Invalid email format'
+  }
+};
+
+export const Disabled: Story = {
+  args: {
+    label: 'Email',
+    disabled: true,
+    placeholder: 'Cannot edit this field'
   }
 };
 
 export const Search: Story = {
   args: {
-    type: 'search'
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Поле поиска без лейбла'
-      }
-    }
+    type: 'search',
+    placeholder: 'Search...'
   }
 };
 
-export const ActiveState: Story = {
+export const Password: Story = {
   args: {
-    type: 'email'
+    type: 'password',
+    label: 'Password',
+    placeholder: 'Enter your password'
   }
 };
 
-export const ErrorState: Story = {
+export const WithCustomId: Story = {
   args: {
-    type: 'email',
-    errorMessage: 'Invalid email format'
+    id: 'custom-input-id',
+    label: 'With Custom ID',
+    placeholder: 'Accessible input field'
   }
 };
 
-export const DisabledState: Story = {
-  args: {
-    type: 'email',
-    disabled: true
-  }
-};
-
-export const CustomLabelAndPlaceholder: Story = {
-  args: {
-    type: 'email',
-    label: 'Your Email',
-    placeholder: 'Enter your email address'
-  }
+export const AllStates: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '300px' }}>
+      <Input label="Default Input" />
+      <Input label="With Value" defaultValue="Filled text" />
+      <Input label="Disabled" disabled placeholder="Cannot edit" />
+      <Input label="Error State" errorMessage="Field is required" />
+      <Input type="search" placeholder="Search..." />
+      <Input type="password" label="Password" placeholder="Enter password" />
+    </div>
+  )
 };
