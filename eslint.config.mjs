@@ -9,15 +9,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: __dirname
 });
 
 const eslintConfig = [
   {
-    ignores: ['.next', 'node_modules'],
+    ignores: ['.next', 'node_modules']
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
-  ...storybook.configs['flat/recommended'],
+  ...storybook.configs['flat/recommended']
 ];
 
 export default eslintConfig;

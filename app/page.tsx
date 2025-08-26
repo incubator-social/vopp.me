@@ -1,14 +1,24 @@
-import styles from './page.module.css';
-import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
-
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <div>VOPP.ME</div>
-      <main className={styles.main}>
-        <Checkbox />
+    <div style={{ padding: '10px' }}>
+      <div>
+        <h1>VOPP.ME</h1>
+      </div>
+      <main>
+        <p className="regular-text-16">Добро пожаловать! Это пример текста.</p>
+
+        <p className="bold-text-14">Это жирный текст 14px.</p>
+
+        <a href="#">Обычная ссылка</a>
+        <br />
+
+        <a href="#" className="small-link">
+          Маленькая ссылка
+        </a>
       </main>
-      <footer className={styles.footer}></footer>
+      <footer>
+        <p className="small-text">© 2025 Все права защищены</p>
+      </footer>
     </div>
   );
 }

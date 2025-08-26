@@ -1,17 +1,18 @@
 import type { StorybookConfig } from '@storybook/nextjs-vite';
 
 const config: StorybookConfig = {
-  stories: [
-    '../src/shared/ui/**/*.stories.@(js|jsx|ts|tsx)', // 👈 Правильный путь!
-  ],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
-    // '@storybook/addon-essentials',
-    // '@storybook/addon-styling',
+    '@chromatic-com/storybook',
+    '@storybook/addon-docs',
+    '@storybook/addon-onboarding',
+    '@storybook/addon-a11y',
+    '@storybook/addon-vitest'
   ],
   framework: {
     name: '@storybook/nextjs-vite',
-    options: {},
+    options: {}
   },
-  staticDirs: ['../public'],
+  staticDirs: ['../public']
 };
 export default config;
