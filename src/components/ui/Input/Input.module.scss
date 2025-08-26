@@ -7,6 +7,7 @@
   flex-direction: column;
   gap: 4px;
   width: 100%;
+  max-width: 280px;
   background: var(--color-dark-700);
 }
 
@@ -35,15 +36,14 @@
  */
 .inputWrapper {
   position: relative;
-  display: inline-block;
-  width: fit-content;
+  display: block;
 }
 
 /**
  * Основные стили поля ввода
  */
 .input {
-  width: 280px;
+  width: 100%;
   height: 36px;
   display: flex;
   align-items: center;

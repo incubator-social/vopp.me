@@ -7,6 +7,7 @@ export default function Home() {
         <h1>VOPP.ME</h1>
       </div>
       <main>
+        <Input placeholder={'HHH'} type={'password'} label={'Email'} />
         <p className="regular-text-16">Добро пожаловать! Это пример текста.</p>
 
         <p className="bold-text-14">Это жирный текст 14px.</p>
