@@ -57,12 +57,15 @@
 
 .label {
   cursor: pointer;
-  font-size: 14px;
-  color: #fff;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-regular-text-14, 14px);
+  line-height: var(--line-height-m, 24px);
+  font-weight: var(--font-weight-regular, 400);
+  color: var(--color-light-100);
   transition: color 0.2s ease;
 }
 
 .disabledLabel {
   cursor: default;
-  color: gray;
+  color: var(--color-light-900);
 }
