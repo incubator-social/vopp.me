@@ -5,6 +5,9 @@ $font-family-primary: inter, sans-serif;
 
 // prettier-ignore
 $text-styles: (
+        h1: (size: 20px, line: 36px, weight: 700),
+        h2: (size: 18px, line: 24px, weight: 700),
+        h3: (size: 16px, line: 24px, weight: 600),
         regular-text-16: (size: 16px, line: 24px, weight: 400),
         bold-text-16: (size: 16px, line: 24px, weight: 700),
         regular-text-14: (size: 14px, line: 24px, weight: 400),
@@ -18,9 +21,9 @@ $text-styles: (
 
 // prettier-ignore
 $basic-tags: (
-        h1: (size: 20px, line: 36px, weight: 700),
-        h2: (size: 18px, line: 24px, weight: 700),
-        h3: (size: 16px, line: 24px, weight: 600),
+        h1: map.get($text-styles, h1),
+        h2: map.get($text-styles, h2),
+        h3: map.get($text-styles, h3),
         a: (size: 14px, line: 24px, weight: 400)
 );
 
