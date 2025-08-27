@@ -1,8 +1,3 @@
-/**
- * Textarea Component Styles
- * Контейнер для текстовой области
- */
-
 .container {
   max-width: 284px;
   display: flex;
@@ -11,9 +6,6 @@
   background: var(--color-dark-500);
 }
 
-/**
- * Метка текстовой области
- */
 .label {
   font-weight: var(--font-weight-regular);
   font-family: var(--font-family-primary);
@@ -23,17 +15,11 @@
   margin-bottom: 2px;
 }
 
-/**
- * Отключенное состояние метки
- */
 .labelDisabled {
   color: var(--color-dark-100);
   opacity: 0.6;
 }
 
-/**
- * Основные стили текстовой области
- */
 .textarea {
   width: 100%;
   min-height: 84px;
@@ -95,9 +81,6 @@
   }
 }
 
-/**
- * Варианты resize
- */
 .resizeNone {
   resize: none;
 }
@@ -114,9 +97,6 @@
   resize: vertical;
 }
 
-/**
- * Сообщение об ошибке
- */
 .errorMessage {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);

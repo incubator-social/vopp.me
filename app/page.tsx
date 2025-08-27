@@ -1,6 +1,3 @@
-import { Input } from '@/src/components/ui/Input/Input';
-import { Textarea } from '@/src/components/ui/Textarea';
-
 export default function Home() {
   return (
     <div style={{ padding: '10px' }}>
@@ -8,7 +5,6 @@ export default function Home() {
         <h1>VOPP.ME</h1>
       </div>
       <main>
-        <Textarea placeholder={'HHH'} resize={'vertical'} label={'Email'} />
         <p className="regular-text-16">Добро пожаловать! Это пример текста.</p>
 
         <p className="bold-text-14">Это жирный текст 14px.</p>
