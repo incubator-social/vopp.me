@@ -1,0 +1,30 @@
+.icon {
+    font-size: 48px;
+    color: white;
+    transition: color 0.25s ease, transform 0.25s ease;
+  
+    &:hover {
+      color: #3b82f6; 
+      transform: scale(1.2);
+    }
+  }
+  
+  .colored {
+    font-size: 48px;
+    color: crimson;
+  
+    &:hover {
+      color: gold;
+    }
+  }
+  
+  .large {
+    font-size: 96px;
+    color: white;
+  
+    &:hover {
+      color: limegreen;
+      transform: rotate(-15deg) scale(1.2);
+    }
+  }
+  

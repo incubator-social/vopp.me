@@ -15,7 +15,10 @@
     "stylelint:fix": "stylelint '**/*.{css,scss}' --fix",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "rename:icons": "node scripts/rename-icons.js",
+    "build:icons": "npm run rename:icons && npx @svgr/cli --out-dir src/shared/assets/icons/components --jsx-runtime automatic --typescript --ref --memo --icon --replace-attr-values \"#000=currentColor\" --replace-attr-values \"#fff=currentColor\" src/shared/assets/icons/svg && node scripts/generate-icons-index.js"
+
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -44,6 +47,7 @@
     "@storybook/addon-onboarding": "^9.1.2",
     "@storybook/addon-vitest": "^9.1.2",
     "@storybook/nextjs-vite": "^9.1.2",
+    "@svgr/cli": "^8.1.0",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20.19.10",
     "@types/react": "^19.1.10",

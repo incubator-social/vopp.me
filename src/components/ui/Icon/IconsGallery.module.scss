@@ -1,0 +1,33 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 32px;
+}
+
+.item {
+  text-align: center;
+  color: white;
+  font-size: 18px;
+}
+
+.icon {
+  display: block;
+  margin: 0 auto 12px;
+  color: currentcolor;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+
+  &:hover {
+    color: #3b82f6; // голубой при наведении
+    transform: scale(1.15);
+  }
+}
+
+.icon24 {
+  font-size: 36px;
+}
+
+.icon36 {
+  font-size: 50px;
+}
