@@ -16,6 +16,7 @@
   height: 20px;
   border-radius: 50%;
   border: 2.5px solid var(--color-light-100);
+  box-sizing: border-box;
   background: none;
   position: relative;
 }
@@ -25,6 +26,7 @@
   position: absolute;
   width: 36px;
   height: 36px;
+  box-sizing: border-box;
   top: 50%;
   left: 50%;
   border-radius: 50%;
@@ -62,8 +64,9 @@
   content: "";
   display: block;
   position: absolute;
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
+  box-sizing: border-box;
   border-radius: 50%;
   background-color: var(--color-light-100);
 }
