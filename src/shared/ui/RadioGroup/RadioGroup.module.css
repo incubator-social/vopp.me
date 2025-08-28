@@ -1,0 +1,85 @@
+.radio-group {
+  font-family: var(--font-family-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.item-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.item {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2.5px solid var(--color-light-100);
+  background: none;
+  position: relative;
+}
+.item::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  z-index: -2;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: background-color 0.3s ease, opacity 0.3s, ease;
+}
+.item:is(:hover, :active, :focus-visible)::before {
+  opacity: 1;
+}
+.item:focus-visible::before {
+  background-color: var(--color-dark-500);
+}
+.item:hover::before {
+  background-color: var(--color-dark-300);
+}
+.item:active::before {
+  background-color: var(--color-dark-100);
+}
+.item[data-disabled] {
+  border: 2.5px solid var(--color-dark-100);
+  pointer-events: none;
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.indicator::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--color-light-100);
+}
+.indicator[data-disabled]::after {
+  background-color: var(--color-dark-100);
+}
+
+.label {
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-m);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-light-100);
+}
+.label[data-disabled] {
+  color: var(--color-light-900);
+  pointer-events: none;
+}
+
+/*# sourceMappingURL=RadioGroup.module.css.map */
