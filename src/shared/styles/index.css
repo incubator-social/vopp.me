@@ -78,6 +78,27 @@ a {
   font-weight: 400;
 }
 
+.h1 {
+  font-family: inter, sans-serif;
+  font-size: 20px;
+  line-height: 36px;
+  font-weight: 700;
+}
+
+.h2 {
+  font-family: inter, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.h3 {
+  font-family: inter, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
 .regular-text-16 {
   font-family: inter, sans-serif;
   font-size: 16px;
@@ -163,6 +184,8 @@ html {
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 input,
@@ -170,7 +193,10 @@ button,
 select,
 textarea,
 optgroup,
-option {
+option,
+a {
+  all: unset;
+  cursor: pointer;
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
@@ -188,10 +214,14 @@ a:visited {
 }
 
 body {
-  margin: 0;
-  padding: 0;
   font-family: var(--font-family-primary);
   line-height: var(--line-height-m);
-  color: var(--color-text-primary);
-  background-color: var(--color-bg-primary);
+  color: var(--color-light-100);
+  background-color: var(--color-dark-700);
 }
+
+:root {
+  --transition-duration: 0.3s;
+}
+
+/*# sourceMappingURL=index.css.map */
