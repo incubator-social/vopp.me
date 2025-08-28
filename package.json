@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "stylelint": "stylelint '**/*.{css,scss}'",
     "stylelint:fix": "stylelint '**/*.{css,scss}' --fix",
+    "typecheck": "tsc --noEmit",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"

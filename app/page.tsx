@@ -1,5 +1,3 @@
-import RadioGroup from '../src/shared/ui/RadioGroup/RadioGroup';
-
 export default function Home() {
   return (
     <div style={{ padding: '10px' }}>

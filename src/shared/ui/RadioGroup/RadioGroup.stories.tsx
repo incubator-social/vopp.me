@@ -1,5 +1,5 @@
+import { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
-import { action } from 'storybook/actions';
 import RadioGroup, { RadioGroupProps } from './RadioGroup';
 
 const options = [
@@ -8,73 +8,54 @@ const options = [
   { option: '3', label: 'Option 3' }
 ];
 
-export default {
+const meta = {
   title: 'UI/RadioGroup',
   component: RadioGroup,
-  argTypes: {
-    onChange: { action: 'changed' }
-  },
   parameters: {
-    actions: {
-      handles: ['focus']
-    },
     backgrounds: {
       options: {
-        dark: { name: 'Dark', value: '#232323' },
-        light: { name: 'Light', value: '#F7F9F2' },
-        gray: { name: 'Gray', value: '#f0f0f0' }
+        light: { name: 'light', value: '#fff' },
+        gray: { name: 'gray', value: '#373737' },
+        dark: { name: 'dark', value: '#191919' }
       }
     }
+  },
+  args: {
+    name: 'radio-group-story',
+    options,
+    required: false,
+    onChange: () => {}
   }
+} satisfies Meta<typeof RadioGroup>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+const Template: Story['render'] = (args: RadioGroupProps) => {
+  const [value, setValue] = useState<string | undefined>(args.selectedValue);
+
+  return <RadioGroup {...args} selectedValue={value} onChange={setValue} />;
 };
 
-const Template = (args: RadioGroupProps) => {
-  const [selectedValue, setSelectedValue] = useState<string>(args.selectedValue);
-
-  const handleChange = (value: string) => {
-    setSelectedValue(value);
-    args.onChange(value);
-  };
-
-  return <RadioGroup {...args} selectedValue={selectedValue} onChange={handleChange} />;
+export const Default: Story = {
+  render: Template
 };
 
-export const Default = Template.bind({});
-Default.args = {
-  name: 'storyGroup',
-  options,
-  selectedValue: '1',
-  onChange: action('changed')
+export const Active: Story = {
+  render: Template
 };
 
-export const Active = Template.bind({});
-Active.args = {
-  name: 'storyGroup',
-  options,
-  selectedValue: '1',
-  onChange: action('changed')
+export const Hover: Story = {
+  render: Template
 };
 
-export const Hover = Template.bind({});
-Hover.args = {
-  name: 'storyGroup',
-  options,
-  selectedValue: '1',
-  onChange: action('changed')
+export const Focus: Story = {
+  render: Template
 };
 
-export const Focus = Template.bind({});
-Focus.args = {
-  name: 'storyGroup',
-  options,
-  selectedValue: '1',
-  onChange: action('changed')
-};
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-  name: 'storyGroup',
-  options,
-  selectedValue: '1',
-  onChange: action('changed')
+export const Disabled: Story = {
+  render: Template,
+  args: {
+    disabled: true
+  }
 };
