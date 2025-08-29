@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Textarea } from './Textarea';
 
 const meta = {
-  title: 'Components/Textarea',
+  title: 'Components/UI',
   component: Textarea,
   parameters: {
     layout: 'centered'
@@ -98,6 +98,92 @@ export const WithCustomId: Story = {
     id: 'custom-textarea-id',
     label: 'With Custom ID',
     placeholder: 'This has a custom ID for accessibility'
+  }
+};
+export const WithContainerStyles: Story = {
+  args: {
+    label: 'Styled Container',
+    placeholder: 'This textarea has custom container styles',
+    containerStyle: {
+      padding: '20px',
+      margin: '10px',
+      border: '2px dashed var(--color-primary)',
+      borderRadius: '8px',
+      backgroundColor: 'var(--color-dark-300)'
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: ' Использование `containerStyle` для стилизации всего компонента (лейбл + textarea + ошибка)'
+      }
+    }
+  }
+};
+
+export const ControlledComponent: Story = {
+  render: () => {
+    // 🔹 Контролируемый компонент (управление через state)
+    const [value, setValue] = React.useState('Initial value');
+
+    return (
+      <Textarea
+        label="Controlled Textarea"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="Type something..."
+        containerStyle={{
+          margin: '15px 0',
+          padding: '15px',
+          border: '1px solid var(--color-primary)',
+          borderRadius: '4px'
+        }}
+      />
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '🎛Контролируемый компонент с управлением через React state'
+      }
+    }
+  }
+};
+
+export const UncontrolledComponent: Story = {
+  render: () => {
+    // 🔹 Неконтролируемый компонент (используем ref)
+    const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+
+    const handleSubmit = () => {
+      alert(textareaRef.current?.value);
+    };
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '400px' }}>
+        <Textarea
+          ref={textareaRef}
+          label="Uncontrolled Textarea"
+          defaultValue="Initial value"
+          placeholder="Type something..."
+          containerStyle={{
+            padding: '10px',
+            border: '1px solid var(--color-dark-100)',
+            borderRadius: '4px'
+          }}
+        />
+        <button onClick={handleSubmit} style={{ padding: '8px 16px', cursor: 'pointer' }}>
+          Get Value
+        </button>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Неконтролируемый компонент с использованием `ref` и `defaultValue`'
+      }
+    }
   }
 };
 

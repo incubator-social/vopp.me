@@ -1,9 +1,9 @@
 .container {
-  max-width: 284px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  background: var(--color-dark-500);
+  box-sizing: border-box;
 }
 
 .label {
@@ -26,8 +26,7 @@
   padding: 6px 12px;
   border: 1px solid var(--color-dark-100);
   border-radius: 2px;
-  outline: none;
-  resize: vertical;
+  box-shadow: 0 0 0 0 transparent;
 
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
@@ -50,18 +49,14 @@
   }
 
   &:focus:not(:disabled):not(.error) {
-    border: 2px solid var(--color-primary);
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
   }
 
   &:not(:placeholder-shown) {
     border-color: var(--color-light-100);
     background: var(--color-dark-500);
     color: var(--color-light-100);
-  }
-
-  &.error:not(:placeholder-shown) {
-    border-color: var(--color-danger-500);
-    background: var(--color-dark-700);
   }
 
   &.error {
@@ -87,14 +82,18 @@
 
 .resizeBoth {
   resize: both;
+  max-width: 100%;
+  max-height: 400px;
 }
 
 .resizeHorizontal {
   resize: horizontal;
+  max-width: 100%;
 }
 
 .resizeVertical {
   resize: vertical;
+  max-height: 400px;
 }
 
 .errorMessage {
