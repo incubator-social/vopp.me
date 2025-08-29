@@ -3,14 +3,13 @@ import * as CheckboxRadix from '@radix-ui/react-checkbox';
 import type { CheckboxProps } from '@radix-ui/react-checkbox';
 import * as LabelRadix from '@radix-ui/react-label';
 import clsx, { type ClassValue } from 'clsx';
-import Image from 'next/image';
 
-import checkboxCheckedIcon from './../../../shared/assets/icons/checkbox-checked.svg';
-import checkboxUncheckedIcon from './../../../shared/assets/icons/checkbox-unchecked.svg';
-import checkboxCheckedDisabledIcon from './../../../shared/assets/icons/checkbox-checked-disable.svg';
-import checkboxUncheckedDisabledIcon from './../../../shared/assets/icons/checkbox-unchecked-disable.svg';
+import CheckboxCheckedIcon from './../../assets/icons/checkbox-checked.svg';
+import CheckboxUncheckedIcon from './../../assets/icons/checkbox-unchecked.svg';
+import CheckboxCheckedDisabledIcon from './../../assets/icons/checkbox-checked-disable.svg';
+import CheckboxUncheckedDisabledIcon from './../../assets/icons/checkbox-unchecked-disable.svg';
 
-import s from './checkbox.module.scss';
+import s from './Checkbox.module.scss';
 
 export type CheckboxInputProps = {
   containerProps?: ComponentPropsWithoutRef<'div'>;
@@ -41,19 +40,10 @@ export const Checkbox = forwardRef<CheckboxRef, CheckboxInputProps>((props, ref)
           disabled={disabled}
           {...rest}
         >
-          <Image
-            src={disabled ? checkboxUncheckedDisabledIcon : checkboxUncheckedIcon}
-            alt="unchecked"
-            width={18}
-            height={18}
-          />
+          {disabled ? <CheckboxUncheckedDisabledIcon /> : <CheckboxUncheckedIcon />}
+
           <CheckboxRadix.Indicator className={s.checkboxIndicator}>
-            <Image
-              src={disabled ? checkboxCheckedDisabledIcon : checkboxCheckedIcon}
-              alt="checked"
-              width={18}
-              height={18}
-            />
+            {disabled ? <CheckboxCheckedDisabledIcon /> : <CheckboxCheckedIcon />}
           </CheckboxRadix.Indicator>
         </CheckboxRadix.Root>
       </div>
