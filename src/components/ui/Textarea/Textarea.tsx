@@ -31,12 +31,9 @@ export const Textarea = ({
   ref,
   ...props
 }: Props) => {
-  // const currentVariant = errorMessage ? 'error' : 'default';
-
   const textareaClasses = clsx(
     styles.textarea,
     styles[`resize${resize.charAt(0).toUpperCase() + resize.slice(1)}`],
-    // styles[currentVariant],
     errorMessage && styles.error,
     disabled && styles.disabled,
     className
