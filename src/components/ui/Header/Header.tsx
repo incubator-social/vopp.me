@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from './Header.module.scss';
-import { LinkButton } from '@/src/components/ui/Textarea/LinkButton';
+import { LinkButton } from '@/src/components/ui/Header/LinkButton';
 
 type HeaderProps = {
   isLoggedIn?: boolean;
