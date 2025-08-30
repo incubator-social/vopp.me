@@ -4,7 +4,7 @@ import * as Nav from '@radix-ui/react-navigation-menu';
 import clsx from 'clsx';
 import { useState } from 'react';
 import styles from './Sidebar.module.scss';
-import { options, Option } from './data';
+import { options } from './data';
 
 const Sidebar = ({ value, onValueChange, defaultValue, isDisabledValue }: SidebarProps) => {
   const [selectedValue, setSelectedValue] = useState<string | undefined>(value || options.main[0].value);

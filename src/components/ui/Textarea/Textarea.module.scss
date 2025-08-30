@@ -28,7 +28,9 @@
   border-radius: 2px;
   box-shadow: 0 0 0 0 transparent;
 
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
@@ -44,7 +46,7 @@
     opacity: 1;
   }
 
-  &:hover:not(:disabled):not(.error){
+  &:hover:not(:disabled):not(.error) {
     border-color: var(--color-light-900);
   }
 

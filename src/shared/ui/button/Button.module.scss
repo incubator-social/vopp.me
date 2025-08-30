@@ -14,8 +14,9 @@
   line-height: map-get($bold-text-16, line);
   font-weight: map-get($bold-text-16, weight);
 
-  transition: border .10s ease-in-out,
-              background-color .10s ease-in-out;
+  transition:
+    border 0.1s ease-in-out,
+    background-color 0.1s ease-in-out;
 }
 
 .buttonBig {
