@@ -12,7 +12,9 @@
   padding: 6px 24px;
   width: 100%;
   white-space: nowrap;
-  transition: color var(--transition-duration), background-color var(--transition-duration);
+  transition:
+    color var(--transition-duration),
+    background-color var(--transition-duration);
 }
 .trigger:hover {
   background-color: color-mix(in srgb, var(--color-accent-900) 15%, transparent);
@@ -30,10 +32,10 @@
   cursor: unset;
 }
 
-.trigger[data-state=active] {
+.trigger[data-state='active'] {
   color: var(--color-primary);
 }
-.trigger[data-state=active]:disabled {
+.trigger[data-state='active']:disabled {
   color: var(--color-accent-900);
 }
 
