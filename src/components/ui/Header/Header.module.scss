@@ -1,0 +1,83 @@
+
+.header {
+  background-color: white;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 1rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.languageSelect {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.authButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.loginButton {
+  padding: 0.5rem 1rem;
+  color: #000;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.signupButton {
+  padding: 0.5rem 1rem;
+  background-color: #000;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.notificationButton {
+  position: relative;
+  padding: 0.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.bellIcon {
+  font-size: 1.25rem;
+}
+
+.notificationBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
