@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Input } from './Input';
+import React from 'react';
 
 const meta: Meta<typeof Input> = {
   title: 'Components/UI/Input',
@@ -85,6 +86,131 @@ export const WithCustomId: Story = {
     id: 'custom-input-id',
     label: 'With Custom ID',
     placeholder: 'Accessible input field'
+  }
+};
+
+export const ControlledInput: Story = {
+  render: () => {
+    // 🔹 Контролируемый компонент
+    const [value, setValue] = React.useState('initial value');
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '300px' }}>
+        <Input
+          label="Controlled Input"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder="Type something..."
+          containerStyle={{
+            padding: '15px',
+            border: '1px solid var(--color-primary)',
+            borderRadius: '4px'
+          }}
+        />
+        <div>Current value: {value}</div>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Контролируемый компонент с управлением через React state'
+      }
+    }
+  }
+};
+
+export const UncontrolledInput: Story = {
+  render: () => {
+    // 🔹 Неконтролируемый компонент
+    const inputRef = React.useRef<HTMLInputElement>(null);
+
+    const handleShowValue = () => {
+      alert(inputRef.current?.value);
+    };
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '300px' }}>
+        <Input
+          ref={inputRef}
+          label="Uncontrolled Input"
+          defaultValue="initial value"
+          placeholder="Type something..."
+          containerStyle={{
+            padding: '10px',
+            border: '1px solid var(--color-dark-100)',
+            borderRadius: '4px'
+          }}
+        />
+        <button onClick={handleShowValue} style={{ padding: '8px 16px', cursor: 'pointer' }}>
+          Show Value
+        </button>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Неконтролируемый компонент с использованием ref и defaultValue'
+      }
+    }
+  }
+};
+
+export const WithContainerStyles: Story = {
+  args: {
+    label: 'Styled Container Input',
+    placeholder: 'With custom container styles',
+    containerStyle: {
+      padding: '20px',
+      margin: '10px',
+      border: '2px dashed var(--color-primary)',
+      borderRadius: '8px',
+      backgroundColor: 'var(--color-dark-300)'
+    },
+    containerClassName: 'custom-input-container'
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Использование containerStyle для стилизации всего компонента'
+      }
+    }
+  }
+};
+
+export const MixedInputUsage: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '350px' }}>
+      <Input
+        label="Default Styled"
+        placeholder="With container styles"
+        containerStyle={{
+          padding: '15px',
+          backgroundColor: 'var(--color-dark-300)',
+          border: '1px solid var(--color-primary)'
+        }}
+      />
+
+      <Input label="Regular Input" placeholder="Without container styles" />
+
+      <Input
+        label="Error with Styles"
+        errorMessage="Invalid input"
+        containerStyle={{
+          padding: '10px',
+          border: '1px solid var(--color-danger-500)',
+          backgroundColor: 'var(--color-danger-100)'
+        }}
+      />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: '🎨 **НОВОЕ**: Различные варианты использования контейнерных стилей'
+      }
+    }
   }
 };
 
