@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import '../src/shared/styles/index.scss';
+import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
 
 export const metadata: Metadata = {
   title: 'Vopp.me',
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AlertProvider>{children}</AlertProvider>
+      </body>
     </html>
   );
 }

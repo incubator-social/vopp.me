@@ -78,4 +78,6 @@ next-env.d.ts
 .turbo/
 *storybook.log
 storybook-static
-stories/
+stories/**
+!stories/
+!stories/**/*.stories.tsx
