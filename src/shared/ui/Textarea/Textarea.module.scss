@@ -44,8 +44,8 @@
     opacity: 1;
   }
 
-  &:hover:not(:disabled):not(.error){
-    border-color: var(--color-light-900);
+  &:hover {
+    border-color: var(--color-dark-100);
   }
 
   &:focus:not(:disabled):not(.error) {

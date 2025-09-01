@@ -1,14 +1,13 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { Textarea } from './Textarea';
+import { Textarea } from '@/src/shared/ui/Textarea/Textarea';
 
 const meta = {
-  title: 'Components/UI',
+  title: 'UI/Textarea',
   component: Textarea,
   parameters: {
     layout: 'centered'
   },
-  tags: ['autodocs'],
   argTypes: {
     label: {
       control: 'text',
@@ -100,6 +99,7 @@ export const WithCustomId: Story = {
     placeholder: 'This has a custom ID for accessibility'
   }
 };
+
 export const WithContainerStyles: Story = {
   args: {
     label: 'Styled Container',
@@ -111,11 +111,24 @@ export const WithContainerStyles: Story = {
       borderRadius: '8px',
       backgroundColor: 'var(--color-dark-300)'
     }
+  }
+};
+
+export const WithContainerProps: Story = {
+  args: {
+    label: 'Textarea with Container Props',
+    placeholder: 'This demonstrates containerProps usage',
+    containerProps: {
+      'aria-labelledby': 'custom-label-id',
+      onClick: () => console.log('Container clicked!'),
+      onMouseEnter: () => console.log('Mouse entered container')
+    }
   },
   parameters: {
     docs: {
       description: {
-        story: ' Использование `containerStyle` для стилизации всего компонента (лейбл + textarea + ошибка)'
+        story:
+          'Демонстрация использования `containerProps` для передачи data-атрибутов, ARIA-атрибутов и обработчиков событий на контейнер'
       }
     }
   }
