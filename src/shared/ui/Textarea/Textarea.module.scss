@@ -8,7 +8,7 @@
 
 .label {
   font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-primary);
+  font-family: var(--font-family-primary), sans-serif;
   font-size: 14px;
   line-height: var(--line-height-m);
   color: var(--color-light-900);
@@ -30,7 +30,7 @@
 
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
-  font-family: var(--font-family-primary);
+  font-family: var(--font-family-primary), sans-serif;
   font-weight: var(--font-weight-regular);
   font-size: 16px;
   line-height: var(--line-height-m);
@@ -97,7 +97,7 @@
 }
 
 .errorMessage {
-  font-family: var(--font-family-primary);
+  font-family: var(--font-family-primary), sans-serif;
   font-weight: var(--font-weight-regular);
   font-size: 14px;
   line-height: var(--line-height-m);
