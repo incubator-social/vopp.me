@@ -1,48 +1,64 @@
 import Link from 'next/link';
 import styles from './Header.module.scss';
-import { LinkButton } from '@/src/components/ui/Header/LinkButton';
+import { useState } from 'react';
+import { LanguageSelect } from '@/src/components/ui/Header/LanguageSelect/LanguageSelect';
+import { BellIcon } from './BellIcon/BellIcon';
+import { AuthButtons } from '@/src/components/ui/Header/AuthButtons/AuthButtons';
 
-type HeaderProps = {
-  isLoggedIn?: boolean;
-  notificationCount?: number;
-};
+export const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(3);
 
-export const Header = ({ isLoggedIn = true, notificationCount = 0 }: HeaderProps) => {
+  const toggleLogin = () => setIsLoggedIn(!isLoggedIn);
+  const addNotification = () => setNotificationCount(prev => prev + 1);
+  const clearNotifications = () => setNotificationCount(0);
+
+  const handleLogin = () => {
+    console.log('Open login modal');
+    setIsLoggedIn(true);
+  };
+
+  const handleSignUp = () => {
+    console.log('Open signup modal');
+    setIsLoggedIn(true);
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        {'Bycnfuh'}
         <Link href="/" className={styles.logo}>
-          Inctagram
+          {'sdsfdfdfdf'}
         </Link>
-
         {/* Правая часть хедера */}
         <div className={styles.rightSection}>
           {/* Заглушка для селекта языка */}
-          <div className={styles.languageSelect}>
-            {/* Здесь будет готовый Select компонент */}
-            <span>English</span>
-          </div>
+          <LanguageSelect className={styles.languageSelect} />
 
           {isLoggedIn ? (
             // Заглушка для уведомлений
-            <button className={styles.notificationButton}>
-              {/* Иконка колокольчика */}
-              <span className={styles.bellIcon}>🔔</span>
-
-              {/* Бейдж */}
-              {notificationCount > 0 && (
-                <span className={styles.notificationBadge}>{notificationCount > 9 ? '9+' : notificationCount}</span>
-              )}
-            </button>
+            <BellIcon
+              notificationCount={notificationCount}
+              className={styles.bellIcon}
+              onClearNotifications={clearNotifications}
+            />
           ) : (
-            // Заглушка для кнопок авторизации
-            <div className={styles.authButtons}>
-              <LinkButton href="/login" title="Log in" variant="buttonSecondary" />
-
-              <LinkButton href="/signup" title="Sign up" variant="buttonPrimary" />
-            </div>
+            /* Кнопки авторизации для неавторизованных */
+            <AuthButtons
+              onLogin={handleLogin}
+              onSignUp={handleSignUp}
+            />
           )}
+          <div className={styles.debugControls}>
+            <button onClick={toggleLogin} className={styles.debugButton}>
+              {isLoggedIn ? 'Logout' : 'Login'}
+            </button>
+            {isLoggedIn && (
+              <button onClick={addNotification} className={styles.debugButton}>
+                +1 Notif
+              </button>
+            )}
+          </div>
+
         </div>
       </div>
     </header>
