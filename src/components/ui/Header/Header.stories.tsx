@@ -1,31 +1,58 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Header } from './Header';
 
 const meta = {
   title: 'Components/UI/Header',
   component: Header,
   parameters: {
-    layout: 'fullscreen',
+    layout: 'fullscreen'
   },
-  tags: ['autodocs'],
+  argTypes: {
+    isLoggedIn: {
+      control: 'boolean',
+      description: 'Статус авторизации пользователя',
+      defaultValue: false
+    },
+    notificationCount: {
+      control: {
+        type: 'number',
+        min: 0,
+        max: 20,
+        step: 1
+      },
+      description: 'Количество непрочитанных уведомлений',
+      defaultValue: 0
+    }
+  },
+  args: {
+    isLoggedIn: false,
+    notificationCount: 0
+  }
 } satisfies Meta<typeof Header>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    isLoggedIn: false,
+    notificationCount: 0
+  },
   parameters: {
     docs: {
       description: {
-        story: 'Хедер по умолчанию. Показывает состояние для неавторизованного пользователя с кнопками "Log in" и "Sign up".'
+        story:
+          'Хедер по умолчанию. Показывает состояние для неавторизованного пользователя с кнопками "Log in" и "Sign up".'
       }
     }
   }
 };
 
 export const LoggedOut: Story = {
-  args: {},
+  args: {
+    isLoggedIn: false,
+    notificationCount: 0
+  },
   parameters: {
     docs: {
       description: {
@@ -36,26 +63,40 @@ export const LoggedOut: Story = {
 };
 
 export const LoggedInNoNotifications: Story = {
+  args: {
+    isLoggedIn: true,
+    notificationCount: 0
+  },
   parameters: {
     docs: {
       description: {
-        story: 'Хедер для авторизованного пользователя без уведомлений. Показывает селект языка и иконку колокольчика без бейджа.'
+        story:
+          'Хедер для авторизованного пользователя без уведомлений. Показывает селект языка и иконку колокольчика без бейджа.'
       }
     }
   }
 };
 
 export const LoggedInWithNotifications: Story = {
+  args: {
+    isLoggedIn: true,
+    notificationCount: 3
+  },
   parameters: {
     docs: {
       description: {
-        story: 'Хедер для авторизованного пользователя с уведомлениями. Показывает селект языка и иконку колокольчика с бейджем.'
+        story:
+          'Хедер для авторизованного пользователя с уведомлениями. Показывает селект языка и иконку колокольчика с бейджем.'
       }
     }
   }
 };
 
 export const LoggedInWithManyNotifications: Story = {
+  args: {
+    isLoggedIn: true,
+    notificationCount: 99
+  },
   parameters: {
     docs: {
       description: {
@@ -68,32 +109,26 @@ export const LoggedInWithManyNotifications: Story = {
 export const AllStates: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      <Header />
-      <Header />
-      <Header />
-      <Header />
+      <Header isLoggedIn={false} notificationCount={0} />
+      <Header isLoggedIn={true} notificationCount={0} />
+      <Header isLoggedIn={true} notificationCount={3} />
+      <Header isLoggedIn={true} notificationCount={99} />
     </div>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'Все состояния хедера в одном месте для сравнения. Компонент использует внутреннее состояние, поэтому все экземпляры будут синхронизированы.'
-      }
-    }
-  }
-};
-
-export const TestEnvironment: Story = {
-  parameters: {
-    docs: {
-      description: {
-        story: 'Тестовая среда для проверки работы переключения состояний. Используйте кнопки "Login/Logout" и "+1 Notif" в правом верхнем углу для тестирования различных состояний хедера.'
+        story: 'Все состояния хедера в одном месте для сравнения.'
       }
     }
   }
 };
 
 export const MobileView: Story = {
+  args: {
+    isLoggedIn: true,
+    notificationCount: 5
+  },
   parameters: {
     viewport: {
       defaultViewport: 'mobile1'
@@ -107,6 +142,10 @@ export const MobileView: Story = {
 };
 
 export const TabletView: Story = {
+  args: {
+    isLoggedIn: true,
+    notificationCount: 5
+  },
   parameters: {
     viewport: {
       defaultViewport: 'tablet'
@@ -122,25 +161,13 @@ export const TabletView: Story = {
 /*
 // 🔮 ДЛЯ БУДУЩЕГО REDUX-ИНТЕГРАЦИИ:
 
-// Когда переедем на Redux, можно будет использовать контролы:
-// argTypes: {
-//   isLoggedIn: {
-//     control: 'boolean',
-//     description: 'Статус авторизации пользователя'
-//   },
-//   notificationCount: {
-//     control: {
-//       type: 'number',
-//       min: 0,
-//       max: 20,
-//       step: 1
-//     },
-//     description: 'Количество непрочитанных уведомлений'
-//   }
-// },
-// args: {
-//   isLoggedIn: false,
-//   notificationCount: 0
-// }
+// В будущем заменим пропсы на получение из Redux:
+// const isLoggedIn = useSelector(selectIsLoggedIn);
+// const notificationCount = useSelector(selectNotificationCount);
+
+// Также добавим actions:
+// const handleLogin = () => dispatch(openLoginModal());
+// const handleSignUp = () => dispatch(openSignUpModal());
+// const clearNotifications = () => dispatch(clearNotificationsAction());
 
 */

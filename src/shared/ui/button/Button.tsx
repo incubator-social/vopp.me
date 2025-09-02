@@ -12,7 +12,7 @@ export const Button = ({
   title,
   onClick,
   variant = 'buttonPrimary',
-  size = 'ButtonBig',
+  size = 'buttonSmall',
   isDisabled = false
 }: Props) => {
   return (
