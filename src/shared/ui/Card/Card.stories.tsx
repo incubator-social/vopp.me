@@ -29,25 +29,3 @@ export const Default: Story = {
     children: <div>Default</div>
   }
 };
-
-export const Signup: Story = {
-  render: Template,
-  args: {
-    className: styles['sign-up'],
-    children: (
-      <div className={styles.container}>
-        <h1>Sign Up</h1>
-        <div className={styles.icons}></div>
-        <div className={styles.form}></div>
-        <div className={styles.terms}></div>
-        <button className={styles.button}>
-          <h3>Sign Up</h3>
-        </button>
-        <p className={styles['account-text']}>Do you have an account?</p>
-        <span className={styles['sign-in']}>
-          <a className={styles['sign-in-link']}>Sign In</a>
-        </span>
-      </div>
-    )
-  }
-};
