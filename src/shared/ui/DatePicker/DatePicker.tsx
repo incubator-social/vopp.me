@@ -1,10 +1,9 @@
-import { DateRange, DayPicker } from 'react-day-picker';
+import { DateRange, DayPicker, DayPickerProps } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import React, { ComponentProps, useEffect, useRef, useState } from 'react';
 import styles from './DatePicker.module.scss';
-import type { DayPickerProps } from 'react-day-picker/dist/cjs/types';
 import CalendarIcon from '@/src/shared/assets/icons/calendar-outline.svg';
-import { formatDate, formatDateRange } from '@/src/shared/utils/formateDate';
+import { getDateString, getDateRangeString } from '@/src/shared/lib/utils/dateToString';
 import { clsx } from 'clsx';
 
 const modifiers = {
@@ -15,13 +14,24 @@ const modifiersClassNames = {
   weekend: styles.weekend
 };
 
-type Props = {
+type CommonProps = {
   labelProps?: ComponentProps<'label'>;
   triggerProps?: ComponentProps<'button'>;
   containerProps?: ComponentProps<'div'>;
   errorMessage?: string;
-  onChange?: (selected: Date | DateRange | undefined) => void;
-} & DayPickerProps;
+};
+
+type SingleProps = {
+  mode?: 'single';
+  onChange?: (selected: Date | undefined) => void;
+};
+
+type RangeProps = {
+  mode: 'range';
+  onChange?: (selected: DateRange | undefined) => void;
+};
+
+type Props = (SingleProps | RangeProps) & Omit<DayPickerProps, 'mode' | 'selected' | 'onSelect'> & CommonProps;
 
 export const DatePicker = ({
   triggerProps,
@@ -32,9 +42,10 @@ export const DatePicker = ({
   mode = 'single',
   ...datePickerProps
 }: Props) => {
-  const [selected, setSelected] = useState<Date | DateRange | undefined>(undefined);
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const datePickerRef = useRef<HTMLDivElement | null>(null);
+
+  const [selected, setSelected] = useState<Date | DateRange | undefined>(undefined);
 
   const classNames = {
     container: clsx(styles.container, containerProps?.className, open && styles.open, errorMessage && styles.error),
@@ -44,57 +55,64 @@ export const DatePicker = ({
   };
 
   const toggleOpen = () => setOpen((prev) => !prev);
+
   const handleTriggerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     toggleOpen();
     triggerProps?.onClick?.(event);
   };
+
   const handleClickOutside = (event: MouseEvent) => {
-    if (open) {
-      const isClickOutside =
-        datePickerRef.current &&
-        event.target instanceof Node &&
-        datePickerRef.current !== event.target &&
-        !datePickerRef.current.contains(event.target);
-      if (isClickOutside) {
-        setOpen(false);
-      }
-    }
-  };
-
-  const getTrigger = () => {
-    if (!selected) {
-      return triggerProps?.children || 'Pick a date';
-    }
-
-    if (mode === 'single') {
-      const selectedDate = selected as Date | undefined;
-      return selectedDate ? formatDate(selectedDate) : (triggerProps?.children ?? formatDate(new Date()));
-    }
-
-    if (mode === 'range') {
-      const selectedRange = selected as DateRange | undefined;
-      return selectedRange ? formatDateRange(selectedRange) : formatDateRange({ from: new Date(), to: new Date() });
+    const isClickOutside =
+      datePickerRef.current &&
+      event.target instanceof Node &&
+      datePickerRef.current !== event.target &&
+      !datePickerRef.current.contains(event.target);
+    if (isClickOutside) {
+      setOpen(false);
     }
   };
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
+    return () => document.removeEventListener('click', handleClickOutside);
   }, [open]);
 
-  useEffect(() => {
-    onChange?.(selected);
-  }, [selected]);
+  const getTriggerLabel = () => {
+    if (mode === 'single') {
+      return selected instanceof Date ? getDateString(selected) : (triggerProps?.children ?? 'Pick a date');
+    } else {
+      return selected && !('getDate' in selected) ? getDateRangeString(selected as DateRange) : 'Pick a date range';
+    }
+  };
+
+  const dayPickerProps: DayPickerProps =
+    mode === 'single'
+      ? {
+          mode: 'single',
+          selected: selected as Date | undefined,
+          onSelect: (date) => {
+            setSelected(date ?? undefined);
+            (onChange as SingleProps['onChange'])?.(date ?? undefined);
+          },
+          ...datePickerProps
+        }
+      : {
+          mode: 'range',
+          selected: selected as DateRange | undefined,
+          onSelect: (range) => {
+            setSelected(range ?? undefined);
+            (onChange as RangeProps['onChange'])?.(range ?? undefined);
+          },
+          ...datePickerProps
+        };
 
   return (
     <div {...containerProps} className={classNames.container}>
       <label {...labelProps} className={classNames.label}>
         {labelProps?.children ?? 'Date'}
         <button {...triggerProps} className={classNames.trigger} type="button" onClick={handleTriggerClick}>
-          {getTrigger()}
+          {getTriggerLabel()}
           <CalendarIcon />
         </button>
       </label>
@@ -102,19 +120,11 @@ export const DatePicker = ({
         {open && (
           <DayPicker
             className={styles.datePicker}
-            animate
-            mode={mode}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            selected={selected as DateRange | undefined}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            onSelect={setSelected}
             showOutsideDays
             weekStartsOn={1}
             modifiers={modifiers}
             modifiersClassNames={modifiersClassNames}
-            {...datePickerProps}
+            {...dayPickerProps}
           />
         )}
       </div>

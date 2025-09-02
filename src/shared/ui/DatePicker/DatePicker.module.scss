@@ -38,6 +38,7 @@
   &:disabled {
     background-color: var(--color-dark-500);
     color: var(--color-light-900);
+    cursor: unset;
 
     svg {
       color: var(--color-light-100);
@@ -79,7 +80,6 @@
 
   :global(.rdp-selected) {
     background-color: var(--color-accent-900);
-
     font-weight: normal;
     font-size: 16px;
   }
@@ -121,7 +121,6 @@
     :global(.rdp-range_start .rdp-day_button), :global(.rdp-range_end .rdp-day_button) {
       background-color: unset;
     }
-
 
     :global(.rdp-day:hover button) {
       border-radius: 50%;

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { DatePicker } from '@/src/shared/ui/DatePicker/DatePicker';
-import { formatDate } from '@/src/shared/utils/formateDate';
+import { getDateString } from '@/src/shared/lib/utils/dateToString';
 
 const meta = {
   title: 'UI/DatePicker',
@@ -9,24 +9,34 @@ const meta = {
     docs: {
       description: {
         component:
-          'More about this component in React DayPicker docs: https://daypicker.dev/.<br>' +
-          "This component shouldn't be a client component, but it must be used inside a client component " +
-          'because a function is passed as a prop.<br>' +
-          'More details here:<br>' +
+          'Компонент сделан на основе библиотеки DayPicker: https://daypicker.dev/.<br>' +
+          'Компонент не помечен как клиентский из-за того, что принимает функцию в качестве пропса. Его родитель долден быть клиентским компонентом. Подробнее почитать по ссылкам: ' +
           'https://github.com/vercel/next.js/discussions/46795<br>' +
-          'And here:<br>' +
-          'https://github.com/vercel/next.js/issues/74343#issuecomment-2870184138'
+          'https://github.com/vercel/next.js/issues/74343#issuecomment-2870184138<br>' +
+          'Компонент можно кастомизировать по документации библиотеки, принимает все настройки, указанные в ней, например, можно определить первый день начала недели.'
       }
     }
   },
   argTypes: {
+    mode: {
+      control: { type: 'select' },
+      options: ['single', 'range'],
+      description: "Либо 'single' для выбора одной даты, Либо 'range' для выбора диапазона дат"
+    },
     errorMessage: {
       control: { type: 'select' },
       options: [undefined, 'Required field']
     },
-    mode: {
-      control: { type: 'select' },
-      options: ['single', 'range']
+    containerProps: {
+      description:
+        'Пропсы, передаваемые в контейнер компонента. Например стили для отступов чтобы расположить элемент на странице'
+    },
+    labelProps: {
+      description:
+        'Пропсы для тега label. Текст передается через children. Пример: labelProps={{children: "Pick any date"}}'
+    },
+    triggerProps: {
+      description: 'Пропсы для триггера - кнопки с датой и иконкой. Сюда, например, передавать disabled'
     }
   },
   args: {
@@ -44,7 +54,7 @@ export const RangeMode: Story = {
 };
 
 export const WithCustomLabelAndTrigger: Story = {
-  args: { triggerProps: { children: formatDate(new Date()) }, labelProps: { children: 'Booking date' } }
+  args: { triggerProps: { children: getDateString(new Date()) }, labelProps: { children: 'Booking date' } }
 };
 
 export const WithError: Story = {
