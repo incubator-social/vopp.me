@@ -14,51 +14,21 @@ import PersonActive from '../../assets/icons/person.svg';
 import MessageActive from '../../assets/icons/message-circle.svg';
 import FavoritesActive from '../../assets/icons/bookmark.svg';
 
-export const options: Options = {
-  main: [
-    { value: 'Feed', icon: Home, activeIcon: HomeActive, action: () => console.log('Navigate to Feed') },
-    { value: 'Create', icon: Plus, activeIcon: PlusActive, action: () => console.log('Navigate to Create') },
-    {
-      value: 'My Profile',
-      icon: Person,
-      activeIcon: PersonActive,
-      action: () => console.log('Navigate to My Profile')
-    },
-    {
-      value: 'Messenger',
-      icon: Message,
-      activeIcon: MessageActive,
-      action: () => console.log('Navigate to Messenger')
-    },
-    { value: 'Search', icon: Search, activeIcon: Search, action: () => console.log('Navigate to Search') }
-  ],
-  other: [
-    {
-      value: 'Statistics',
-      icon: Statistics,
-      activeIcon: Statistics,
-      action: () => console.log('Navigate to Statistics')
-    },
-    {
-      value: 'Favorites',
-      icon: Favorites,
-      activeIcon: FavoritesActive,
-      action: () => console.log('Navigate to Favorites')
-    }
-  ],
-  logout: [{ value: 'Log Out', icon: Logout, activeIcon: Logout, action: () => console.log('Navigate to Log Out') }]
-};
+export const options: Option[] = [
+  { label: 'Feed', icon: Home, activeIcon: HomeActive, id: 'feed' },
+  { label: 'Create', icon: Plus, activeIcon: PlusActive, id: 'create' },
+  { label: 'My Profile', icon: Person, activeIcon: PersonActive, id: 'my-profile' },
+  { label: 'Messenger', icon: Message, activeIcon: MessageActive, id: 'messenger' },
+  { label: 'Search', icon: Search, activeIcon: Search, id: 'search' },
+  { label: 'Statistics', icon: Statistics, activeIcon: Statistics, id: 'statistics' },
+  { label: 'Favorites', icon: Favorites, activeIcon: FavoritesActive, id: 'favorites' },
+  { label: 'Log Out', icon: Logout, activeIcon: Logout, id: 'log-out' }
+];
 
 //types
-type Options = {
-  main: Option[];
-  other: Option[];
-  logout: Option[];
-};
-
 export type Option = {
-  value: string;
+  id: string;
+  label: string;
   icon: ElementType;
   activeIcon: ElementType;
-  action?: () => void;
 };

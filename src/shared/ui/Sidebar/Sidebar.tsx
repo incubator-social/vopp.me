@@ -2,23 +2,15 @@
 
 import * as Nav from '@radix-ui/react-navigation-menu';
 import clsx from 'clsx';
-import { useState } from 'react';
 import styles from './Sidebar.module.scss';
 import { options } from './data';
 
 const Sidebar = ({ value, onValueChange, defaultValue, isDisabledValue }: SidebarProps) => {
-  const [selectedValue, setSelectedValue] = useState<string | undefined>(value || options.main[0].value);
+  const selectedValue = value || options[0].id;
 
-  const handleRootValueChange = (newValue: string) => {
-    if (newValue !== isDisabledValue && onValueChange) {
+  const handleChangeValue = (newValue: string) => {
+    if (newValue !== isDisabledValue) {
       onValueChange(newValue);
-    }
-  };
-
-  const handleLinkSelect = (newValue: string, action?: () => void) => {
-    setSelectedValue(newValue);
-    if (action) {
-      action();
     }
   };
 
@@ -26,57 +18,23 @@ const Sidebar = ({ value, onValueChange, defaultValue, isDisabledValue }: Sideba
     <Nav.Root
       value={selectedValue}
       defaultValue={defaultValue}
-      onValueChange={handleRootValueChange}
+      onValueChange={handleChangeValue}
       orientation={'vertical'}
       className={styles.container}
     >
       <div className={styles['nav-links-container']}>
         <Nav.List className={styles['nav-list']}>
-          {options.main.map(({ value, icon: Icon, activeIcon: ActiveIcon, action: action }) => (
-            <Nav.Item key={value} value={value} className={styles['nav-item']}>
+          {options.map(({ id, label, icon: Icon, activeIcon: ActiveIcon }) => (
+            <Nav.Item key={id} value={id} className={styles['nav-item']}>
               <Nav.Link
                 className={clsx(styles['nav-link'], 'regular-text-14')}
-                active={selectedValue === value}
-                onSelect={() => handleLinkSelect(value, action)}
-                aria-disabled={isDisabledValue === value}
+                active={selectedValue === id}
+                onSelect={() => handleChangeValue(id)}
+                aria-disabled={isDisabledValue === id}
                 tabIndex={0}
               >
-                {selectedValue === value ? <ActiveIcon /> : <Icon />}
-                <span>{value}</span>
-              </Nav.Link>
-            </Nav.Item>
-          ))}
-        </Nav.List>
-
-        <Nav.List className={styles['nav-list']}>
-          {options.other.map(({ value, icon: Icon, activeIcon: ActiveIcon, action: action }) => (
-            <Nav.Item key={value} value={value} className={styles['nav-item']}>
-              <Nav.Link
-                className={clsx(styles['nav-link'], 'regular-text-14')}
-                active={selectedValue === value}
-                onSelect={() => handleLinkSelect(value, action)}
-                aria-disabled={isDisabledValue === value}
-                tabIndex={0}
-              >
-                {selectedValue === value ? <ActiveIcon /> : <Icon />}
-                <span>{value}</span>
-              </Nav.Link>
-            </Nav.Item>
-          ))}
-        </Nav.List>
-
-        <Nav.List className={styles['nav-list']}>
-          {options.logout.map(({ value, icon: Icon, activeIcon: ActiveIcon, action: action }) => (
-            <Nav.Item key={value} value={value} className={styles['nav-item']}>
-              <Nav.Link
-                className={clsx(styles['nav-link'], 'regular-text-14')}
-                active={selectedValue === value}
-                onSelect={() => handleLinkSelect(value, action)}
-                aria-disabled={isDisabledValue === value}
-                tabIndex={0}
-              >
-                {selectedValue === value ? <ActiveIcon /> : <Icon />}
-                <span>{value}</span>
+                {selectedValue === id ? <ActiveIcon /> : <Icon />}
+                <span>{label}</span>
               </Nav.Link>
             </Nav.Item>
           ))}
@@ -90,8 +48,8 @@ export default Sidebar;
 
 //types
 export type SidebarProps = {
-  value?: string;
+  value: string;
+  onValueChange: (value: string) => void;
   isDisabledValue?: string;
-  onValueChange?: (value: string) => void;
   defaultValue?: string;
 };

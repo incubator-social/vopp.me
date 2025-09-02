@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/nextjs-vite';
 import Sidebar, { SidebarProps } from './Sidebar';
 import { options } from './data';
@@ -13,6 +14,9 @@ const meta = {
         dark: { name: 'dark', value: '#191919' }
       }
     }
+  },
+  args: {
+    value: 'feed'
   }
 } satisfies Meta<typeof Sidebar>;
 
@@ -20,28 +24,43 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template: Story['render'] = (args: SidebarProps) => {
-  return <Sidebar {...args} />;
+  const [value, setValue] = useState<string>(args.value);
+
+  return <Sidebar {...args} value={value} onValueChange={setValue} />;
 };
 
 export const Default: Story = {
-  render: Template
+  render: Template,
+  args: {
+    onValueChange: () => {}
+  }
 };
 
 export const Active: Story = {
-  render: Template
+  render: Template,
+  args: {
+    onValueChange: () => {}
+  }
 };
 
 export const Hover: Story = {
-  render: Template
+  render: Template,
+  args: {
+    onValueChange: () => {}
+  }
 };
 
 export const Focus: Story = {
-  render: Template
+  render: Template,
+  args: {
+    onValueChange: () => {}
+  }
 };
 
 export const Disabled: Story = {
   render: Template,
   args: {
-    isDisabledValue: options.main[2].value
+    onValueChange: () => {},
+    isDisabledValue: options[2].id
   }
 };
