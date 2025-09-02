@@ -41,7 +41,7 @@ const Controlled: React.FC<PaginationProps> = (args) => {
 };
 
 const meta: Meta<typeof Pagination> = {
-  title: 'Components/Pagination',
+  title: 'UI/Pagination',
   component: Pagination,
   tags: ['autodocs'],
   parameters: {
