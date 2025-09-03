@@ -39,6 +39,31 @@
   box-sizing: border-box;
   background: var(--color-dark-500);
 
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-dark-300) var(--color-dark-500);
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--color-dark-500);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-dark-300);
+    border-radius: 3px;
+    width: 45px;
+    height: 4px;
+
+    &:hover {
+      background: var(--color-light-900);
+    }
+  }
+
   &::placeholder {
     color: var(--color-light-900);
     opacity: 1;
@@ -73,27 +98,37 @@
       color: var(--color-dark-100);
       opacity: 0.6;
     }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-dark-100);
+      opacity: 0.6;
+    }
+
   }
 }
 
 .resizeNone {
   resize: none;
+  overflow-y: auto;
 }
 
 .resizeBoth {
   resize: both;
   max-width: 100%;
   max-height: 400px;
+  overflow-y: auto;
 }
 
 .resizeHorizontal {
   resize: horizontal;
   max-width: 100%;
+  overflow-y: auto;
 }
 
 .resizeVertical {
   resize: vertical;
   max-height: 400px;
+  overflow-y: auto;
 }
 
 .errorMessage {

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useId } from 'react';
 import clsx from 'clsx';
 import styles from './Textarea.module.scss';
@@ -46,7 +48,6 @@ export const Textarea = ({
     disabled && styles.disabled,
     className
   );
-
   return (
     <div className={clsx(styles.container, containerClassName)} style={containerStyle} {...containerProps}>
       {label && (

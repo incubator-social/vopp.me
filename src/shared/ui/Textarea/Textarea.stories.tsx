@@ -134,6 +134,22 @@ export const WithContainerProps: Story = {
   }
 };
 
+export const WithAutoScroll: Story = {
+  args: {
+    label: 'Auto Scroll (Default)',
+    placeholder: 'Type long text to see auto scroll...',
+    value: 'Это текст с авто скроллом. Скреолл появляется автоматически когда контент превышает область.\n'.repeat(3),
+    rows: 3
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Автоматический скролл (по умолчанию) - появляется только при необходимости'
+      }
+    }
+  }
+};
+
 export const ControlledComponent: Story = {
   render: () => {
     // 🔹 Контролируемый компонент (управление через state)
