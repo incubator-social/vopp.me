@@ -24,7 +24,6 @@ export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProp
         <Link href="/" className={styles.logo}>
           {'VOPP.ME'}
         </Link>
-        {/* Правая часть хедера */}
         <div className={styles.rightSection}>
           {isLoggedIn ? (
             <>

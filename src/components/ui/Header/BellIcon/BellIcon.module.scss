@@ -36,11 +36,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--dark-700);
 
-  font-family: var(--font-family-primary);
+  font-family: var(--font-family-primary), sans-serif;
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1;
 }
 

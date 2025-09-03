@@ -2,5 +2,13 @@
   display: flex;
   gap: 12px;
   align-items: center;
-  height: 100%;
+}
+
+.link {
+  text-decoration: none;
+  display: block;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
