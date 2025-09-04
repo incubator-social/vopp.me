@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite';
-import styles from './Card.module.scss';
 import Card, { CardProps } from './Card';
 
 const meta = {
@@ -20,12 +19,30 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template: Story['render'] = (args: CardProps) => {
-  return <Card className={args.className}>{args.children}</Card>;
+  return <Card>{args.children}</Card>;
 };
 
 export const Default: Story = {
   render: Template,
   args: {
-    children: <div>Default</div>
+    children: <h1>Content</h1>
+  }
+};
+
+export const WithInlineStyles: Story = {
+  render: Template,
+  args: {
+    children: (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '23px 24px 24px'
+        }}
+      >
+        <h1 style={{ marginBottom: '13px' }}>Sign Up</h1>
+      </div>
+    )
   }
 };
