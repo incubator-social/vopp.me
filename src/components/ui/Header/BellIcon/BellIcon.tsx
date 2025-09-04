@@ -7,14 +7,30 @@ import OutlineBellIcon from '@/src/shared/assets/icons/outline-bell-without-coun
 type BellIconProps = {
   notificationCount?: number;
   className?: string;
-  onClearNotifications?: () => void;
 };
 
-export const BellIcon = ({ notificationCount = 0, className = '', onClearNotifications }: BellIconProps) => {
+export const BellIcon = ({ notificationCount = 0, className = '' }: BellIconProps) => {
+  //  ДЛЯ БУДУЩЕЙ REDUX-ИНТЕГРАЦИИ БУДЕТ ПРИБЛИЗИТЕЛЬНО ЭТО
+  // 1. Будем брать данные из Redux:
+  // const notificationCount = useSelector(selectNotificationCount);
+  // const isPanelOpen = useSelector(selectNotificationsPanelOpen);
+  // const dispatch = useDispatch();
+  //
+  // 2. Будем использовать actions:
+  // const handleClearNotifications = () => dispatch(clearNotificationsAction());
+  // const handleOpenPanel = () => dispatch(openNotificationsPanelAction());
+  // const handleClosePanel = () => dispatch(closeNotificationsPanelAction());
+  //
+  // 3. Полная логика клика:
+  // const handleClick = () => {
+  //   if (notificationCount > 0) {
+  //     handleClearNotifications(); // очищаем бейдж
+  //   }
+  //   handleOpenPanel(); // открываем панель уведомлений
+  // };
+
+  //Заглушка
   const handleClick = () => {
-    if (notificationCount > 0 && onClearNotifications) {
-      onClearNotifications();
-    }
     console.log('Open notifications panel');
   };
 

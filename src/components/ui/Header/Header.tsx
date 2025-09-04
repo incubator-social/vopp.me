@@ -9,15 +9,12 @@ export type HeaderProps = {
   notificationCount?: number;
 };
 
+//  ДЛЯ БУДУЩЕЙ REDUX-ИНТЕГРАЦИИ:
+// Уберем пропсы и будем брать данные напрямую:
+// const isLoggedIn = useSelector(selectIsLoggedIn);
+// const notificationCount = useSelector(selectNotificationCount);
+
 export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProps) => {
-  const handleLogin = () => {
-    console.log('Open login modal');
-  };
-
-  const handleSignUp = () => {
-    console.log('Open signup modal');
-  };
-
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -33,7 +30,7 @@ export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProp
           ) : (
             <>
               <LanguageSelect className={styles.languageSelect} />
-              <AuthButtons onLogin={handleLogin} onSignUp={handleSignUp} />
+              <AuthButtons />
             </>
           )}
         </div>

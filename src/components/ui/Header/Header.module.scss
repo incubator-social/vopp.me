@@ -22,8 +22,8 @@
   font-family: var(--font-family-primary), sans-serif;
   font-weight: 600;
   font-size: 26px;
-  line-height: 138%;
-  color: var(--light-100);
+  line-height:  var(--line-height-l);
+  color: var(--color-light-100);
   text-decoration: none;
   padding: 12px 0;
   margin-left: 60px;
@@ -49,7 +49,7 @@
   min-width: 80px;
   display: flex;
   align-items: center;
-  height: 100%;
+  height: 40px;
 }
 
 .bellIcon {
