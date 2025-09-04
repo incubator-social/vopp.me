@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 220px;
+  height: 660px;
+  box-sizing: border-box;
+  padding-top: 72px;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-item {
+  display: flex;
+  margin-bottom: 24px;
+}
+.nav-item:nth-child(5) {
+  margin-bottom: 60px;
+}
+.nav-item:nth-child(7) {
+  margin-bottom: 180px;
+}
+.nav-item:last-child {
+  margin-bottom: 0;
+}
+
+.nav-link {
+  display: inline-flex;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--color-light-100);
+  position: relative;
+}
+.nav-link[data-active] {
+  color: var(--color-accent-500);
+}
+.nav-link:not([data-active], [data-disabled]):hover {
+  color: var(--color-accent-100);
+}
+.nav-link:focus-visible::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -3px;
+  bottom: -2px;
+  right: -8px;
+  outline: 2px solid var(--color-accent-700);
+  border-radius: 2px;
+}
+.nav-link[aria-disabled=true] {
+  color: var(--color-dark-100);
+  pointer-events: none;
+}
+
+/*# sourceMappingURL=Sidebar.module.css.map */
