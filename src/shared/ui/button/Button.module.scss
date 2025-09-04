@@ -1,3 +1,4 @@
+@use 'sass:map';
 @import '../../styles/colors';
 @import '../../styles/typography';
 
@@ -9,13 +10,14 @@
   border: 1px solid transparent;
   border-radius: 2px;
   min-width: 182px;
-  $bold-text-16: map-get($text-styles, bold-text-16);
-  font-size: map-get($bold-text-16, size);
-  line-height: map-get($bold-text-16, line);
-  font-weight: map-get($bold-text-16, weight);
+  $bold-text-16: map.get($text-styles, bold-text-16);
+  font-size: map.get($bold-text-16, size);
+  line-height: map.get($bold-text-16, line);
+  font-weight: map.get($bold-text-16, weight);
 
-  transition: border .10s ease-in-out,
-              background-color .10s ease-in-out;
+  transition:
+    border 0.1s ease-in-out,
+    background-color 0.1s ease-in-out;
 }
 
 .buttonBig {
