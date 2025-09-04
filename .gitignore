@@ -60,6 +60,9 @@ yarn-error.log*
 .pnpm-debug.log*
 *.log
 
+*.css
+*.css.map
+
 ### Файлы окружения ###
 .env*
 !.env.example  # Исключение для шаблона env-файла
