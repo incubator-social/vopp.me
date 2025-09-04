@@ -1,0 +1,54 @@
+.bellButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.bellIcon {
+  width: 100%;
+  height: 100%;
+
+  path {
+    stroke: currentColor;
+  }
+}
+
+.notificationBadge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 13px;
+  height: 13px;
+  background-color: var(--color-danger-500);
+  color: var(--color-light-100);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--font-family-primary), sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.manyNotifications {
+  width: 15px;
+  height: 15px;
+  font-size: 8px;
+  top: -4px;
+  right: -4px;
+}
