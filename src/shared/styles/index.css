@@ -1,0 +1,227 @@
+:root {
+  /* Accent Colors */
+  --color-accent-100: #73a5ff;
+  --color-accent-300: #4c8dff;
+  --color-accent-500: #397df6;
+  --color-accent-700: #2f68cc;
+  --color-accent-900: #234e99;
+  /* Success Colors */
+  --color-success-100: #80ffbf;
+  --color-success-300: #22e584;
+  --color-success-500: #14cc70;
+  --color-success-700: #0f9954;
+  --color-success-900: #0a6638;
+  /* Danger Colors */
+  --color-danger-100: #ff8099;
+  --color-danger-300: #f23d61;
+  --color-danger-500: #cc1439;
+  --color-danger-700: #990f2b;
+  --color-danger-900: #660a1d;
+  /* Warning Colors */
+  --color-warning-100: #ffd073;
+  --color-warning-300: #e5ac39;
+  --color-warning-500: #d99000;
+  --color-warning-700: #960;
+  --color-warning-900: #640;
+  /* Dark Colors */
+  --color-dark-100: #4c4c4c;
+  --color-dark-300: #333;
+  --color-dark-500: #171717;
+  --color-dark-700: #0d0d0d;
+  --color-dark-900: #000;
+  /* Light Colors */
+  --color-light-100: #fff;
+  --color-light-300: #f7fbff;
+  --color-light-500: #edf3fa;
+  --color-light-700: #d5dae0;
+  --color-light-900: #8d9094;
+  /* Semantic Colors */
+  --color-primary: var(--color-accent-500);
+  --color-primary-hover: var(--color-accent-300);
+  --color-primary-active: var(--color-accent-700);
+  --color-text-primary: var(--color-dark-900);
+  --color-text-secondary: var(--color-dark-500);
+  --color-text-inverted: var(--color-dark-100);
+  --color-bg-primary: var(--color-light-100);
+  --color-bg-secondary: var(--color-light-300);
+  --color-bg-dark: var(--color-light-500);
+  --color-success: var(--color-success-500);
+  --color-error: var(--color-danger-500);
+  --color-warning: var(--color-warning-500);
+}
+
+h1 {
+  font-family: inter, sans-serif;
+  font-size: 20px;
+  line-height: 36px;
+  font-weight: 700;
+}
+
+h2 {
+  font-family: inter, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+h3 {
+  font-family: inter, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+a {
+  font-family: inter, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.h1 {
+  font-family: inter, sans-serif;
+  font-size: 20px;
+  line-height: 36px;
+  font-weight: 700;
+}
+
+.h2 {
+  font-family: inter, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.h3 {
+  font-family: inter, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.regular-text-16 {
+  font-family: inter, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.bold-text-16 {
+  font-family: inter, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.regular-text-14 {
+  font-family: inter, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.medium-text-14 {
+  font-family: inter, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.bold-text-14 {
+  font-family: inter, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.small-text {
+  font-family: inter, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+.semi-bold-small-text {
+  font-family: inter, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+}
+
+.regular-link {
+  font-family: inter, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.small-link {
+  font-family: inter, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+:root {
+  --font-family-primary: inter, sans-serif;
+  --line-height-s: 16px;
+  --line-height-m: 24px;
+  --line-height-l: 36px;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+input,
+button,
+select,
+textarea,
+optgroup,
+option,
+a {
+  all: unset;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+a:visited {
+  color: inherit;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-m);
+  color: var(--color-light-100);
+  background-color: var(--color-dark-700);
+}
+
+:root {
+  --transition-duration: 0.3s;
+}
+
+/*# sourceMappingURL=index.css.map */

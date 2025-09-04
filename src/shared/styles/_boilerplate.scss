@@ -1,0 +1,50 @@
+html {
+  box-sizing: border-box;
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+input,
+button,
+select,
+textarea,
+optgroup,
+option,
+a {
+  all: unset;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+a:visited {
+  color: inherit;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-m);
+  color: var(--color-light-100);
+  background-color: var(--color-dark-700);
+}
+
+:root {
+  --transition-duration: 0.3s;
+}

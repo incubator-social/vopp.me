@@ -1,0 +1,63 @@
+@use 'sass:map';
+@use 'sass:string';
+
+$font-family-primary: inter, sans-serif;
+
+// prettier-ignore
+$text-styles: (
+        h1: (size: 20px, line: 36px, weight: 700),
+        h2: (size: 18px, line: 24px, weight: 700),
+        h3: (size: 16px, line: 24px, weight: 600),
+        regular-text-16: (size: 16px, line: 24px, weight: 400),
+        bold-text-16: (size: 16px, line: 24px, weight: 700),
+        regular-text-14: (size: 14px, line: 24px, weight: 400),
+        medium-text-14: (size: 14px, line: 24px, weight: 500),
+        bold-text-14: (size: 14px, line: 24px, weight: 700),
+        small-text: (size: 12px, line: 16px, weight: 400),
+        semi-bold-small-text: (size: 12px, line: 16px, weight: 600),
+        regular-link: (size: 14px, line: 24px, weight: 400),
+        small-link: (size: 12px, line: 16px, weight: 400)
+);
+
+// prettier-ignore
+$basic-tags: (
+        h1: map.get($text-styles, h1),
+        h2: map.get($text-styles, h2),
+        h3: map.get($text-styles, h3),
+        a: (size: 14px, line: 24px, weight: 400)
+);
+
+@each $tag, $props in $basic-tags {
+  #{$tag} {
+    font-family: $font-family-primary;
+    font-size: map.get($props, size);
+    line-height: map.get($props, line);
+    font-weight: map.get($props, weight);
+  }
+}
+
+@each $name, $props in $text-styles {
+  .#{$name} {
+    font-family: $font-family-primary;
+    font-size: map.get($props, size);
+    line-height: map.get($props, line);
+    font-weight: map.get($props, weight);
+
+    @if string.index($name, 'link') {
+      text-decoration: underline;
+    }
+  }
+}
+
+:root {
+  --font-family-primary: #{$font-family-primary};
+
+  // line heights
+  --line-height-s: 16px;
+  --line-height-m: 24px;
+  --line-height-l: 36px;
+
+  // font weights
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+}
