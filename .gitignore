@@ -60,6 +60,10 @@ yarn-error.log*
 .pnpm-debug.log*
 *.log
 
+
+*.css
+*.css.map
+
 ### Файлы окружения ###
 .env*
 !.env.example  # Исключение для шаблона env-файла
@@ -78,4 +82,6 @@ next-env.d.ts
 .turbo/
 *storybook.log
 storybook-static
-stories/
+stories/**
+!stories/
+!stories/**/*.stories.tsx
