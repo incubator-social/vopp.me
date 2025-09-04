@@ -1,10 +1,11 @@
 import styles from './Button.module.scss';
 import { ReactNode } from 'react';
+import clsx from 'clsx';
 
 type Props = {
   children: ReactNode;
   onClick?: () => void;
-  variant: string;
+  variant?: 'buttonPrimary' | 'buttonSecondary' | 'buttonOutline' | 'buttonText';
   isDisabled?: boolean;
   minWidth?: number;
   minHeight?: number;
@@ -24,7 +25,7 @@ export const Button = ({
 }: Props) => {
   return (
     <button
-      className={`${styles.button} ${styles[variant]}`}
+      className={clsx(styles.button, styles[variant])}
       onClick={onClick}
       disabled={isDisabled}
       type={type}

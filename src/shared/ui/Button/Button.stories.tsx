@@ -57,10 +57,10 @@ export const Outline: Story = {
   }
 };
 
-export const Custom: Story = {
+export const CustomText: Story = {
   args: {
     children: 'Button',
-    variant: 'buttonCustom',
+    variant: 'buttonText',
     onClick: () => alert('Button Dark clicked!')
   }
 };
