@@ -1,29 +1,23 @@
+@use 'sass:map';
 @import '../../styles/colors';
 @import '../../styles/typography';
 
 .button {
   cursor: pointer;
   outline: none;
-  min-height: 36px;
+  text-align: center;
   padding: 6px 20.5px 6px 20.5px;
   border: 1px solid transparent;
   border-radius: 2px;
   min-width: 182px;
-  $bold-text-16: map-get($text-styles, bold-text-16);
-  font-size: map-get($bold-text-16, size);
-  line-height: map-get($bold-text-16, line);
-  font-weight: map-get($bold-text-16, weight);
+  $bold-text-16: map.get($text-styles, bold-text-16);
+  font-size: map.get($bold-text-16, size);
+  line-height: map.get($bold-text-16, line);
+  font-weight: map.get($bold-text-16, weight);
 
-  transition: border .10s ease-in-out,
-              background-color .10s ease-in-out;
-}
-
-.buttonBig {
-  min-width: 182px;
-}
-
-.buttonSmall {
-  min-width: 100px;
+  transition:
+    border 0.1s ease-in-out,
+    background-color 0.1s ease-in-out;
 }
 
 .buttonPrimary {
@@ -44,6 +38,7 @@
 
   &:disabled {
     background-color: var(--color-accent-900);
+    cursor: not-allowed;
   }
 }
 
@@ -66,10 +61,11 @@
 
   &:disabled {
     background-color: var(--color-dark-500);
+    cursor: not-allowed;
   }
 }
 
-.buttonDark {
+.buttonOutline {
   color: var(--color-accent-500);
   background-color: transparent;
   border: 1px solid var(--color-accent-500);
@@ -92,5 +88,33 @@
   &:disabled {
     color: var(--color-accent-900);
     border: 1px solid var(--color-accent-900);
+    cursor: not-allowed;
+  }
+}
+
+.buttonText {
+  color: var(--color-accent-500);
+  background-color: transparent;
+  border: 1px solid transparent;
+
+  &:hover {
+    color: var(--color-accent-100);
+    border: 1px solid transparent;
+  }
+
+  &:active {
+    color: var(--color-accent-700);
+    border: 1px solid transparent;
+  }
+
+  &:focus-visible {
+    color: var(--color-accent-700);
+    border: 2px solid var(--color-accent-700);
+  }
+
+  &:disabled {
+    color: var(--color-accent-900);
+    border: 1px solid transparent;
+    cursor: not-allowed;
   }
 }

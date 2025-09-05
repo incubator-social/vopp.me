@@ -1,6 +1,11 @@
-import React from 'react';
+'use client';
+
+import React, { useId } from 'react';
 import clsx from 'clsx';
 import styles from './Textarea.module.scss';
+
+type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+type ContainerProps = React.HTMLAttributes<HTMLDivElement>;
 
 type Props = {
   ref?: React.Ref<HTMLTextAreaElement>;
@@ -9,7 +14,8 @@ type Props = {
   resize?: 'none' | 'both' | 'horizontal' | 'vertical';
   containerClassName?: string;
   containerStyle?: React.CSSProperties;
-} & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+  containerProps?: Omit<ContainerProps, 'className' | 'style'>;
+} & TextareaProps;
 
 /**
  * Кастомное текстовое поле с расширенными возможностями стилизации.
@@ -28,9 +34,13 @@ export const Textarea = ({
   className,
   containerClassName,
   containerStyle,
+  containerProps,
   ref,
   ...props
 }: Props) => {
+  const generatedId = useId();
+  const textareaId = props.id || generatedId;
+
   const textareaClasses = clsx(
     styles.textarea,
     styles[`resize${resize.charAt(0).toUpperCase() + resize.slice(1)}`],
@@ -38,18 +48,17 @@ export const Textarea = ({
     disabled && styles.disabled,
     className
   );
-
   return (
-    <div className={clsx(styles.container, containerClassName)} style={containerStyle}>
+    <div className={clsx(styles.container, containerClassName)} style={containerStyle} {...containerProps}>
       {label && (
-        <label htmlFor={props.id} className={clsx(styles.label, disabled && styles.labelDisabled)}>
+        <label htmlFor={textareaId} className={clsx(styles.label, disabled && styles.labelDisabled)}>
           {label}
         </label>
       )}
 
       <textarea
         ref={ref}
-        id={props.id}
+        id={textareaId}
         placeholder={placeholder}
         disabled={disabled}
         className={textareaClasses}

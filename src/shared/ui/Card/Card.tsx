@@ -1,12 +1,11 @@
 'use client';
 
-import clsx from 'clsx';
 import { ReactNode } from 'react';
 import styles from './Card.module.scss';
+import { clsx } from 'clsx';
 
 const Card = ({ children, className }: CardProps) => {
-  const combinedClassName = clsx(styles.card, className);
-  return <div className={combinedClassName}>{children}</div>;
+  return <div className={clsx(styles.card, className)}>{children}</div>;
 };
 
 export default Card;

@@ -21,7 +21,7 @@
   position: relative;
 }
 .item::before {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   width: 36px;
@@ -33,7 +33,10 @@
   z-index: -2;
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: background-color 0.3s ease, opacity 0.3s, ease;
+  transition:
+    background-color 0.3s ease,
+    opacity 0.3s,
+    ease;
 }
 .item:is(:hover, :active, :focus-visible)::before {
   opacity: 1;
@@ -61,7 +64,7 @@
   position: relative;
 }
 .indicator::after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   width: 10px;
@@ -85,4 +88,4 @@
   pointer-events: none;
 }
 
-/*# sourceMappingURL=RadioGroup.module.css.map */
+/*# sourceMappingURL=Scroll.module.css.map */
