@@ -1,6 +1,10 @@
 @import '../../styles/colors';
 @import '../../styles/typography';
 
+/* =========================
+   TRIGGER (кнопка)
+   ========================= */
+
 .trigger {
   display: flex;
   align-items: center;
@@ -15,52 +19,105 @@
     border-color: var(--color-accent-500);
   }
 
-  &[data-disabled] {
+  /* disabled на триггере */
+  &[data-disabled],
+  &:disabled {
     opacity: 0.5;
-
-    &:hover {
-      cursor: not-allowed;
-    }
+    cursor: not-allowed;
   }
 }
 
-.trigger [data-radix-select-icon] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-left: 8px;
-  z-index: 2;
-  position: relative;
-}
-
-.content {
-  overflow-y: auto;
-  border: 1px solid var(--color-light-100);
-  border-radius: 2px;
-  min-width: var(--radix-select-trigger-width);
-  max-height: var(--radix-select-content-available-height);
-}
-
+/* выбранное значение (внутри триггера) */
 .selectedValue {
   display: flex;
   flex: 1;
   align-items: center;
   gap: 8px;
-  min-width: 0;
-  z-index: 0;
+  min-width: 0; /* важно для троеточия */
   position: relative;
+  z-index: 0;
 }
 
-  .selectedText {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+.selectedText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .placeholder {
   color: var(--color-text-placeholder);
 }
+
+.selectedIcon,
+.icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* =========================
+   CONTENT (выпадашка)
+   ========================= */
+
+.content {
+  border: 1px solid var(--color-light-100);
+  border-radius: 2px;
+  min-width: var(--radix-select-trigger-width);
+
+}
+
+/* автоматическая ширина по контенту */
+.autoWidth {
+  width: max-content !important;
+  min-width: max-content !important;
+  max-width: none !important;
+
+  .viewport {
+    width: max-content !important;
+    min-width: 100% !important;
+  }
+
+  .item {
+    width: max-content;
+    min-width: 100%;
+    white-space: nowrap;
+    max-width: none !important;
+  }
+}
+
+/* ширина = ширине триггера */
+.triggerWidth {
+  width: var(--radix-select-trigger-width) !important;
+  min-width: var(--radix-select-trigger-width) !important;
+
+  .item {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* =========================
+   VIEWPORT + SCROLL
+   ========================= */
+
+.content {
+  /* на уровне content определим переменные для удобства настройки */
+  --select-row-h: 36px;            /* высота строки (мин): 8+20+8 = ~36px */
+  --select-visible-rows: 6;        /* сколько строк видно до скролла */
+}
+
+.viewport {
+  max-height: min(
+    var(--radix-select-content-available-height),
+    calc(var(--select-row-h) * var(--select-visible-rows))
+  );
+  width: 100%;
+}
+
+/* =========================
+   ЭЛЕМЕНТЫ СПИСКА
+   ========================= */
 
 .item {
   display: flex;
@@ -71,27 +128,31 @@
   user-select: none;
   outline: none;
 
-  // Состояние hover
+  /* фиксируем минимальную высоту под расчёт row-h */
+  min-height: var(--select-row-h);
+
+  /* Hover/Highlight (Radix) */
   &[data-highlighted] {
     background-color: var(--color-dark-300);
     color: var(--color-accent-500);
   }
 
-  // Состояние focus
+  /* Focus (навигация с клавиатуры) */
   &:focus {
     background-color: var(--color-dark-300);
     color: var(--color-accent-500);
   }
 
-  // Выбранный элемент (когда dropdown открыт)
-  &[data-state="checked"] {
+  /* Выбранный элемент */
+  &[data-state='checked'] {
     background-color: var(--color-dark-300);
     font-weight: 500;
   }
 
-  // Отключенный элемент
+  /* Disabled элемент */
   &[data-disabled] {
     cursor: not-allowed;
+    opacity: 0.6;
   }
 }
 
@@ -105,24 +166,5 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: none !important;
 }
-
-.scrollButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 25px;
-  background: var(--color-light-100);
-  color: var(--color-dark-300);
-  cursor: default;
-
-  &:hover {
-    background-color: var(--color-dark-300);
-  }
-}
-
-.icon {
-  display: block;
-  flex-shrink: 0;
-}
-
