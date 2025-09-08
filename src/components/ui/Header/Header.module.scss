@@ -41,14 +41,12 @@
   height: 100%;
 
   &:has(.bellIcon) {
-    gap: 50px;
+    gap: 45px;
   }
 }
 
 .languageSelect {
   min-width: 80px;
-  display: flex;
-  align-items: center;
   height: 40px;
 }
 

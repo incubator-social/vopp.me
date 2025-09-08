@@ -39,6 +39,19 @@ export const Default: Story = {
     isLoggedIn: false,
     notificationCount: 0
   },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          minHeight: '200px',
+          height: 'auto',
+          overflow: 'hidden'
+        }}
+      >
+        <Story />
+      </div>
+    )
+  ],
   parameters: {
     docs: {
       description: {
@@ -54,6 +67,19 @@ export const LoggedOut: Story = {
     isLoggedIn: false,
     notificationCount: 0
   },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          minHeight: '200px',
+          height: 'auto',
+          overflow: 'hidden' // ← Отключаем скролл
+        }}
+      >
+        <Story />
+      </div>
+    )
+  ],
   parameters: {
     docs: {
       description: {
@@ -68,6 +94,19 @@ export const LoggedInNoNotifications: Story = {
     isLoggedIn: true,
     notificationCount: 0
   },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          minHeight: '200px',
+          height: 'auto',
+          overflow: 'hidden' // ← Отключаем скролл
+        }}
+      >
+        <Story />
+      </div>
+    )
+  ],
   parameters: {
     docs: {
       description: {
@@ -83,6 +122,19 @@ export const LoggedInWithNotifications: Story = {
     isLoggedIn: true,
     notificationCount: 3
   },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          minHeight: '200px',
+          height: 'auto',
+          overflow: 'hidden' // ← Отключаем скролл
+        }}
+      >
+        <Story />
+      </div>
+    )
+  ],
   parameters: {
     docs: {
       description: {
@@ -98,6 +150,19 @@ export const LoggedInWithManyNotifications: Story = {
     isLoggedIn: true,
     notificationCount: 99
   },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          minHeight: '200px',
+          height: 'auto',
+          overflow: 'hidden' // ← Отключаем скролл
+        }}
+      >
+        <Story />
+      </div>
+    )
+  ],
   parameters: {
     docs: {
       description: {
@@ -120,40 +185,6 @@ export const AllStates: Story = {
     docs: {
       description: {
         story: 'Все состояния хедера в одном месте для сравнения.'
-      }
-    }
-  }
-};
-
-export const MobileView: Story = {
-  args: {
-    isLoggedIn: true,
-    notificationCount: 5
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1'
-    },
-    docs: {
-      description: {
-        story: 'Версия хедера для мобильных устройств. Проверьте адаптивность на разных разрешениях.'
-      }
-    }
-  }
-};
-
-export const TabletView: Story = {
-  args: {
-    isLoggedIn: true,
-    notificationCount: 5
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'tablet'
-    },
-    docs: {
-      description: {
-        story: 'Версия хедера для планшетов. Проверьте адаптивность на средних разрешениях.'
       }
     }
   }
