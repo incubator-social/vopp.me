@@ -10,9 +10,23 @@
   align-items: center;
   justify-content: space-between;
   border: 1px solid var(--color-light-100);
-  border-radius: 2px;
   padding: 6px 12px;
   cursor: pointer;
+  background-color: var(--color-dark-500);
+
+  border-radius: 2px;
+
+  /* Когда меню снизу */
+  & ~ [data-radix-popper-content-wrapper][data-side='bottom'] & {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  /* Когда меню сверху */
+  & ~ [data-radix-popper-content-wrapper][data-side='top'] & {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 
   &:focus {
     outline: none;
@@ -60,10 +74,23 @@
 
 .content {
   border: 1px solid var(--color-light-100);
-  border-radius: 2px;
   min-width: var(--radix-select-trigger-width);
 
+  /* По умолчанию - все углы скруглены */
+  border-radius: 2px;
+
+  /* Если меню снизу - скругляем только нижние углы */
+  &[data-side='bottom'] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  /* Если меню сверху - скругляем только верхние углы */
+  &[data-side='top'] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
+  }
 
 /* автоматическая ширина по контенту */
 .autoWidth {
@@ -102,9 +129,8 @@
    ========================= */
 
 .content {
-  /* на уровне content определим переменные для удобства настройки */
-  --select-row-h: 36px;            /* высота строки (мин): 8+20+8 = ~36px */
-  --select-visible-rows: 6;        /* сколько строк видно до скролла */
+  //--select-row-h: 36px;            /* высота строки (мин): 8+20+8 = ~36px */
+  //--select-visible-rows: 6;        /* сколько строк видно до скролла */
 }
 
 .viewport {
@@ -127,13 +153,12 @@
   cursor: pointer;
   user-select: none;
   outline: none;
-
-  /* фиксируем минимальную высоту под расчёт row-h */
-  min-height: var(--select-row-h);
+  background-color: var(--color-dark-500);
 
   /* Hover/Highlight (Radix) */
   &[data-highlighted] {
     background-color: var(--color-dark-300);
+    width: 100%;
     color: var(--color-accent-500);
   }
 

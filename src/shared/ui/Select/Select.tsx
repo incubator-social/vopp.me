@@ -51,6 +51,8 @@ export const Select = ({
   const [open, setOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string | undefined>(defaultValue);
 
+  const isEmpty = options.length === 0;
+
   const selectedValue = value !== undefined ? value : internalValue;
 
   const handleValueChange = (newValue: string) => {
@@ -73,6 +75,23 @@ export const Select = ({
   const DEFAULT_SIZE = { fontSize: 16, iconSize: 24, arrowSize: 24 };
   const iconSize = size?.iconSize ?? DEFAULT_SIZE.iconSize;
   const arrowSize = size?.arrowSize ?? DEFAULT_SIZE.arrowSize;
+
+  if (isEmpty) {
+    return (
+      <div className={clsx(styles.trigger, styles.emptyTrigger)} style={triggerStyles} aria-disabled={true}>
+        <div className={styles.selectedValue}>
+          <span className={styles.placeholder}>{placeholder}</span>
+        </div>
+        <ArrowDown
+          style={{
+            width: arrowSize,
+            height: arrowSize,
+            opacity: 0.5
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <SelectRadix.Root
@@ -128,14 +147,14 @@ export const Select = ({
         <SelectRadix.Content
           className={clsx(styles.content, contentWidth === 'content' ? styles.autoWidth : styles.triggerWidth)}
           position="popper"
-          sideOffset={0}
+          sideOffset={-1}
           align="start"
         >
           <Scroll type={ScrollType.always} viewportAsChild>
             <SelectRadix.Viewport className={styles.viewport}>
               {' '}
               {options.map((option) => (
-                <SelectRadix.Item key={option.value} value={option.value} className={styles.item}>
+                <SelectRadix.Item key={option.value} value={option.value} className={styles.item} style={triggerStyles}>
                   {' '}
                   {option.icon ? (
                     <div className={styles.itemWithIcon}>
