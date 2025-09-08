@@ -96,7 +96,7 @@ const onlyNumber = [
   { value: '5', label: '50' },
   { value: '6', label: '100' },
   { value: '7', label: '1000' },
-  { value: '7', label: '10000' }
+  { value: '8', label: '10000' }
 ];
 
 const optionsWithIcons = [
@@ -135,7 +135,6 @@ export const Default: Story = {
 export const NumbersOptions: Story = {
   args: {
     options: onlyNumber,
-    placeholder: 'Custom sizes...',
     defaultValue: '3',
     size: {
       minWidth: 52,
