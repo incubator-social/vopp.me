@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import * as SelectRadix from '@radix-ui/react-select';
 import styles from './Select.module.scss';
 import clsx from 'clsx';
-import Scroll, { ScrollType } from '@/src/shared/ui/Scroll/Scroll';
 
 type SelectOption = {
   value: string;
@@ -28,10 +27,9 @@ type SizeProps = {
 type SelectProps = {
   options: SelectOption[];
   placeholder?: string;
-  defaultValue?: string;
-  value?: string;
+  value: string;
   disabled?: boolean;
-  onValueChange?: (value: string) => void;
+  onValueChange: (value: string) => void;
   required?: boolean;
   size?: SizeProps;
   contentWidth?: 'content' | 'trigger';
@@ -40,27 +38,16 @@ type SelectProps = {
 export const Select = ({
   options,
   placeholder,
-  defaultValue,
   value,
   onValueChange,
   required = false,
   disabled = false,
   size = { fontSize: 16, iconSize: 24, arrowSize: 24 },
   contentWidth
-}: SelectProps & { value?: string }) => {
+}: SelectProps) => {
   const [open, setOpen] = useState(false);
-  const [internalValue, setInternalValue] = useState<string | undefined>(defaultValue);
-
   const isEmpty = options.length === 0;
-
-  const selectedValue = value !== undefined ? value : internalValue;
-
-  const handleValueChange = (newValue: string) => {
-    onValueChange?.(newValue);
-    setInternalValue(newValue);
-  };
-
-  const selectedOption = options.find((option) => option.value === selectedValue);
+  const selectedOption: SelectOption | undefined = options.find((option: SelectOption) => option.value === value);
 
   const triggerStyles = {
     ...(size?.minWidth && { minWidth: `${size.minWidth}px` }),
@@ -95,9 +82,8 @@ export const Select = ({
 
   return (
     <SelectRadix.Root
-      value={selectedValue}
-      onValueChange={handleValueChange}
-      defaultValue={defaultValue}
+      value={value}
+      onValueChange={onValueChange}
       onOpenChange={setOpen}
       required={required}
       disabled={disabled}
@@ -121,7 +107,7 @@ export const Select = ({
           {selectedOption ? (
             <span className={styles.selectedText}>{selectedOption.label}</span>
           ) : (
-            <SelectRadix.Value placeholder={placeholder} className={styles.placeholder} />
+            <SelectRadix.Value placeholder={placeholder} className={styles.value} />
           )}
         </div>
         <SelectRadix.Icon asChild>
@@ -150,25 +136,20 @@ export const Select = ({
           sideOffset={-1}
           align="start"
         >
-          <Scroll type={ScrollType.always} viewportAsChild>
-            <SelectRadix.Viewport className={styles.viewport}>
-              {' '}
-              {options.map((option) => (
-                <SelectRadix.Item key={option.value} value={option.value} className={styles.item} style={triggerStyles}>
-                  {' '}
-                  {option.icon ? (
-                    <div className={styles.itemWithIcon}>
-                      {' '}
-                      <option.icon width={iconSize} height={iconSize} {...option.iconProps} />{' '}
-                      <SelectRadix.ItemText className={styles.itemText}>{option.label}</SelectRadix.ItemText>{' '}
-                    </div>
-                  ) : (
-                    <SelectRadix.ItemText>{option.label}</SelectRadix.ItemText>
-                  )}{' '}
-                </SelectRadix.Item>
-              ))}{' '}
-            </SelectRadix.Viewport>
-          </Scroll>
+          <SelectRadix.Viewport className={styles.viewport}>
+            {options.map((option) => (
+              <SelectRadix.Item key={option.value} value={option.value} className={styles.item} style={triggerStyles}>
+                {option.icon ? (
+                  <div className={styles.itemWithIcon}>
+                    <option.icon width={iconSize} height={iconSize} {...option.iconProps} />
+                    <SelectRadix.ItemText className={styles.itemText}>{option.label}</SelectRadix.ItemText>
+                  </div>
+                ) : (
+                  <SelectRadix.ItemText>{option.label}</SelectRadix.ItemText>
+                )}
+              </SelectRadix.Item>
+            ))}
+          </SelectRadix.Viewport>
         </SelectRadix.Content>
       </SelectRadix.Portal>
     </SelectRadix.Root>
