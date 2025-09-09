@@ -91,13 +91,13 @@
 
 /* автоматическая ширина по контенту */
 .autoWidth {
-  width: max-content !important;
-  min-width: max-content !important;
-  max-width: none !important;
+  width: max-content;
+  min-width: max-content;
+  max-width: none;
 
   .viewport {
-    width: max-content !important;
-    min-width: 100% !important;
+    width: max-content;
+    min-width: 100%;
   }
 
   .item {
@@ -110,8 +110,8 @@
 
 /* ширина = ширине триггера */
 .triggerWidth {
-  width: var(--radix-select-trigger-width) !important;
-  min-width: var(--radix-select-trigger-width) !important;
+  width: var(--radix-select-trigger-width);
+  min-width: var(--radix-select-trigger-width);
 
   .item {
     width: 100%;
@@ -135,6 +135,7 @@
     var(--radix-select-content-available-height),
     calc(var(--select-row-h) * var(--select-visible-rows))
   );
+  background-color: var(--color-dark-500);
   width: 100%;
 }
 
@@ -150,7 +151,6 @@
   cursor: pointer;
   user-select: none;
   outline: none;
-  background-color: var(--color-dark-500);
 
   /* Hover/Highlight (Radix) */
   &[data-highlighted] {
@@ -169,6 +169,7 @@
   &[data-state='checked'] {
     background-color: var(--color-dark-300);
     font-weight: 500;
+    width: 100%;
   }
 
   /* Disabled элемент */
@@ -188,5 +189,5 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: none !important;
+  max-width: none;
 }
