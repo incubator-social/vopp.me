@@ -6,12 +6,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid var(--color-light-100);
+  border: 1px solid var(--color-dark-100);
   padding: 6px 12px;
   cursor: pointer;
   background-color: var(--color-dark-500);
 
   border-radius: 2px;
+
+  /* Когда меню открыто */
+  &[data-state="open"] {
+    outline: none;
+    border-color: var(--color-light-100);
+  }
 
   /* Когда меню снизу */
   & ~ [data-radix-popper-content-wrapper][data-side='bottom'] & {
