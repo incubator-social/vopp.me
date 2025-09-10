@@ -15,12 +15,6 @@ export const LanguageSelect = ({ className }: LanguageSelectProps) => {
   // Пример с next-i18next:
   // const { i18n } = useTranslation();
   // const currentLanguage = i18n.language;
-  //
-  // const handleLanguageChange = (language: string) => {
-  //   i18n.changeLanguage(language);
-  //   Также можно диспатчить в Redux, если нужно:
-  //   dispatch(setLanguageAction(language));
-  // };
 
   const languageOptions = [
     {

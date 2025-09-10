@@ -7,7 +7,6 @@ const meta = {
   parameters: {
     layout: 'fullscreen'
   },
-  tags: ['autodocs'],
   argTypes: {
     isLoggedIn: {
       control: 'boolean',

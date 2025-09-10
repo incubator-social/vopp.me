@@ -10,31 +10,21 @@ type BellIconProps = {
 };
 
 export const BellIcon = ({ notificationCount = 0, className = '' }: BellIconProps) => {
-  //  ДЛЯ БУДУЩЕЙ REDUX-ИНТЕГРАЦИИ БУДЕТ ПРИБЛИЗИТЕЛЬНО ЭТО
+  // ДЛЯ БУДУЩЕЙ REDUX-ИНТЕГРАЦИИ:
   // 1. Будем брать данные из Redux:
+  // const isLoggedIn = useSelector(selectIsLoggedIn);
   // const notificationCount = useSelector(selectNotificationCount);
-  // const isPanelOpen = useSelector(selectNotificationsPanelOpen);
   // const dispatch = useDispatch();
-  //
-  // 2. Будем использовать actions:
-  // const handleClearNotifications = () => dispatch(clearNotificationsAction());
-  // const handleOpenPanel = () => dispatch(openNotificationsPanelAction());
-  // const handleClosePanel = () => dispatch(closeNotificationsPanelAction());
-  //
-  // 3. Полная логика клика:
-  // const handleClick = () => {
-  //   if (notificationCount > 0) {
-  //     handleClearNotifications(); // очищаем бейдж
-  //   }
-  //   handleOpenPanel(); // открываем панель уведомлений
-  // };
 
-  //Заглушка
+  // Временная заглушка - в будущем будет из Redux
+  const isLoggedIn = true;
+
   const handleClick = () => {
+    if (!isLoggedIn) return; //Не делать ничего если не авторизован
     console.log('Open notifications panel');
   };
 
-  const hasNotifications = notificationCount > 0;
+  const hasNotifications = isLoggedIn && notificationCount > 0;
   const manyNotifications = notificationCount > 9;
 
   return (
@@ -42,6 +32,7 @@ export const BellIcon = ({ notificationCount = 0, className = '' }: BellIconProp
       className={clsx(styles.bellButton, className)}
       onClick={handleClick}
       aria-label={hasNotifications ? `${notificationCount} уведомлений` : 'Нет уведомлений'}
+      disabled={!isLoggedIn}
     >
       <OutlineBellIcon className={styles.bellIcon} />
 
