@@ -6,15 +6,16 @@
   cursor: pointer;
   outline: none;
   text-align: center;
-  padding: 6px 20.5px 6px 20.5px;
+  padding: 6px 20.5px;
   border: 1px solid transparent;
   border-radius: 2px;
   min-width: 182px;
+
   $bold-text-16: map.get($text-styles, bold-text-16);
+
   font-size: map.get($bold-text-16, size);
   line-height: map.get($bold-text-16, line);
   font-weight: map.get($bold-text-16, weight);
-
   transition:
     border 0.1s ease-in-out,
     background-color 0.1s ease-in-out;

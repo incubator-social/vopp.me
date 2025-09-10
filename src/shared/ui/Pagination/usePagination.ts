@@ -9,34 +9,34 @@ const range = (start: number, end: number) => {
 };
 
 export type UsePaginationParams = {
-  count: number; // всего страниц
+  pageCount: number; // всего страниц
   currentPage: number; // текущая (1..count)
   siblings?: number; // кол-во соседей слева/справа
 };
 
 export type PaginationItem = number | typeof DOTS;
 
-export const usePagination = ({ count, currentPage, siblings = 1 }: UsePaginationParams): PaginationItem[] => {
+export const usePagination = ({ pageCount, currentPage, siblings = 1 }: UsePaginationParams): PaginationItem[] => {
   return useMemo(() => {
     // защитимся от странных входов
-    if (count <= 1) return [1];
+    if (pageCount <= 1) return [1];
 
     // first + last + current + 2*siblings + 2*dots
     const totalPageNumbers = 2 * siblings + 5;
 
     // если страниц мало — показываем всё подряд
-    if (totalPageNumbers >= count) {
-      return range(1, count);
+    if (totalPageNumbers >= pageCount) {
+      return range(1, pageCount);
     }
 
     const leftSibling = Math.max(currentPage - siblings, 1);
-    const rightSibling = Math.min(currentPage + siblings, count);
+    const rightSibling = Math.min(currentPage + siblings, pageCount);
 
     const shouldShowLeftDots = leftSibling > 2;
-    const shouldShowRightDots = rightSibling < count - 2;
+    const shouldShowRightDots = rightSibling < pageCount - 2;
 
     const firstPage = 1;
-    const lastPage = count;
+    const lastPage = pageCount;
 
     if (!shouldShowLeftDots && shouldShowRightDots) {
       const leftItemCount = 3 + 2 * siblings;
@@ -46,11 +46,11 @@ export const usePagination = ({ count, currentPage, siblings = 1 }: UsePaginatio
 
     if (shouldShowLeftDots && !shouldShowRightDots) {
       const rightItemCount = 3 + 2 * siblings;
-      const rightRange = range(count - rightItemCount + 1, count);
+      const rightRange = range(pageCount - rightItemCount + 1, pageCount);
       return [firstPage, DOTS, ...rightRange];
     }
 
     const middleRange = range(leftSibling, rightSibling);
     return [firstPage, DOTS, ...middleRange, DOTS, lastPage];
-  }, [count, currentPage, siblings]);
+  }, [pageCount, currentPage, siblings]);
 };
