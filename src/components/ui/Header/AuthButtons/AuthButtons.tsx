@@ -15,7 +15,7 @@ export const AuthButtons = ({ className }: AuthButtonsProps) => {
           Log in
         </Button>
       </Link>
-      <Link href="/register" className={styles.link}>
+      <Link href="/registration" className={styles.link}>
         <Button variant="buttonPrimary" minWidth={100}>
           Sign up
         </Button>
