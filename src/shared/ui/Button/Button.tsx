@@ -16,7 +16,7 @@ type Props = {
   children: ReactNode;
   onClick?: () => void;
   variant?: 'buttonPrimary' | 'buttonSecondary' | 'buttonOutline' | 'buttonText';
-  isDisabled?: boolean;
+  disabled?: boolean;
   size?: SizeProps;
   type?: 'button' | 'submit' | 'reset';
 };
@@ -25,32 +25,25 @@ export const Button = ({
   children,
   onClick,
   variant = 'buttonPrimary',
-  isDisabled = false,
+  disabled = false,
   size = {},
   type = 'button'
 }: Props) => {
-  // Функция для преобразования размеров
-  const getSizeValue = (value: number | string | undefined): string | undefined => {
-    if (value === undefined) return undefined;
-    return typeof value === 'number' ? `${value}px` : value;
-  };
-
   const buttonStyles: CSSProperties = {
-    ...styles,
-    minWidth: getSizeValue(size.minWidth),
-    minHeight: getSizeValue(size.minHeight),
-    maxWidth: getSizeValue(size.maxWidth),
-    maxHeight: getSizeValue(size.maxHeight),
-    width: getSizeValue(size.width),
-    height: getSizeValue(size.height),
-    padding: getSizeValue(size.padding)
+    minWidth: size.minWidth,
+    minHeight: size.minHeight,
+    maxWidth: size.maxWidth,
+    maxHeight: size.maxHeight,
+    width: size.width,
+    height: size.height,
+    padding: size.padding
   };
 
   return (
     <button
       className={clsx(styles.button, styles[variant])}
       onClick={onClick}
-      disabled={isDisabled}
+      disabled={disabled}
       type={type}
       style={buttonStyles}
     >

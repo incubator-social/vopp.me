@@ -21,7 +21,7 @@ const meta = {
 
 ### Props:
 - \`variant\` - вариант стиля: 'buttonPrimary' | 'buttonSecondary' | 'buttonOutline' | 'buttonText'
-- \`isDisabled\` - отключение кнопки
+- \`disabled\` - отключение кнопки
 - \`size\` - объект с размерами:
   - \`minWidth\` / \`maxWidth\` / \`width\` - ширина (число → px, строка → как есть)
   - \`minHeight\` / \`maxHeight\` / \`height\` - высота (число → px, строка → как есть)
@@ -64,7 +64,7 @@ const meta = {
       options: ['buttonPrimary', 'buttonSecondary', 'buttonOutline', 'buttonText'],
       description: 'Тема кнопки'
     },
-    isDisabled: {
+    disabled: {
       control: { type: 'boolean' },
       description: 'Состояние disabled'
     },
@@ -148,7 +148,7 @@ export const Disabled: Story = {
   args: {
     children: 'Button',
     variant: 'buttonPrimary',
-    isDisabled: true,
+    disabled: true,
     onClick: () => alert('Button Dark clicked!')
   }
 };
