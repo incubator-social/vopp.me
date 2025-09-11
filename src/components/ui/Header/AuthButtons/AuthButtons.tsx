@@ -1,25 +1,31 @@
 import { clsx } from 'clsx';
 import { Button } from '@/src/shared/ui/Button/Button';
 import styles from './AuthButtons.module.scss';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 type AuthButtonsProps = {
   className?: string;
 };
 
 export const AuthButtons = ({ className }: AuthButtonsProps) => {
+  const router = useRouter();
+
+  const handleLogin = () => {
+    router.push('/login');
+  };
+
+  const handleSignUp = () => {
+    router.push('/registration');
+  };
+
   return (
     <div className={clsx(styles.authButtons, className)}>
-      <Link href="/login" className={styles.link}>
-        <Button variant="buttonText" minWidth={100}>
-          Log in
-        </Button>
-      </Link>
-      <Link href="/registration" className={styles.link}>
-        <Button variant="buttonPrimary" minWidth={100}>
-          Sign up
-        </Button>
-      </Link>
+      <Button onClick={handleLogin} variant="buttonText" minWidth={100}>
+        Log in
+      </Button>
+      <Button onClick={handleSignUp} variant="buttonPrimary" minWidth={100}>
+        Sign up
+      </Button>
     </div>
   );
 };
