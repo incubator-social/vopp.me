@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Textarea } from '@/src/shared/ui/Textarea/Textarea';
 
 const meta = {

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Tabs } from '@/src/shared/ui/Tabs/Tabs';
 import { TabsItem } from '@/src/shared/ui/Tabs/TabsItem';
 import Icon from '@/src/shared/assets/icons/copy.svg';

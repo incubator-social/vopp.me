@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { Meta, StoryObj } from '@storybook/nextjs';
 import { Button } from './Button';
 import IconFlagRussia from './../../assets/icons/flag-russia.svg';
 import IconGoogle from './../../assets/icons/google-svgrepo-com-1.svg';

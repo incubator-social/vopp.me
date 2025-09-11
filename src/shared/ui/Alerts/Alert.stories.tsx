@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Alert } from '@/src/shared/ui/Alerts/Alert';
 import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
 
