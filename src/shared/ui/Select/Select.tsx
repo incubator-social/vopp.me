@@ -53,20 +53,20 @@ export const Select = ({
 
   const triggerStyles = {
     // Ширина
-    ...(size?.width && { width: typeof size.width === 'number' ? `${size.width}px` : size.width }),
-    ...(size?.minWidth && { minWidth: typeof size.minWidth === 'number' ? `${size.minWidth}px` : size.minWidth }),
-    ...(size?.maxWidth && { maxWidth: typeof size.maxWidth === 'number' ? `${size.maxWidth}px` : size.maxWidth }),
+    width: size?.width,
+    minWidth: size?.minWidth,
+    maxWidth: size?.maxWidth,
 
     // Высота
-    ...(size?.height && { height: typeof size.height === 'number' ? `${size.height}px` : size.height }),
-    ...(size?.minHeight && { minHeight: typeof size.minHeight === 'number' ? `${size.minHeight}px` : size.minHeight }),
-    ...(size?.maxHeight && { maxHeight: typeof size.maxHeight === 'number' ? `${size.maxHeight}px` : size.maxHeight }),
+    height: size?.height,
+    minHeight: size?.minHeight,
+    maxHeight: size?.maxHeight,
 
     // Padding
-    ...(size?.padding && { padding: typeof size.padding === 'number' ? `${size.padding}px` : size.padding }),
+    padding: size?.padding,
 
     // Font Size
-    ...(size?.fontSize && { fontSize: typeof size.fontSize === 'number' ? `${size.fontSize}px` : size.fontSize })
+    fontSize: size?.fontSize
   };
 
   // Размеры иконок
