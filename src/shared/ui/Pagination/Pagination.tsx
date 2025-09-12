@@ -1,8 +1,8 @@
 'use client';
 
-import { FC, KeyboardEvent } from 'react';
+import { KeyboardEvent } from 'react';
 import clsx from 'clsx';
-import { DOTS, PaginationItem, usePagination } from './usePagination';
+import { DOTS, PaginationItem, usePagination } from './model/usePagination';
 import ArrowIosForward from './../../assets/icons/arrow-ios-forward.svg';
 import ArrowIosBack from './../../assets/icons/arrow-ios-back.svg';
 import s from './pagination.module.scss';
@@ -49,6 +49,7 @@ export const Pagination = ({
   const hasPages = paginationRange.length >= 2;
   const isFirst = currentPage <= 1;
   const isLast = currentPage >= pageCount;
+  const defaultPageSize = 10;
 
   const goTo = (p: number) => {
     if (p < 1 || p > pageCount || p === currentPage) return;
@@ -57,6 +58,11 @@ export const Pagination = ({
 
   const onPrev = () => goTo(currentPage - 1);
   const onNext = () => goTo(currentPage + 1);
+
+  const baseShowPerPage = Boolean(perPage !== undefined && perPageOptions?.length && onPerPageChange);
+  const showPerPage = baseShowPerPage && (!hidePerPageWhenSinglePage || pageCount > 1);
+  const perPageSelectOptions = perPageOptions?.map((v) => ({ value: String(v), label: String(v) })) ?? [];
+  const effectivePerPage = perPage ?? perPageOptions?.[0] ?? defaultPageSize;
 
   const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
     switch (e.key) {
@@ -79,13 +85,17 @@ export const Pagination = ({
     }
   };
 
-  const baseShowPerPage = Boolean(perPage !== undefined && perPageOptions?.length && onPerPageChange);
-  const showPerPage = baseShowPerPage && (!hidePerPageWhenSinglePage || pageCount > 1);
-  const perPageSelectOptions = perPageOptions?.map((v) => ({ value: String(v), label: String(v) })) ?? [];
-  const effectivePerPage = perPage ?? perPageOptions?.[0] ?? 10;
-
   // если нет ни страниц для показа, ни селекта — только тогда ничего не рендерим
   if (!hasPages && !showPerPage) return null;
+
+  const selectSize = {
+    minWidth: 52,
+    minHeight: 24,
+    maxHeight: 24,
+    arrowSize: 16,
+    padding: '0 8px',
+    fontSize: 14
+  };
 
   return (
     <div className={clsx(s.container, className)}>
@@ -143,14 +153,7 @@ export const Pagination = ({
             </span>
             <Select
               options={perPageSelectOptions}
-              size={{
-                minWidth: 52,
-                minHeight: 24,
-                maxHeight: 24,
-                arrowSize: 16,
-                padding: '0 8px',
-                fontSize: 14
-              }}
+              size={selectSize}
               contentWidth="trigger"
               value={String(effectivePerPage)}
               onValueChange={(value) => onPerPageChange?.(Number(value))}
