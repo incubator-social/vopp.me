@@ -5,7 +5,6 @@ import ArrowUp from './../../assets/icons/arrow-ios-up.svg';
 import React, { useState } from 'react';
 import * as Select from '@radix-ui/react-select';
 import styles from './Select.module.scss';
-import clsx from 'clsx';
 
 type SelectOption = {
   value: string;

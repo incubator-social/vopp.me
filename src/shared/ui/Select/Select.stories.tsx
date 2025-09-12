@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { Meta, StoryObj } from '@storybook/nextjs';
 import { CustomSelect } from './Select';
 import IconFlagRussia from './../../assets/icons/flag-russia.svg';
 import IconFlagUnitedKingdom from './../../assets/icons/flag-united-kingdom.svg';
