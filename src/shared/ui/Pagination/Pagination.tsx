@@ -27,7 +27,7 @@ export type PaginationProps = {
   onChange: (page: number) => void;
 };
 
-export const Pagination: FC<PaginationProps> = ({
+export const Pagination = ({
   pageCount,
   currentPage,
   onChange,
@@ -44,7 +44,7 @@ export const Pagination: FC<PaginationProps> = ({
   perPageOptions,
   onPerPageChange,
   hidePerPageWhenSinglePage = false
-}) => {
+}: PaginationProps) => {
   const paginationRange = usePagination({ pageCount, currentPage, siblings });
   const hasPages = paginationRange.length >= 2;
   const isFirst = currentPage <= 1;
