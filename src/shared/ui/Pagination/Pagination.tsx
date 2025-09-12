@@ -46,10 +46,6 @@ export const Pagination: FC<PaginationProps> = ({
   hidePerPageWhenSinglePage = false
 }) => {
   const paginationRange = usePagination({ pageCount, currentPage, siblings });
-
-  // if (currentPage === 0 || paginationRange.length < 2) {
-  //   return null;
-  // }
   const hasPages = paginationRange.length >= 2;
   const isFirst = currentPage <= 1;
   const isLast = currentPage >= pageCount;
@@ -159,8 +155,6 @@ export const Pagination: FC<PaginationProps> = ({
               value={String(effectivePerPage)}
               onValueChange={(value) => onPerPageChange?.(Number(value))}
               placeholder={String(effectivePerPage)}
-              // Если добавите поддержку в Select, можно прокинуть:
-              // ariaLabelledBy="pagination-per-page-label"
             />
             <span className={s.selectLabel}>{labels.onPage}</span>
           </div>
