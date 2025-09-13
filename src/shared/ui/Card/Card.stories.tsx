@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { Meta, StoryObj } from '@storybook/nextjs';
 import Card, { CardProps } from './Card';
 
 const meta = {

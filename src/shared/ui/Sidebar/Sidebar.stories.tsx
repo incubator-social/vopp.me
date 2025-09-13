@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { Meta, StoryObj } from '@storybook/nextjs';
 import Sidebar, { SidebarProps } from './Sidebar';
 import { options } from './data';
 
