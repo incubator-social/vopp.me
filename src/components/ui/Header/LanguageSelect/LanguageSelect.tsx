@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import styles from './LanguageSelect.module.scss';
 import FlagRussia from '@/src/shared/assets/icons/flag-russia.svg';
 import FlagUK from '@/src/shared/assets/icons/flag-united-kingdom.svg';
-import { CustomSelect } from '@/src/shared/ui/select/Select';
+import { CustomSelect } from '@/src/shared/ui/Select/Select';
 
 type LanguageSelectProps = {
   className?: string;
