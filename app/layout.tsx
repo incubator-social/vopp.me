@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import '../src/shared/styles/index.scss';
+import StoreProvider from './StoreProvider';
 import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
 
 export const metadata: Metadata = {
@@ -11,7 +12,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <AlertProvider>{children}</AlertProvider>
+        <StoreProvider>
+          <AlertProvider>{children}</AlertProvider>
+        </StoreProvider>
       </body>
     </html>
   );
