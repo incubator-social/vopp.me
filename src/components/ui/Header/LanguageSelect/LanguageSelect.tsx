@@ -8,6 +8,18 @@ type LanguageSelectProps = {
   className?: string;
 };
 
+const LANGUAGE_OPTIONS = [
+  { value: 'en', label: 'English', icon: FlagUK },
+  { value: 'ru', label: 'Русский', icon: FlagRussia }
+];
+
+export const SELECT_SIZES = {
+  width: 160,
+  height: 36,
+  fontSize: 16,
+  arrowSize: 20
+};
+
 export const LanguageSelect = ({ className }: LanguageSelectProps) => {
   // ДЛЯ БУДУЩЕЙ ИНТЕГРАЦИИ:
   // Будем использовать библиотеку для i18n (например, i18next или next-i18next)
@@ -15,19 +27,6 @@ export const LanguageSelect = ({ className }: LanguageSelectProps) => {
   // Пример с next-i18next:
   // const { i18n } = useTranslation();
   // const currentLanguage = i18n.language;
-
-  const languageOptions = [
-    {
-      value: 'en',
-      label: 'English',
-      icon: FlagUK
-    },
-    {
-      value: 'ru',
-      label: 'Русский',
-      icon: FlagRussia
-    }
-  ];
 
   const handleLanguageChange = (value: string) => {
     console.log('Selected language:', value);
@@ -37,16 +36,11 @@ export const LanguageSelect = ({ className }: LanguageSelectProps) => {
   return (
     <div className={clsx(styles.languageSelect, className)}>
       <CustomSelect
-        options={languageOptions}
+        options={LANGUAGE_OPTIONS}
         defaultValue="en"
         placeholder="Select language"
         onValueChange={handleLanguageChange}
-        size={{
-          width: 160,
-          height: 36,
-          fontSize: 16,
-          arrowSize: 20
-        }}
+        size={SELECT_SIZES}
       />
     </div>
   );

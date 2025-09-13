@@ -5,6 +5,9 @@
   height: 60px;
   display: flex;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .container {
@@ -40,24 +43,7 @@
   margin-right: 60px;
   height: 100%;
 
-  &:has(.bellIcon) {
+  &:has([data-component="bell-icon"]) {
     gap: 45px;
   }
-}
-
-.languageSelect {
-  min-width: 80px;
-  height: 40px;
-}
-
-.bellIcon {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  margin-right: 4px;
-}
-.authButtonWrapper {
-  display: flex;
-  align-items: center;
-  height: 36px; 
 }

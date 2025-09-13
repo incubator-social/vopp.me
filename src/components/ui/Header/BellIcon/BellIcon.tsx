@@ -9,6 +9,8 @@ type BellIconProps = {
   className?: string;
 };
 
+const MAX_DIGIT_NOTIFICATIONS = 9;
+
 export const BellIcon = ({ notificationCount = 0, className = '' }: BellIconProps) => {
   // ДЛЯ БУДУЩЕЙ REDUX-ИНТЕГРАЦИИ:
   // 1. Будем брать данные из Redux:
@@ -25,16 +27,17 @@ export const BellIcon = ({ notificationCount = 0, className = '' }: BellIconProp
   };
 
   const hasNotifications = isLoggedIn && notificationCount > 0;
-  const manyNotifications = notificationCount > 9;
+  const manyNotifications = notificationCount > MAX_DIGIT_NOTIFICATIONS;
 
   return (
     <button
       className={clsx(styles.bellButton, className)}
+      data-component="bell-icon"
       onClick={handleClick}
       aria-label={hasNotifications ? `${notificationCount} уведомлений` : 'Нет уведомлений'}
       disabled={!isLoggedIn}
     >
-      <OutlineBellIcon className={styles.bellIcon} />
+      <OutlineBellIcon className={styles.bellSvgIcon} />
 
       {hasNotifications && (
         <span className={clsx(styles.notificationBadge, { [styles.manyNotifications]: manyNotifications })}>

@@ -21,17 +21,21 @@ export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProp
     <header className={styles.header}>
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
-          {'VOPP.ME'}
+          VOPP.ME
         </Link>
         <div className={styles.rightSection}>
           {isLoggedIn ? (
-            <>
-              <LanguageSelect className={styles.languageSelect} />
-              <BellIcon notificationCount={notificationCount} className={styles.bellIcon} />
-            </>
+            notificationCount > 0 ? (
+              <>
+                <BellIcon notificationCount={notificationCount} />
+                <LanguageSelect />
+              </>
+            ) : (
+              <LanguageSelect />
+            )
           ) : (
             <>
-              <LanguageSelect className={styles.languageSelect} />
+              <LanguageSelect />
               <AuthButtons />
             </>
           )}
