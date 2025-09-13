@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Meta } from '@storybook/nextjs-vite';
+import { Meta } from '@storybook/nextjs';
 import { Select } from './Select';
 import IconFlagRussia from './../../assets/icons/flag-russia.svg';
 import IconFlagUnitedKingdom from './../../assets/icons/flag-united-kingdom.svg';
