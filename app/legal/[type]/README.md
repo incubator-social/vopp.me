@@ -1,26 +1,34 @@
-flowchart TD
-
-subgraph Build["next build"]
-  A1[Start build] --> A2[Импорт app/legal/[type]/page.tsx]
-  A2 --> A3[dynamic = 'force-static']
-  A3 --> A4[Вызов generateStaticParams()]
-  A4 -->|возвращает terms, privacy| A5{Для каждого type}
-  A5 --> A6[Page({params})]
-  A6 --> A7[readHtml(type) читает файл из content/legal]
-  A7 -->|файл есть| A8[Генерация HTML]
-  A7 -->|файла нет| A9[notFound() → 404]
-  A8 --> A10[.next/legal/terms/index.html]
-  A8 --> A11[.next/legal/privacy/index.html]
-end
-
-subgraph Runtime["Запрос в браузере"]
-  R1[GET /legal/terms] --> R2{Статическая страница есть?}
-  R2 -->|Да| R3[Отдаём готовый HTML из .next/]
-  R2 -->|Нет| R4[404]
-end
-
-subgraph Errors["Ошибочные кейсы"]
-  E1[/legal/unknown/] --> E2[Нет в generateStaticParams → 404]
-  E3[Файл terms.html удалён] --> E4[readHtml → null → 404 при билде]
-  E5[SVG не найден] --> E6[Module not found → ошибка сборки]
-end
+[Start build]
+   │
+   │ 1) Импорт модуля app/legal/[type]/page.tsx
+   │
+   ├─▶ 2) Читает экспорт:
+   │      export const dynamic = 'force-static'
+   │      → страница должна быть сгенерирована статически
+   │
+   ├─▶ 3) Вызывает generateStaticParams()
+   │      → возвращает [{ type: 'terms' }, { type: 'privacy' }]
+   │
+   ├─▶ 4) Для каждого type:
+   │      ┌───────────────────────────────────────────────┐
+   │      │ a) Рендерит Page({ params: { type } })        │
+   │      │    • внутри Page() вызывается readHtml(type)  │
+   │      │    • читает файл: src/shared/content/legal/   │
+   │      │      └── terms.html / privacy.html            │
+   │      │    • если файла нет → notFound() → 404 HTML   │
+   │      └───────────────────────────────────────────────┘
+   │
+   ├─▶ 5) Складывает результат в .next/ (статические артефакты):
+   │      • /legal/terms/index.html
+   │      • /legal/privacy/index.html
+   │      • бандл JS/CSS, спрайт иконок/инлайн SVG
+   │
+[Build done]
+Рантайм (production / dev)
+[Запрос: GET /legal/terms]
+   │
+   ├─▶ 1) Next проверяет: страница статическая? Да.
+   │
+   ├─▶ 2) Отдаёт готовый HTML (+ нужные ассеты)
+   │
+   └─▶ 3) Гидратация на клиенте (если есть интерактив)
