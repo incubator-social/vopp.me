@@ -166,6 +166,7 @@ NumbersOptions.parameters = {
 
 export const DisabledSelect = () => {
   const [selected, setSelected] = useState('');
+
   return (
     <div>
       <Select
