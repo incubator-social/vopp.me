@@ -20,7 +20,7 @@ export type HeaderProps = {
 export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProps) => {
   const pathname = usePathname();
 
-  const isAuthPage = pathname === '/login' || pathname === '/registration';
+  const isAuthPage = pathname.startsWith('/auth/sign-in') || pathname.startsWith('/auth/sign-up');
 
   const shouldShowAuthButtons = !isLoggedIn && !isAuthPage;
 

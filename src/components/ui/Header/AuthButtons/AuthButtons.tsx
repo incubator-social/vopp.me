@@ -11,11 +11,11 @@ export const AuthButtons = ({ className }: AuthButtonsProps) => {
   const router = useRouter();
 
   const handleLogin = () => {
-    router.push('/login');
+    router.push('/auth/sign-in');
   };
 
   const handleSignUp = () => {
-    router.push('/registration');
+    router.push('/auth/sign-up');
   };
 
   return (
