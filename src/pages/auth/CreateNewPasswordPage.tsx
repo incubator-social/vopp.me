@@ -1,12 +1,10 @@
 import { CreateNewPasswordForm } from '@/src/features/auth/reset-confirm/ui/CreateNewPasswordForm';
 import Card from '@/src/shared/ui/Card/Card';
 
-type Props = { token?: string };
-
-export default function CreateNewPasswordPage({ token }: Props) {
+export default function CreateNewPasswordPage() {
   return (
     <Card>
-      <CreateNewPasswordForm token={token} />
+      <CreateNewPasswordForm />
     </Card>
   );
 }
