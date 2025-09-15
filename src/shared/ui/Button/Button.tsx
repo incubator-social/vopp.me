@@ -1,15 +1,23 @@
 import styles from './Button.module.scss';
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import clsx from 'clsx';
+
+type SizeProps = {
+  minWidth?: number | string;
+  minHeight?: number | string;
+  maxWidth?: number | string;
+  maxHeight?: number | string;
+  width?: number | string;
+  height?: number | string;
+  padding?: string | number;
+};
 
 type Props = {
   children: ReactNode;
   onClick?: () => void;
   variant?: 'buttonPrimary' | 'buttonSecondary' | 'buttonOutline' | 'buttonText';
-  isDisabled?: boolean;
-  minWidth?: number;
-  minHeight?: number;
-  padding?: string;
+  disabled?: boolean;
+  size?: SizeProps;
   type?: 'button' | 'submit' | 'reset';
 };
 
@@ -17,19 +25,27 @@ export const Button = ({
   children,
   onClick,
   variant = 'buttonPrimary',
-  isDisabled = false,
-  minWidth,
-  minHeight,
-  padding,
+  disabled = false,
+  size = {},
   type = 'button'
 }: Props) => {
+  const buttonStyles: CSSProperties = {
+    minWidth: size.minWidth,
+    minHeight: size.minHeight,
+    maxWidth: size.maxWidth,
+    maxHeight: size.maxHeight,
+    width: size.width,
+    height: size.height,
+    padding: size.padding
+  };
+
   return (
     <button
       className={clsx(styles.button, styles[variant])}
       onClick={onClick}
-      disabled={isDisabled}
+      disabled={disabled}
       type={type}
-      style={{ minWidth: minWidth, minHeight: minHeight, padding: `${padding}` }}
+      style={buttonStyles}
     >
       {children}
     </button>

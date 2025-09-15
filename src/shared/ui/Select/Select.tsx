@@ -14,12 +14,14 @@ type SelectOption = {
 };
 
 type SizeProps = {
-  minWidth?: number;
-  maxWidth?: number;
-  minHeight?: number;
-  maxHeight?: number;
-  padding?: string;
-  fontSize?: number;
+  minWidth?: number | string;
+  maxWidth?: number | string;
+  width?: number | string;
+  minHeight?: number | string;
+  maxHeight?: number | string;
+  height?: number | string;
+  padding?: number | string;
+  fontSize?: number | string;
   iconSize?: number;
   arrowSize?: number;
 };
@@ -50,12 +52,21 @@ export const Select = ({
   const selectedOption: SelectOption | undefined = options.find((option: SelectOption) => option.value === value);
 
   const triggerStyles = {
-    ...(size?.minWidth && { minWidth: `${size.minWidth}px` }),
-    ...(size?.maxWidth && { maxWidth: `${size.maxWidth}px` }),
-    ...(size?.minHeight && { height: `${size.minHeight}px` }),
-    ...(size?.maxHeight && { height: `${size.maxHeight}px` }),
-    ...(size?.fontSize && { fontSize: `${size.fontSize}px` }),
-    ...(size?.padding && { padding: `${size.padding}` })
+    // Ширина
+    width: size?.width,
+    minWidth: size?.minWidth,
+    maxWidth: size?.maxWidth,
+
+    // Высота
+    height: size?.height,
+    minHeight: size?.minHeight,
+    maxHeight: size?.maxHeight,
+
+    // Padding
+    padding: size?.padding,
+
+    // Font Size
+    fontSize: size?.fontSize
   };
 
   // Размеры иконок
@@ -65,7 +76,7 @@ export const Select = ({
 
   if (isEmpty) {
     return (
-      <div className={clsx(styles.trigger, styles.emptyTrigger)} style={triggerStyles} aria-disabled={true}>
+      <div className={styles.trigger} style={triggerStyles} aria-disabled={true}>
         <div className={styles.selectedValue}>
           <span className={styles.placeholder}>{placeholder}</span>
         </div>
@@ -107,7 +118,7 @@ export const Select = ({
           {selectedOption ? (
             <span className={styles.selectedText}>{selectedOption.label}</span>
           ) : (
-            <SelectRadix.Value placeholder={placeholder} className={styles.value} />
+            <SelectRadix.Value placeholder={placeholder} />
           )}
         </div>
         <SelectRadix.Icon asChild>

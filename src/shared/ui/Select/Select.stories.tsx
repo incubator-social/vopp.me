@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Meta } from '@storybook/nextjs-vite';
+import { Meta } from '@storybook/nextjs';
 import { Select } from './Select';
 import IconFlagRussia from './../../assets/icons/flag-russia.svg';
 import IconFlagUnitedKingdom from './../../assets/icons/flag-united-kingdom.svg';
@@ -16,7 +16,7 @@ const meta = {
 
 ### Основные возможности:
 - ✅ Выпадающий список с текстовыми иконками
-- 🎛️ Гибкая настройка размеров через параметры size
+- 🎛️ Гибкая настройка размеров через параметры size (числа и строки)
 - 📏 Контроль ширины контента: по триггеру или по содержимому
 - 🖱️ Поддержка состояния disabled 
 - 🎨 Кастомизация иконок для каждой опции
@@ -36,12 +36,12 @@ const meta = {
 - \`disabled\` - отключение компонента
 - \`required\` - обязательность выбора
 - \`size\` - объект с настройками размеров:
-  - minWidth/maxWidth - минимальная/максимальная ширина
-  - minHeight/maxHeight - минимальная/максимальная высота
-  - padding - внутренние отступы
-  - fontSize - размер текста
-  - iconSize - размер иконок опций
-  - arrowSize - размер стрелки раскрытия
+  - \`width\` / \`minWidth\` / \`maxWidth\` - ширина (число → px, строка → как есть)
+  - \`height\` / \`minHeight\` / \`maxHeight\` - высота (число → px, строка → как есть)
+  - \`padding\` - внутренние отступы (число → px, строка → как есть)
+  - \`fontSize\` - размер текста (число → px, строка → как есть)
+  - iconSize - размер иконок опций (числа)
+  - arrowSize - размер стрелки раскрытия (числа)
 - \`contentWidth\` - контроль ширины выпадающего списка:
   - 'trigger' - ширина как у триггера (по умолчанию)
   - 'content' - ширина по содержимому
@@ -166,21 +166,11 @@ NumbersOptions.parameters = {
 
 export const DisabledSelect = () => {
   const [selected, setSelected] = useState('');
-
-  const selectSize = {
-    minWidth: 52,
-    minHeight: 24,
-    maxHeight: 24,
-    arrowSize: 16,
-    padding: '0 8px',
-    fontSize: 14
-  };
   return (
     <div>
       <Select
         disabled={true}
         options={defaultOptions}
-        size={selectSize}
         placeholder={'Select is disabled'}
         value={selected}
         onValueChange={setSelected}
@@ -204,12 +194,7 @@ export const EmptyOptions = () => {
 
   return (
     <div>
-      <Select
-        options={defaultOptions}
-        placeholder={'No options available...'}
-        value={selected}
-        onValueChange={setSelected}
-      />
+      <Select options={[]} placeholder={'No options...'} value={selected} onValueChange={setSelected} />
     </div>
   );
 };
@@ -338,6 +323,104 @@ LongOptions.parameters = {
   docs: {
     description: {
       story: `Селект с длинными и короткими текстовыми опциями`
+    }
+  }
+};
+
+// Строковые и числовые размеры
+export const WithStringSizes = () => {
+  const [selected, setSelected] = useState('1');
+
+  const selectSize = {
+    width: '100%',
+    minWidth: '200px',
+    maxWidth: '400px',
+    height: '48px',
+    padding: '12px 16px',
+    fontSize: '1rem',
+    iconSize: 24,
+    arrowSize: 24
+  };
+
+  return (
+    <div style={{ width: '400px' }}>
+      <Select
+        options={defaultOptions}
+        size={selectSize}
+        placeholder={'Select with string sizes...'}
+        value={selected}
+        onValueChange={setSelected}
+      />
+    </div>
+  );
+};
+
+WithStringSizes.parameters = {
+  docs: {
+    description: {
+      story: `Селект с размерами, заданными строковыми значениями. Поддерживаются любые CSS-единицы измерения.
+
+**Используемые форматы:**
+- \`width: '100%'\` - процентная ширина
+- \`minWidth: '200px'\` - минимальная ширина в пикселях
+- \`maxWidth: '400px'\` - максимальная ширина в пикселях
+- \`height: '48px'\` - высота в пикселях
+- \`padding: '12px 16px'\` - комплексный padding
+- \`fontSize: '1rem'\` - относительные единицы (rem)
+- \`iconSize: 24\` - размер иконок в  числах
+- \`arrowSize: 24\` - размер стрелки в числах
+
+**Также поддерживаются:**
+- \`vw\` / \`vh\` - проценты от viewport
+- \`em\` / \`rem\` - относительные единицы
+- \`auto\` / \`fit-content\` - автоматические размеры
+- \`clamp()\` / \`min()\` / \`max()\` - CSS-функции`
+    }
+  }
+};
+
+// Адаптивные размеры
+export const ResponsiveSizes = () => {
+  const [selected, setSelected] = useState('1');
+
+  const selectSize = {
+    width: '100%',
+    minWidth: 'min-content',
+    maxWidth: '500px',
+    height: 'clamp(40px, 5vh, 60px)',
+    padding: 'clamp(8px, 2vw, 16px)',
+    fontSize: 'clamp(0.875rem, 2vw, 1rem)',
+    iconSize: 24,
+    arrowSize: 24
+  };
+
+  return (
+    <div style={{ width: '100%', maxWidth: '600px' }}>
+      <Select
+        options={defaultOptions}
+        size={selectSize}
+        placeholder={'Responsive select...'}
+        value={selected}
+        onValueChange={setSelected}
+      />
+    </div>
+  );
+};
+
+ResponsiveSizes.parameters = {
+  docs: {
+    description: {
+      story: `Адаптивный селект с использованием CSS-функции \`clamp()\` для плавного изменения размеров в зависимости от размера viewport.
+
+**Преимущества адаптивного подхода:**
+- Плавное масштабирование на разных устройствах
+- Контроль минимальных и максимальных значений
+- Единая система отзывчивого дизайна
+
+**Используемые CSS-функции:**
+- \`clamp(min, preferred, max)\` - значение между min и max
+- \`vw\` / \`vh\` - проценты от viewport для адаптивности
+- \`min-content\` - минимальная ширина по содержимому`
     }
   }
 };
