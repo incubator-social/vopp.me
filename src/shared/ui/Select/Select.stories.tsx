@@ -167,20 +167,11 @@ NumbersOptions.parameters = {
 export const DisabledSelect = () => {
   const [selected, setSelected] = useState('');
 
-  const selectSize = {
-    minWidth: 52,
-    minHeight: 24,
-    maxHeight: 24,
-    arrowSize: 16,
-    padding: '0 8px',
-    fontSize: 14
-  };
   return (
     <div>
       <Select
         disabled={true}
         options={defaultOptions}
-        size={selectSize}
         placeholder={'Select is disabled'}
         value={selected}
         onValueChange={setSelected}
@@ -204,12 +195,7 @@ export const EmptyOptions = () => {
 
   return (
     <div>
-      <Select
-        options={defaultOptions}
-        placeholder={'No options available...'}
-        value={selected}
-        onValueChange={setSelected}
-      />
+      <Select options={[]} placeholder={'No options...'} value={selected} onValueChange={setSelected} />
     </div>
   );
 };
