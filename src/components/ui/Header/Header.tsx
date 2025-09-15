@@ -5,6 +5,7 @@ import styles from './Header.module.scss';
 import { LanguageSelect } from '@/src/components/ui/Header/LanguageSelect/LanguageSelect';
 import { BellIcon } from './BellIcon/BellIcon';
 import { AuthButtons } from '@/src/components/ui/Header/AuthButtons/AuthButtons';
+import { usePathname } from 'next/navigation';
 
 export type HeaderProps = {
   isLoggedIn?: boolean;
@@ -17,6 +18,12 @@ export type HeaderProps = {
 // const notificationCount = useSelector(selectNotificationCount);
 
 export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProps) => {
+  const pathname = usePathname();
+
+  const isAuthPage = pathname === '/login' || pathname === '/registration';
+
+  const shouldShowAuthButtons = !isLoggedIn && !isAuthPage;
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -36,7 +43,7 @@ export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProp
           ) : (
             <>
               <LanguageSelect />
-              <AuthButtons />
+              {shouldShowAuthButtons && <AuthButtons />}
             </>
           )}
         </div>
