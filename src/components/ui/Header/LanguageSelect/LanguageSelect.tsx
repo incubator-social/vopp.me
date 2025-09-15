@@ -2,7 +2,8 @@ import { clsx } from 'clsx';
 import styles from './LanguageSelect.module.scss';
 import FlagRussia from '@/src/shared/assets/icons/flag-russia.svg';
 import FlagUK from '@/src/shared/assets/icons/flag-united-kingdom.svg';
-import { CustomSelect } from '@/src/shared/ui/Select/Select';
+import { Select } from '@/src/shared/ui/Select/Select';
+import { useState } from 'react';
 
 type LanguageSelectProps = {
   className?: string;
@@ -21,6 +22,7 @@ export const SELECT_SIZES = {
 };
 
 export const LanguageSelect = ({ className }: LanguageSelectProps) => {
+  const [currentLanguage, setCurrentLanguage] = useState('en');
   // ДЛЯ БУДУЩЕЙ ИНТЕГРАЦИИ:
   // Будем использовать библиотеку для i18n (например, i18next или next-i18next)
   //
@@ -29,15 +31,16 @@ export const LanguageSelect = ({ className }: LanguageSelectProps) => {
   // const currentLanguage = i18n.language;
 
   const handleLanguageChange = (value: string) => {
+    setCurrentLanguage(value);
     console.log('Selected language:', value);
     // В будущем: i18n.changeLanguage(value);
   };
 
   return (
     <div className={clsx(styles.languageSelect, className)}>
-      <CustomSelect
+      <Select
         options={LANGUAGE_OPTIONS}
-        defaultValue="en"
+        value={currentLanguage}
         placeholder="Select language"
         onValueChange={handleLanguageChange}
         size={SELECT_SIZES}

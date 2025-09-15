@@ -7,7 +7,6 @@
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 1000;
 }
 
 .container {
@@ -43,6 +42,9 @@
   margin-right: 60px;
   height: 100%;
 
+  /* Добавьте это */
+  position: relative;
+  z-index: auto; /* Сброс z-index */
   &:has([data-component="bell-icon"]) {
     gap: 45px;
   }
