@@ -15,13 +15,14 @@ const signUpSchema = z
     email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
     password: z.string().min(6, 'Minimum number of characters is 6'),
     passwordConfirmation: z.string(),
-    agree: z.boolean()
+    agree: z.boolean() // убираем .default(false) - делаем обязательным
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "Passwords don't match",
     path: ['passwordConfirmation']
   });
 
+// Тип для данных формы
 type FormValues = z.infer<typeof signUpSchema>;
 
 export const SignUpForm = () => {
@@ -42,6 +43,7 @@ export const SignUpForm = () => {
 
   const onSubmit = (data: FormValues) => {
     console.log('Form data:', data);
+    // Здесь потом будет отправка на бэкенд
   };
 
   return (
