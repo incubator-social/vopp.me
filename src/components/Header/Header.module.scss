@@ -42,9 +42,6 @@
   margin-right: 60px;
   height: 100%;
 
-  /* Добавьте это */
-  position: relative;
-  z-index: auto; /* Сброс z-index */
   &:has([data-component="bell-icon"]) {
     gap: 45px;
   }

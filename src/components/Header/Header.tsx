@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import styles from './Header.module.scss';
-import { LanguageSelect } from '@/src/components/ui/Header/LanguageSelect/LanguageSelect';
-import { BellIcon } from './BellIcon/BellIcon';
-import { AuthButtons } from '@/src/components/ui/Header/AuthButtons/AuthButtons';
+import { LanguageSelect } from '@/src/components/Header/LanguageSelect/LanguageSelect';
+import { BellIcon } from '@/src/components/Header/BellIcon/BellIcon';
+import { AuthButtons } from '@/src/components/Header/AuthButtons/AuthButtons';
 import { usePathname } from 'next/navigation';
 
 export type HeaderProps = {
@@ -23,29 +23,18 @@ export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProp
   const isAuthPage = pathname.startsWith('/auth/sign-in') || pathname.startsWith('/auth/sign-up');
 
   const shouldShowAuthButtons = !isLoggedIn && !isAuthPage;
+  const shouldShowBell = isLoggedIn && notificationCount > 0;
 
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <Link href="/" className={styles.logo}>
+        <Link href="/public" className={styles.logo}>
           VOPP.ME
         </Link>
         <div className={styles.rightSection}>
-          {isLoggedIn ? (
-            notificationCount > 0 ? (
-              <>
-                <BellIcon notificationCount={notificationCount} />
-                <LanguageSelect />
-              </>
-            ) : (
-              <LanguageSelect />
-            )
-          ) : (
-            <>
-              <LanguageSelect />
-              {shouldShowAuthButtons && <AuthButtons />}
-            </>
-          )}
+          {shouldShowBell && <BellIcon notificationCount={notificationCount} />}
+          <LanguageSelect />
+          {shouldShowAuthButtons && <AuthButtons />}
         </div>
       </div>
     </header>
