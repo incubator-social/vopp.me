@@ -27,13 +27,11 @@ export default function SignUpPage() {
             </div>
           </div>
 
-          {/* Форма регистрации */}
           <SignUpForm />
 
-          {/* Ссылка на вход */}
           <div className={styles.signInSection}>
             <span className={styles.signInText}>Do you have an account?</span>
-            <a href="/auth/sign-in" className={styles.signInLink}>
+            <a href="/login" className={styles.signInLink}>
               Sign In
             </a>
           </div>
