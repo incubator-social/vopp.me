@@ -17,6 +17,7 @@ module.exports = {
       }
     ],
     'no-duplicate-selectors': null,
-    'no-descending-specificity': null
+    'no-descending-specificity': null,
+    'selector-class-pattern': '^(?:[a-z][a-z0-9-]*|[a-z][a-zA-Z0-9]*)$'
   }
 };
