@@ -1,0 +1,94 @@
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.container {
+  width: 100%;
+  max-width: 378px;
+  margin: 0 auto;
+}
+
+.card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-family: var(--font-family-primary);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 36px;
+  text-align: center;
+  color: var(--color-light-100);
+  margin: -1px 0 13px 0;
+  width: 100%;
+}
+
+.oauthSection {
+  margin-bottom: 24px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.oauthContainer {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.oauthButton {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--color-dark-300);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-dark-400);
+  }
+}
+
+.oauthIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-light-100);
+}
+
+.signInSection {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-dark-300);
+  width: 100%;
+}
+
+.signInText {
+  font-size: 14px;
+  color: var(--color-light-900);
+  margin-right: 8px;
+}
+
+.signInLink {
+  font-size: 14px;
+  color: var(--color-accent-500);
+  text-decoration: none;
+  font-weight: 600;
+
+  &:hover {
+    color: var(--color-accent-300);
+    text-decoration: underline;
+  }
+}
