@@ -27,15 +27,15 @@
   line-height: 36px;
   text-align: center;
   color: var(--color-light-100);
-  margin: -1px 0 13px 0;
+  margin: -1px 0 13px 0; // Уменьшаем только верхний отступ!
   width: 100%;
 }
 
 .oauthSection {
-  margin-bottom: 24px;
   width: 100%;
   display: flex;
   justify-content: center;
+  padding: 0 24px 24px 24px; // 0 сверху, 24px по бокам, 24px снизу
 }
 
 .oauthContainer {
@@ -67,12 +67,17 @@
   color: var(--color-light-100);
 }
 
+.formContainer {
+  width: 100%;
+  padding: 0 24px; // 0 сверху/снизу, 24px по бокам
+}
+
 .signInSection {
   text-align: center;
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid var(--color-dark-300);
   width: 100%;
+  padding: 24px 24px 0 24px; // 24px сверху, 24px по бокам, 0 снизу
+  margin-top: 24px;
+  border-top: 1px solid var(--color-dark-300);
 }
 
 .signInText {
