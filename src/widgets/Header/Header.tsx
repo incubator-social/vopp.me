@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import styles from './Header.module.scss';
-import { LanguageSelect } from '@/src/components/Header/LanguageSelect/LanguageSelect';
-import { BellIcon } from '@/src/components/Header/BellIcon/BellIcon';
-import { AuthButtons } from '@/src/components/Header/AuthButtons/AuthButtons';
+import { LanguageSelect } from '@/src/widgets/Header/LanguageSelect/LanguageSelect';
+import { BellIcon } from '@/src/widgets/Header/BellIcon/BellIcon';
+import { AuthButtons } from '@/src/widgets/Header/AuthButtons/AuthButtons';
 import { usePathname } from 'next/navigation';
 
 export type HeaderProps = {
