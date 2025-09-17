@@ -5,5 +5,5 @@ export type ForgotPasswordFormValues = {
 };
 
 export const forgotPasswordSchema = z.object({
-  email: z.string().email('Введите корректный email')
+  email: z.string().email('Please enter a valid email')
 });
