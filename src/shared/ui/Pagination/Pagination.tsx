@@ -6,7 +6,7 @@ import { DOTS, PaginationItem, usePagination } from './model/usePagination';
 import ArrowIosForward from './../../assets/icons/arrow-ios-forward.svg';
 import ArrowIosBack from './../../assets/icons/arrow-ios-back.svg';
 import s from './pagination.module.scss';
-import { Select } from '../Select/Select';
+import { Select } from '@/src/shared/ui/Select/Select';
 
 export type PaginationProps = {
   pageCount: number;
