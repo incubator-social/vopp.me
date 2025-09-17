@@ -1,0 +1,15 @@
+.oauthContainer {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 24px;
+}
+
+.oauthButton {
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
