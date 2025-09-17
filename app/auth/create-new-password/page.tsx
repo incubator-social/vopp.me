@@ -1,5 +1,5 @@
-import CreateNewPasswordPage from '@/src/pages/auth/CreateNewPasswordPage';
+import { CreateNewPasswordForm } from '@/src/features/auth/reset-confirm/ui/CreateNewPasswordForm';
 
 export default function Page() {
-  return <CreateNewPasswordPage />;
+  return <CreateNewPasswordForm />;
 }
