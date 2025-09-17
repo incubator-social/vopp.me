@@ -4,6 +4,7 @@ import { SignUpForm } from '@/src/features/auth/sign-up/ui/SignUpForm';
 import Card from '@/src/shared/ui/Card/Card';
 import GithubIcon from '@/src/shared/assets/icons/github-svgrepo-com.svg';
 import GoogleIcon from '@/src/shared/assets/icons/google-svgrepo-com-1.svg';
+import { Button } from '@/src/shared/ui/Button/Button';
 
 import styles from './SignUpPage.module.scss';
 
@@ -31,9 +32,13 @@ export default function SignUpPage() {
 
           <div className={styles.signInSection}>
             <span className={styles.signInText}>Do you have an account?</span>
-            <a href="/login" className={styles.signInLink}>
+            <Button
+              type="button"
+              variant="buttonText" // Текстовый вариант кнопки
+              onClick={() => (window.location.href = '/auth/sign-in')} // Или useRouter
+            >
               Sign In
-            </a>
+            </Button>
           </div>
         </Card>
       </div>

@@ -27,21 +27,21 @@
   line-height: 36px;
   text-align: center;
   color: var(--color-light-100);
-  margin: -1px 0 13px 0; // Уменьшаем только верхний отступ!
+  margin: -1px 0 13px 0;
   width: 100%;
 }
 
 .oauthSection {
+  margin-bottom: 24px;
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 0 24px 24px 24px; // 0 сверху, 24px по бокам, 24px снизу
 }
 
 .oauthContainer {
   display: flex;
   justify-content: center;
-  gap: 24px;
+  gap: 60px;
 }
 
 .oauthButton {
@@ -75,25 +75,16 @@
 .signInSection {
   text-align: center;
   width: 100%;
-  padding: 24px 24px 0 24px; // 24px сверху, 24px по бокам, 0 снизу
   margin-top: 24px;
-  border-top: 1px solid var(--color-dark-300);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 .signInText {
   font-size: 14px;
   color: var(--color-light-900);
-  margin-right: 8px;
 }
 
-.signInLink {
-  font-size: 14px;
-  color: var(--color-accent-500);
-  text-decoration: none;
-  font-weight: 600;
 
-  &:hover {
-    color: var(--color-accent-300);
-    text-decoration: underline;
-  }
-}

@@ -1,15 +1,51 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px; // Отступ между полями
+  width: 100%;
+}
+
+.specialGap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .field {
-  margin-bottom: 8px;
+  width: 100%;
+}
+
+.customInput {
+  background-color: var(--color-dark-500) !important;
 }
 
 .checkbox {
   margin: 16px 0;
+}
+
+.checkboxLabel {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 133%;
+  color: var(--color-light-100);
+  white-space: nowrap;
+}
+
+.link {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 133%;
+  color: var(--color-accent-300);
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  white-space: nowrap; // Запрещаем перенос ссылок
+
+  &:hover {
+    color: var(--color-accent-500);
+    text-decoration: underline;
+  }
 }
 
 .link {
@@ -24,3 +60,4 @@
 .submitButton {
   margin-top: 8px;
 }
+

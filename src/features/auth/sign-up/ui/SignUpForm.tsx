@@ -54,6 +54,7 @@ export const SignUpForm = () => {
         placeholder="Enter your username"
         errorMessage={errors.username?.message}
         containerClassName={styles.field}
+        className={styles.customInput}
       />
 
       <Input
@@ -63,6 +64,7 @@ export const SignUpForm = () => {
         placeholder="Epam@epam.com"
         errorMessage={errors.email?.message}
         containerClassName={styles.field}
+        className={styles.customInput}
       />
 
       <Input
@@ -72,18 +74,19 @@ export const SignUpForm = () => {
         placeholder="Enter your password"
         errorMessage={errors.password?.message}
         containerClassName={styles.field}
+        className={styles.customInput}
       />
 
-      <Input
-        {...register('passwordConfirmation')}
-        type="password"
-        label="Password confirmation"
-        placeholder="Confirm your password"
-        errorMessage={errors.passwordConfirmation?.message}
-        containerClassName={styles.field}
-      />
+      <div className={styles.specialGap}>
+        <Input
+          {...register('passwordConfirmation')}
+          type="password"
+          label="Password confirmation"
+          placeholder="Confirm your password"
+          errorMessage={errors.passwordConfirmation?.message}
+          className={styles.customInput}
+        />
 
-      <div className={styles.checkboxContainer}>
         <Checkbox
           {...register('agree')}
           label={
@@ -99,9 +102,6 @@ export const SignUpForm = () => {
             </span>
           }
         />
-      </div>
-
-      <div className={styles.buttonContainer}>
         <Button type="submit" variant="buttonPrimary" size={{ width: '100%' }}>
           Sign Up
         </Button>
