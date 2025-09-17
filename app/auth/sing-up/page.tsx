@@ -1,5 +1,5 @@
-import SignUpPage from '@/src/pages/auth/SignUpPage';
+import { SignUpForm } from '@/src/features/auth/sign-up/ui/SignUpForm';
 
 export default function Page() {
-  return <SignUpPage />;
+  return <SignUpForm />;
 }
