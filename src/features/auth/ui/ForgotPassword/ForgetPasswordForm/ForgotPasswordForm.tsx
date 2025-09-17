@@ -13,11 +13,11 @@ import {
 import clsx from 'clsx';
 import Link from 'next/link';
 
-type Props = {
+type ForgotPasswordForm = {
   onSuccess?: () => void; // вызывается при успешной отправке письма
 };
 
-export function ForgotPasswordForm({ onSuccess }: Props) {
+export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
   const {
     register,
     handleSubmit: rhfHandleSubmit,
