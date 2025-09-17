@@ -1,16 +1,22 @@
 'use client';
-import { ForgotPasswordForm } from '@/src/features/auth/ui/ForgotPassword/ForgotPasswordForm';
+import { ForgotPasswordForm } from '@/src/features/auth/ui/ForgotPassword/ForgetPasswordForm/ForgotPasswordForm';
 import Card from '@/src/shared/ui/Card/Card';
 import { useState } from 'react';
 
+type Step = 'email' | 'reset' | 'expired';
+
 export default function ForgotPasswordPage() {
-  const [step, setStep] = useState<'email' | 'reset' | 'expired'>('email');
+  const [step, setStep] = useState<Step>('email');
 
   return (
-    <Card>
-      {step === 'email' && <ForgotPasswordForm onSuccess={() => setStep('reset')} />}
+    <>
+      {step === 'email' && (
+        <Card>
+          <ForgotPasswordForm onSuccess={() => setStep('reset')} />
+        </Card>
+      )}
       {step === 'reset' && 'ResetPasswordForm'}
       {step === 'expired' && 'LinkExpired'}
-    </Card>
+    </>
   );
 }

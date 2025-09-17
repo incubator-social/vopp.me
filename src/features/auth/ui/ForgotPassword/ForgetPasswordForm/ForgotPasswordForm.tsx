@@ -3,14 +3,15 @@
 import React, { useState } from 'react';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
-import s from '@/src/features/auth/ui/ForgotPassword/ForgotPasswordForm.module.scss';
+import s from '@/src/features/auth/ui/ForgotPassword/ForgetPasswordForm/ForgotPasswordForm.module.scss';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ForgotPasswordFormValues,
   forgotPasswordSchema
-} from '@/src/features/auth/ui/ForgotPassword/forgot-password-form.schema';
+} from '@/src/features/auth/ui/ForgotPassword/ForgetPasswordForm/forgot-password-form.schema';
 import clsx from 'clsx';
+import Link from 'next/link';
 
 type Props = {
   onSuccess?: () => void; // вызывается при успешной отправке письма
@@ -59,17 +60,15 @@ export function ForgotPasswordForm({ onSuccess }: Props) {
             <p className={clsx(s.form_error, 'regular-text-14')}>User with this email doesn&apos;t exist</p>
           )}
 
-          {!emailSent && !emailNotFound && (
-            <p className={clsx(s.form_description, 'regular-text-14')}>
-              Enter your email address and we will send you further instructions
-            </p>
-          )}
+          <p className={clsx(s.form_description, 'regular-text-14')}>
+            Enter your email address and we will send you further instructions.
+          </p>
 
           {emailSent && (
-            <p className={clsx(s.form_description, 'regular-text-14')}>
+            <p className="regular-text-14">
               The link has been sent by email.
               <br />
-              If you don’t receive an email send link again
+              If you don’t receive an email send link again.
             </p>
           )}
         </div>
@@ -79,7 +78,9 @@ export function ForgotPasswordForm({ onSuccess }: Props) {
             {emailSent ? 'Send again' : 'Send Link'}
           </Button>
           <Button variant="buttonText" disabled={isSubmitting}>
-            Back to Sign In
+            <Link href="./sign-in" className={s.form_link}>
+              Back to Sign In
+            </Link>
           </Button>
         </div>
       </div>
