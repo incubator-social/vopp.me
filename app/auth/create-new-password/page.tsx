@@ -1,5 +1,10 @@
-import CreateNewPasswordPage from '@/src/pages/auth/CreateNewPasswordPage/CreateNewPasswordPage';
+import { CreateNewPasswordForm } from '@/src/features/auth/reset-confirm/ui/CreateNewPasswordForm/CreateNewPasswordForm';
+import Card from '@/src/shared/ui/Card/Card';
 
-export default function Page() {
-  return <CreateNewPasswordPage />;
+export default function CreateNewPasswordPage() {
+  return (
+    <Card>
+      <CreateNewPasswordForm />
+    </Card>
+  );
 }
