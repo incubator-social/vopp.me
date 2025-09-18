@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/src/shared/ui/Button/Button';
@@ -8,6 +8,7 @@ import { Input } from '@/src/shared/ui/Input/Input';
 import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
 
 import styles from './SignUpForm.module.scss';
+import Link from 'next/link';
 
 const signUpSchema = z
   .object({
@@ -15,7 +16,10 @@ const signUpSchema = z
     email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
     password: z.string().min(6, 'Minimum number of characters is 6'),
     passwordConfirmation: z.string(),
-    agree: z.boolean() // убираем .default(false) - делаем обязательным
+    agree: z.boolean().refine((val) => val === true, {
+      // ← Добавить refine для обязательной галочки
+      message: 'You must agree to terms and conditions'
+    })
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "Passwords don't match",
@@ -27,6 +31,8 @@ type FormValues = z.infer<typeof signUpSchema>;
 
 export const SignUpForm = () => {
   const {
+    watch,
+    control,
     register,
     handleSubmit,
     formState: { errors }
@@ -41,9 +47,20 @@ export const SignUpForm = () => {
     }
   });
 
+  // const onSubmit = (data: FormValues) => {
+  //   console.log('Form data:', data);
+  //   // Здесь потом будет отправка на бэкенд
+  // };
+  const agreeValue = watch('agree');
+  console.log('🔍 Live checkbox value:', agreeValue);
+
   const onSubmit = (data: FormValues) => {
-    console.log('Form data:', data);
-    // Здесь потом будет отправка на бэкенд
+    console.log('🎯 Submit data:', data);
+    console.log('🔎 Checkbox details:', {
+      value: data.agree,
+      type: typeof data.agree,
+      isValid: data.agree === true
+    });
   };
 
   return (
@@ -87,21 +104,34 @@ export const SignUpForm = () => {
           className={styles.customInput}
         />
 
-        <Checkbox
-          {...register('agree')}
-          label={
-            <span>
-              I agree to the{' '}
-              <a href="/terms" className={styles.link}>
-                Terms of Service
-              </a>{' '}
-              and{' '}
-              <a href="/privacy" className={styles.link}>
-                Privacy Policy
-              </a>
-            </span>
-          }
+        <Controller
+          name="agree"
+          control={control}
+          render={({ field }) => (
+            <Checkbox
+              checked={field.value}
+              onCheckedChange={(checked) => {
+                field.onChange(checked === true);
+              }}
+              label={
+                <span>
+                  I agree to the{' '}
+                  <Link href="/legal/terms" className={styles.link}>
+                    Terms of Service
+                  </Link>{' '}
+                  and{' '}
+                  <Link href="/legal/privacy" className={styles.link}>
+                    Privacy Policy
+                  </Link>
+                </span>
+              }
+            />
+          )}
         />
+
+        {/* Добавить отображение ошибки для чекбокса */}
+        {errors.agree && <span style={{ color: 'red', fontSize: '14px' }}>{errors.agree.message}</span>}
+
         <Button type="submit" variant="buttonPrimary" size={{ width: '100%' }}>
           Sign Up
         </Button>
