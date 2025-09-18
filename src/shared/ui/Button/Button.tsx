@@ -51,11 +51,14 @@ export const Button = ({
     padding: size?.padding
   };
 
-  // Если asChild=true, применяем стили непосредственно к дочернему элементу
+  // Если asChild=true, компонент должен не создавать собственный DOM-элемент, а применить свои стили и поведение к дочернему элементу.
   if (asChild) {
+    // Проверка, является ли children валидным React-элементом (какие пропсы ожидаются у дочернего элемента)
     if (isValidElement<InjectedButtonProps>(children)) {
       const child = children as ReactElement<InjectedButtonProps>;
+      // Функция cloneElement из React используется для создания копии существующего React-элемента с новыми или измененными пропсами
       return cloneElement(child, {
+        // Клонируем элемент с новыми пропсами
         className: clsx(styles.button, styles[variant]),
         style: { ...buttonStyles, ...child.props.style },
         onClick: (e: React.MouseEvent) => {
@@ -64,6 +67,7 @@ export const Button = ({
         }
       });
     }
+    // Если дочерний элемент невалиден, он возвращается как есть
     return <>{children}</>;
   }
 
