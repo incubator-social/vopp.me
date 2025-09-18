@@ -78,7 +78,7 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
             <Button variant="buttonPrimary" disabled={isSubmitting}>
               {emailSent ? 'Send again' : 'Send Link'}
             </Button>
-            <Link href={{ pathname: '/auth/sign-in' }} className={s.form__link}>
+            <Link href={{ pathname: '/auth/sign-in' }} className={s.form__link} onClick={(e) => e.stopPropagation()}>
               Back to Sign In
             </Link>
           </div>
