@@ -14,7 +14,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 type ForgotPasswordForm = {
-  onSuccess?: () => void; // вызывается при успешной отправке письма
+  onSuccess?: () => void;
 };
 
 export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
