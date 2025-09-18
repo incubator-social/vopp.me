@@ -29,7 +29,7 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
   const [emailSent, setEmailSent] = useState(false);
   const [emailNotFound, setEmailNotFound] = useState(false);
 
-  const onSubmit = (data: ForgotPasswordFormValues) => {
+  const onSubmit = () => {
     // демонстрация разных состояний
     const fakeEmailExists = true; // можно менять на false, чтобы показать emailNotFound
     if (fakeEmailExists) {
