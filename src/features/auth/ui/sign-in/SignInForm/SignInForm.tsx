@@ -1,9 +1,9 @@
 'use client';
-import styles from './SignInForm.module.scss';
-import Card from '../../../../../shared/ui/Card/Card';
-import { Button } from '../../../../../shared/ui/Button/Button';
-import GoogleIcon from '../../../../../shared/assets/icons/google-svgrepo-com-1.svg';
-import GitHubIcon from '../../../../../shared/assets/icons/github-svgrepo-com.svg';
+import styles from 'src/features/auth/ui/sign-in/SignInForm/SignInForm.module.scss';
+import Card from 'src/shared/ui/Card/Card';
+import { Button } from 'src/shared/ui/Button/Button';
+import GoogleIcon from 'src/shared/assets/icons/google-svgrepo-com-1.svg';
+import GitHubIcon from 'src/shared/assets/icons/github-svgrepo-com.svg';
 
 export function SignInForm() {
   return (
