@@ -1,11 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import styles from 'src/shared/ui/Input/Input.module.scss';
+import styles from '@/src/shared/ui/Input/Input.module.scss';
 
-import SearchIcon from 'src/shared/assets/icons/search.svg';
-import EyeOpenIcon from 'src/shared/assets/icons/eye-outline.svg';
-import EyeClosedIcon from 'src/shared/assets/icons/eye-off-outline.svg';
+import SearchIcon from '@/src/shared/assets/icons/search.svg';
+import EyeOpenIcon from '@/src/shared/assets/icons/eye-outline.svg';
+import EyeClosedIcon from '@/src/shared/assets/icons/eye-off-outline.svg';
 
 type InputProps = {
   label?: string;
