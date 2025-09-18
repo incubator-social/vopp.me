@@ -2,198 +2,195 @@
    TRIGGER (кнопка)
    ========================= */
 
-   .trigger {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid var(--color-dark-100);
-    padding: 6px 12px;
-    cursor: pointer;
-    background-color: var(--color-dark-500);
-  
-    border-radius: 2px;
-  
-    /* Когда меню открыто */
-    &[data-state="open"] {
-      outline: none;
-      border-color: var(--color-light-100);
-    }
-  
-    /* Когда меню снизу */
-    & ~ [data-radix-popper-content-wrapper][data-side='bottom'] & {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-  
-    /* Когда меню сверху */
-    & ~ [data-radix-popper-content-wrapper][data-side='top'] & {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-  
-    &:focus {
-      outline: none;
-      border-color: var(--color-accent-500);
-    }
-  
-    /* disabled на триггере */
-    &[data-disabled],
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--color-dark-100);
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: var(--color-dark-500);
+
+  border-radius: 2px;
+
+  /* Когда меню открыто */
+  &[data-state='open'] {
+    outline: none;
+    border-color: var(--color-light-100);
   }
-  
-  /* выбранное значение (внутри триггера) */
-  .selectedValue {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    gap: 8px;
-    min-width: 0; /* важно для троеточия */
-    position: relative;
-    z-index: 0;
+
+  /* Когда меню снизу */
+  & ~ [data-radix-popper-content-wrapper][data-side='bottom'] & {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
-  
-  .selectedText {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+  /* Когда меню сверху */
+  & ~ [data-radix-popper-content-wrapper][data-side='top'] & {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
-  
-  .placeholder {
-    color: var(--color-text-placeholder);
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-accent-500);
   }
-  
-  .selectedIcon,
-  .icon {
-    display: block;
-    flex-shrink: 0;
+
+  /* disabled на триггере */
+  &[data-disabled],
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
-  
-  /* =========================
+}
+
+/* выбранное значение (внутри триггера) */
+.selectedValue {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0; /* важно для троеточия */
+  position: relative;
+  z-index: 0;
+}
+
+.selectedText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.selectedIcon,
+.icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* =========================
      CONTENT (выпадашка)
      ========================= */
-  
-  .content {
-    border: 1px solid var(--color-light-100);
-    min-width: var(--radix-select-trigger-width);
-  
-    /* По умолчанию - все углы скруглены */
-    border-radius: 2px;
-  
-    /* Если меню снизу - скругляем только нижние углы */
-    &[data-side='bottom'] {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-  
-    /* Если меню сверху - скругляем только верхние углы */
-    &[data-side='top'] {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
+
+.content {
+  border: 1px solid var(--color-light-100);
+  min-width: var(--radix-select-trigger-width);
+
+  /* По умолчанию - все углы скруглены */
+  border-radius: 2px;
+
+  /* Если меню снизу - скругляем только нижние углы */
+  &[data-side='bottom'] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
-    }
-  
-  /* автоматическая ширина по контенту */
-  .autoWidth {
-    width: max-content;
-    min-width: max-content;
-    max-width: none;
-  
-    .viewport {
-      width: max-content;
-      min-width: 100%;
-    }
-  
-    .item {
-      width: max-content;
-      min-width: 100%;
-      white-space: nowrap;
-      max-width: none !important;
-    }
+
+  /* Если меню сверху - скругляем только верхние углы */
+  &[data-side='top'] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
-  
-  /* ширина = ширине триггера */
-  .triggerWidth {
-    width: var(--radix-select-trigger-width);
-    min-width: var(--radix-select-trigger-width);
-  
-    .item {
-      width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-  
-  /* =========================
-     VIEWPORT + SCROLL
-     ========================= */
-  
-  .content {
-    --select-row-h: 36px;            /* высота строки (мин): 8+20+8 = ~36px */
-    --select-visible-rows: 6;        /* сколько строк видно до скролла */
-  }
-  
+}
+
+/* автоматическая ширина по контенту */
+.autoWidth {
+  width: max-content;
+  min-width: max-content;
+  max-width: none;
+
   .viewport {
-    max-height: min(
-      var(--radix-select-content-available-height),
-      calc(var(--select-row-h) * var(--select-visible-rows))
-    );
-    background-color: var(--color-dark-500);
-    width: 100%;
+    width: max-content;
+    min-width: 100%;
   }
-  
-  /* =========================
-     ЭЛЕМЕНТЫ СПИСКА
-     ========================= */
-  
+
   .item {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    border-radius: 3px;
-    cursor: pointer;
-    user-select: none;
-    outline: none;
-  
-    /* Hover/Highlight (Radix) */
-    &[data-highlighted] {
-      background-color: var(--color-dark-300);
-      width: 100%;
-      color: var(--color-accent-500);
-    }
-  
-    /* Focus (навигация с клавиатуры) */
-    &:focus {
-      background-color: var(--color-dark-300);
-      color: var(--color-accent-500);
-    }
-  
-    /* Выбранный элемент */
-    &[data-state='checked'] {
-      background-color: var(--color-dark-300);
-      font-weight: 500;
-      width: 100%;
-    }
-  
-    /* Disabled элемент */
-    &[data-disabled] {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
+    width: max-content;
+    min-width: 100%;
+    white-space: nowrap;
+    max-width: none !important;
   }
-  
-  .itemWithIcon {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .itemText {
+}
+
+/* ширина = ширине триггера */
+.triggerWidth {
+  width: var(--radix-select-trigger-width);
+  min-width: var(--radix-select-trigger-width);
+
+  .item {
+    width: 100%;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: none;
   }
+}
+
+/* =========================
+     VIEWPORT + SCROLL
+     ========================= */
+
+.content {
+  --select-row-h: 36px; /* высота строки (мин): 8+20+8 = ~36px */
+  --select-visible-rows: 6; /* сколько строк видно до скролла */
+}
+
+.viewport {
+  max-height: min(var(--radix-select-content-available-height), calc(var(--select-row-h) * var(--select-visible-rows)));
+  background-color: var(--color-dark-500);
+  width: 100%;
+}
+
+/* =========================
+     ЭЛЕМЕНТЫ СПИСКА
+     ========================= */
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+
+  /* Hover/Highlight (Radix) */
+  &[data-highlighted] {
+    background-color: var(--color-dark-300);
+    width: 100%;
+    color: var(--color-accent-500);
+  }
+
+  /* Focus (навигация с клавиатуры) */
+  &:focus {
+    background-color: var(--color-dark-300);
+    color: var(--color-accent-500);
+  }
+
+  /* Выбранный элемент */
+  &[data-state='checked'] {
+    background-color: var(--color-dark-300);
+    font-weight: 500;
+    width: 100%;
+  }
+
+  /* Disabled элемент */
+  &[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.itemWithIcon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.itemText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: none;
+}

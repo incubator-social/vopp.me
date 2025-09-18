@@ -7,8 +7,14 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .title {
@@ -35,7 +41,9 @@
 
   color: #2563eb;
   text-decoration: none;
-  transition: transform 0.2s ease, color 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    color 0.3s ease;
 
   &:hover {
     color: #1e40af;

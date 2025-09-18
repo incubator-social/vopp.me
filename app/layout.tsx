@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import '../src/shared/styles/index.scss';
-import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
-import '@/src/shared/styles/index.scss';
 import styles from './layout.module.scss';
+import StoreProvider from '@/app/providers/store/StoreProvider';
+import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
 import { Header } from '@/src/widgets/Header/Header';
-import React from 'react';
+import '@/src/shared/styles/index.scss';
 
 export const metadata: Metadata = {
   title: 'Vopp.me',
@@ -15,10 +14,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <Header />
-        <main className={styles.main}>
-          <AlertProvider>{children}</AlertProvider>
-        </main>
+        <StoreProvider>
+          <AlertProvider>
+            <Header />
+            <main className={styles.main}>{children}</main>
+          </AlertProvider>
+        </StoreProvider>
       </body>
     </html>
   );
