@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import styles from './layout.module.scss';
-import StoreProvider from '@/app/providers/StoreProvider';
+import StoreProvider from '@/app/providers/store/StoreProvider';
 import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
 import { Header } from '@/src/widgets/Header/Header';
 import '@/src/shared/styles/index.scss';

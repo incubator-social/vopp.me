@@ -85,7 +85,8 @@
     font-size: 16px;
   }
 
-  :global(.rdp-button_previous), :global(.rdp-button_next) {
+  :global(.rdp-button_previous),
+  :global(.rdp-button_next) {
     background-color: var(--color-dark-100);
     border-radius: 50%;
     color: var(--color-light-100);
@@ -97,17 +98,16 @@
     }
   }
 
-  &[data-mode="single"] {
+  &[data-mode='single'] {
     :global(.rdp-selected) {
       border-radius: 50%;
     }
   }
 
-  &[data-mode="range"] {
+  &[data-mode='range'] {
     --rdp-range_middle-background-color: var(--color-accent-900);
     --rdp-range_start-background: var(--color-accent-900);
     --rdp-range_end-background: var(--color-accent-900);
-
 
     :global(.rdp-range_start) {
       border-bottom-left-radius: 50px;
@@ -119,7 +119,8 @@
       border-top-right-radius: 50px;
     }
 
-    :global(.rdp-range_start .rdp-day_button), :global(.rdp-range_end .rdp-day_button) {
+    :global(.rdp-range_start .rdp-day_button),
+    :global(.rdp-range_end .rdp-day_button) {
       background-color: unset;
     }
 
@@ -139,11 +140,13 @@
     }
   }
 
-  :global(.rdp-outside ), :global(.rdp-range_start.rdp-outside .rdp-day_button ), :global(.rdp-range_end.rdp-outside .rdp-day_button ) {
+  :global(.rdp-outside),
+  :global(.rdp-range_start.rdp-outside .rdp-day_button),
+  :global(.rdp-range_end.rdp-outside .rdp-day_button) {
     color: var(--color-light-900);
   }
 }
 
 .weekend {
-  color: var(--color-danger-300)
+  color: var(--color-danger-300);
 }
