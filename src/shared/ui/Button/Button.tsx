@@ -19,6 +19,7 @@ type Props = {
   disabled?: boolean;
   size?: SizeProps;
   type?: 'button' | 'submit' | 'reset';
+  className?: string;
 };
 
 export const Button = ({
@@ -27,7 +28,8 @@ export const Button = ({
   variant = 'buttonPrimary',
   disabled = false,
   size = {},
-  type = 'button'
+  type = 'button',
+  className
 }: Props) => {
   const buttonStyles: CSSProperties = {
     minWidth: size.minWidth,
@@ -41,7 +43,7 @@ export const Button = ({
 
   return (
     <button
-      className={clsx(styles.button, styles[variant])}
+      className={clsx(styles.button, styles[variant], className)}
       onClick={onClick}
       disabled={disabled}
       type={type}
