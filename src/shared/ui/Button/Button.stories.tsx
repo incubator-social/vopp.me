@@ -2,6 +2,7 @@ import { Meta, StoryObj } from '@storybook/nextjs';
 import { Button } from './Button';
 import IconFlagRussia from './../../assets/icons/flag-russia.svg';
 import IconGoogle from './../../assets/icons/google-svgrepo-com-1.svg';
+import Link from 'next/link';
 
 const meta = {
   component: Button,
@@ -248,7 +249,7 @@ export const CustomWithIcon: Story = {
     size: {
       minWidth: 15,
       minHeight: 15,
-      padding: '10px 10px 3px 10px'
+      padding: '10px'
     },
     onClick: () => alert('Button clicked!')
   }
@@ -280,6 +281,38 @@ ResponsiveButton.parameters = {
   docs: {
     description: {
       story: `Адаптивная кнопка с использованием CSS-функции \`clamp()\` в объекте size.`
+    }
+  }
+};
+
+export const LinkButton: Story = {
+  args: {
+    children: 'Link Button',
+    variant: 'buttonText',
+    href: 'https://google.com/',
+    target: '_blank'
+  }
+};
+
+LinkButton.parameters = {
+  docs: {
+    description: {
+      story: `Кнопка, используемая как ссылка`
+    }
+  }
+};
+
+export const asChildButton = () => {
+  return (
+    <Button variant={'buttonOutline'} size={{ width: 500, height: 60 }} target={'_blank'} asChild>
+      <Link href="https://google.com/">About us</Link>
+    </Button>
+  );
+};
+asChildButton.parameters = {
+  docs: {
+    description: {
+      story: 'Кнопка, которая использует дочерний компонент без лишней обертки, прменяя к нему стили и пропсы'
     }
   }
 };

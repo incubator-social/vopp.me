@@ -1,6 +1,12 @@
 import styles from './Button.module.scss';
-import { CSSProperties, ReactNode } from 'react';
+import { cloneElement, CSSProperties, isValidElement, ReactElement, ReactNode } from 'react';
 import clsx from 'clsx';
+
+interface InjectedButtonProps {
+  className?: string;
+  style?: CSSProperties;
+  onClick?: (e: React.MouseEvent) => void;
+}
 
 type SizeProps = {
   minWidth?: number | string;
@@ -19,6 +25,9 @@ type Props = {
   disabled?: boolean;
   size?: SizeProps;
   type?: 'button' | 'submit' | 'reset';
+  href?: string;
+  target?: '_self' | '_blank';
+  asChild?: boolean;
 };
 
 export const Button = ({
@@ -27,18 +36,53 @@ export const Button = ({
   variant = 'buttonPrimary',
   disabled = false,
   size = {},
-  type = 'button'
+  type = 'button',
+  href,
+  target = '_self',
+  asChild = false
 }: Props) => {
   const buttonStyles: CSSProperties = {
-    minWidth: size.minWidth,
-    minHeight: size.minHeight,
-    maxWidth: size.maxWidth,
-    maxHeight: size.maxHeight,
-    width: size.width,
-    height: size.height,
-    padding: size.padding
+    minWidth: size?.minWidth,
+    minHeight: size?.minHeight,
+    maxWidth: size?.maxWidth,
+    maxHeight: size?.maxHeight,
+    width: size?.width,
+    height: size?.height,
+    padding: size?.padding
   };
 
+  // Если asChild=true, применяем стили непосредственно к дочернему элементу
+  if (asChild) {
+    if (isValidElement<InjectedButtonProps>(children)) {
+      const child = children as ReactElement<InjectedButtonProps>;
+      return cloneElement(child, {
+        className: clsx(styles.button, styles[variant]),
+        style: { ...buttonStyles, ...child.props.style },
+        onClick: (e: React.MouseEvent) => {
+          onClick?.();
+          child.props.onClick?.(e);
+        }
+      });
+    }
+    return <>{children}</>;
+  }
+
+  // Если передан href, рендерим как ссылку
+  if (href) {
+    return (
+      <a
+        className={clsx(styles.button, styles[variant])}
+        href={href}
+        style={buttonStyles}
+        target={target}
+        onClick={onClick}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  // Стандартный вариант - кнопка
   return (
     <button
       className={clsx(styles.button, styles[variant])}
