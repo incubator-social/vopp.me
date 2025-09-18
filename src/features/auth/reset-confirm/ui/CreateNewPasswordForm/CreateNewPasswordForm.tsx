@@ -11,25 +11,26 @@ export function CreateNewPasswordForm() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Create New Password</h1>
+      <form>
+        <Input
+          label={'New password'}
+          value={password}
+          type={'password'}
+          onChange={(e) => setPassword(e.target.value)}
+          containerStyle={{ marginBottom: '24px' }}
+        />
+        <Input
+          label={'Password confirmation'}
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          type={'password'}
+          containerStyle={{ marginBottom: '7px' }}
+        />
 
-      <Input
-        label={'New password'}
-        value={password}
-        type={'password'}
-        onChange={(e) => setPassword(e.target.value)}
-        containerStyle={{ marginBottom: '24px' }}
-      />
-      <Input
-        label={'Password confirmation'}
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        type={'password'}
-        containerStyle={{ marginBottom: '7px' }}
-      />
+        <span className={styles.newPassText}>Your password must be between 6 and 20 characters</span>
 
-      <span className={styles.newPassText}>Your password must be between 6 and 20 characters</span>
-
-      <Button size={{ width: '100%' }}>{'Create new password'}</Button>
+        <Button size={{ width: '100%' }}>{'Create new password'}</Button>
+      </form>
     </div>
   );
 }
