@@ -43,47 +43,47 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
   };
 
   return (
-    <form onSubmit={rhfHandleSubmit(onSubmit)} className={s.form}>
-      <h1>Forgot Password</h1>
+    <div className={s.form}>
+      <form onSubmit={rhfHandleSubmit(onSubmit)}>
+        <h1>Forgot Password</h1>
 
-      <div className={s.form_content}>
-        <div className={s.form_inputs}>
-          <Input
-            type="email"
-            label="Email"
-            placeholder="Enter your email"
-            {...register('email')}
-            errorMessage={errors.email?.message}
-          />
+        <div className={s.form__content}>
+          <div className={s.form__inputs}>
+            <Input
+              type="email"
+              label="Email"
+              placeholder="Enter your email"
+              {...register('email')}
+              errorMessage={errors.email?.message}
+            />
 
-          {emailNotFound && (
-            <p className={clsx(s.form_error, 'regular-text-14')}>User with this email doesn&apos;t exist</p>
-          )}
+            {emailNotFound && (
+              <p className={clsx(s.form__error, 'regular-text-14')}>User with this email doesn&apos;t exist</p>
+            )}
 
-          <p className={clsx(s.form_description, 'regular-text-14')}>
-            Enter your email address and we will send you further instructions.
-          </p>
-
-          {emailSent && (
-            <p className="regular-text-14">
-              The link has been sent by email.
-              <br />
-              If you don’t receive an email send link again.
+            <p className={clsx(s.form__description, 'regular-text-14')}>
+              Enter your email address and we will send you further instructions.
             </p>
-          )}
-        </div>
 
-        <div className={s.form_buttons}>
-          <Button variant="buttonPrimary" disabled={isSubmitting}>
-            {emailSent ? 'Send again' : 'Send Link'}
-          </Button>
-          <Button variant="buttonText" disabled={isSubmitting}>
-            <Link href="./sign-in" className={s.form_link}>
+            {emailSent && (
+              <p className="regular-text-14">
+                The link has been sent by email.
+                <br />
+                If you don’t receive an email send link again.
+              </p>
+            )}
+          </div>
+
+          <div className={s.form__buttons}>
+            <Button variant="buttonPrimary" disabled={isSubmitting}>
+              {emailSent ? 'Send again' : 'Send Link'}
+            </Button>
+            <Link href={{ pathname: '/auth/sign-in' }} className={s.form__link}>
               Back to Sign In
             </Link>
-          </Button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
