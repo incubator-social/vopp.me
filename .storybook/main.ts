@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/nextjs';
 import type { RuleSetRule } from 'webpack';
+import path from 'path'; // ← Добавляем импорт
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -9,6 +10,12 @@ const config: StorybookConfig = {
   webpackFinal: async (config) => {
     config.module = config.module || {};
     config.module.rules = config.module.rules || [];
+
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'next/navigation': path.resolve(__dirname, 'mocks/nextNavigation.ts')
+    };
 
     const imageRule = config.module.rules.find(
       (rule): rule is RuleSetRule =>

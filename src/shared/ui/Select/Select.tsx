@@ -1,10 +1,10 @@
 'use client';
 import ArrowDown from './../../assets/icons/arrow-ios-down-outline.svg';
 import ArrowUp from './../../assets/icons/arrow-ios-up.svg';
-
 import React, { useState } from 'react';
-import * as Select from '@radix-ui/react-select';
+import * as SelectRadix from '@radix-ui/react-select';
 import styles from './Select.module.scss';
+import clsx from 'clsx';
 
 type SelectOption = {
   value: string;
@@ -14,9 +14,14 @@ type SelectOption = {
 };
 
 type SizeProps = {
-  width?: number;
-  height?: number;
-  fontSize?: number;
+  minWidth?: number | string;
+  maxWidth?: number | string;
+  width?: number | string;
+  minHeight?: number | string;
+  maxHeight?: number | string;
+  height?: number | string;
+  padding?: number | string;
+  fontSize?: number | string;
   iconSize?: number;
   arrowSize?: number;
 };
@@ -24,52 +29,82 @@ type SizeProps = {
 type SelectProps = {
   options: SelectOption[];
   placeholder?: string;
-  defaultValue?: string;
-  isDisabled?: boolean;
-  onValueChange?: (value: string) => void;
+  value: string;
+  disabled?: boolean;
+  onValueChange: (value: string) => void;
   required?: boolean;
   size?: SizeProps;
+  contentWidth?: 'content' | 'trigger';
 };
 
-export const CustomSelect = ({
+export const Select = ({
   options,
   placeholder,
-  defaultValue,
+  value,
   onValueChange,
   required = false,
-  isDisabled = false,
-  size = { fontSize: 16, iconSize: 20, arrowSize: 24 }
+  disabled = false,
+  size = { fontSize: 16, iconSize: 24, arrowSize: 24 },
+  contentWidth
 }: SelectProps) => {
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<string | undefined>(defaultValue);
+  const isEmpty = options.length === 0;
+  const selectedOption: SelectOption | undefined = options.find((option: SelectOption) => option.value === value);
 
-  const handleValueChange = (value: string) => {
-    onValueChange?.(value);
-    setSelectedValue(value);
-  };
+  const triggerStyles = {
+    // Ширина
+    width: size?.width,
+    minWidth: size?.minWidth,
+    maxWidth: size?.maxWidth,
 
-  const selectedOption = options.find((option) => option.value === selectedValue);
+    // Высота
+    height: size?.height,
+    minHeight: size?.minHeight,
+    maxHeight: size?.maxHeight,
 
-  const customStyles = {
-    ...(size?.width && { minWidth: `${size.width}px` }),
-    ...(size?.height && { height: `${size.height}px` }),
-    ...(size?.fontSize && { fontSize: `${size.fontSize}px` })
+    // Padding
+    padding: size?.padding,
+
+    // Font Size
+    fontSize: size?.fontSize
   };
 
   // Размеры иконок
-  const iconSize = size?.iconSize || 20;
-  const arrowSize = size?.arrowSize || 16;
+  const DEFAULT_SIZE = { fontSize: 16, iconSize: 24, arrowSize: 24 };
+  const iconSize = size?.iconSize ?? DEFAULT_SIZE.iconSize;
+  const arrowSize = size?.arrowSize ?? DEFAULT_SIZE.arrowSize;
+
+  if (isEmpty) {
+    return (
+      <div className={styles.trigger} style={triggerStyles} aria-disabled={true}>
+        <div className={styles.selectedValue}>
+          <span className={styles.placeholder}>{placeholder}</span>
+        </div>
+        <ArrowDown
+          style={{
+            width: arrowSize,
+            height: arrowSize,
+            opacity: 0.5
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
-    <Select.Root
-      value={selectedValue}
-      onValueChange={handleValueChange}
-      defaultValue={defaultValue}
+    <SelectRadix.Root
+      value={value}
+      onValueChange={onValueChange}
       onOpenChange={setOpen}
       required={required}
-      disabled={isDisabled}
+      disabled={disabled}
     >
-      <Select.Trigger className={styles.trigger} style={customStyles} aria-label="Выберите опцию">
+      <SelectRadix.Trigger
+        className={styles.trigger}
+        style={triggerStyles}
+        aria-label="Выберите опцию"
+        aria-disabled={disabled}
+      >
         <div className={styles.selectedValue}>
           {selectedOption?.icon && (
             <selectedOption.icon
@@ -83,14 +118,12 @@ export const CustomSelect = ({
           {selectedOption ? (
             <span className={styles.selectedText}>{selectedOption.label}</span>
           ) : (
-            <Select.Value placeholder={placeholder} className={styles.placeholder} />
+            <SelectRadix.Value placeholder={placeholder} />
           )}
         </div>
-        <Select.Icon asChild>
+        <SelectRadix.Icon asChild>
           {open ? (
             <ArrowUp
-              width={arrowSize}
-              height={arrowSize}
               style={{
                 width: arrowSize,
                 height: arrowSize
@@ -98,37 +131,38 @@ export const CustomSelect = ({
             />
           ) : (
             <ArrowDown
-              width={arrowSize}
-              height={arrowSize}
               style={{
                 width: arrowSize,
                 height: arrowSize
               }}
             />
           )}
-        </Select.Icon>
-      </Select.Trigger>
+        </SelectRadix.Icon>
+      </SelectRadix.Trigger>
 
-      <Select.Content className={styles.content} position="popper" sideOffset={0}>
-        <Select.ScrollUpButton className={styles.scrollButton} />
-
-        <Select.Viewport>
-          {options.map((option) => (
-            <Select.Item key={option.value} value={option.value} className={styles.item}>
-              {option.icon ? (
-                <div className={styles.itemWithIcon}>
-                  <option.icon width={16} height={16} {...option.iconProps} />
-                  <Select.ItemText className={styles.itemText}>{option.label}</Select.ItemText>
-                </div>
-              ) : (
-                <Select.ItemText>{option.label}</Select.ItemText>
-              )}
-            </Select.Item>
-          ))}
-        </Select.Viewport>
-
-        <Select.ScrollDownButton className={styles.scrollButton} />
-      </Select.Content>
-    </Select.Root>
+      <SelectRadix.Portal>
+        <SelectRadix.Content
+          className={clsx(styles.content, contentWidth === 'content' ? styles.autoWidth : styles.triggerWidth)}
+          position="popper"
+          sideOffset={-1}
+          align="start"
+        >
+          <SelectRadix.Viewport className={styles.viewport}>
+            {options.map((option) => (
+              <SelectRadix.Item key={option.value} value={option.value} className={styles.item} style={triggerStyles}>
+                {option.icon ? (
+                  <div className={styles.itemWithIcon}>
+                    <option.icon width={iconSize} height={iconSize} {...option.iconProps} />
+                    <SelectRadix.ItemText className={styles.itemText}>{option.label}</SelectRadix.ItemText>
+                  </div>
+                ) : (
+                  <SelectRadix.ItemText>{option.label}</SelectRadix.ItemText>
+                )}
+              </SelectRadix.Item>
+            ))}
+          </SelectRadix.Viewport>
+        </SelectRadix.Content>
+      </SelectRadix.Portal>
+    </SelectRadix.Root>
   );
 };

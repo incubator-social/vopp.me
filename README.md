@@ -34,3 +34,24 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+Описание структуры проекта (предварительная версия)
+
+Данная схема отображает архитектуру проекта в терминах FSD (Feature-Sliced Design).
+
+app/ — отвечает за маршрутизацию и layout'ы. Здесь находятся только page.tsx и layout.tsx, без бизнес-логики.
+
+pages/ — слой композиции страниц. Здесь собираются UI из features, entities, widgets в полноценные страницы.
+
+features/ — фичи (завершённые действия пользователя: формы входа, регистрации, сброса пароля).
+
+В будущем появятся также:
+
+entities/ (пользователь, пост, комментарий и т.д.),
+
+widgets/ (header, sidebar, feed и т.п.),
+
+shared/ (UI-компоненты, стили, утилиты).
+
+⚠️ Схема не окончательная — она будет дополняться по мере развития проекта (например, появятся роуты /profile, /settings, /feed). Но уже сейчас её можно использовать как ориентир для понимания архитектуры и места каждого слоя.
+![image](/doc/images/project_structure_full_tree.svg)

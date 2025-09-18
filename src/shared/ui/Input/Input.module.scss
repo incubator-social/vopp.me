@@ -35,15 +35,14 @@
   border-radius: 2px;
   outline: none;
   box-shadow: 0 0 0 0 transparent;
-
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
   font-size: 16px;
   line-height: var(--line-height-m);
   color: var(--color-light-100);
-
   box-sizing: border-box;
   background: var(--color-dark-700);
 
@@ -65,7 +64,7 @@
     background: var(--color-dark-500);
     color: var(--color-light-100);
 
-    &[type="search"] {
+    &[type='search'] {
       background: var(--color-dark-700);
     }
   }
@@ -75,11 +74,11 @@
     background: var(--color-dark-700);
   }
 
-  &:hover:not(:disabled):not(.error){
+  &:hover:not(:disabled, .error) {
     border-color: var(--color-light-900);
   }
 
-  &:focus:not(:disabled):not(.error) {
+  &:focus:not(:disabled, .error) {
     border: 1px solid var(--color-primary);
     box-shadow: 0 0 0 1px var(--color-primary);
   }
@@ -127,11 +126,11 @@
   color: var(--color-dark-100);
 }
 
-.input:focus:not(.disabled):not(.error) + .icon {
+.input:focus:not(.disabled, .error) + .icon {
   color: var(--color-light-900);
 }
 
-.input.withLeftIcon:focus:not(:placeholder-shown):not(.disabled):not(.error) + .icon {
+.input.withLeftIcon:focus:not(:placeholder-shown, .disabled, .error) + .icon {
   color: var(--color-light-100);
 }
 
@@ -151,6 +150,7 @@
   cursor: pointer;
   padding: 0;
   transition: transform 0.2s ease;
+
   svg {
     width: 100%;
     height: 100%;
