@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import '../src/shared/styles/index.scss';
 import StoreProvider from './StoreProvider';
+import '../src/shared/styles/index.scss';
 import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
+import { Header } from '@/src/widgets/Header/Header';
 import '@/src/shared/styles/index.scss';
 import styles from './layout.module.scss';
 
@@ -15,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <StoreProvider>
-          {/* <Header/> */}
+          <Header />
           <main className={styles.main}>
             <AlertProvider>{children}</AlertProvider>
           </main>
