@@ -1,5 +1,5 @@
 'use client';
-import { ForgotPasswordForm } from '@/src/features/auth/ui/ForgotPassword/ForgetPasswordForm/ForgotPasswordForm';
+import { ForgotPasswordForm } from '@/src/features/auth/ui/ForgotPassword/ForgotPasswordForm/ForgotPasswordForm';
 import Card from '@/src/shared/ui/Card/Card';
 
 export default function ForgotPasswordPage() {
