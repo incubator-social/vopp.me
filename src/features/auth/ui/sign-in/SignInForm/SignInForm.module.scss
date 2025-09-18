@@ -4,18 +4,55 @@
   justify-content: center;
   align-items: center;
   padding: 23px 24px 30px;
-}
-
-.h1 {
-  margin-bottom: 13px;
+  margin-top: 36px;
 }
 
 .buttonsGroup {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 13px;
+  gap: 60px;
 }
 
 .button {
   border: none !important;
+
+  &:hover {
+    color: var(--color-accent-500) !important;
+  }
+}
+
+.form {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.inputContainer {
+  min-width: 330px;
+}
+
+.inputPassword {
+  &::placeholder {
+    transform: translateY(5px);
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: var(--color-light-900);
+  align-self: end;
+
+  &:visited {
+    color: var(--color-light-900);
+  }
+}
+
+.buttonSignIn {
+  border: none !important;
+  min-width: 330px !important;
 }

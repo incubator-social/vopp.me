@@ -1,9 +1,12 @@
 'use client';
-import styles from 'src/features/auth/ui/sign-in/SignInForm/SignInForm.module.scss';
-import Card from 'src/shared/ui/Card/Card';
-import { Button } from 'src/shared/ui/Button/Button';
-import GoogleIcon from 'src/shared/assets/icons/google-svgrepo-com-1.svg';
-import GitHubIcon from 'src/shared/assets/icons/github-svgrepo-com.svg';
+import styles from '@/src/features/auth/ui/sign-in/SignInForm/SignInForm.module.scss';
+import Card from '@/src/shared/ui/Card/Card';
+import { Button } from '@/src/shared/ui/Button/Button';
+import { Input } from '@/src/shared/ui/Input/Input';
+import GoogleIcon from '@/src/shared/assets/icons/google-svgrepo-com-1.svg';
+import GitHubIcon from '@/src/shared/assets/icons/github-svgrepo-com.svg';
+import clsx from 'clsx';
+import Link from 'next/link';
 
 export function SignInForm() {
   return (
@@ -25,6 +28,29 @@ export function SignInForm() {
           <GitHubIcon width={'36px'} height={'36px'} />
         </Button>
       </div>
+      <form className={styles.form}>
+        <Input
+          type={'email'}
+          label={'Email'}
+          placeholder={'Emap@epam.com'}
+          containerClassName={styles.inputContainer}
+        />
+        <Input
+          type={'password'}
+          label={'Password'}
+          placeholder={'**********'}
+          className={styles.inputPassword}
+          containerClassName={styles.inputContainer}
+        />
+        <Link
+          href={{ pathname: '/auth/forgot-password' }}
+          className={clsx(styles.link, ['regular-text-14'])}
+          onClick={(e) => e.stopPropagation()}
+        >
+          Forgot Password
+        </Link>
+        <Button className={styles.buttonSignIn}>Sign In</Button>
+      </form>
     </Card>
   );
 }
