@@ -171,7 +171,7 @@ export const Cropping = withState(({ open, setOpen }) => (
       }
     >
       <div style={{ marginTop: 16 }}>
-        <Image src="https://picsum.photos/600/400" alt="Preview" style={{ width: '100%' }} />
+        <Image src="https://picsum.photos/600/400" alt="Preview" width={600} height={400} />
       </div>
     </Modal>
   </>
@@ -191,7 +191,7 @@ export const Gallery = withState(({ open, setOpen }) => (
       <div style={{ display: 'flex', gap: 16 }}>
         <div style={{ flex: 2, position: 'relative' }}>
           <button style={{ position: 'absolute', left: 8, top: '50%' }}>←</button>
-          <Image src="https://picsum.photos/600/500" alt="Post" style={{ width: '100%' }} />
+          <Image src="https://picsum.photos/600/500" alt="Post" width={600} height={500} />
           <button style={{ position: 'absolute', right: 8, top: '50%' }}>→</button>
         </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
