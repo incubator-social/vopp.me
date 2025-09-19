@@ -17,10 +17,7 @@
 
 .button {
   border: none !important;
-
-  &:hover {
-    color: var(--color-accent-500) !important;
-  }
+  color: var(--color-light-100) !important;
 }
 
 .form {
@@ -38,14 +35,15 @@
 
 .inputPassword {
   &::placeholder {
-    transform: translateY(5px);
+    transform: translateY(3px);
   }
 }
 
-.link {
+.linkForgot {
   text-decoration: none;
   color: var(--color-light-900);
   align-self: end;
+  margin-top: 12px;
 
   &:visited {
     color: var(--color-light-900);
@@ -55,4 +53,14 @@
 .buttonSignIn {
   border: none !important;
   min-width: 330px !important;
+}
+
+.accountQuestion {
+  margin-top: 18px;
+}
+
+.linkSignUp {
+  margin-top: 12px;
+  text-decoration: none;
+  color: var(--color-accent-500);
 }

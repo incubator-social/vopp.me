@@ -32,7 +32,7 @@ export function SignInForm() {
         <Input
           type={'email'}
           label={'Email'}
-          placeholder={'Emap@epam.com'}
+          placeholder={'Epam@epam.com'}
           containerClassName={styles.inputContainer}
         />
         <Input
@@ -44,13 +44,17 @@ export function SignInForm() {
         />
         <Link
           href={{ pathname: '/auth/forgot-password' }}
-          className={clsx(styles.link, ['regular-text-14'])}
+          className={clsx(styles.linkForgot, ['regular-text-14'])}
           onClick={(e) => e.stopPropagation()}
         >
           Forgot Password
         </Link>
         <Button className={styles.buttonSignIn}>Sign In</Button>
       </form>
+      <p className={styles.accountQuestion}>Don&apos;t have an account?</p>
+      <Link href={{ pathname: '/auth/sign-up' }} className={styles.linkSignUp} onClick={(e) => e.stopPropagation()}>
+        Sign Up
+      </Link>
     </Card>
   );
 }
