@@ -35,7 +35,9 @@
   border-radius: 2px;
   outline: none;
   box-shadow: 0 0 0 0 transparent;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
   font-size: 16px;
@@ -62,7 +64,7 @@
     background: var(--color-dark-500);
     color: var(--color-light-100);
 
-    &[type="search"] {
+    &[type='search'] {
       background: var(--color-dark-700);
     }
   }
@@ -72,7 +74,7 @@
     background: var(--color-dark-700);
   }
 
-  &:hover:not(:disabled, .error){
+  &:hover:not(:disabled, .error) {
     border-color: var(--color-light-900);
   }
 
