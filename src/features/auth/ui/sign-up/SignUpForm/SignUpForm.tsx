@@ -2,42 +2,25 @@
 
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
 import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
 
 import styles from './SignUpForm.module.scss';
 import Link from 'next/link';
-
-const signUpSchema = z
-  .object({
-    username: z.string().min(1, 'Username is required').max(30, 'Maximum number of characters is 30'),
-    email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
-    password: z.string().min(6, 'Minimum number of characters is 6'),
-    passwordConfirmation: z.string(),
-    agree: z.boolean().refine((val) => val === true, {
-      // ← Добавить refine для обязательной галочки
-      message: 'You must agree to terms and conditions'
-    })
-  })
-  .refine((data) => data.password === data.passwordConfirmation, {
-    message: "Passwords don't match",
-    path: ['passwordConfirmation']
-  });
-
-// Тип для данных формы
-type FormValues = z.infer<typeof signUpSchema>;
+import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpForm/signUpSchema';
 
 export const SignUpForm = () => {
   const {
-    watch,
+    trigger,
     control,
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isValid, isDirty }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
     defaultValues: {
       username: '',
       email: '',
@@ -47,26 +30,21 @@ export const SignUpForm = () => {
     }
   });
 
-  // const onSubmit = (data: FormValues) => {
-  //   console.log('Form data:', data);
-  //   // Здесь потом будет отправка на бэкенд
-  // };
-  const agreeValue = watch('agree');
-  console.log('🔍 Live checkbox value:', agreeValue);
-
   const onSubmit = (data: FormValues) => {
-    console.log('🎯 Submit data:', data);
-    console.log('🔎 Checkbox details:', {
-      value: data.agree,
-      type: typeof data.agree,
-      isValid: data.agree === true
-    });
+    console.log('Form data:', data);
+    // Здесь потом будет отправка на бэкенд
   };
+
+  const isSubmitDisabled = !isValid || !isDirty;
+  // const isSubmitDisabled = false; //Расскомментировать, чтобы раздизэйблить кнопку, не заполняя данные формы, а
+  //верхний isSubmitDisabled задизэйблить
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <Input
-        {...register('username')}
+        {...register('username', {
+          onBlur: () => trigger('username')
+        })}
         label="Username"
         placeholder="Enter your username"
         errorMessage={errors.username?.message}
@@ -75,7 +53,9 @@ export const SignUpForm = () => {
       />
 
       <Input
-        {...register('email')}
+        {...register('email', {
+          onBlur: () => trigger('username')
+        })}
         type="email"
         label="Email"
         placeholder="Epam@epam.com"
@@ -85,7 +65,9 @@ export const SignUpForm = () => {
       />
 
       <Input
-        {...register('password')}
+        {...register('password', {
+          onBlur: () => trigger('username')
+        })}
         type="password"
         label="Password"
         placeholder="Enter your password"
@@ -96,7 +78,9 @@ export const SignUpForm = () => {
 
       <div className={styles.specialGap}>
         <Input
-          {...register('passwordConfirmation')}
+          {...register('passwordConfirmation', {
+            onBlur: () => trigger('username')
+          })}
           type="password"
           label="Password confirmation"
           placeholder="Confirm your password"
@@ -112,9 +96,11 @@ export const SignUpForm = () => {
               checked={field.value}
               onCheckedChange={(checked) => {
                 field.onChange(checked === true);
+                trigger('agree');
               }}
+              onBlur={field.onBlur}
               label={
-                <span>
+                <span className={styles.checkboxLabel}>
                   I agree to the{' '}
                   <Link href="/legal/terms" className={styles.link}>
                     Terms of Service
@@ -129,10 +115,9 @@ export const SignUpForm = () => {
           )}
         />
 
-        {/* Добавить отображение ошибки для чекбокса */}
         {errors.agree && <span style={{ color: 'red', fontSize: '14px' }}>{errors.agree.message}</span>}
 
-        <Button type="submit" variant="buttonPrimary" size={{ width: '100%' }}>
+        <Button type="submit" variant="buttonPrimary" size={{ width: '100%' }} disabled={isSubmitDisabled}>
           Sign Up
         </Button>
       </div>
