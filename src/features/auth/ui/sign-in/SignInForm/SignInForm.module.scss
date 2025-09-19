@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   padding: 23px 24px 30px;
-  margin-top: 36px;
+  margin-top: 4px;
 }
 
 .buttonsGroup {
@@ -17,6 +17,9 @@
 
 .button {
   border: none !important;
+}
+
+.buttonIcon {
   color: var(--color-light-100) !important;
 }
 
@@ -49,12 +52,6 @@
     color: var(--color-light-900);
   }
 }
-
-.buttonSignIn {
-  border: none !important;
-  min-width: 330px !important;
-}
-
 .accountQuestion {
   margin-top: 18px;
 }
