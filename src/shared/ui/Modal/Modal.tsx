@@ -13,7 +13,7 @@ export type ModalProps = {
   /* Полностью кастомный header */
   headerContent?: ReactNode;
   closeButtonPosition?: 'inside' | 'outside' | 'none';
-  containerСlassName?: string;
+  containerClassName?: string;
   contentClassName?: string;
 } & ComponentPropsWithoutRef<'div'>;
 
@@ -26,14 +26,14 @@ export const Modal = (props: ModalProps) => {
     title,
     children,
     headerContent,
-    containerСlassName,
+    containerClassName,
     contentClassName,
     closeButtonPosition = 'inside',
     ...restProps
   } = props;
 
   return (
-    <div {...restProps} className={containerСlassName}>
+    <div {...restProps} className={containerClassName}>
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
         <Dialog.Portal>

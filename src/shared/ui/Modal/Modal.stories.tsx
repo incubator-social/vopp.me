@@ -95,7 +95,7 @@ export const Playground = withState(({ open, setOpen }) => (
 
     <Modal open={open} onOpenChange={setOpen} size="md" title="Playground Modal" closeButtonPosition="inside">
       <p>Это модалка, которую можно открыть и закрыть.</p>
-      <div style={{ marginTop: 16, textAlign: 'right' }}>
+      <div style={{ marginTop: 30, textAlign: 'right' }}>
         <button onClick={() => setOpen(false)}>Закрыть</button>
       </div>
     </Modal>
@@ -119,30 +119,6 @@ export const EmailSent = withState(({ open, setOpen }) => (
       <div style={{ marginTop: 16, textAlign: 'right' }}>
         <button onClick={() => setOpen(false)}>OK</button>
       </div>
-    </Modal>
-  </>
-));
-
-// 3️⃣ Following List
-export const FollowingList = withState(({ open, setOpen }) => (
-  <>
-    <button
-      style={{ padding: '8px 16px', background: '#4c6ef5', color: '#fff', border: 'none', borderRadius: 4 }}
-      onClick={() => setOpen(true)}
-    >
-      Open Modal
-    </button>
-
-    <Modal open={open} onOpenChange={setOpen} size="lg" title="2 358 Following">
-      <input type="text" placeholder="Search" style={{ width: '100%', marginBottom: 12 }} />
-      <ul style={{ maxHeight: 300, overflowY: 'auto', padding: 0 }}>
-        {Array.from({ length: 10 }).map((_, i) => (
-          <li key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-            <span>User {i + 1}</span>
-            <button className="btn-outline">Unfollow</button>
-          </li>
-        ))}
-      </ul>
     </Modal>
   </>
 ));
