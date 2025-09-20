@@ -1,4 +1,4 @@
-// components/ui/pagination/usePagination.ts
+// widgets/ui/pagination/usePagination.ts
 import { useMemo } from 'react';
 
 export const DOTS = '…'; // U+2026 — сразу тот символ, что рендерим
