@@ -2,6 +2,7 @@ import { Meta, StoryObj } from '@storybook/nextjs';
 import { Button } from './Button';
 import IconFlagRussia from './../../assets/icons/flag-russia.svg';
 import IconGoogle from './../../assets/icons/google-svgrepo-com-1.svg';
+import Link from 'next/link';
 
 const meta = {
   component: Button,
@@ -18,7 +19,7 @@ const meta = {
 - 🖱️ Поддержка состояния disabled
 - 🎨 Поддержка иконок и любого контента
 - 📏 Адаптивные размеры (px, %, rem, vw, vh и другие CSS-единицы)
-- 🔗 Поддержка работы как ссылки (через пропс href)
+- 🔄 Поддержка asChild для композиции с другими компонентами
 
 ### Props:
 - \`variant\` - вариант стиля: 'buttonPrimary' | 'buttonSecondary' | 'buttonOutline' | 'buttonText'
@@ -29,8 +30,7 @@ const meta = {
   - \`padding\` - внутренние отступы (число → px, строка → как есть)
 - \`onClick\` - обработчик клика
 - \`type\` - тип кнопки: 'button' | 'submit' | 'reset'
-- \`href\` - URL для преобразования кнопки в ссылку
-- \`target\` - атрибут target для ссылки: '_self' | '_blank'
+- \`asChild\` - использование Slot из Radix UI для композиции с другими компонентами
 
 ### Примеры использования:
 \`\`\`tsx
@@ -58,10 +58,44 @@ const meta = {
   Click me
 </Button>
 
-### Особенности работы со ссылками:
-При передаче пропса \`href\` компонент автоматически преобразуется в элемент \`<a>\`.
-Все стили и состояния (hover, active, focus) применяются к ссылке.
+// Использование asChild для создания ссылки
+<Button 
+  variant="buttonPrimary" 
+  asChild
+>
+  <Link href="/some-page">
+    Go to page
+  </Link>
+</Button>
 
+// Использование asChild с кастомным компонентом
+<Button 
+  variant="buttonOutline" 
+  asChild
+>
+  <CustomComponent onClick={handleClick}>
+    Custom action
+  </CustomComponent>
+</Button>
+\`\`\`
+
+### Особенности работы с asChild:
+При передаче пропса \`asChild={true}\` компонент Button не создает собственный DOM-элемент,
+а вместо этого передает все свои пропсы и стили первому дочернему элементу через Slot из Radix UI.
+Это позволяет использовать Button для стилизации любых компонентов, сохраняя единый визуальный стиль.
+
+\`\`\`tsx
+// Без asChild - создается элемент button
+<Button variant="buttonPrimary">
+  Click me
+</Button>
+
+// С asChild - создается элемент a (ссылка) с стилями кнопки
+<Button variant="buttonPrimary" asChild>
+  <a href="https://example.com">
+    Go to example
+  </a>
+</Button>
 \`\`\``
       }
     }
@@ -81,6 +115,10 @@ const meta = {
     },
     onClick: {
       description: 'Обработчик клика'
+    },
+    asChild: {
+      control: { type: 'boolean' },
+      description: 'Использование Slot из Radix UI для композиции'
     }
   }
 } satisfies Meta<typeof Button>;
@@ -136,7 +174,7 @@ Outline.parameters = {
   }
 };
 
-export const CustomText: Story = {
+export const Text: Story = {
   args: {
     children: 'Button',
     variant: 'buttonText',
@@ -144,7 +182,7 @@ export const CustomText: Story = {
   }
 };
 
-CustomText.parameters = {
+Text.parameters = {
   docs: {
     description: {
       story: `Кнопка без видимого бордера для большей возможности кастомизации`
@@ -169,19 +207,20 @@ Disabled.parameters = {
   }
 };
 
-export const TextWithIconRihgt: Story = {
+export const TextWithIconRight: Story = {
   args: {
-    children: <IconFlagRussia />,
+    children: '',
+    onClick: () => alert('Button clicked!'),
     variant: 'buttonOutline'
   },
-  render: () => (
-    <Button variant={'buttonOutline'} onClick={() => alert('Button clicked!')}>
+  render: (args) => (
+    <Button {...args}>
       Button <IconFlagRussia width={24} height={24} />
     </Button>
   )
 };
 
-TextWithIconRihgt.parameters = {
+TextWithIconRight.parameters = {
   docs: {
     description: {
       story: `Кнопка с текстом и иконкой справа`
@@ -191,12 +230,12 @@ TextWithIconRihgt.parameters = {
 
 export const TextWithIconLeft: Story = {
   args: {
-    children: <IconFlagRussia />,
+    children: '',
     variant: 'buttonOutline',
-    onClick: () => alert('Button Dark clicked!')
+    onClick: () => alert('Button clicked!')
   },
-  render: () => (
-    <Button variant={'buttonOutline'} onClick={() => alert('Button clicked!')}>
+  render: (args) => (
+    <Button {...args}>
       <IconFlagRussia width={24} height={24} /> Button
     </Button>
   )
@@ -212,10 +251,15 @@ TextWithIconLeft.parameters = {
 
 export const OnlyIcon: Story = {
   args: {
-    children: <IconFlagRussia width={24} height={24} />,
+    children: '',
     variant: 'buttonOutline',
     onClick: () => alert('Button clicked!')
-  }
+  },
+  render: (args) => (
+    <Button {...args}>
+      <IconFlagRussia width={24} height={24} />
+    </Button>
+  )
 };
 
 OnlyIcon.parameters = {
@@ -226,22 +270,22 @@ OnlyIcon.parameters = {
   }
 };
 
-export const WithSpan: Story = {
+export const WithCustomContent: Story = {
   args: {
-    children: <IconFlagRussia />,
+    children: '',
     variant: 'buttonOutline',
     onClick: () => alert('Button clicked!')
   },
-  render: () => (
-    <Button variant={'buttonOutline'} onClick={() => alert('Button clicked!')}>
+  render: (args) => (
+    <Button {...args}>
       <span style={{ display: 'flex', flexDirection: 'column-reverse', alignItems: 'center' }}>
-        <IconFlagRussia /> Button
+        <IconFlagRussia width={24} height={24} /> Button
       </span>
     </Button>
   )
 };
 
-WithSpan.parameters = {
+WithCustomContent.parameters = {
   docs: {
     description: {
       story: `Кнопка содержит внутри дополнительную обертку span и содержимое выравнивается относительно span`
@@ -251,7 +295,7 @@ WithSpan.parameters = {
 
 export const CustomWithIcon: Story = {
   args: {
-    children: <IconGoogle />,
+    children: '',
     variant: 'buttonOutline',
     size: {
       minWidth: 15,
@@ -259,7 +303,12 @@ export const CustomWithIcon: Story = {
       padding: '10px'
     },
     onClick: () => alert('Button clicked!')
-  }
+  },
+  render: (args) => (
+    <Button {...args}>
+      <IconGoogle width={24} height={24} />
+    </Button>
+  )
 };
 
 CustomWithIcon.parameters = {
@@ -292,19 +341,77 @@ ResponsiveButton.parameters = {
   }
 };
 
-export const LinkButton: Story = {
+export const AsChildLink: Story = {
   args: {
-    children: 'Link Button',
-    variant: 'buttonText',
-    href: 'https://google.com/',
-    target: '_blank'
+    children: '',
+    variant: 'buttonPrimary',
+    asChild: true
+  },
+  render: (args) => (
+    <Button {...args}>
+      <a href="https://google.com" target={'_blank'}>
+        Google
+      </a>
+    </Button>
+  )
+};
+
+AsChildLink.parameters = {
+  docs: {
+    description: {
+      story: `Использование asChild для превращения ссылки в кнопку. Стили кнопки применяются к элементу ссылки.`
+    }
   }
 };
 
-LinkButton.parameters = {
+export const AsChildNextLink: Story = {
+  args: {
+    children: '',
+    variant: 'buttonSecondary',
+    asChild: true
+  },
+  render: (args) => (
+    <Button {...args}>
+      <Link href="https://google.com" target={'_blank'}>
+        Next.js Link as Button
+      </Link>
+    </Button>
+  )
+};
+
+AsChildNextLink.parameters = {
   docs: {
     description: {
-      story: `Кнопка, используемая как ссылка`
+      story: `Использование asChild с Next.js Link компонентом. Стили кнопки применяются к элементу ссылки.`
+    }
+  }
+};
+
+export const AsChildCustomComponent: Story = {
+  args: {
+    children: '',
+    variant: 'buttonOutline',
+    asChild: true
+  },
+  render: (args) => {
+    const CustomComponent = ({ children, ...props }: { children: React.ReactNode }) => (
+      <div {...props} style={{ cursor: 'pointer' }}>
+        {children}
+      </div>
+    );
+
+    return (
+      <Button {...args}>
+        <CustomComponent>Custom Component as Button</CustomComponent>
+      </Button>
+    );
+  }
+};
+
+AsChildCustomComponent.parameters = {
+  docs: {
+    description: {
+      story: `Использование asChild с кастомным компонентом. Стили кнопки применяются к кастомному компоненту.`
     }
   }
 };

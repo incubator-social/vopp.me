@@ -1,12 +1,7 @@
 import styles from './Button.module.scss';
-import { cloneElement, CSSProperties, isValidElement, ReactElement, ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import clsx from 'clsx';
-
-interface InjectedButtonProps {
-  className?: string;
-  style?: CSSProperties;
-  onClick?: (e: React.MouseEvent) => void;
-}
+import { Slot } from '@radix-ui/react-slot';
 
 type SizeProps = {
   minWidth?: number | string;
@@ -25,20 +20,21 @@ type Props = {
   disabled?: boolean;
   size?: SizeProps;
   type?: 'button' | 'submit' | 'reset';
-  href?: string;
-  target?: '_self' | '_blank';
+  asChild?: boolean;
 };
 
 export const Button = ({
   children,
-  onClick,
   variant = 'buttonPrimary',
   disabled = false,
-  size = {},
+  size,
   type = 'button',
-  href,
-  target = '_self'
+  asChild,
+  onClick,
+  ...rest
 }: Props) => {
+  const Component = asChild ? Slot : 'button';
+
   const buttonStyles: CSSProperties = {
     minWidth: size?.minWidth,
     minHeight: size?.minHeight,
@@ -49,31 +45,20 @@ export const Button = ({
     padding: size?.padding
   };
 
-  // Если передан href, рендерим как ссылку
-  if (href) {
-    return (
-      <a
-        className={clsx(styles.button, styles[variant])}
-        href={href}
-        style={buttonStyles}
-        target={target}
-        onClick={onClick}
-      >
-        {children}
-      </a>
-    );
+  const props = {
+    className: clsx(styles.button, variant && styles[variant], disabled && styles.disabled),
+    style: buttonStyles,
+    onClick: disabled ? undefined : onClick,
+    ...rest
+  };
+
+  if (asChild) {
+    return <Component {...props}>{children}</Component>;
   }
 
-  // Стандартный вариант - кнопка
   return (
-    <button
-      className={clsx(styles.button, styles[variant])}
-      onClick={onClick}
-      disabled={disabled}
-      type={type}
-      style={buttonStyles}
-    >
+    <Component {...props} type={type} disabled={disabled}>
       {children}
-    </button>
+    </Component>
   );
 };
