@@ -48,38 +48,35 @@ export const SignUpForm = () => {
         label="Username"
         placeholder="Enter your username"
         errorMessage={errors.username?.message}
-        containerClassName={styles.field}
         className={styles.customInput}
       />
 
       <Input
         {...register('email', {
-          onBlur: () => trigger('username')
+          onBlur: () => trigger('email')
         })}
         type="email"
         label="Email"
         placeholder="Epam@epam.com"
         errorMessage={errors.email?.message}
-        containerClassName={styles.field}
         className={styles.customInput}
       />
 
       <Input
         {...register('password', {
-          onBlur: () => trigger('username')
+          onBlur: () => trigger('password')
         })}
         type="password"
         label="Password"
         placeholder="Enter your password"
         errorMessage={errors.password?.message}
-        containerClassName={styles.field}
         className={styles.customInput}
       />
 
       <div className={styles.specialGap}>
         <Input
           {...register('passwordConfirmation', {
-            onBlur: () => trigger('username')
+            onBlur: () => trigger('passwordConfirmation')
           })}
           type="password"
           label="Password confirmation"
@@ -88,34 +85,35 @@ export const SignUpForm = () => {
           className={styles.customInput}
         />
 
-        <Controller
-          name="agree"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              checked={field.value}
-              onCheckedChange={(checked) => {
-                field.onChange(checked === true);
-                trigger('agree');
-              }}
-              onBlur={field.onBlur}
-              label={
-                <span className={styles.checkboxLabel}>
-                  I agree to the{' '}
-                  <Link href="/legal/terms" className={styles.link}>
-                    Terms of Service
-                  </Link>{' '}
-                  and{' '}
-                  <Link href="/legal/privacy" className={styles.link}>
-                    Privacy Policy
-                  </Link>
-                </span>
-              }
-            />
-          )}
-        />
-
-        {errors.agree && <span style={{ color: 'red', fontSize: '14px' }}>{errors.agree.message}</span>}
+        <div className={styles.checkboxWrapper}>
+          <Controller
+            name="agree"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                checked={field.value}
+                onCheckedChange={(checked) => {
+                  field.onChange(checked === true);
+                  trigger('agree');
+                }}
+                onBlur={field.onBlur}
+                label={
+                  <span className={styles.checkboxLabel}>
+                    I agree to the{' '}
+                    <Link href="/legal/terms" className={styles.link}>
+                      Terms of Service
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="/legal/privacy" className={styles.link}>
+                      Privacy Policy
+                    </Link>
+                  </span>
+                }
+              />
+            )}
+          />
+          {errors.agree && <span className={styles.checkboxError}>{errors.agree.message}</span>}
+        </div>
 
         <Button type="submit" variant="buttonPrimary" size={{ width: '100%' }} disabled={isSubmitDisabled}>
           Sign Up
