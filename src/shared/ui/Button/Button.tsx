@@ -11,6 +11,7 @@ type SizeProps = {
   width?: number | string;
   height?: number | string;
   padding?: string | number;
+  margin?: string | number;
 };
 
 type Props = {
@@ -42,7 +43,8 @@ export const Button = ({
     maxHeight: size?.maxHeight,
     width: size?.width,
     height: size?.height,
-    padding: size?.padding
+    padding: size?.padding,
+    margin: size?.margin
   };
 
   const props = {

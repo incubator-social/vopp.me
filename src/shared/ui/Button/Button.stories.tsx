@@ -28,6 +28,7 @@ const meta = {
   - \`minWidth\` / \`maxWidth\` / \`width\` - ширина (число → px, строка → как есть)
   - \`minHeight\` / \`maxHeight\` / \`height\` - высота (число → px, строка → как есть)
   - \`padding\` - внутренние отступы (число → px, строка → как есть)
+  - \`margin\` - внешние отступы (число → px, строка → как есть)
 - \`onClick\` - обработчик клика
 - \`type\` - тип кнопки: 'button' | 'submit' | 'reset'
 - \`asChild\` - использование Slot из Radix UI для композиции с другими компонентами
@@ -337,6 +338,31 @@ ResponsiveButton.parameters = {
   docs: {
     description: {
       story: `Адаптивная кнопка с использованием CSS-функции \`clamp()\` в объекте size.`
+    }
+  }
+};
+
+export const MarginParametrs: Story = {
+  args: {
+    children: '',
+    size: {
+      margin: '20px 0px 20px 0px'
+    },
+    onClick: () => alert('Button clicked!')
+  },
+  render: (args) => (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ border: '5px solid #fefefe', width: 300 }}></div>
+      <Button {...args}>Button</Button>
+      <div style={{ border: '5px solid #fefefe', width: 300 }}></div>
+    </div>
+  )
+};
+
+MarginParametrs.parameters = {
+  docs: {
+    description: {
+      story: `Кнопка с внешними отступами`
     }
   }
 };
