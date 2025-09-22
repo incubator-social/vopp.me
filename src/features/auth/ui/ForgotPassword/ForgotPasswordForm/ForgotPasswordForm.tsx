@@ -47,8 +47,8 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
       <form onSubmit={rhfHandleSubmit(onSubmit)}>
         <h1>Forgot Password</h1>
 
-        <div className={s.form__content}>
-          <div className={s.form__inputs}>
+        <div className={s.formContent}>
+          <div className={s.formInputs}>
             <Input
               type="email"
               label="Email"
@@ -58,10 +58,10 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
             />
 
             {emailNotFound && (
-              <p className={clsx(s.form__error, 'regular-text-14')}>User with this email doesn&apos;t exist</p>
+              <p className={clsx(s.formError, 'regular-text-14')}>User with this email doesn&apos;t exist</p>
             )}
 
-            <p className={clsx(s.form__description, 'regular-text-14')}>
+            <p className={clsx(s.formDescription, 'regular-text-14')}>
               Enter your email address and we will send you further instructions.
             </p>
 
@@ -74,11 +74,11 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
             )}
           </div>
 
-          <div className={s.form__buttons}>
+          <div className={s.formButtons}>
             <Button variant="buttonPrimary" disabled={isSubmitting} size={{ width: '100%' }}>
               {emailSent ? 'Send again' : 'Send Link'}
             </Button>
-            <Link href={{ pathname: '/auth/sign-in' }} className={s.form__link} onClick={(e) => e.stopPropagation()}>
+            <Link href={{ pathname: '/auth/sign-in' }} className={s.formLink} onClick={(e) => e.stopPropagation()}>
               Back to Sign In
             </Link>
           </div>

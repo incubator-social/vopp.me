@@ -9,7 +9,6 @@
   background: none;
   border: none;
   padding: 0;
-
   transition: opacity 0.2s ease;
 
   &:hover {
@@ -22,7 +21,7 @@
   height: 100%;
 
   path {
-    stroke: currentColor;
+    stroke: currentcolor;
   }
 }
 
@@ -38,7 +37,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-family: var(--font-family-primary), sans-serif;
   font-size: 9px;
   font-weight: 500;
