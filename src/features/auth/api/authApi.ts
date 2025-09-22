@@ -1,7 +1,6 @@
 import { baseApi } from '../../../shared/api/baseApi';
 
 export const authApi = baseApi.injectEndpoints({
-  reducerPath: 'authApi',
   endpoints: (build) => ({
     registration: build.mutation({
       query: (userData) => ({
@@ -12,8 +11,15 @@ export const authApi = baseApi.injectEndpoints({
       transformResponse: (_result, meta) => {
         return { status: meta?.response?.status ?? 0 };
       }
+    }),
+    confirmRegistration: build.mutation({
+      query: (confirmationCode) => ({
+        url: 'auth/registration-confirmation',
+        method: 'POST',
+        body: { confirmationCode }
+      })
     })
   })
 });
 
-export const { useRegistrationMutation } = authApi;
+export const { useRegistrationMutation, useConfirmRegistrationMutation } = authApi;

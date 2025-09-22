@@ -5,8 +5,7 @@ import { baseApi } from '@/src/shared/api/baseApi';
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      [baseApi.reducerPath]: baseApi.reducer,
-      [authApi.reducerPath]: baseApi.reducer
+      [baseApi.reducerPath]: baseApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware)
   });

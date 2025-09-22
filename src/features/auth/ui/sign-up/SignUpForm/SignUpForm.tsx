@@ -12,41 +12,14 @@ import Link from 'next/link';
 import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpForm/signUpSchema';
 import { useEffect } from 'react';
 
+type SignUpFormValues = {
+  username: string;
+  email: string;
+  password: string;
+};
+
 export const SignUpForm = () => {
-  const [registration] = useRegistrationMutation();
-
-  // const postUser = async () => {
-  //   const result = await fetch('https://inctagram.work/api/v1/auth/registration', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       userName: 'Roma2343',
-  //       email: 'iwktzjovjiuddkvjnb@nespf.com',
-  //       password: 'fsldflkJKJ123!!!'
-  //     })
-  //   });
-  //   return console.log(result);
-  // };
-
-  useEffect(() => {
-    const registerUser = async () => {
-      try {
-        const response = await registration({
-          userName: 'Roma2343',
-          email: 'ujvyemwdtwqoxwflwk@nesopf.com',
-          password: 'fsldflkJKJ123!!!'
-        }).unwrap();
-
-        console.log('Response: ', response.status);
-      } catch (error) {
-        console.log('Error: ', error);
-      }
-    };
-
-    registerUser();
-  }, [registration]);
+  const [registration, { data }] = useRegistrationMutation();
 
   const {
     trigger,
@@ -67,9 +40,14 @@ export const SignUpForm = () => {
     }
   });
 
-  const onSubmit = ({ username, email, password }) => {
-    // console.log({ userName: username, email, password, baseUrl: 'http://localhost:3000/' });
-    // registration({ userName: username, email, password, baseUrl: 'http://localhost:3000/' });
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  const onSubmit = ({ username, email, password }: SignUpFormValues) => {
+    const body = { userName: username, email, password };
+    console.log(body);
+    registration(body);
   };
 
   const isSubmitDisabled = !isValid || !isDirty;
@@ -79,7 +57,7 @@ export const SignUpForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <p>Roman123</p>
-      <p>example@email.com</p>
+      <p>jkgrazwd@sharklasers.com</p>
       <p>123qwertyE!</p>
       <Input
         {...register('username', {
