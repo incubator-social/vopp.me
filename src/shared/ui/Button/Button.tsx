@@ -22,6 +22,7 @@ type Props = {
   size?: SizeProps;
   type?: 'button' | 'submit' | 'reset';
   asChild?: boolean;
+  className?: string;
 };
 
 export const Button = ({
@@ -32,6 +33,7 @@ export const Button = ({
   type = 'button',
   asChild,
   onClick,
+  className,
   ...rest
 }: Props) => {
   const Component = asChild ? Slot : 'button';
@@ -48,7 +50,7 @@ export const Button = ({
   };
 
   const props = {
-    className: clsx(styles.button, variant && styles[variant], disabled && styles.disabled),
+    className: clsx(styles.button, styles[variant], className),
     style: buttonStyles,
     onClick: disabled ? undefined : onClick,
     ...rest
