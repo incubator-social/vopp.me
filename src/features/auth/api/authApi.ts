@@ -11,8 +11,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
       transformResponse: (_result, meta) => {
         return { status: meta?.response?.status ?? 0 };
-      },
-      invalidatesTags: ['registration']
+      }
     })
   })
 });

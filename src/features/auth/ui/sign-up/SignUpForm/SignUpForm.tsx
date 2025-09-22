@@ -35,7 +35,7 @@ export const SignUpForm = () => {
       try {
         const response = await registration({
           userName: 'Roma2343',
-          email: 'yttpzjwhnlikqdkqbv@nespj.com',
+          email: 'ujvyemwdtwqoxwflwk@nesopf.com',
           password: 'fsldflkJKJ123!!!'
         }).unwrap();
 

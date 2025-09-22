@@ -6,6 +6,5 @@ export const baseApi = createApi({
     baseUrl: 'https://inctagram.work/api/v1/',
     prepareHeaders: () => {}
   }),
-  endpoints: () => ({}),
-  tagTypes: ['registration']
+  endpoints: () => ({})
 });

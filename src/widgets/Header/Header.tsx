@@ -28,7 +28,7 @@ export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProp
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <Link href="/public" className={styles.logo}>
+        <Link href="/" className={styles.logo}>
           VOPP.ME
         </Link>
         <div className={styles.rightSection}>
