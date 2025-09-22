@@ -12,16 +12,16 @@ import {
 } from '@/src/features/auth/ui/ForgotPassword/ForgotPasswordForm/forgot-password-form.schema';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { ResponseErrorType, useForgotPasswordMutation } from '@/src/features/auth/api/authApi';
 
-type ForgotPasswordForm = {
-  onSuccess?: () => void;
-};
+export const ForgotPasswordForm = () => {
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+  const [serverError, setServerError] = useState<string | null>(null);
 
-export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
   const {
     register,
     handleSubmit: rhfHandleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema)
   });
@@ -29,16 +29,29 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
   const [emailSent, setEmailSent] = useState(false);
   const [emailNotFound, setEmailNotFound] = useState(false);
 
-  const onSubmit = () => {
-    // демонстрация разных состояний
-    const fakeEmailExists = true; // можно менять на false, чтобы показать emailNotFound
-    if (fakeEmailExists) {
+  const onSubmit = async (data: ForgotPasswordFormValues) => {
+    try {
+      debugger;
+      console.log('try sending');
+      const result = await forgotPassword({
+        email: data.email,
+        recaptcha: false,
+        baseUrl: 'http://localhost:3000'
+      }).unwrap();
+
+      console.log(result);
       setEmailSent(true);
       setEmailNotFound(false);
-      onSuccess?.();
-    } else {
-      setEmailNotFound(true);
-      setEmailSent(false);
+    } catch (err: unknown) {
+      const error = err as { status?: number; data?: ResponseErrorType };
+      if (error?.status === 400) {
+        setEmailNotFound(true);
+        setEmailSent(false);
+        setServerError(error?.data?.messages?.[0]?.message ?? 'Unknown error');
+        console.error(error);
+      } else {
+        console.error(error);
+      }
     }
   };
 
@@ -57,9 +70,7 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
               errorMessage={errors.email?.message}
             />
 
-            {emailNotFound && (
-              <p className={clsx(s.formError, 'regular-text-14')}>User with this email doesn&apos;t exist</p>
-            )}
+            {emailNotFound && <p className={clsx(s.formError, 'regular-text-14')}>{serverError}</p>}
 
             <p className={clsx(s.formDescription, 'regular-text-14')}>
               Enter your email address and we will send you further instructions.
@@ -75,7 +86,7 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
           </div>
 
           <div className={s.formButtons}>
-            <Button variant="buttonPrimary" disabled={isSubmitting} size={{ width: '100%' }}>
+            <Button type="submit" variant="buttonPrimary" disabled={isLoading} size={{ width: '100%' }}>
               {emailSent ? 'Send again' : 'Send Link'}
             </Button>
             <Link href={{ pathname: '/auth/sign-in' }} className={s.formLink} onClick={(e) => e.stopPropagation()}>
@@ -86,4 +97,4 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordForm) {
       </form>
     </div>
   );
-}
+};
