@@ -68,7 +68,7 @@ export const SignUpForm = () => {
         })}
         type="password"
         label="Password"
-        placeholder="Enter your password"
+        placeholder="******************"
         errorMessage={errors.password?.message}
         className={styles.customInput}
       />
@@ -79,7 +79,7 @@ export const SignUpForm = () => {
             onBlur: () => trigger('passwordConfirmation')
           })}
           type="password"
-          label="Password confirmation"
+          label="******************"
           placeholder="Confirm your password"
           errorMessage={errors.passwordConfirmation?.message}
           className={styles.customInput}
