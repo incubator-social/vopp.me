@@ -3,13 +3,13 @@
 import React, { useState } from 'react';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
-import s from '@/src/features/auth/ui/ForgotPassword/ForgotPasswordForm/ForgotPasswordForm.module.scss';
+import s from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/ForgotPasswordForm.module.scss';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ForgotPasswordFormValues,
   forgotPasswordSchema
-} from '@/src/features/auth/ui/ForgotPassword/ForgotPasswordForm/forgot-password-form.schema';
+} from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/forgot-password-form.schema';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { ResponseErrorType, useForgotPasswordMutation } from '@/src/features/auth/api/authApi';
