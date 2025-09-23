@@ -1,21 +1,42 @@
 'use client';
+import { ROUTES } from '@/src/shared/config/routes';
 import { redirect } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useConfirmRegistrationMutation } from '@/src/features/auth/api/authApi';
 
 type ConfirmCodePage = {
   code: string[] | string | undefined;
-  email: string[] | string | undefined;
 };
 
-const ConfirmCodePage = ({ code, email }: ConfirmCodePage) => {
+const ConfirmCodePage = ({ code }: ConfirmCodePage) => {
   const [confirmRegistration] = useConfirmRegistrationMutation();
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   useEffect(() => {
-    redirect();
-  }, [code, email, router, confirmRegistration]);
+    if (!code) return;
 
-  return <div></div>;
+    const confirmCode = async () => {
+      try {
+        const result = await confirmRegistration(code).unwrap();
+        console.log(result);
+        if (result?.status === 204) {
+          setIsConfirmed(true);
+        }
+      } catch (error) {
+        console.error('Error during confirm code', error);
+      }
+    };
+
+    confirmCode();
+  }, [code, confirmRegistration]);
+
+  useEffect(() => {
+    if (isConfirmed) {
+      redirect(ROUTES.AUTH.EMAIL_VERIFICATION);
+    }
+  }, [isConfirmed]);
+
+  return null;
 };
 
 export default ConfirmCodePage;

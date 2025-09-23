@@ -17,7 +17,10 @@ export const authApi = baseApi.injectEndpoints({
         url: 'auth/registration-confirmation',
         method: 'POST',
         body: { confirmationCode }
-      })
+      }),
+      transformResponse: (_result, meta) => {
+        return { status: meta?.response?.status ?? 0 };
+      }
     })
   })
 });

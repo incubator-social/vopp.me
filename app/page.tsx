@@ -8,12 +8,10 @@ export default async function HomePage({
   const params = await searchParams;
 
   const code = params?.code || undefined;
-  const email = params?.code || undefined;
 
   console.log(code);
-  console.log(email);
 
-  if (!code && !email) {
+  if (!code) {
     return (
       <div style={{ padding: '10px' }}>
         <main>
@@ -23,5 +21,5 @@ export default async function HomePage({
     );
   }
 
-  return <ConfirmCodePage code={code} email={email} />;
+  return <ConfirmCodePage code={code} />;
 }

@@ -57,7 +57,7 @@ export const SignUpForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <p>Roman123</p>
-      <p>gnstlyui@sharklasers.com</p>
+      <p>fseqqweqqq@sharklasers.com</p>
       <p>123qwertyE!</p>
       <Input
         {...register('username', {
