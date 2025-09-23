@@ -1,0 +1,17 @@
+.body {
+  padding-top: 30px;
+  padding-bottom: 36px;
+}
+
+.message {
+  color: var(--color-light-100);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  padding-bottom: 18px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+}
