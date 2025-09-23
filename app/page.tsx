@@ -1,18 +1,27 @@
-import { headers } from 'next/headers';
+import ConfirmCodePage from '@/app/auth/confirm-code/ConfirmCodePage';
 
-export default async function Home() {
-  const header = await headers();
+export default async function HomePage({
+  searchParams
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
 
-  const searchParams = new URLSearchParams(header.get('x-nextjs-query') || '');
-  const code = searchParams.get('code');
+  const code = searchParams?.code || undefined;
+  const email = searchParams?.code || undefined;
 
   console.log(code);
+  console.log(email);
 
-  return (
-    <div style={{ padding: '10px' }}>
-      <main>
-        <h1>VOPP.ME</h1>
-      </main>
-    </div>
-  );
+  if (!code && !email) {
+    return (
+      <div style={{ padding: '10px' }}>
+        <main>
+          <h1>VOPP.ME</h1>
+        </main>
+      </div>
+    );
+  }
+
+  return <ConfirmCodePage code={code} email={email} />;
 }
