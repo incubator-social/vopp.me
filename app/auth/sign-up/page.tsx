@@ -1,5 +1,5 @@
 import Card from '@/src/shared/ui/Card/Card';
-import styles from '@/app/auth/sign-up/SignUpPage.module.scss';
+import styles from './page.module.scss';
 import { OAuthButtons } from '@/src/features/auth/ui/sign-up/OAuthButtons/OAuthButtons';
 import { SignUpForm } from '@/src/features/auth/ui/sign-up/SignUpForm/SignUpForm';
 import { SignInPrompt } from '@/src/features/auth/ui/sign-up/SignInPrompt/SignInPrompt';

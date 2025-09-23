@@ -3,7 +3,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 378px;
+  min-width: 378px;
+  max-width: 378px;
+  box-sizing: border-box;
 }
 
 .title {
