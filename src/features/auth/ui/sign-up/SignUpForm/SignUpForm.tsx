@@ -9,8 +9,12 @@ import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
 import styles from './SignUpForm.module.scss';
 import Link from 'next/link';
 import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpForm/signUpSchema';
+import { useState } from 'react';
 
 export const SignUpForm = () => {
+  const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
+  const [fieldValuesChanged, setFieldValuesChanged] = useState<Set<string>>(new Set());
+
   const {
     trigger,
     control,
@@ -20,7 +24,7 @@ export const SignUpForm = () => {
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
     mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onChange',
     defaultValues: {
       username: '',
       email: '',
@@ -29,6 +33,24 @@ export const SignUpForm = () => {
       agree: false
     }
   });
+
+  const handleFieldBlur = (fieldName: keyof FormValues) => {
+    setTouchedFields((prev) => new Set(prev).add(fieldName as string));
+    setFieldValuesChanged((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(fieldName as string);
+      return newSet;
+    });
+    trigger(fieldName);
+  };
+
+  const handleFieldChange = (fieldName: keyof FormValues) => {
+    setFieldValuesChanged((prev) => new Set(prev).add(fieldName as string));
+  };
+
+  const shouldShowError = (fieldName: string) => {
+    return touchedFields.has(fieldName) && !fieldValuesChanged.has(fieldName);
+  };
 
   const onSubmit = (data: FormValues) => {
     console.log('Form data:', data);
@@ -43,45 +65,49 @@ export const SignUpForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <Input
         {...register('username', {
-          onBlur: () => trigger('username')
+          onChange: () => handleFieldChange('username')
         })}
+        onBlur={() => handleFieldBlur('username')}
         label="Username"
         placeholder="Enter your username"
-        errorMessage={errors.username?.message}
+        errorMessage={shouldShowError('username') ? errors.username?.message : ''}
         className={styles.customInput}
       />
 
       <Input
         {...register('email', {
-          onBlur: () => trigger('email')
+          onChange: () => handleFieldChange('email')
         })}
+        onBlur={() => handleFieldBlur('email')}
         type="email"
         label="Email"
         placeholder="Epam@epam.com"
-        errorMessage={errors.email?.message}
+        errorMessage={shouldShowError('email') ? errors.email?.message : ''}
         className={styles.customInput}
       />
 
       <Input
         {...register('password', {
-          onBlur: () => trigger('password')
+          onChange: () => handleFieldChange('password')
         })}
+        onBlur={() => handleFieldBlur('password')}
         type="password"
         label="Password"
         placeholder="******************"
-        errorMessage={errors.password?.message}
+        errorMessage={shouldShowError('password') ? errors.password?.message : ''}
         className={styles.customInput}
       />
 
       <div className={styles.specialGap}>
         <Input
           {...register('passwordConfirmation', {
-            onBlur: () => trigger('passwordConfirmation')
+            onChange: () => handleFieldChange('passwordConfirmation')
           })}
+          onBlur={() => handleFieldBlur('passwordConfirmation')}
           type="password"
-          label="******************"
-          placeholder="Confirm your password"
-          errorMessage={errors.passwordConfirmation?.message}
+          label="Password confirmation"
+          placeholder="******************"
+          errorMessage={shouldShowError('passwordConfirmation') ? errors.passwordConfirmation?.message : ''}
           className={styles.customInput}
         />
 
