@@ -7,8 +7,8 @@ export default async function HomePage({
 }) {
   const params = await searchParams;
 
-  const code = searchParams?.code || undefined;
-  const email = searchParams?.code || undefined;
+  const code = params?.code || undefined;
+  const email = params?.code || undefined;
 
   console.log(code);
   console.log(email);
