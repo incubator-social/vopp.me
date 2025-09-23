@@ -1,6 +1,7 @@
 import styles from './Button.module.scss';
 import { CSSProperties, ReactNode } from 'react';
 import clsx from 'clsx';
+import { Slot } from '@radix-ui/react-slot';
 
 type SizeProps = {
   minWidth?: number | string;
@@ -10,6 +11,7 @@ type SizeProps = {
   width?: number | string;
   height?: number | string;
   padding?: string | number;
+  margin?: string | number;
 };
 
 type Props = {
@@ -19,6 +21,7 @@ type Props = {
   disabled?: boolean;
   size?: SizeProps;
   type?: 'button' | 'submit' | 'reset';
+  asChild?: boolean;
   className?: string;
 };
 
@@ -27,29 +30,40 @@ export const Button = ({
   onClick,
   variant = 'buttonPrimary',
   disabled = false,
-  size = {},
+  size,
   type = 'button',
-  className
+  asChild,
+  onClick,
+  className,
+  ...rest
 }: Props) => {
+  const Component = asChild ? Slot : 'button';
+
   const buttonStyles: CSSProperties = {
-    minWidth: size.minWidth,
-    minHeight: size.minHeight,
-    maxWidth: size.maxWidth,
-    maxHeight: size.maxHeight,
-    width: size.width,
-    height: size.height,
-    padding: size.padding
+    minWidth: size?.minWidth,
+    minHeight: size?.minHeight,
+    maxWidth: size?.maxWidth,
+    maxHeight: size?.maxHeight,
+    width: size?.width,
+    height: size?.height,
+    padding: size?.padding,
+    margin: size?.margin
   };
 
+  const props = {
+    className: clsx(styles.button, styles[variant], className),
+    style: buttonStyles,
+    onClick: disabled ? undefined : onClick,
+    ...rest
+  };
+
+  if (asChild) {
+    return <Component {...props}>{children}</Component>;
+  }
+
   return (
-    <button
-      className={clsx(styles.button, styles[variant], className)}
-      onClick={onClick}
-      disabled={disabled}
-      type={type}
-      style={buttonStyles}
-    >
+    <Component {...props} type={type} disabled={disabled}>
       {children}
-    </button>
+    </Component>
   );
 };
