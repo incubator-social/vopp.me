@@ -19,10 +19,6 @@
   border: none !important;
 }
 
-.buttonIcon {
-  color: var(--color-light-100) !important;
-}
-
 .form {
   margin-top: 24px;
   display: flex;
@@ -42,16 +38,18 @@
   }
 }
 
-.linkForgot {
-  text-decoration: none;
-  color: var(--color-light-900);
-  align-self: end;
+.buttonForgot {
+  color: var(--color-light-900) !important;
+  align-self: end !important;
   margin-top: 12px;
+  font-size: 14px !important;
+  font-weight: 400 !important;
 
   &:visited {
     color: var(--color-light-900);
   }
 }
+
 .accountQuestion {
   margin-top: 18px;
 }

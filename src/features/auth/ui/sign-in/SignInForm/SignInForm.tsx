@@ -1,5 +1,6 @@
 'use client';
 import styles from '@/src/features/auth/ui/sign-in/SignInForm/SignInForm.module.scss';
+import { ROUTES } from '@/src/shared/config/routes';
 import Card from '@/src/shared/ui/Card/Card';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
@@ -9,24 +10,12 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 export function SignInForm() {
-  const buttonIconSize = {
-    minWidth: 36,
-    minHeight: 36,
-    width: 36,
-    height: 36,
-    padding: 0
-  };
-
   return (
     <Card className={styles.container}>
-      <h1 className={styles.h1}>Sign In</h1>
+      <h1>Sign In</h1>
       <div className={styles.buttonsGroup}>
-        <Button size={buttonIconSize} variant={'buttonText'} className={clsx(styles.button, styles.buttonIcon)}>
-          <GoogleIcon width={'36px'} height={'36px'} />
-        </Button>
-        <Button size={buttonIconSize} variant={'buttonText'} className={clsx(styles.button, styles.buttonIcon)}>
-          <GitHubIcon width={'36px'} height={'36px'} />
-        </Button>
+        <GoogleIcon width={36} height={36} />
+        <GitHubIcon width={36} height={36} />
       </div>
       <form className={styles.form}>
         <Input
@@ -42,17 +31,22 @@ export function SignInForm() {
           className={styles.inputPassword}
           containerClassName={styles.inputContainer}
         />
-        <Link href={{ pathname: '/auth/forgot-password' }} className={clsx(styles.linkForgot, 'regular-text-14')}>
-          Forgot Password
-        </Link>
-        <Button className={styles.button} size={{ width: 330 }}>
+        <Button
+          className={clsx(styles.button, styles.buttonForgot)}
+          asChild={true}
+          variant={'buttonText'}
+          size={{ minWidth: 'auto', padding: 0 }}
+        >
+          <Link href={{ pathname: ROUTES.AUTH.FORGOT_PASSWORD }}>Forgot Password</Link>
+        </Button>
+        <Button className={styles.button} type={'submit'} size={{ width: 330 }}>
           Sign In
         </Button>
       </form>
       <p className={styles.accountQuestion}>Don&apos;t have an account?</p>
-      <Link href={{ pathname: '/auth/sign-up' }} className={styles.linkSignUp}>
-        Sign Up
-      </Link>
+      <Button asChild={true} variant={'buttonText'} className={styles.linkSignUp}>
+        <Link href={{ pathname: ROUTES.AUTH.SIGN_UP }}>Sign Up</Link>
+      </Button>
     </Card>
   );
 }

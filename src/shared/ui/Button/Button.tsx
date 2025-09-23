@@ -33,7 +33,6 @@ export const Button = ({
   size,
   type = 'button',
   asChild,
-  onClick,
   className,
   ...rest
 }: Props) => {
