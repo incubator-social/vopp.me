@@ -1,8 +1,7 @@
-// src/shared/ui/AlertModal/AlertModal.stories.tsx
 import type { Meta } from '@storybook/nextjs';
 import { useState } from 'react';
 import { AlertModal } from '@/src/shared/ui/AlertModal/AlertModal';
-import { EmailSentModal } from '@/src/features/auth/ui/email-sent-modal/ui/EmailSentModal';
+import { EmailSentModal } from '@/src/features/auth/ui/email-sent-modal/EmailSentModal';
 
 const meta: Meta<typeof AlertModal> = {
   title: 'UI/AlertModal',
