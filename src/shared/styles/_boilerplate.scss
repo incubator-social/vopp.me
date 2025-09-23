@@ -30,6 +30,10 @@ a {
   box-sizing: border-box;
 }
 
+body input {
+  cursor: text;
+}
+
 a {
   color: var(--color-primary);
   text-decoration: underline;

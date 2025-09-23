@@ -10,17 +10,6 @@ export type ForgotPasswordResponse = {
   message: string;
 };
 
-export type ResponseErrorType = {
-  statusCode: number;
-  messages: [
-    {
-      message: string;
-      field: string;
-    }
-  ];
-  error: string;
-};
-
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     isAuth: builder.query({
