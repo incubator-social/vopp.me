@@ -1,3 +1,5 @@
+'use client';
+
 import { ComponentPropsWithoutRef, ReactNode } from 'react';
 import CloseIcon from '@/src/shared/assets/icons/close.svg';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -15,6 +17,9 @@ export type ModalProps = {
   closeButtonPosition?: 'inside' | 'outside' | 'none';
   containerClassName?: string;
   contentClassName?: string;
+  bodyClassName?: string;
+  closeOnOverlayClick?: boolean;
+  closeOnEsc?: boolean;
 } & ComponentPropsWithoutRef<'div'>;
 
 export const Modal = (props: ModalProps) => {
@@ -29,6 +34,9 @@ export const Modal = (props: ModalProps) => {
     containerClassName,
     contentClassName,
     closeButtonPosition = 'inside',
+    bodyClassName,
+    closeOnOverlayClick = false,
+    closeOnEsc = false,
     ...restProps
   } = props;
 
@@ -38,7 +46,15 @@ export const Modal = (props: ModalProps) => {
         {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
         <Dialog.Portal>
           <Dialog.Overlay className={styles.overlay} />
-          <Dialog.Content className={clsx(styles.content, styles[size], contentClassName)}>
+          <Dialog.Content
+            className={clsx(styles.content, styles[size], contentClassName)}
+            onInteractOutside={(e) => {
+              if (!closeOnOverlayClick) e.preventDefault();
+            }}
+            onEscapeKeyDown={(e) => {
+              if (!closeOnEsc) e.preventDefault();
+            }}
+          >
             {/* Кастомный header или дефолт, смотря что родитель передает */}
             {headerContent ? (
               <div className={styles.header}>{headerContent}</div>
@@ -61,7 +77,7 @@ export const Modal = (props: ModalProps) => {
               )
             )}
 
-            <div className={styles.body}>{children}</div>
+            <div className={clsx(styles.body, bodyClassName)}>{children}</div>
 
             {closeButtonPosition === 'outside' && (
               <Dialog.Close asChild>

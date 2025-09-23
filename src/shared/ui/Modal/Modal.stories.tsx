@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 const meta: Meta<typeof Modal> = {
-  title: 'Shared/Modal',
+  title: 'UI/Modal',
   component: Modal,
   parameters: {
     docs: {
