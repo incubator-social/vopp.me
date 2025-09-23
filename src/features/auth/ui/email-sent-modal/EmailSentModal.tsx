@@ -1,6 +1,6 @@
 'use client';
 
-import { AlertModal } from '@/src/shared/ui/AlertModal/AlertModal';
+import { AlertModal } from '@/src/shared/ui/AlertModal';
 
 type Props = {
   open: boolean;
