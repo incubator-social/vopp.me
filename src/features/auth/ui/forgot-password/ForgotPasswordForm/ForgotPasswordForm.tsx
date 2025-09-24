@@ -14,7 +14,6 @@ import {
   ForgotPasswordFormValues,
   forgotPasswordSchema
 } from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/forgot-password-form.schema';
-import { handleApiError } from '@/src/shared/lib/utils/handleApiError';
 
 type Props = {
   onSubmitSuccess: (email: string) => void;
@@ -41,27 +40,27 @@ export const ForgotPasswordForm = ({ onSubmitSuccess, onSubmitError }: Props) =>
   const [emailNotFound, setEmailNotFound] = useState(false);
 
   const onSubmit = async (data: ForgotPasswordFormValues) => {
-    try {
-      await forgotPassword({
-        email: data.email,
-        recaptcha: false,
-        baseUrl: 'http://localhost:3000'
-      }).unwrap();
-
-      onSubmitSuccess(emailValue);
-      setEmailSent(true);
-      setEmailNotFound(false);
-    } catch (err: unknown) {
-      const { fieldErrors, message } = handleApiError(err);
-      if (fieldErrors?.email) {
-        setEmailNotFound(true);
-        setServerError(fieldErrors.email);
-      } else {
-        setEmailNotFound(false);
-        onSubmitError(message ?? 'Unknown error');
-      }
-      setEmailSent(false);
-    }
+    // try {
+    //   await forgotPassword({
+    //     email: data.email,
+    //     recaptcha: false,
+    //     baseUrl: 'http://localhost:3000'
+    //   }).unwrap();
+    //
+    //   onSubmitSuccess(emailValue);
+    //   setEmailSent(true);
+    //   setEmailNotFound(false);
+    // } catch (err: unknown) {
+    //   const { fieldErrors, message } = handleApiError(err);
+    //   if (fieldErrors?.email) {
+    //     setEmailNotFound(true);
+    //     setServerError(fieldErrors.email);
+    //   } else {
+    //     setEmailNotFound(false);
+    //     onSubmitError(message ?? 'Unknown error');
+    //   }
+    //   setEmailSent(false);
+    // }
   };
 
   return (
