@@ -1,4 +1,5 @@
 import { BaseQueryApi, FetchBaseQueryError, FetchBaseQueryMeta, QueryReturnValue } from '@reduxjs/toolkit/query';
+import { setAppError } from '@/app/appSlice';
 
 export const handleError = (
   api: BaseQueryApi,
