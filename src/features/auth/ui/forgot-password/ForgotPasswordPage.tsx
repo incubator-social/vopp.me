@@ -9,7 +9,6 @@ import { Alert } from '@/src/shared/ui/Alerts/Alert';
 export const ForgotPasswordPage = () => {
   const [sentEmail, setSentEmail] = useState<string>('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
 
   return (
     <Card>
@@ -18,7 +17,6 @@ export const ForgotPasswordPage = () => {
           setSentEmail(email);
           setModalIsOpen(true);
         }}
-        onSubmitError={(error) => setServerError(error)}
       />
       <AlertModal
         open={modalIsOpen}
@@ -26,7 +24,6 @@ export const ForgotPasswordPage = () => {
         title="Email sent"
         message={`We have sent a link to confirm your email to ${sentEmail}`}
       />
-      {serverError && <Alert type={'error'} message={serverError} />}
     </Card>
   );
 };
