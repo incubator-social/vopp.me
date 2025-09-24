@@ -34,11 +34,13 @@
 
   &:disabled {
     background-color: var(--color-accent-900);
+    color: var(--color-light-900);
     cursor: not-allowed;
   }
 
   &[disabled]:hover {
     background-color: var(--color-accent-900);
+    color: var(--color-light-900);
     cursor: not-allowed;
   }
 
@@ -70,11 +72,13 @@
 
   &:disabled {
     background-color: var(--color-dark-500);
+    color: var(--color-light-900);
     cursor: not-allowed;
   }
 
   &[disabled]:hover {
     background-color: var(--color-dark-500);
+    color: var(--color-light-900);
     cursor: not-allowed;
   }
 
