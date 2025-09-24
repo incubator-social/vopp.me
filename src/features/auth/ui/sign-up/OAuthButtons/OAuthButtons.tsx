@@ -12,10 +12,10 @@ export const OAuthButtons = () => {
   return (
     <div className={styles.oauthContainer}>
       <button type="button" className={styles.oauthButton} onClick={() => handleOAuthLogin('google')}>
-        <GoogleIcon className={styles.oauthIcon} />
+        <GoogleIcon style={{ width: '36px', height: '36px' }} />
       </button>
       <button type="button" className={styles.oauthButton} onClick={() => handleOAuthLogin('github')}>
-        <GithubIcon className={styles.oauthIcon} />
+        <GithubIcon style={{ width: '36px', height: '36px' }} />
       </button>
     </div>
   );

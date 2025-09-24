@@ -1,6 +1,5 @@
 'use client';
 
-import { useRegistrationMutation } from '@/src/features/auth/api/authApi';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/src/shared/ui/Button/Button';
@@ -10,6 +9,7 @@ import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
 import styles from './SignUpForm.module.scss';
 import Link from 'next/link';
 import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpForm/signUpSchema';
+import { useState } from 'react';
 import { useEffect } from 'react';
 
 type SignUpFormValues = {
@@ -19,6 +19,9 @@ type SignUpFormValues = {
 };
 
 export const SignUpForm = () => {
+  const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
+  const [fieldValuesChanged, setFieldValuesChanged] = useState<Set<string>>(new Set());
+
   const [registration, { data }] = useRegistrationMutation();
 
   const {
@@ -30,7 +33,7 @@ export const SignUpForm = () => {
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
     mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onChange',
     defaultValues: {
       username: '',
       email: '',
@@ -39,6 +42,24 @@ export const SignUpForm = () => {
       agree: false
     }
   });
+
+  const handleFieldBlur = (fieldName: keyof FormValues) => {
+    setTouchedFields((prev) => new Set(prev).add(fieldName as string));
+    setFieldValuesChanged((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(fieldName as string);
+      return newSet;
+    });
+    trigger(fieldName);
+  };
+
+  const handleFieldChange = (fieldName: keyof FormValues) => {
+    setFieldValuesChanged((prev) => new Set(prev).add(fieldName as string));
+  };
+
+  const shouldShowError = (fieldName: string) => {
+    return touchedFields.has(fieldName) && !fieldValuesChanged.has(fieldName);
+  };
 
   useEffect(() => {
     console.log(data);
@@ -61,79 +82,81 @@ export const SignUpForm = () => {
       <p>123qwertyE!</p>
       <Input
         {...register('username', {
-          onBlur: () => trigger('username')
+          onChange: () => handleFieldChange('username')
         })}
+        onBlur={() => handleFieldBlur('username')}
         label="Username"
         placeholder="Enter your username"
-        errorMessage={errors.username?.message}
-        containerClassName={styles.field}
+        errorMessage={shouldShowError('username') ? errors.username?.message : ''}
         className={styles.customInput}
       />
 
       <Input
         {...register('email', {
-          onBlur: () => trigger('username')
+          onChange: () => handleFieldChange('email')
         })}
+        onBlur={() => handleFieldBlur('email')}
         type="email"
         label="Email"
         placeholder="Epam@epam.com"
-        errorMessage={errors.email?.message}
-        containerClassName={styles.field}
+        errorMessage={shouldShowError('email') ? errors.email?.message : ''}
         className={styles.customInput}
       />
 
       <Input
         {...register('password', {
-          onBlur: () => trigger('username')
+          onChange: () => handleFieldChange('password')
         })}
+        onBlur={() => handleFieldBlur('password')}
         type="password"
         label="Password"
-        placeholder="Enter your password"
-        errorMessage={errors.password?.message}
-        containerClassName={styles.field}
+        placeholder="******************"
+        errorMessage={shouldShowError('password') ? errors.password?.message : ''}
         className={styles.customInput}
       />
 
       <div className={styles.specialGap}>
         <Input
           {...register('passwordConfirmation', {
-            onBlur: () => trigger('username')
+            onChange: () => handleFieldChange('passwordConfirmation')
           })}
+          onBlur={() => handleFieldBlur('passwordConfirmation')}
           type="password"
           label="Password confirmation"
-          placeholder="Confirm your password"
-          errorMessage={errors.passwordConfirmation?.message}
+          placeholder="******************"
+          errorMessage={shouldShowError('passwordConfirmation') ? errors.passwordConfirmation?.message : ''}
           className={styles.customInput}
         />
 
-        <Controller
-          name="agree"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              checked={field.value}
-              onCheckedChange={(checked) => {
-                field.onChange(checked === true);
-                trigger('agree');
-              }}
-              onBlur={field.onBlur}
-              label={
-                <span className={styles.checkboxLabel}>
-                  I agree to the{' '}
-                  <Link href="/legal/terms" className={styles.link}>
-                    Terms of Service
-                  </Link>{' '}
-                  and{' '}
-                  <Link href="/legal/privacy" className={styles.link}>
-                    Privacy Policy
-                  </Link>
-                </span>
-              }
-            />
-          )}
-        />
-
-        {errors.agree && <span style={{ color: 'red', fontSize: '14px' }}>{errors.agree.message}</span>}
+        <div className={styles.checkboxWrapper}>
+          <Controller
+            name="agree"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                checked={field.value}
+                onCheckedChange={(checked) => {
+                  field.onChange(checked === true);
+                  trigger('agree');
+                }}
+                onBlur={field.onBlur}
+                label={
+                  <span className={styles.checkboxLabel}>
+                    I agree to the{' '}
+                    <Link href="/legal/terms" className={styles.link}>
+                      Terms of Service
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="/legal/privacy" className={styles.link}>
+                      Privacy Policy
+                    </Link>
+                  </span>
+                }
+              />
+            )}
+          />
+          {errors.agree && <span className={styles.checkboxError}>{errors.agree.message}</span>}
+        </div>
 
         <Button type="submit" variant="buttonPrimary" size={{ width: '100%' }} disabled={isSubmitDisabled}>
           Sign Up

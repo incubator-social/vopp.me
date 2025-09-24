@@ -18,19 +18,34 @@
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus {
     -webkit-text-fill-color: var(--color-light-100);
-    -webkit-box-shadow: 0 0 0px 1000px var(--color-dark-500) inset;
-    border: 2px solid var(--color-primary)
+    box-shadow: 0 0 0 1000px var(--color-dark-500) inset;
+    border: 2px solid var(--color-primary);
   }
 
   &:-webkit-autofill {
-    border: 1px solid var(--color-light-100)
+    border: 1px solid var(--color-light-100);
   }
 
   &:-webkit-autofill:focus {
     outline: 2px solid var(--color-primary);
-    outline-offset: -2px
+    outline-offset: -2px;
   }
 }
+
+.checkboxWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.checkboxError {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 171%;
+  color: var(--color-danger-500);
+}
+
 .checkboxLabel {
   font-family: var(--font-family-primary), sans-serif;
   font-weight: 400;
