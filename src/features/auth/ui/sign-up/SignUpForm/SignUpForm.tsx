@@ -78,9 +78,6 @@ export const SignUpForm = ({ onOpenModal }: SignUpForm) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <p>iwabmzqq@sharklasers.com</p>
-      <p>Valera123</p>
-      <p>Lkjnd32!!</p>
       <Input
         {...register('username', {
           onChange: () => handleFieldChange('username')
