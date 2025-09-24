@@ -9,7 +9,7 @@ export const authApi = baseApi.injectEndpoints({
         body: userData
       }),
       transformResponse: (_result, meta) => {
-        return { status: meta?.response?.status ?? 0 };
+        return { status: meta?.response?.status ?? 'no status' };
       }
     }),
     confirmRegistration: build.mutation({
@@ -19,7 +19,7 @@ export const authApi = baseApi.injectEndpoints({
         body: { confirmationCode }
       }),
       transformResponse: (_result, meta) => {
-        return { status: meta?.response?.status ?? 0 };
+        return { status: meta?.response?.status ?? 'no status' };
       }
     })
   })

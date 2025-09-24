@@ -1,24 +1,25 @@
 'use client';
 
+import { useRegistrationMutation } from '@/src/features/auth/api/authApi';
+
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
 import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
+import { logger } from 'storybook/internal/node-logger';
 
 import styles from './SignUpForm.module.scss';
 import Link from 'next/link';
 import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpForm/signUpSchema';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-type SignUpFormValues = {
-  username: string;
-  email: string;
-  password: string;
+type SignUpForm = {
+  isModal: boolean;
+  onOpenModal: (isModal: boolean) => void;
 };
 
-export const SignUpForm = () => {
+export const SignUpForm = ({ isModal, onOpenModal }: SignUpForm) => {
   const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
   const [fieldValuesChanged, setFieldValuesChanged] = useState<Set<string>>(new Set());
 
@@ -43,6 +44,18 @@ export const SignUpForm = () => {
     }
   });
 
+  const onSubmit = async ({ username, email, password }: Partial<FormValues>) => {
+    const body = { userName: username, email, password };
+    console.log(body);
+    try {
+      const result = await registration(body).unwrap();
+      console.log(result?.status);
+      onOpenModal(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleFieldBlur = (fieldName: keyof FormValues) => {
     setTouchedFields((prev) => new Set(prev).add(fieldName as string));
     setFieldValuesChanged((prev) => {
@@ -61,24 +74,14 @@ export const SignUpForm = () => {
     return touchedFields.has(fieldName) && !fieldValuesChanged.has(fieldName);
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
-  const onSubmit = ({ username, email, password }: SignUpFormValues) => {
-    const body = { userName: username, email, password };
-    console.log(body);
-    registration(body);
-  };
-
   const isSubmitDisabled = !isValid || !isDirty;
   // const isSubmitDisabled = false; //Расскомментировать, чтобы раздизэйблить кнопку, не заполняя данные формы, а
   //верхний isSubmitDisabled задизэйблить
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <p>Roman123</p>
-      <p>fseqqweqqq@sharklasers.com</p>
+      <p>Gloria777</p>
+      <p>owtoshlw@sharklasers.com</p>
       <p>123qwertyE!</p>
       <Input
         {...register('username', {
