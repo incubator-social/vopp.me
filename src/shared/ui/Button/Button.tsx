@@ -27,12 +27,12 @@ type Props = {
 
 export const Button = ({
   children,
+  onClick,
   variant = 'buttonPrimary',
   disabled = false,
   size,
   type = 'button',
   asChild,
-  onClick,
   className,
   ...rest
 }: Props) => {
