@@ -4,7 +4,6 @@ import { ForgotPasswordForm } from '@/src/features/auth/ui/forgot-password/Forgo
 import Card from '@/src/shared/ui/Card/Card';
 import { useState } from 'react';
 import { AlertModal } from '@/src/shared/ui/AlertModal';
-import { Alert } from '@/src/shared/ui/Alerts/Alert';
 
 export const ForgotPasswordPage = () => {
   const [sentEmail, setSentEmail] = useState<string>('');
