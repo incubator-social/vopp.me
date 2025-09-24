@@ -6,7 +6,7 @@ export const authApi = baseApi.injectEndpoints({
       query: (userData) => ({
         url: 'auth/registration',
         method: 'POST',
-        body: userData
+        body: { ...userData, baseUrl: 'http://localhost:3000/auth/confirm-code' }
       }),
       transformResponse: (_result, meta) => {
         return { status: meta?.response?.status ?? 'no status' };

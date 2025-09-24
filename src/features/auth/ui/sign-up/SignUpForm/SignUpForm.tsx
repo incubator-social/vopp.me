@@ -7,19 +7,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
 import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
-import { logger } from 'storybook/internal/node-logger';
 
 import styles from './SignUpForm.module.scss';
 import Link from 'next/link';
 import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpForm/signUpSchema';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 type SignUpForm = {
-  isModal: boolean;
   onOpenModal: (isModal: boolean) => void;
 };
 
-export const SignUpForm = ({ isModal, onOpenModal }: SignUpForm) => {
+export const SignUpForm = ({ onOpenModal }: SignUpForm) => {
   const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
   const [fieldValuesChanged, setFieldValuesChanged] = useState<Set<string>>(new Set());
 
@@ -48,7 +46,7 @@ export const SignUpForm = ({ isModal, onOpenModal }: SignUpForm) => {
   const onSubmit = async ({ username, email, password }: Partial<FormValues>) => {
     const body = { userName: username, email, password };
     try {
-      const result = await registration(body).unwrap();
+      await registration(body).unwrap();
       onOpenModal(true);
       reset();
     } catch (error) {
@@ -80,9 +78,9 @@ export const SignUpForm = ({ isModal, onOpenModal }: SignUpForm) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <p>Gloria7781</p>
-      <p>gakvnyxrq@sharklasers.com</p>
-      <p>123qwertyE!</p>
+      <p>iwabmzqq@sharklasers.com</p>
+      <p>Valera123</p>
+      <p>Lkjnd32!!</p>
       <Input
         {...register('username', {
           onChange: () => handleFieldChange('username')

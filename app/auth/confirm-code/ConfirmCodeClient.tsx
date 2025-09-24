@@ -4,6 +4,15 @@ import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useConfirmRegistrationMutation } from '@/src/features/auth/api/authApi';
 
+type ErrorType = {
+  status: number;
+  data: {
+    error: string;
+    messages: { message: string }[];
+    statusCode: number;
+  };
+};
+
 type ConfirmCodePage = {
   code: string[] | string | undefined;
 };
@@ -14,6 +23,7 @@ const ConfirmCodePage = ({ code }: ConfirmCodePage) => {
 
   useEffect(() => {
     if (!code) return;
+
     const confirmCode = async () => {
       try {
         const result = await confirmRegistration(code).unwrap();
@@ -21,13 +31,14 @@ const ConfirmCodePage = ({ code }: ConfirmCodePage) => {
           setIsConfirmed(true);
         }
       } catch (error) {
-        console.error('Error during confirm code', error);
-        const message = error?.data?.messages[0].message;
-        console.log(message);
+        console.error('Error during confirm code: ', error);
+
+        const err = error as ErrorType;
+        const message = err?.data?.messages[0].message || undefined;
 
         if (message === 'Confirmation code is invalid') {
           console.log('User is already confirmed');
-          // redirect(ROUTES.AUTH.SIGN_IN);
+          redirect(ROUTES.AUTH.SIGN_IN);
         }
       }
     };

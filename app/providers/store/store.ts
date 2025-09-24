@@ -1,4 +1,3 @@
-import { authApi } from '@/src/features/auth/api/authApi';
 import { configureStore } from '@reduxjs/toolkit';
 import { baseApi } from '@/src/shared/api/baseApi';
 

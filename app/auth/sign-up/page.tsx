@@ -14,7 +14,7 @@ export default function SignUpPage() {
     <Card className={styles.card}>
       <h1 className={styles.title}>Sign Up</h1>
       <OAuthButtons />
-      <SignUpForm isModal={isModalOpen} onOpenModal={setIsModalOpen} />
+      <SignUpForm onOpenModal={setIsModalOpen} />
       <SignInPrompt />
       {isModalOpen && (
         <EmailSentModal open={isModalOpen} onOpenChange={setIsModalOpen} classOverlay={styles.classOverlay} />
