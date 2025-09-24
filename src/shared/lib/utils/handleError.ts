@@ -1,5 +1,6 @@
 import { BaseQueryApi, FetchBaseQueryError, FetchBaseQueryMeta, QueryReturnValue } from '@reduxjs/toolkit/query';
 import { setAppError } from '@/app/appSlice';
+import { isErrorWithMessage } from './isErrorWithMessage';
 
 export const handleError = (
   api: BaseQueryApi,
@@ -14,10 +15,15 @@ export const handleError = (
         break;
       case 400:
       case 500:
-        error = (result.error.data as { message?: string })?.message || 'Server error';
+        if (isErrorWithMessage(result.error.data)) {
+          error = result.error.data.message;
+        } else {
+          error = JSON.stringify(result.error.data);
+        }
         break;
       default:
         error = JSON.stringify(result.error);
+        break;
     }
     api.dispatch(setAppError({ error }));
   }
