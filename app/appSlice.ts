@@ -17,10 +17,13 @@ const appSlice = createSlice({
     }),
     setAppError: create.reducer<{ error: string | null }>((state, action) => {
       state.error = action.payload.error;
+    }),
+    clearAppError: create.reducer((state) => {
+      state.error = null;
     })
   })
 });
 
 export const { selectAppStatus, selectAppError } = appSlice.selectors;
-export const { setAppStatus, setAppError } = appSlice.actions;
+export const { setAppStatus, setAppError, clearAppError } = appSlice.actions;
 export const appReducer = appSlice.reducer;
