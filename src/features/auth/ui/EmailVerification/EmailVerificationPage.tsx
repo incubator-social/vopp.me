@@ -1,11 +1,13 @@
 'use client';
 
+import { ROUTES } from '@/src/shared/config/routes';
 import styles from './EmailVerificationPage.module.scss';
 import { useState } from 'react';
 import SuccessImage from '@/public/email-verification-img/success.png';
 import ExpiredImage from '@/public/email-verification-img/time-management.png';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
+import Link from 'next/link';
 import Image, { StaticImageData } from 'next/image';
 
 type Props = {
@@ -38,7 +40,8 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
       descriptionMarginBottom: 54,
       showInput: false,
       buttonText: 'Sign In',
-      buttonMarginBottom: 72
+      buttonMarginBottom: 72,
+      redirectLink: ROUTES.AUTH.SIGN_IN
     },
 
     expiredWithInputCase: {
@@ -105,7 +108,13 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
         </form>
       ) : (
         <div style={{ marginBottom: content.buttonMarginBottom }}>
-          <Button>{content.buttonText}</Button>
+          {contentCases.successCase ? (
+            <Button asChild={true}>
+              <Link href={ROUTES.AUTH.SIGN_IN}>{content.buttonText}</Link>
+            </Button>
+          ) : (
+            <Button>{content.buttonText}</Button>
+          )}
         </div>
       )}
 

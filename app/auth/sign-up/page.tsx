@@ -16,7 +16,9 @@ export default function SignUpPage() {
       <OAuthButtons />
       <SignUpForm isModal={isModalOpen} onOpenModal={setIsModalOpen} />
       <SignInPrompt />
-      {isModalOpen && <EmailSentModal open={isModalOpen} onOpenChange={setIsModalOpen} />}
+      {isModalOpen && (
+        <EmailSentModal open={isModalOpen} onOpenChange={setIsModalOpen} classOverlay={styles.classOverlay} />
+      )}
     </Card>
   );
 }

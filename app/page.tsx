@@ -6,10 +6,7 @@ export default async function HomePage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
-
   const code = params?.code || undefined;
-
-  console.log(code);
 
   if (!code) {
     return (

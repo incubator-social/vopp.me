@@ -23,13 +23,14 @@ export const SignUpForm = ({ isModal, onOpenModal }: SignUpForm) => {
   const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
   const [fieldValuesChanged, setFieldValuesChanged] = useState<Set<string>>(new Set());
 
-  const [registration, { data }] = useRegistrationMutation();
+  const [registration] = useRegistrationMutation();
 
   const {
     trigger,
     control,
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid, isDirty }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
@@ -46,11 +47,10 @@ export const SignUpForm = ({ isModal, onOpenModal }: SignUpForm) => {
 
   const onSubmit = async ({ username, email, password }: Partial<FormValues>) => {
     const body = { userName: username, email, password };
-    console.log(body);
     try {
       const result = await registration(body).unwrap();
-      console.log(result?.status);
       onOpenModal(true);
+      reset();
     } catch (error) {
       console.error(error);
     }
@@ -80,8 +80,8 @@ export const SignUpForm = ({ isModal, onOpenModal }: SignUpForm) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <p>Gloria777</p>
-      <p>owtoshlw@sharklasers.com</p>
+      <p>Gloria7781</p>
+      <p>gakvnyxrq@sharklasers.com</p>
       <p>123qwertyE!</p>
       <Input
         {...register('username', {

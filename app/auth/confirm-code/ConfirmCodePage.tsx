@@ -14,16 +14,21 @@ const ConfirmCodePage = ({ code }: ConfirmCodePage) => {
 
   useEffect(() => {
     if (!code) return;
-
     const confirmCode = async () => {
       try {
         const result = await confirmRegistration(code).unwrap();
-        console.log(result);
         if (result?.status === 204) {
           setIsConfirmed(true);
         }
       } catch (error) {
         console.error('Error during confirm code', error);
+        const message = error?.data?.messages[0].message;
+        console.log(message);
+
+        if (message === 'Confirmation code is invalid') {
+          console.log('User is already confirmed');
+          // redirect(ROUTES.AUTH.SIGN_IN);
+        }
       }
     };
 
