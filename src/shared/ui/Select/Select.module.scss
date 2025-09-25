@@ -10,11 +10,10 @@
   padding: 6px 12px;
   cursor: pointer;
   background-color: var(--color-dark-500);
-
   border-radius: 2px;
 
   /* Когда меню открыто */
-  &[data-state="open"] {
+  &[data-state='open'] {
     outline: none;
     border-color: var(--color-light-100);
   }
@@ -72,8 +71,8 @@
 }
 
 /* =========================
-   CONTENT (выпадашка)
-   ========================= */
+     CONTENT (выпадашка)
+     ========================= */
 
 .content {
   border: 1px solid var(--color-light-100);
@@ -93,8 +92,8 @@
   &[data-side='top'] {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-}
   }
+}
 
 /* автоматическая ширина по контенту */
 .autoWidth {
@@ -129,26 +128,23 @@
 }
 
 /* =========================
-   VIEWPORT + SCROLL
-   ========================= */
+     VIEWPORT + SCROLL
+     ========================= */
 
 .content {
-  --select-row-h: 36px;            /* высота строки (мин): 8+20+8 = ~36px */
-  --select-visible-rows: 6;        /* сколько строк видно до скролла */
+  --select-row-h: 36px; /* высота строки (мин): 8+20+8 = ~36px */
+  --select-visible-rows: 6; /* сколько строк видно до скролла */
 }
 
 .viewport {
-  max-height: min(
-    var(--radix-select-content-available-height),
-    calc(var(--select-row-h) * var(--select-visible-rows))
-  );
+  max-height: min(var(--radix-select-content-available-height), calc(var(--select-row-h) * var(--select-visible-rows)));
   background-color: var(--color-dark-500);
   width: 100%;
 }
 
 /* =========================
-   ЭЛЕМЕНТЫ СПИСКА
-   ========================= */
+     ЭЛЕМЕНТЫ СПИСКА
+     ========================= */
 
 .item {
   display: flex;

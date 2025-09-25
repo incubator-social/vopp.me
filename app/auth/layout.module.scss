@@ -1,0 +1,8 @@
+.wrapper {
+  min-height: calc(100dvh - 60px); /* минус высота Header */
+  max-width: 1280px;
+  display: flex;
+  justify-content: center;
+  //Why this padding?
+  padding: 16px;
+}
