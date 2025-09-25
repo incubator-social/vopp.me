@@ -5,18 +5,10 @@ import GoogleIcon from '@/src/shared/assets/icons/google-svgrepo-com-1.svg';
 import styles from './OAuthButtons.module.scss';
 
 export const OAuthButtons = () => {
-  const handleOAuthLogin = (provider: 'google' | 'github') => {
-    //Здесь будет какая-то логика OAuth
-  };
-
   return (
     <div className={styles.oauthContainer}>
-      <button type="button" className={styles.oauthButton} onClick={() => handleOAuthLogin('google')}>
-        <GoogleIcon style={{ width: '36px', height: '36px' }} />
-      </button>
-      <button type="button" className={styles.oauthButton} onClick={() => handleOAuthLogin('github')}>
-        <GithubIcon style={{ width: '36px', height: '36px' }} />
-      </button>
+      <GoogleIcon style={{ width: '36px', height: '36px' }} />
+      <GithubIcon style={{ width: '36px', height: '36px' }} />
     </div>
   );
 };
