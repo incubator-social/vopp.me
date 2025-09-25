@@ -20,6 +20,7 @@
   background: none;
   position: relative;
 }
+
 .item::before {
   content: "";
   display: block;
@@ -35,18 +36,23 @@
   opacity: 0;
   transition: background-color 0.3s ease, opacity 0.3s, ease;
 }
+
 .item:is(:hover, :active, :focus-visible)::before {
   opacity: 1;
 }
+
 .item:focus-visible::before {
   background-color: var(--color-dark-500);
 }
+
 .item:hover::before {
   background-color: var(--color-dark-300);
 }
+
 .item:active::before {
   background-color: var(--color-dark-100);
 }
+
 .item[data-disabled] {
   border: 2.5px solid var(--color-dark-100);
   pointer-events: none;
@@ -60,6 +66,7 @@
   height: 100%;
   position: relative;
 }
+
 .indicator::after {
   content: "";
   display: block;
@@ -70,6 +77,7 @@
   border-radius: 50%;
   background-color: var(--color-light-100);
 }
+
 .indicator[data-disabled]::after {
   background-color: var(--color-dark-100);
 }
@@ -80,9 +88,8 @@
   font-weight: var(--font-weight-regular);
   color: var(--color-light-100);
 }
+
 .label[data-disabled] {
   color: var(--color-light-900);
   pointer-events: none;
 }
-
-/*# sourceMappingURL=RadioGroup.module.css.map */

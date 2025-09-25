@@ -4,6 +4,7 @@ import path from 'node:path';
 import Link from 'next/link';
 import ArrowBackOutline from '@/src/shared/assets/icons/arrow-back-outline.svg';
 import s from './LegalPage.module.scss';
+import { ROUTES } from '@/src/shared/config/routes';
 
 export const dynamic = 'force-static';
 
@@ -34,7 +35,7 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <main className={s.main}>
-      <Link href="/" className={s.backLink} aria-label="Back to Sign up">
+      <Link href={ROUTES.AUTH.SIGN_IN} className={s.backLink} aria-label="Back to Sign up">
         <ArrowBackOutline />
         <span>Back to Sign up</span>
       </Link>
