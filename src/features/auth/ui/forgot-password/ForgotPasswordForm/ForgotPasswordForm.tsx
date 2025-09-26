@@ -44,7 +44,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
       await forgotPassword({
         email: data.email,
         recaptcha: false,
-        baseUrl: 'http://localhost:3000'
+        baseUrl: `http://localhost:3000${ROUTES.AUTH.CREATE_NEW_PASSWORD}`
       }).unwrap();
 
       onSubmitSuccess(emailValue);
