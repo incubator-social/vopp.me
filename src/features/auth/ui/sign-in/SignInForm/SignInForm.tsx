@@ -9,7 +9,45 @@ import GitHubIcon from '@/src/shared/assets/icons/github-svgrepo-com.svg';
 import clsx from 'clsx';
 import Link from 'next/link';
 
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { useLoginMutation } from '../../../api/authApi';
+import { FormValues, loginSchema } from './loginSchema';
+import { useRouter } from 'next/navigation';
+import { setFormApiError } from './setFormApiError';
+
 export function SignInForm() {
+  const [login] = useLoginMutation();
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors, isValid, isDirty }
+  } = useForm<FormValues>({
+    resolver: zodResolver(loginSchema),
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      email: '',
+      password: ''
+    }
+  });
+
+  const onSubmit = async ({ email, password }: FormValues) => {
+    try {
+      await login({ email, password }).unwrap();
+      reset();
+      router.push(ROUTES.PROFILE);
+    } catch (error) {
+      setFormApiError(error, setError, 'password');
+      console.log(error);
+    }
+  };
+
   return (
     <Card className={styles.container}>
       <h1>Sign In</h1>
@@ -17,19 +55,23 @@ export function SignInForm() {
         <GoogleIcon width={36} height={36} />
         <GitHubIcon width={36} height={36} />
       </div>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Input
+          {...register('email')}
           type={'email'}
           label={'Email'}
           placeholder={'Epam@epam.com'}
           containerClassName={styles.inputContainer}
+          errorMessage={errors.email?.message}
         />
         <Input
+          {...register('password')}
           type={'password'}
           label={'Password'}
           placeholder={'**********'}
           className={styles.inputPassword}
           containerClassName={styles.inputContainer}
+          errorMessage={errors.password?.message}
         />
         <Button
           className={clsx(styles.button, styles.buttonForgot)}
@@ -39,7 +81,7 @@ export function SignInForm() {
         >
           <Link href={{ pathname: ROUTES.AUTH.FORGOT_PASSWORD }}>Forgot Password</Link>
         </Button>
-        <Button className={styles.button} type={'submit'} size={{ width: 330 }}>
+        <Button className={styles.button} type={'submit'} size={{ width: 330 }} disabled={!isValid || !isDirty}>
           Sign In
         </Button>
       </form>

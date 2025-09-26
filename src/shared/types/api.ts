@@ -8,3 +8,12 @@ export type ResponseErrorType = {
   ];
   error: string;
 };
+
+export type LoginBody = {
+  email: string;
+  password: string;
+};
+
+export type LoginResponse = {
+  accessToken: string;
+};
