@@ -5,7 +5,7 @@ export const ROUTES = {
     SIGN_UP: '/auth/sign-up',
     FORGOT_PASSWORD: '/auth/forgot-password',
     CREATE_NEW_PASSWORD: '/auth/create-new-password',
-    EMAIL_VERIFICATION: '/auth/email-verification'
+    EMAIL_VERIFICATION: '/auth/email-confirmed'
   },
   PROFILE: '/profile'
 } as const;
