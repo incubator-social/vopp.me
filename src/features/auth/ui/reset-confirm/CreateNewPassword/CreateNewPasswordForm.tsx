@@ -5,10 +5,11 @@ import { Input } from '@/src/shared/ui/Input/Input';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { useState } from 'react';
 import Card from '@/src/shared/ui/Card/Card';
+import { useCreateNewPasswordMutation } from '@/src/features/auth/api/authApi';
 
 export function CreateNewPasswordForm() {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [createNewPassword, { isLoading }] = useCreateNewPasswordMutation();
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const labels = {
     newPassword: 'New password',
@@ -37,7 +38,7 @@ export function CreateNewPasswordForm() {
 
           <span className={styles.newPassText}>Your password must be between 6 and 20 characters</span>
 
-          <Button size={{ width: '100%' }} type={'submit'}>
+          <Button size={{ width: '100%' }} type={'submit'} disabled={isLoading}>
             Create new password
           </Button>
         </form>
