@@ -7,11 +7,16 @@ export type ConfirmCodeError = {
   };
 };
 
-export const confirmHandleError = (error: ConfirmCodeError, onOpenModal: (isModal: boolean) => void) => {
+export const confirmLinkErrorMessage = {
+  invalid: 'Confirmation code is invalid',
+  expired: 'Confirmation code is expired'
+};
+
+export const confirmLinkHandleError = (error: ConfirmCodeError, onOpenModal: (isModal: boolean) => void) => {
   const errorMessage = error?.data?.messages[0].message || undefined;
 
   switch (errorMessage) {
-    case 'Confirmation code is invalid':
+    case confirmLinkErrorMessage.invalid:
       onOpenModal(true);
       break;
     default:

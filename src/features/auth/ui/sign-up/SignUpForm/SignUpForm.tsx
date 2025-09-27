@@ -89,14 +89,14 @@ export const SignUpForm = ({ onOpenModal }: SignUpForm) => {
     return touchedFields.has(fieldName) && !fieldValuesChanged.has(fieldName);
   };
 
-  const isSubmitDisabled = !isValid || !isDirty;
+  const isSubmitDisabled = !isValid || !isDirty || isSubmitting;
   // const isSubmitDisabled = false; //Расскомментировать, чтобы раздизэйблить кнопку, не заполняя данные формы, а
   //верхний isSubmitDisabled задизэйблить
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <p>tigiajzq@sharklasers.com</p>
-      <p>Jena999</p>
+      <p>ceuzrkfv@sharklasers.com</p>
+      <p>Pena999</p>
       <p>Lfdsfoe134!!</p>
 
       <Input

@@ -3,6 +3,7 @@
   inset: 0;
   background: rgb(0 0 0 / 60%);
   animation: fadeIn 0.2s ease-in;
+  z-index: 300;
 }
 
 .content {
@@ -19,6 +20,7 @@
   border: 1px solid var(--color-dark-100);
   transform: translate(-50%, -50%);
   animation: scaleIn 0.2s ease-in;
+  z-index: 300;
 }
 
 .title {

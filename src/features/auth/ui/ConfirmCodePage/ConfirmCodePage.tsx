@@ -1,5 +1,9 @@
 'use client';
-import { ConfirmCodeError, confirmHandleError } from '@/src/features/auth/ui/ConfirmCodePage/utils/confirmHandleError';
+import {
+  ConfirmCodeError,
+  confirmLinkHandleError
+} from '@/src/features/auth/ui/ConfirmCodePage/utils/confirm-link-handle-error';
+import { useConfirmLinkRedirect } from '@/src/features/auth/ui/ConfirmCodePage/utils/redirectHook';
 import { ROUTES } from '@/src/shared/config/routes';
 import { redirect } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
@@ -12,11 +16,12 @@ type searchParams = {
 
 const ConfirmCodePage = ({ searchParams }: searchParams) => {
   const [confirmRegistration] = useConfirmRegistrationMutation();
-  const [isConfirmed, setIsConfirmed] = useState(false);
-
-  const [redirectToSignIn, setRedirectToSignIn] = useState(false);
 
   const [isModal, setIsModal] = useState(false);
+  const [path, setStatus] = useConfirmLinkRedirect();
+
+  // const [isConfirmed, setIsConfirmed] = useState(false);
+  // const [redirectToSignIn, setRedirectToSignIn] = useState(false);
 
   const { code } = use(searchParams);
 
@@ -32,7 +37,7 @@ const ConfirmCodePage = ({ searchParams }: searchParams) => {
       } catch (error) {
         const err = error as ConfirmCodeError;
         console.error('Error during confirm code: ', err);
-        confirmHandleError(err, setIsModal);
+        confirmLinkHandleError(err, setIsModal);
       }
     };
 
