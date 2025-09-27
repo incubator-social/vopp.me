@@ -77,6 +77,7 @@
 .content {
   border: 1px solid var(--color-light-100);
   min-width: var(--radix-select-trigger-width);
+  z-index: 1000;
 
   /* По умолчанию - все углы скруглены */
   border-radius: 2px;
