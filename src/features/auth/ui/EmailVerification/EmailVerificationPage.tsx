@@ -1,22 +1,23 @@
 'use client';
 
-import { ROUTES } from '@/src/shared/config/routes';
 import styles from './EmailVerificationPage.module.scss';
 import { useState } from 'react';
-import SuccessImage from '@/public/email-verification-img/success.png';
-import ExpiredImage from '@/public/email-verification-img/time-management.png';
+import SuccessImage from '@/public/email-verification-img/success.svg';
+import ExpiredImage from '@/public/email-verification-img/time-management.svg';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
+import { SVGProps } from 'react';
 import Link from 'next/link';
-import Image, { StaticImageData } from 'next/image';
+
+type EmailStatus = 'success' | 'expired_with_input' | 'expired_without_input';
 
 type Props = {
-  emailStatus?: 'success' | 'expired_with_input' | 'expired_without_input';
+  emailStatus?: EmailStatus;
   initialEmail?: string;
 };
 
 type ContentType = {
-  image: StaticImageData;
+  image: React.ComponentType<SVGProps<SVGSVGElement>>;
   imageWidth: number;
   imageHeight: number;
   title: string;
@@ -28,7 +29,16 @@ type ContentType = {
 };
 
 export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = '' }: Props) => {
-  const [email, setEmail] = useState(initialEmail);
+  const [email, setEmail] = useState<string>(initialEmail);
+
+  const expiredContent = {
+    image: ExpiredImage,
+    imageWidth: 473,
+    imageHeight: 352.44,
+    title: 'Email verification link expired',
+    description: 'Looks like the verification link has expired. Not to worry, we can send the link again',
+    descriptionMarginBottom: 30
+  };
 
   const contentCases = {
     successCase: {
@@ -45,24 +55,14 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
     },
 
     expiredWithInputCase: {
-      image: ExpiredImage,
-      imageWidth: 473,
-      imageHeight: 352.44,
-      title: 'Email verification link expired',
-      description: 'Looks like the verification link has expired. Not to worry, we can send the link again',
-      descriptionMarginBottom: 30,
+      ...expiredContent,
       showInput: true,
       buttonText: 'Resend verification link',
       buttonMarginBottom: 36
     },
 
     expiredWithoutInputCase: {
-      image: ExpiredImage,
-      imageWidth: 473,
-      imageHeight: 352.44,
-      title: 'Email verification link expired',
-      description: 'Looks like the verification link has expired. Not to worry, we can send the link again',
-      descriptionMarginBottom: 30,
+      ...expiredContent,
       showInput: false,
       buttonText: 'Resend link',
       buttonMarginBottom: 31
@@ -83,6 +83,7 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
   };
 
   const content = getContent();
+  const ImageComponent = content.image;
 
   return (
     <div className={styles.container}>
@@ -100,7 +101,7 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Epam@epam.com"
             required
-            style={{ marginBottom: '24px' }}
+            className={styles.input}
           />
           <div style={{ marginBottom: content.buttonMarginBottom }}>
             <Button>{content.buttonText}</Button>
@@ -119,7 +120,7 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
       )}
 
       <div style={{ width: content.imageWidth, height: content.imageHeight }}>
-        <Image className={styles.image} src={content.image} alt={content.title} />
+        <ImageComponent width={content.imageWidth} height={content.imageHeight} />
       </div>
     </div>
   );
