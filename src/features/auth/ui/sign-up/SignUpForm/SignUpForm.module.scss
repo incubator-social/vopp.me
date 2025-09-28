@@ -61,9 +61,5 @@
   text-decoration: underline;
   text-decoration-skip-ink: none;
   white-space: nowrap;
-
-  &:hover {
-    color: var(--color-primary-hover);
-    text-decoration: underline;
-  }
+  color: var(--color-accent-500) !important;
 }

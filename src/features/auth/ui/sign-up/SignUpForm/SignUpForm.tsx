@@ -25,6 +25,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
     register,
     handleSubmit,
     reset,
+    clearErrors,
     formState: { errors, isValid, isDirty, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
@@ -60,6 +61,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         label="Username"
         placeholder="Enter your username"
         errorMessage={errors.username?.message}
+        onChange={() => clearErrors('username')}
         className={styles.customInput}
       />
 
@@ -69,6 +71,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         label="Email"
         placeholder="Epam@epam.com"
         errorMessage={errors.email?.message}
+        onChange={() => clearErrors('email')}
         className={styles.customInput}
       />
 
@@ -78,6 +81,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         label="Password"
         placeholder="******************"
         errorMessage={errors.password?.message}
+        onChange={() => clearErrors('password')}
         className={styles.customInput}
       />
 
@@ -88,6 +92,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
           label="Password confirmation"
           placeholder="******************"
           errorMessage={errors.passwordConfirmation?.message}
+          onChange={() => clearErrors('passwordConfirmation')}
           className={styles.customInput}
         />
 
