@@ -1,7 +1,8 @@
 import { z } from 'zod';
 
 const USERNAME_REGEX = /^[a-zA-Z0-9_-]+$/;
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[!-~]+$/;
+const PASSWORD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_{|}~])[a-zA-Z\d!"#$%&'()*+,-./:;<=>?@[\]^_{|}~]+$/;
 
 export const signUpSchema = z
   .object({
