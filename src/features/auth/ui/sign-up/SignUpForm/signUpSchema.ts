@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 const USERNAME_REGEX = /^[a-zA-Z0-9_-]+$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[!-~]+$/;
+const EMAIL_REGEX = /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 export const signUpSchema = z
   .object({
@@ -12,7 +13,9 @@ export const signUpSchema = z
       .max(30, 'Maximum number of characters 30')
       .regex(USERNAME_REGEX, 'Username can only contain letters, numbers, underscores and hyphens'),
 
-    email: z.string().min(1, 'Email is required').email('The email must match the format example@example.com'),
+    email: z.string().min(1, 'Email is required').regex(EMAIL_REGEX, {
+      message: 'The email must match the format example@example.com'
+    }),
 
     password: z
       .string()

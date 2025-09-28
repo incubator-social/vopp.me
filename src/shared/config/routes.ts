@@ -6,5 +6,9 @@ export const ROUTES = {
     FORGOT_PASSWORD: '/auth/forgot-password',
     CREATE_NEW_PASSWORD: '/auth/create-new-password'
   },
-  PROFILE: '/profile'
+  PROFILE: '/profile',
+  LEGAL: {
+    PRIVACY: '/legal/privacy',
+    TERMS_OF_SERVICE: '/legal/terms'
+  }
 } as const;
