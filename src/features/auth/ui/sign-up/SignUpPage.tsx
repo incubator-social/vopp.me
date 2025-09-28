@@ -7,16 +7,27 @@ import { OAuthButtons } from '@/src/features/auth/ui/sign-up/OAuthButtons/OAuthB
 import { SignUpForm } from '@/src/features/auth/ui/sign-up/SignUpForm/SignUpForm';
 import { SignInPrompt } from '@/src/features/auth/ui/sign-up/SignInPrompt/SignInPrompt';
 
+export type ModalDataSignUp = {
+  open: boolean;
+  email: string | undefined;
+};
+
 export default function SignUpPage() {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modal, setModal] = useState<ModalDataSignUp>({ open: false, email: '' });
+
   return (
     <Card className={styles.card}>
       <h1 className={styles.title}>Sign Up</h1>
       <OAuthButtons />
-      <SignUpForm onOpenModal={setIsModalOpen} />
+      <SignUpForm onModalChange={setModal} />
       <SignInPrompt />
-      {isModalOpen && (
-        <EmailSentModal open={isModalOpen} onOpenChange={setIsModalOpen} classOverlay={styles.classOverlay} />
+      {modal.open && (
+        <EmailSentModal
+          open={modal.open}
+          email={modal.email}
+          onOpenChange={(open) => setModal({ open, email: modal.email })}
+          classOverlay={styles.classOverlay}
+        />
       )}
     </Card>
   );

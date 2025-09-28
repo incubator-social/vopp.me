@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
 import { Alert } from '@/src/shared/ui/Alerts/Alert';
 import { clearAppError, selectAppError } from '@/app/appSlice';
 
-import { confirmLinkErrorMessage } from '@/src/features/auth/ui/ConfirmCodePage/utils/confirm-link-handle-error';
+import { confirmLinkErrorMessage } from '@/src/features/auth/ui/ConfirmCodePage/utils/handleConfirmLinkError';
 
 export const AlertProvider = ({ children }: { children: ReactNode }) => {
   const error = useAppSelector(selectAppError);

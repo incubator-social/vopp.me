@@ -8,6 +8,7 @@ import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
 import { SVGProps } from 'react';
 import Link from 'next/link';
+import { ROUTES } from '@/src/shared/config/routes';
 
 type EmailStatus = 'success' | 'expired_with_input' | 'expired_without_input';
 

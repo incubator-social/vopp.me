@@ -1,27 +1,31 @@
 'use client';
 import {
   ConfirmCodeError,
-  confirmLinkHandleError
-} from '@/src/features/auth/ui/ConfirmCodePage/utils/confirm-link-handle-error';
-import { useConfirmLinkRedirect } from '@/src/features/auth/ui/ConfirmCodePage/utils/redirectHook';
-import { ROUTES } from '@/src/shared/config/routes';
+  handleConfirmLinkError
+} from '@/src/features/auth/ui/ConfirmCodePage/utils/handleConfirmLinkError';
+import { getRedirectPath, Status } from '@/src/features/auth/ui/ConfirmCodePage/utils/getRedirectPath';
 import { redirect } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
 import { useConfirmRegistrationMutation } from '@/src/features/auth/api/authApi';
 import { AlertModal } from '@/src/shared/ui/AlertModal';
 
-type searchParams = {
+type SearchParams = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-const ConfirmCodePage = ({ searchParams }: searchParams) => {
+export type ModalData = {
+  open: boolean;
+  title: string;
+  message: string;
+};
+
+const ConfirmCodePage = ({ searchParams }: SearchParams) => {
   const [confirmRegistration] = useConfirmRegistrationMutation();
 
-  const [isModal, setIsModal] = useState(false);
-  const [path, setStatus] = useConfirmLinkRedirect();
+  const [isModal, setIsModal] = useState<ModalData>({ open: false, title: '', message: '' });
 
-  // const [isConfirmed, setIsConfirmed] = useState(false);
-  // const [redirectToSignIn, setRedirectToSignIn] = useState(false);
+  const [status, setStatus] = useState<Status | null>(null);
+  const path = getRedirectPath(status);
 
   const { code } = use(searchParams);
 
@@ -32,12 +36,12 @@ const ConfirmCodePage = ({ searchParams }: searchParams) => {
       try {
         const result = await confirmRegistration(code).unwrap();
         if (result?.status === 204) {
-          setIsConfirmed(true);
+          setStatus('confirmed');
         }
       } catch (error) {
         const err = error as ConfirmCodeError;
         console.error('Error during confirm code: ', err);
-        confirmLinkHandleError(err, setIsModal);
+        handleConfirmLinkError(err, setIsModal, setStatus);
       }
     };
 
@@ -45,23 +49,20 @@ const ConfirmCodePage = ({ searchParams }: searchParams) => {
   }, [code, confirmRegistration]);
 
   useEffect(() => {
-    if (isConfirmed) {
-      redirect(ROUTES.AUTH.EMAIL_VERIFICATION);
+    if (path) {
+      redirect(path);
     }
-    if (redirectToSignIn) {
-      redirect(ROUTES.AUTH.SIGN_IN);
-    }
-  }, [isConfirmed, redirectToSignIn]);
+  }, [path]);
 
   return (
     <div>
-      {isModal && (
+      {isModal.open && (
         <AlertModal
-          open={isModal}
-          onOpenChange={(open) => setIsModal(open)}
-          title={'User is exist'}
-          message={'Go to the Sign In page'}
-          onConfirm={() => setRedirectToSignIn(true)}
+          open={isModal.open}
+          onOpenChange={(open) => setIsModal((prev) => ({ ...prev, open }))}
+          title={isModal.title}
+          message={isModal.message}
+          onConfirm={() => setStatus('invalid')}
         />
       )}
     </div>

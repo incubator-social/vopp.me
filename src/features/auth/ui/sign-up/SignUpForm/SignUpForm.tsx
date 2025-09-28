@@ -1,6 +1,7 @@
 'use client';
 
 import { useRegistrationMutation } from '@/src/features/auth/api/authApi';
+import { ModalDataSignUp } from '@/src/features/auth/ui/sign-up/SignUpPage';
 
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,10 +15,10 @@ import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpF
 import { useState } from 'react';
 
 type SignUpForm = {
-  onOpenModal: (isModal: boolean) => void;
+  onModalChange?: (data: ModalDataSignUp) => void;
 };
 
-export const SignUpForm = ({ onOpenModal }: SignUpForm) => {
+export const SignUpForm = ({ onModalChange }: SignUpForm) => {
   //массив полей, с которых мы ушли (сделали onBlur). Сделан с помощью Set, чтобы
   //названия полей не повторялись
   const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
@@ -55,7 +56,7 @@ export const SignUpForm = ({ onOpenModal }: SignUpForm) => {
     const body = { userName: username, email, password };
     try {
       await registration(body).unwrap();
-      onOpenModal(true);
+      onModalChange?.({ open: true, email });
       reset();
     } catch (error) {
       console.error(error);
@@ -89,14 +90,10 @@ export const SignUpForm = ({ onOpenModal }: SignUpForm) => {
     return touchedFields.has(fieldName) && !fieldValuesChanged.has(fieldName);
   };
 
-  const isSubmitDisabled = !isValid || !isDirty || isSubmitting;
-  // const isSubmitDisabled = false; //Расскомментировать, чтобы раздизэйблить кнопку, не заполняя данные формы, а
-  //верхний isSubmitDisabled задизэйблить
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <p>ceuzrkfv@sharklasers.com</p>
-      <p>Pena999</p>
+      <p>tredfg@mailsac.com</p>
+      <p>Pnar999</p>
       <p>Lfdsfoe134!!</p>
 
       <Input
@@ -178,7 +175,12 @@ export const SignUpForm = ({ onOpenModal }: SignUpForm) => {
           {errors.agree && <span className={styles.checkboxError}>{errors.agree.message}</span>}
         </div>
 
-        <Button type="submit" variant="buttonPrimary" size={{ width: '100%' }} disabled={isSubmitDisabled}>
+        <Button
+          type="submit"
+          variant="buttonPrimary"
+          size={{ width: '100%' }}
+          disabled={!isValid || !isDirty || isSubmitting}
+        >
           Sign Up
         </Button>
       </div>
