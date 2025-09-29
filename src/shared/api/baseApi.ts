@@ -9,7 +9,6 @@ export const baseApi = createApi({
       prepareHeaders: () => {}
     })(args, api, extraOptions);
 
-    // глобальная обработка ошибок
     handleError(api, result);
 
     return result;

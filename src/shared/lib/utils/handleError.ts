@@ -19,6 +19,9 @@ export const handleError = (
       case 'FETCH_ERROR':
         error = 'Network error. Please check your connection.';
         break;
+      case 429:
+        error = 'More than 5 attempts from one IP-address during 10 seconds';
+        break;
       case 400:
       case 500:
         if (isErrorWithMessage(data?.messages[0])) {
