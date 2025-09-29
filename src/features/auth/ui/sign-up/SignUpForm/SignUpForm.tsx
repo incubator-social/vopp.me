@@ -2,6 +2,7 @@
 
 import { useRegistrationMutation } from '@/src/features/auth/api/authApi';
 import { ModalDataSignUp } from '@/src/features/auth/ui/sign-up/SignUpPage';
+import { handleErrorSignUp } from '@/src/features/auth/ui/sign-up/utils/handleErrorSignUp';
 
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,6 +22,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
   const [registration] = useRegistrationMutation();
 
   const {
+    trigger,
     control,
     register,
     handleSubmit,
@@ -29,7 +31,8 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
     formState: { errors, isValid, isDirty, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
-    mode: 'onTouched',
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
     defaultValues: {
       username: '',
       email: '',
@@ -52,7 +55,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <p>nvbgdgww@mailsac.com</p>
+      <p>zxccxz@mailsac.com</p>
       <p>Pnar999</p>
       <p>Lfdsfoe134!!</p>
 
@@ -60,8 +63,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         {...register('username')}
         label="Username"
         placeholder="Enter your username"
-        errorMessage={errors.username?.message}
-        onChange={() => clearErrors('username')}
+        errorMessage={handleErrorSignUp(errors.username?.message)}
         className={styles.customInput}
       />
 
@@ -70,8 +72,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         type="email"
         label="Email"
         placeholder="Epam@epam.com"
-        errorMessage={errors.email?.message}
-        onChange={() => clearErrors('email')}
+        errorMessage={handleErrorSignUp(errors.email?.message)}
         className={styles.customInput}
       />
 
@@ -80,8 +81,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         type="password"
         label="Password"
         placeholder="******************"
-        errorMessage={errors.password?.message}
-        onChange={() => clearErrors('password')}
+        errorMessage={handleErrorSignUp(errors.password?.message)}
         className={styles.customInput}
       />
 
@@ -91,8 +91,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
           type="password"
           label="Password confirmation"
           placeholder="******************"
-          errorMessage={errors.passwordConfirmation?.message}
-          onChange={() => clearErrors('passwordConfirmation')}
+          errorMessage={handleErrorSignUp(errors.passwordConfirmation?.message)}
           className={styles.customInput}
         />
 
@@ -121,7 +120,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
               />
             )}
           />
-          {errors.agree && <span className={styles.checkboxError}>{errors.agree.message}</span>}
+          {errors.agree && <span className={styles.checkboxError}>{handleErrorSignUp(errors.agree?.message)}</span>}
         </div>
 
         <Button
