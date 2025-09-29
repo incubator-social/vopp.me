@@ -3,6 +3,7 @@
 import { useRegistrationMutation } from '@/src/features/auth/api/authApi';
 import { ModalDataSignUp } from '@/src/features/auth/ui/sign-up/SignUpPage';
 import { handleErrorSignUp } from '@/src/features/auth/ui/sign-up/utils/handleErrorSignUp';
+import { ChangeEvent } from 'react';
 
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,17 +23,14 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
   const [registration] = useRegistrationMutation();
 
   const {
-    trigger,
     control,
     register,
     handleSubmit,
     reset,
-    clearErrors,
     formState: { errors, isValid, isDirty, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
+    mode: 'onTouched',
     defaultValues: {
       username: '',
       email: '',
