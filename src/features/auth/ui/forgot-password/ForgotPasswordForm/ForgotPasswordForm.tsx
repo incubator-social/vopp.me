@@ -22,24 +22,26 @@ type Props = {
 
 export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
-  const [serverError, setServerError] = useState<string | null>(null);
+  const [status, setStatus] = useState<'idle' | 'sent' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | undefined>('');
 
   const {
     register,
-    handleSubmit: rhfHandleSubmit,
+    handleSubmit,
     formState: { errors },
-    watch
+    watch,
+    clearErrors
   } = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
-    mode: 'onSubmit',
-    reValidateMode: 'onSubmit'
+    mode: 'onSubmit'
   });
 
   const emailValue = watch('email');
-  const [emailSent, setEmailSent] = useState(false);
-  const [emailNotFound, setEmailNotFound] = useState(false);
 
   const onSubmit = async (data: ForgotPasswordFormValues) => {
+    setStatus('idle');
+    setErrorMessage('');
+
     try {
       await forgotPassword({
         email: data.email,
@@ -48,24 +50,23 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
       }).unwrap();
 
       onSubmitSuccess(emailValue);
-      setEmailSent(true);
-      setServerError(null);
-      setEmailNotFound(false);
+      setStatus('sent');
     } catch (err: unknown) {
-      const error = err as { status: number; data: ResponseErrorType };
-      const emailError = error?.data?.messages?.find((m) => m.field === 'email');
+      const emailError = (
+        err as {
+          status: number;
+          data: ResponseErrorType;
+        }
+      )?.data?.messages?.find((m) => m.field === 'email');
       if (emailError) {
-        setEmailNotFound(true);
-        setServerError(emailError.message);
-      } else {
-        setEmailNotFound(false);
+        setStatus('error');
+        setErrorMessage(emailError.message);
       }
-      setEmailSent(false);
     }
   };
 
   return (
-    <form className={s.form} onSubmit={rhfHandleSubmit(onSubmit)}>
+    <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
       <h1>Forgot Password</h1>
       <div className={s.formContent}>
         <div className={s.formInputs}>
@@ -74,23 +75,29 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
             label="Email"
             placeholder="Enter your email"
             {...register('email')}
-            errorMessage={errors.email?.message}
+            errorMessage={errors.email?.message || (status === 'error' ? errorMessage : undefined)}
+            onChange={(e) => {
+              register('email').onChange(e);
+              if (errors.email || status === 'error') {
+                clearErrors('email');
+                setStatus('idle');
+              }
+            }}
           />
-
-          {emailNotFound && <p className={clsx(s.formError, 'regular-text-14')}>{serverError}</p>}
 
           <p className={clsx(s.formDescription, 'regular-text-14')}>
             Enter your email address and we will send you further instructions.
           </p>
 
-          {emailSent && (
+          {status === 'sent' && (
             <p className="regular-text-14">
               The link has been sent by email.
               <br />
-              If you don’t receive an email send link again.
+              If you don’t receive an email, send the link again.
             </p>
           )}
         </div>
+
         <div className={s.formButtons}>
           <Button
             type="submit"
@@ -98,8 +105,9 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
             disabled={isLoading || !emailValue?.trim()}
             size={{ width: '100%' }}
           >
-            {emailSent ? 'Send again' : 'Send Link'}
+            {status === 'sent' ? 'Send again' : 'Send Link'}
           </Button>
+
           <Button asChild size={{ width: '100%' }} variant="buttonText">
             <Link href={ROUTES.AUTH.SIGN_IN}>Back to Sign In</Link>
           </Button>
