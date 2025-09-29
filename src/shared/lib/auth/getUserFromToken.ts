@@ -1,7 +1,5 @@
-// src/shared/lib/auth/getUserFromToken.ts
 import { jwtDecode } from 'jwt-decode';
-import { AUTH_KEYS } from '../../config/storage';
-
+import { AUTH_KEYS } from '@/src//shared/config/storage';
 export type DecodedToken = {
   userId: number;
   iat: number;

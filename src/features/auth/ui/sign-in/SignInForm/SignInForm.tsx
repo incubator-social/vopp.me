@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useLoginMutation } from '../../../api/authApi';
+import { useLoginMutation } from '@/src/features/auth/api/authApi';
 import { FormValues, loginSchema } from './loginSchema';
 import { useRouter } from 'next/navigation';
 import { setFormApiError } from './setFormApiError';
@@ -26,7 +26,8 @@ export function SignInForm() {
     handleSubmit,
     reset,
     setError,
-    formState: { errors, isValid, isDirty }
+    clearErrors,
+    formState: { errors, isValid, isDirty, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(loginSchema),
     mode: 'onBlur',
@@ -36,6 +37,9 @@ export function SignInForm() {
       password: ''
     }
   });
+  const handleFieldChange = (fieldName: keyof FormValues) => {
+    clearErrors(fieldName);
+  };
 
   const onSubmit = async ({ email, password }: FormValues) => {
     try {
@@ -44,7 +48,6 @@ export function SignInForm() {
       router.push(ROUTES.PROFILE);
     } catch (error) {
       setFormApiError(error, setError, 'password');
-      console.log(error);
     }
   };
 
@@ -57,7 +60,9 @@ export function SignInForm() {
       </div>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Input
-          {...register('email')}
+          {...register('email', {
+            onChange: () => handleFieldChange('email')
+          })}
           type={'email'}
           label={'Email'}
           placeholder={'Epam@epam.com'}
@@ -65,7 +70,9 @@ export function SignInForm() {
           errorMessage={errors.email?.message}
         />
         <Input
-          {...register('password')}
+          {...register('password', {
+            onChange: () => handleFieldChange('password')
+          })}
           type={'password'}
           label={'Password'}
           placeholder={'**********'}
@@ -81,8 +88,13 @@ export function SignInForm() {
         >
           <Link href={{ pathname: ROUTES.AUTH.FORGOT_PASSWORD }}>Forgot Password</Link>
         </Button>
-        <Button className={styles.button} type={'submit'} size={{ width: 330 }} disabled={!isValid || !isDirty}>
-          Sign In
+        <Button
+          className={styles.button}
+          type={'submit'}
+          size={{ width: 330 }}
+          disabled={!isValid || !isDirty || isSubmitting}
+        >
+          {isSubmitting ? 'Signing in...' : 'Sign In'}
         </Button>
       </form>
       <p className={styles.accountQuestion}>Don&apos;t have an account?</p>
