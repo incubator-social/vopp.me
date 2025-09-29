@@ -13,7 +13,6 @@ export const signUpSchema = z
       .max(30, 'Maximum number of characters 30')
       .regex(USERNAME_REGEX, 'Username can only contain letters, numbers, underscores and hyphens'),
     email: z.string().min(1, 'Email is required').email('The email must match the format example@example.com'),
-
     password: z
       .string()
       .min(1, 'Password is required')
@@ -23,7 +22,6 @@ export const signUpSchema = z
         PASSWORD_REGEX,
         'Password must contain 0-9, a-z, A-Z, ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ { | } ~'
       ),
-
     passwordConfirmation: z.string().min(1, 'Password confirmation is required'),
 
     agree: z.boolean().refine((val) => val === true, 'You must agree to the terms and conditions')

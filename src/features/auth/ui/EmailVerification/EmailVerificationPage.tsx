@@ -1,7 +1,6 @@
 'use client';
 
 import styles from './EmailVerificationPage.module.scss';
-import { useState } from 'react';
 import SuccessImage from '@/public/email-verification-img/success.svg';
 import ExpiredImage from '@/public/email-verification-img/time-management.svg';
 import { Button } from '@/src/shared/ui/Button/Button';
@@ -9,6 +8,7 @@ import { Input } from '@/src/shared/ui/Input/Input';
 import { SVGProps } from 'react';
 import Link from 'next/link';
 import { ROUTES } from '@/src/shared/config/routes';
+import { useForm, FormValues } from 'react-hook-form';
 
 type EmailStatus = 'success' | 'expired_with_input' | 'expired_without_input';
 
@@ -30,7 +30,7 @@ type ContentType = {
 };
 
 export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = '' }: Props) => {
-  const [email, setEmail] = useState<string>(initialEmail);
+  const {} = useForm<FormValues>({});
 
   const expiredContent = {
     image: ExpiredImage,
@@ -95,15 +95,7 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
 
       {content.showInput ? (
         <form>
-          <Input
-            type={'email'}
-            value={email}
-            label={'Email'}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Epam@epam.com"
-            required
-            className={styles.input}
-          />
+          <Input type={'email'} label={'Email'} placeholder="Epam@epam.com" className={styles.input} />
           <div style={{ marginBottom: content.buttonMarginBottom }}>
             <Button>{content.buttonText}</Button>
           </div>
