@@ -16,10 +16,12 @@ import { useLoginMutation } from '@/src/features/auth/api/authApi';
 import { FormValues, loginSchema } from './loginSchema';
 import { useRouter } from 'next/navigation';
 import { setFormApiError } from './setFormApiError';
+import { useState } from 'react';
 
 export function SignInForm() {
   const [login] = useLoginMutation();
   const router = useRouter();
+  const [shake, setShake] = useState(false);
 
   const {
     register,
@@ -27,7 +29,7 @@ export function SignInForm() {
     reset,
     setError,
     clearErrors,
-    formState: { errors, isValid, isDirty, isSubmitting }
+    formState: { errors, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(loginSchema),
     mode: 'onBlur',
@@ -48,7 +50,14 @@ export function SignInForm() {
       router.push(ROUTES.PROFILE);
     } catch (error) {
       setFormApiError(error, setError, 'password');
+      setShake(false);
+      requestAnimationFrame(() => setShake(true));
     }
+  };
+
+  const onInvalid = () => {
+    setShake(false);
+    requestAnimationFrame(() => setShake(true));
   };
 
   return (
@@ -58,7 +67,11 @@ export function SignInForm() {
         <GoogleIcon width={36} height={36} />
         <GitHubIcon width={36} height={36} />
       </div>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={clsx(styles.form, shake && styles.shake)}
+        onSubmit={handleSubmit(onSubmit, onInvalid)}
+        onAnimationEnd={() => setShake(false)}
+      >
         <Input
           {...register('email', {
             onChange: () => handleFieldChange('email')
@@ -88,12 +101,7 @@ export function SignInForm() {
         >
           <Link href={{ pathname: ROUTES.AUTH.FORGOT_PASSWORD }}>Forgot Password</Link>
         </Button>
-        <Button
-          className={styles.button}
-          type={'submit'}
-          size={{ width: 330 }}
-          disabled={!isValid || !isDirty || isSubmitting}
-        >
+        <Button className={styles.button} type={'submit'} size={{ width: 330 }} disabled={isSubmitting}>
           {isSubmitting ? 'Signing in...' : 'Sign In'}
         </Button>
       </form>
