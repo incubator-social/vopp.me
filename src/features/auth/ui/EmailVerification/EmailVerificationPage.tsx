@@ -1,14 +1,23 @@
 'use client';
 
+import { useEmailResendingMutation } from '@/src/features/auth/api/authApi';
+import { EmailSentModal } from '@/src/features/auth/ui/email-sent-modal';
+import {
+  emailVerificationSchema,
+  FormValuesEmailVerification
+} from '@/src/features/auth/ui/EmailVerification/EmailVerificationSchema';
+import { ModalDataSignUp } from '@/src/features/auth/ui/sign-up/SignUpPage';
+import { setSignUpServerError } from '@/src/features/auth/ui/sign-up/utils/setSignUpServerError';
+import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './EmailVerificationPage.module.scss';
 import SuccessImage from '@/public/email-verification-img/success.svg';
 import ExpiredImage from '@/public/email-verification-img/time-management.svg';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
-import { SVGProps } from 'react';
+import { SVGProps, useState } from 'react';
 import Link from 'next/link';
 import { ROUTES } from '@/src/shared/config/routes';
-import { useForm, FormValues } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 type EmailStatus = 'success' | 'expired_with_input' | 'expired_without_input';
 
@@ -30,7 +39,21 @@ type ContentType = {
 };
 
 export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = '' }: Props) => {
-  const {} = useForm<FormValues>({});
+  const [modal, setModal] = useState<ModalDataSignUp>({ open: false, email: '' });
+
+  const [emailResending] = useEmailResendingMutation();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors, isValid, isDirty, isSubmitting }
+  } = useForm<FormValuesEmailVerification>({
+    resolver: zodResolver(emailVerificationSchema),
+    mode: 'onTouched',
+    defaultValues: { email: '' }
+  });
 
   const expiredContent = {
     image: ExpiredImage,
@@ -86,6 +109,18 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
   const content = getContent();
   const ImageComponent = content.image;
 
+  const onSubmit = async ({ email }: Partial<FormValuesEmailVerification>) => {
+    try {
+      const result = await emailResending(email).unwrap();
+      console.log(result);
+      setModal({ open: true, email });
+      reset({ email: '' });
+    } catch (error) {
+      setSignUpServerError(error, setError);
+      console.error(error);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{content.title}</h1>
@@ -94,10 +129,19 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
       </p>
 
       {content.showInput ? (
-        <form>
-          <Input type={'email'} label={'Email'} placeholder="Epam@epam.com" className={styles.input} />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Input
+            {...register('email')}
+            type={'email'}
+            label={'Email'}
+            placeholder="Epam@epam.com"
+            errorMessage={errors.email?.message}
+            className={styles.input}
+          />
           <div style={{ marginBottom: content.buttonMarginBottom }}>
-            <Button>{content.buttonText}</Button>
+            <Button type={'submit'} disabled={!isValid || !isDirty || isSubmitting}>
+              {content.buttonText}
+            </Button>
           </div>
         </form>
       ) : (
@@ -115,6 +159,15 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
       <div style={{ width: content.imageWidth, height: content.imageHeight }}>
         <ImageComponent width={content.imageWidth} height={content.imageHeight} />
       </div>
+
+      {modal.open && (
+        <EmailSentModal
+          open={modal.open}
+          email={modal.email}
+          onOpenChange={(open) => setModal({ open, email: modal.email })}
+          classOverlay={styles.classOverlay}
+        />
+      )}
     </div>
   );
 };

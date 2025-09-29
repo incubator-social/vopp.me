@@ -21,8 +21,18 @@ export const authApi = baseApi.injectEndpoints({
       transformResponse: (_result, meta) => {
         return { status: meta?.response?.status ?? 'no status' };
       }
+    }),
+    emailResending: build.mutation({
+      query: (email) => ({
+        url: 'auth/registration-email-resending',
+        method: 'POST',
+        body: { email, baseUrl: 'http://localhost:3000/auth/confirm-code' }
+      }),
+      transformResponse: (_result, meta) => {
+        return { status: meta?.response?.status ?? 'no status' };
+      }
     })
   })
 });
 
-export const { useRegistrationMutation, useConfirmRegistrationMutation } = authApi;
+export const { useRegistrationMutation, useConfirmRegistrationMutation, useEmailResendingMutation } = authApi;
