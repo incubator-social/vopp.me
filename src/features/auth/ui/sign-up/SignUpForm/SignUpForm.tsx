@@ -9,26 +9,18 @@ import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
 import styles from './SignUpForm.module.scss';
 import Link from 'next/link';
 import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpForm/signUpSchema';
-import { useState } from 'react';
 import { ROUTES } from '@/src/shared/config/routes';
 
 export const SignUpForm = () => {
-  //массив полей, с которых мы ушли (сделали onBlur). Сделан с помощью Set, чтобы
-  //названия полей не повторялись
-  const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
-  //массив полей, в которых происходят изменения, то есть набор текста. Сделан с помощью Set, чтобы
-  //названия полей не повторялись.
-  const [fieldValuesChanged, setFieldValuesChanged] = useState<Set<string>>(new Set());
-
   const {
-    trigger,
     control,
     register,
     handleSubmit,
-    formState: { errors, isValid, isDirty, isSubmitting }
+    clearErrors,
+    formState: { errors, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
-    mode: 'onBlur',
+    mode: 'onTouched',
     reValidateMode: 'onChange',
     defaultValues: {
       username: '',
@@ -39,59 +31,21 @@ export const SignUpForm = () => {
     }
   });
 
-  // Данная функция вызывается на onBlur и добавляет в массив название поля, с которого мы ушли.
-  // Если это поле было в массиве изменяемых полей, то оттуда это поле удаляется. Принудительно триггером вызывается
-  // валидация. Если ошибка есть, то мы ее увидим.
-
-  const handleFieldBlur = (fieldName: keyof FormValues) => {
-    setTouchedFields((prev) => new Set(prev).add(fieldName as string));
-    setFieldValuesChanged((prev) => {
-      const newSet = new Set(prev);
-      newSet.delete(fieldName as string);
-      return newSet;
-    });
-    trigger(fieldName);
-  };
-
-  // Данная функция рабоатет на ввод текста в поле и добавляет в массив изменяемых полей это поле.
-  //В последствии это будет импользоваться для скрытия ошибки. То есть, на ввод текста ошибка не показывается
-
-  const handleFieldChange = (fieldName: keyof FormValues) => {
-    setFieldValuesChanged((prev) => new Set(prev).add(fieldName as string));
-  };
-
-  //Эта функция управляет выводом ошибки на основании имеющихся двух массивов - массива изменяемых полей
-  // и массива полей, с которых убран фокус.
-  // Функция проверяет название наличие поля в массивах.
-  // Поле есть в массиве покинутых полей и поля нет в массиве изменяемых полей - возвращаем true, можно
-  // показыват ошибку, в противном случае false - ошибку не показываем (то есть по факту идет ввод текста)
-
-  const shouldShowError = (fieldName: string) => {
-    return touchedFields.has(fieldName) && !fieldValuesChanged.has(fieldName);
-  };
-
   const createFieldProps = (fieldName: keyof FormValues) => {
     const fieldRegister = register(fieldName);
 
     return {
       ...fieldRegister,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-        fieldRegister.onChange(e);
-        handleFieldChange(fieldName);
-      },
-      onBlur: (e: React.FocusEvent<HTMLInputElement>) => {
-        fieldRegister.onBlur(e);
-        handleFieldBlur(fieldName);
+      onChange: async (e: React.ChangeEvent<HTMLInputElement>) => {
+        await fieldRegister.onChange(e);
+        clearErrors(fieldName);
       }
     };
   };
-
   const onSubmit = (data: FormValues) => {
     console.log('Form data:', data);
     // Здесь потом будет отправка на бэкенд
   };
-
-  const isSubmitDisabled = !isValid || !isDirty || isSubmitting;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -99,7 +53,7 @@ export const SignUpForm = () => {
         {...createFieldProps('username')}
         label="Username"
         placeholder="Enter your username"
-        errorMessage={shouldShowError('username') ? errors.username?.message : ''}
+        errorMessage={errors.username?.message}
         className={styles.customInput}
       />
 
@@ -108,7 +62,7 @@ export const SignUpForm = () => {
         type="email"
         label="Email"
         placeholder="example@gmail.com"
-        errorMessage={shouldShowError('email') ? errors.email?.message : ''}
+        errorMessage={errors.email?.message}
         className={styles.customInput}
       />
 
@@ -117,7 +71,7 @@ export const SignUpForm = () => {
         type="password"
         label="Password"
         placeholder="******************"
-        errorMessage={shouldShowError('password') ? errors.password?.message : ''}
+        errorMessage={errors.password?.message}
         className={styles.customInput}
       />
 
@@ -127,7 +81,7 @@ export const SignUpForm = () => {
           type="password"
           label="Password confirmation"
           placeholder="******************"
-          errorMessage={shouldShowError('passwordConfirmation') ? errors.passwordConfirmation?.message : ''}
+          errorMessage={errors.passwordConfirmation?.message}
           className={styles.customInput}
         />
 
@@ -140,7 +94,6 @@ export const SignUpForm = () => {
                 checked={field.value}
                 onCheckedChange={(checked) => {
                   field.onChange(checked === true);
-                  trigger('agree');
                 }}
                 onBlur={field.onBlur}
                 label={
@@ -158,10 +111,9 @@ export const SignUpForm = () => {
               />
             )}
           />
-          {errors.agree && <span className={styles.checkboxError}>{errors.agree.message}</span>}
         </div>
 
-        <Button type="submit" variant="buttonPrimary" size={{ width: '100%' }} disabled={isSubmitDisabled}>
+        <Button type="submit" variant="buttonPrimary" size={{ width: '100%' }} disabled={isSubmitting}>
           Sign Up
         </Button>
       </div>
