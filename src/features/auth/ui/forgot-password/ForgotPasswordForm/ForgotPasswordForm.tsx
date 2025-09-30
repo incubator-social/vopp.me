@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
-  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+  const [forgotPassword] = useForgotPasswordMutation();
   const [status, setStatus] = useState<'idle' | 'sent' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | undefined>('');
 
@@ -98,7 +98,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
           <Button
             type="submit"
             variant="buttonPrimary"
-            disabled={isSubmitting || isLoading || !emailValue?.trim()}
+            disabled={isSubmitting || !emailValue?.trim()}
             size={{ width: '100%' }}
           >
             {status === 'sent' ? 'Send again' : 'Send Link'}

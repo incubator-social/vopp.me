@@ -16,7 +16,7 @@ import { ResponseErrorType } from '@/src/shared/types/api';
 
 export function CreateNewPasswordForm() {
   const dispatch = useAppDispatch();
-  const [createNewPassword, { isLoading }] = useCreateNewPasswordMutation();
+  const [createNewPassword] = useCreateNewPasswordMutation();
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -102,11 +102,7 @@ export function CreateNewPasswordForm() {
             {errors.root && <span className={clsx('regular-text-14', styles.errorText)}>{errors.root.message}</span>}
           </span>
 
-          <Button
-            size={{ width: '100%' }}
-            type="submit"
-            disabled={isLoading || isSubmitting || !newPassword || !confirmPassword}
-          >
+          <Button size={{ width: '100%' }} type="submit" disabled={isSubmitting || !newPassword || !confirmPassword}>
             Create new password
           </Button>
         </form>
