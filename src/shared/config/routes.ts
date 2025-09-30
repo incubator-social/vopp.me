@@ -7,8 +7,5 @@ export const ROUTES = {
     CREATE_NEW_PASSWORD: '/auth/create-new-password'
   },
   PROFILE: '/profile',
-  LEGAL: {
-    PRIVACY: '/legal/privacy',
-    TERMS_OF_SERVICE: '/legal/terms'
-  }
+  PROFILE_BY_ID: (id: number | string) => `/profile/${id}`
 } as const;
