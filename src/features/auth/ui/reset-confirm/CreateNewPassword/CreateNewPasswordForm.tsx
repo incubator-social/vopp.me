@@ -11,8 +11,8 @@ import { ROUTES } from '@/src/shared/config/routes';
 import { useAppDispatch } from '@/app/providers/store/hooks';
 import { setAppError } from '@/app/appSlice';
 import clsx from 'clsx';
-import { ResponseErrorType } from '@/src/shared/types/api';
 import { CreateNewPasswordFormValues, createNewPasswordSchema } from './createNewPasswordFormSchema';
+import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 
 export function CreateNewPasswordForm() {
   const dispatch = useAppDispatch();
@@ -55,7 +55,7 @@ export function CreateNewPasswordForm() {
       }).unwrap();
       router.push(ROUTES.AUTH.SIGN_IN);
     } catch (err: unknown) {
-      const error = err as { status: number; data: ResponseErrorType };
+      const error = err as { status: number; data: ErrorResponse };
       setError('root', {
         type: 'server',
         message: error?.data?.messages?.[0]?.message || 'Failed to set new password'
