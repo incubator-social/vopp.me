@@ -28,7 +28,7 @@ export function CreateNewPasswordForm() {
     setError,
     watch,
     clearErrors,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm<CreateNewPasswordFormValues>({
     resolver: zodResolver(createNewPasswordSchema),
     mode: 'onSubmit',
@@ -102,7 +102,11 @@ export function CreateNewPasswordForm() {
             {errors.root && <span className={clsx('regular-text-14', styles.errorText)}>{errors.root.message}</span>}
           </span>
 
-          <Button size={{ width: '100%' }} type="submit" disabled={isLoading || !newPassword || !confirmPassword}>
+          <Button
+            size={{ width: '100%' }}
+            type="submit"
+            disabled={isLoading || isSubmitting || !newPassword || !confirmPassword}
+          >
             Create new password
           </Button>
         </form>

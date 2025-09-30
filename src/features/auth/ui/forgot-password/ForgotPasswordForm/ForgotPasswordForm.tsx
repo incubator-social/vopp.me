@@ -28,7 +28,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     watch,
     clearErrors
   } = useForm<ForgotPasswordFormValues>({
@@ -98,7 +98,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
           <Button
             type="submit"
             variant="buttonPrimary"
-            disabled={isLoading || !emailValue?.trim()}
+            disabled={isSubmitting || isLoading || !emailValue?.trim()}
             size={{ width: '100%' }}
           >
             {status === 'sent' ? 'Send again' : 'Send Link'}
