@@ -30,7 +30,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
     reset,
     setError,
     clearErrors,
-    formState: { errors, isSubmitting }
+    formState: { errors, isValid, isDirty, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
     mode: 'onTouched',
@@ -54,8 +54,9 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         email: '',
         password: '',
         passwordConfirmation: '',
-        agree: true
+        agree: false
       });
+      clearErrors();
     } catch (error) {
       setSignUpServerError(error, setError);
       console.error(error);
@@ -70,15 +71,16 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
       onChange: async (e: React.ChangeEvent<HTMLInputElement>) => {
         await fieldRegister.onChange(e);
         clearErrors(fieldName);
+      },
+      onBlur: async (e: React.ChangeEvent<HTMLInputElement>) => {
+        await fieldRegister.onBlur(e);
+        await trigger(fieldName);
       }
     };
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <p>Tdlksdf123</p>
-      <p>sdfsdf@mailsac.com</p>
-      <p>Tdlksdf123!</p>
       <Input
         {...createFieldProps('username')}
         label="Username"
@@ -105,16 +107,16 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         className={styles.customInput}
       />
 
-      <div className={styles.specialGap}>
-        <Input
-          {...createFieldProps('passwordConfirmation')}
-          type="password"
-          label="Password confirmation"
-          placeholder="******************"
-          errorMessage={errors.passwordConfirmation?.message}
-          className={styles.customInput}
-        />
+      <Input
+        {...createFieldProps('passwordConfirmation')}
+        type="password"
+        label="Password confirmation"
+        placeholder="******************"
+        errorMessage={errors.passwordConfirmation?.message}
+        className={styles.customInput}
+      />
 
+      <div className={styles.specialGap}>
         <div className={styles.checkboxWrapper}>
           <Controller
             name="agree"
@@ -124,8 +126,8 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
                 checked={field.value}
                 onCheckedChange={(checked) => {
                   field.onChange(checked);
-                  void trigger('agree');
                 }}
+                onBlur={field.onBlur}
                 label={
                   <span className={styles.checkboxLabel}>
                     I agree to the{' '}

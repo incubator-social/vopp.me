@@ -57,6 +57,7 @@ export const Button = ({
     onClick: disabled ? undefined : onClick,
     ...rest
   };
+
   if (asChild) {
     return <Component {...props}>{children}</Component>;
   }

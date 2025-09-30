@@ -40,7 +40,6 @@ const ConfirmCodePage = ({ searchParams }: SearchParams) => {
         }
       } catch (error) {
         const err = error as ConfirmCodeError;
-        console.error('Error during confirm code: ', err);
         handleConfirmLinkError(err, setIsModal, setStatus);
       }
     };

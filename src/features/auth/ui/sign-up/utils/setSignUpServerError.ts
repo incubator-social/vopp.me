@@ -37,7 +37,9 @@ export const setSignUpServerError = <T extends FieldValues>(error: unknown, setE
     err.messages.forEach((error) => {
       const field = fieldMapping[error.field];
       if (field) {
-        setError(field as Path<T>, { type: 'server', message: error.message }, { shouldFocus: true });
+        const errorMessage = error.message.replace(/\bexist\b/, 'registered');
+
+        setError(field as Path<T>, { type: 'server', message: errorMessage }, { shouldFocus: true });
       }
     });
   }

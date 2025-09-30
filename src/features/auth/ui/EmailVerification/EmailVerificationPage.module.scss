@@ -18,6 +18,11 @@
   object-fit: contain;
 }
 
-.input {
-  margin-bottom: 24px;
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 229px;
 }

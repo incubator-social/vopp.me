@@ -38,7 +38,7 @@ type ContentType = {
   buttonMarginBottom: number;
 };
 
-export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = '' }: Props) => {
+export const EmailVerificationPage = ({ emailStatus = 'success' }: Props) => {
   const [modal, setModal] = useState<ModalDataSignUp>({ open: false, email: '' });
 
   const [emailResending] = useEmailResendingMutation();
@@ -129,7 +129,7 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
       </p>
 
       {content.showInput ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <Input
             {...register('email')}
             type={'email'}
@@ -138,8 +138,9 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
             errorMessage={errors.email?.message}
             className={styles.input}
           />
+
           <div style={{ marginBottom: content.buttonMarginBottom }}>
-            <Button type={'submit'} disabled={!isValid || !isDirty || isSubmitting}>
+            <Button type={'submit'} disabled={!isValid || !isDirty || isSubmitting} size={{ width: 229 }}>
               {content.buttonText}
             </Button>
           </div>
