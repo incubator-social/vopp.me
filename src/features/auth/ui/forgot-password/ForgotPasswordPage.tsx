@@ -2,15 +2,17 @@
 
 import { ForgotPasswordForm } from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/ForgotPasswordForm';
 import Card from '@/src/shared/ui/Card/Card';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { AlertModal } from '@/src/shared/ui/AlertModal';
+import styles from './forgotPasswordPage.module.scss';
 
 export const ForgotPasswordPage = () => {
   const [sentEmail, setSentEmail] = useState<string>('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   return (
-    <Card>
+    <Card className={styles.wrapper}>
+      <h1>Forgot Password</h1>
       <ForgotPasswordForm
         onSubmitSuccess={(email) => {
           setSentEmail(email);

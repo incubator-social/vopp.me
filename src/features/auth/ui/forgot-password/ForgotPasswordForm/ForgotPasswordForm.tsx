@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import s from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/ForgotPasswordForm.module.scss';
+import styles from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/ForgotPasswordForm.module.scss';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { Button } from '@/src/shared/ui/Button/Button';
@@ -63,10 +63,9 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
   };
 
   return (
-    <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-      <h1>Forgot Password</h1>
-      <div className={s.formContent}>
-        <div className={s.formInputs}>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <div className={styles.formContent}>
+        <div className={styles.formInputs}>
           <Input
             type="email"
             label="Email"
@@ -82,7 +81,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
             }}
           />
 
-          <p className={clsx(s.formDescription, 'regular-text-14')}>
+          <p className={clsx(styles.formDescription, 'regular-text-14')}>
             Enter your email address and we will send you further instructions.
           </p>
 
@@ -95,7 +94,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
           )}
         </div>
 
-        <div className={s.formButtons}>
+        <div className={styles.formButtons}>
           <Button
             type="submit"
             variant="buttonPrimary"
