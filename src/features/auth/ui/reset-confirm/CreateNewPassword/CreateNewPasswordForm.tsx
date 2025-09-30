@@ -12,10 +12,7 @@ import { useAppDispatch } from '@/app/providers/store/hooks';
 import { setAppError } from '@/app/appSlice';
 import clsx from 'clsx';
 import { ResponseErrorType } from '@/src/shared/types/api';
-import {
-  CreateNewPasswordFormValues,
-  createNewPasswordSchema
-} from '@/src/features/auth/ui/reset-confirm/CreateNewPassword/createNewPasswordFormSchema';
+import { CreateNewPasswordFormValues, createNewPasswordSchema } from './createNewPasswordFormSchema';
 
 export function CreateNewPasswordForm() {
   const dispatch = useAppDispatch();

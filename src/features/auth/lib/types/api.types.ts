@@ -16,3 +16,14 @@ export type CreateNewPasswordRequest = {
 export type CreateNewPasswordResponse = {
   message: string;
 };
+
+export type ErrorResponse = {
+  statusCode: number;
+  messages: [
+    {
+      message: string;
+      field: string;
+    }
+  ];
+  error: string;
+};

@@ -1,14 +1,14 @@
 import { BaseQueryApi, FetchBaseQueryError, FetchBaseQueryMeta, QueryReturnValue } from '@reduxjs/toolkit/query';
 import { setAppError } from '@/app/appSlice';
 import { isErrorWithMessage } from './isErrorWithMessage';
-import { ResponseErrorType } from '@/src/shared/types/api';
+import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 
 export const handleError = (
   api: BaseQueryApi,
   result: QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>
 ) => {
   let error = 'Some error occurred';
-  const data = result.error?.data as ResponseErrorType | undefined;
+  const data = result.error?.data as ErrorResponse | undefined;
 
   if (result.error) {
     switch (result.error.status) {

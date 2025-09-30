@@ -5,7 +5,7 @@ export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: async (args, api, extraOptions) => {
     const result = await fetchBaseQuery({
-      baseUrl: 'process.env.NEXT_PUBLIC_BASE_URL',
+      baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
       prepareHeaders: () => {}
     })(args, api, extraOptions);
 

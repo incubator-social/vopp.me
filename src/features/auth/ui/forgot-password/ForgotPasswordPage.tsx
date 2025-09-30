@@ -1,6 +1,6 @@
 'use client';
 
-import { ForgotPasswordForm } from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/ForgotPasswordForm';
+import { ForgotPasswordForm } from './ForgotPasswordForm';
 import Card from '@/src/shared/ui/Card/Card';
 import React, { useState } from 'react';
 import { AlertModal } from '@/src/shared/ui/AlertModal';
