@@ -52,12 +52,9 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
       onSubmitSuccess(emailValue);
       setStatus('sent');
     } catch (err: unknown) {
-      const emailError = (
-        err as {
-          status: number;
-          data: ResponseErrorType;
-        }
-      )?.data?.messages?.find((m) => m.field === 'email');
+      const emailError = (err as { status: number; data: ResponseErrorType })?.data?.messages?.find(
+        (m) => m.field === 'email'
+      );
       if (emailError) {
         setStatus('error');
         setErrorMessage(emailError.message);
