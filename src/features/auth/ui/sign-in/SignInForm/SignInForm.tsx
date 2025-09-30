@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLoginMutation } from '@/src/features/auth/api';
-import { FormValues, loginSchema } from '@/src/features/auth/modal/signInSchema';
+import { FormValues, signInSchema } from '@/src/features/auth/modal/signInSchema';
 import { useRouter } from 'next/navigation';
 import { setFormApiError } from '@/src/shared/lib/auth/setFormApiError';
 import { useState } from 'react';
@@ -27,16 +27,21 @@ export function SignInForm() {
     reset,
     setError,
     clearErrors,
-    formState: { errors, isSubmitting, isValid, isDirty }
+    watch,
+    formState: { errors, isSubmitting }
   } = useForm<FormValues>({
-    resolver: zodResolver(loginSchema),
-    mode: 'onChange',
-    reValidateMode: 'onChange',
+    resolver: zodResolver(signInSchema),
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
     defaultValues: {
       email: '',
       password: ''
     }
   });
+
+  const email = watch('email');
+  const password = watch('password');
+  const isFilled = email.trim() !== '' && password.trim() !== '';
   const handleFieldChange = (fieldName: keyof FormValues) => {
     clearErrors(fieldName);
   };
@@ -99,12 +104,7 @@ export function SignInForm() {
         >
           <Link href={{ pathname: ROUTES.AUTH.FORGOT_PASSWORD }}>Forgot Password</Link>
         </Button>
-        <Button
-          className={styles.button}
-          type={'submit'}
-          size={{ width: 330 }}
-          disabled={!isValid || !isDirty || isSubmitting}
-        >
+        <Button className={styles.button} type={'submit'} size={{ width: 330 }} disabled={!isFilled || isSubmitting}>
           {isSubmitting ? 'Signing in...' : 'Sign In'}
         </Button>
       </form>
