@@ -77,6 +77,7 @@ export function CreateNewPasswordForm() {
             {...register('newPassword')}
             errorMessage={errors.newPassword?.message}
             containerStyle={{ marginBottom: '24px' }}
+            placeholder="******************"
             onChange={(e) => {
               register('newPassword').onChange(e);
               if (errors.newPassword) {
@@ -88,6 +89,7 @@ export function CreateNewPasswordForm() {
             label={labels.confirmPassword}
             type="password"
             {...register('confirmPassword')}
+            placeholder="******************"
             errorMessage={errors.confirmPassword?.message}
             containerStyle={{ marginBottom: '7px' }}
             onChange={(e) => {
