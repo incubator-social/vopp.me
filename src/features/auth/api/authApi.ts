@@ -1,23 +1,10 @@
 import { baseApi } from '@/src/shared/api/baseApi';
-
-export type ForgotPasswordRequest = {
-  email: string;
-  recaptcha: boolean;
-  baseUrl: string;
-};
-
-export type ForgotPasswordResponse = {
-  message: string;
-};
-
-export type CreateNewPasswordRequest = {
-  newPassword: string;
-  recoveryCode: string;
-};
-
-export type CreateNewPasswordResponse = {
-  message: string;
-};
+import {
+  CreateNewPasswordRequest,
+  CreateNewPasswordResponse,
+  ForgotPasswordRequest,
+  ForgotPasswordResponse
+} from '@/src/features/auth/lib/types/api.types';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
