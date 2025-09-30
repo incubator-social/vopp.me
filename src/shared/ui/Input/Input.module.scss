@@ -38,13 +38,13 @@
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
-  font-family: var(--font-family-primary);
+  font-family: var(--font-family-primary), sans-serif;
   font-weight: var(--font-weight-regular);
   font-size: 16px;
   line-height: var(--line-height-m);
   color: var(--color-light-100);
   box-sizing: border-box;
-  background: var(--color-dark-700);
+  background: transparent;
 
   &::placeholder {
     color: var(--color-light-900);

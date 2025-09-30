@@ -4,7 +4,7 @@ import { OAuthButtons } from '@/src/features/auth/ui/sign-up/OAuthButtons/OAuthB
 import { SignUpForm } from '@/src/features/auth/ui/sign-up/SignUpForm/SignUpForm';
 import { SignInPrompt } from '@/src/features/auth/ui/sign-up/SignInPrompt/SignInPrompt';
 
-export default function SignUpPage() {
+export function SignUpPage() {
   return (
     <Card className={styles.card}>
       <h1 className={styles.title}>Sign Up</h1>
