@@ -13,6 +13,7 @@ import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
 import styles from './SignUpForm.module.scss';
 import Link from 'next/link';
 import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpForm/signUpSchema';
+import { ROUTES } from '@/src/shared/config/routes';
 
 type SignUpForm = {
   onModalChange?: (data: ModalDataSignUp) => void;
@@ -28,10 +29,12 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
     handleSubmit,
     reset,
     setError,
-    formState: { errors, isValid, isDirty, isSubmitting }
+    clearErrors,
+    formState: { errors, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
     mode: 'onTouched',
+    reValidateMode: 'onChange',
     defaultValues: {
       username: '',
       email: '',
@@ -59,13 +62,25 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
     }
   };
 
+  const createFieldProps = (fieldName: keyof FormValues) => {
+    const fieldRegister = register(fieldName);
+
+    return {
+      ...fieldRegister,
+      onChange: async (e: React.ChangeEvent<HTMLInputElement>) => {
+        await fieldRegister.onChange(e);
+        clearErrors(fieldName);
+      }
+    };
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <p>Tdlksdf123</p>
       <p>sdfsdf@mailsac.com</p>
       <p>Tdlksdf123!</p>
       <Input
-        {...register('username')}
+        {...createFieldProps('username')}
         label="Username"
         placeholder="Enter your username"
         errorMessage={errors.username?.message}
@@ -73,16 +88,16 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
       />
 
       <Input
-        {...register('email')}
+        {...createFieldProps('email')}
         type="email"
         label="Email"
-        placeholder="Epam@epam.com"
+        placeholder="example@gmail.com"
         errorMessage={errors.email?.message}
         className={styles.customInput}
       />
 
       <Input
-        {...register('password')}
+        {...createFieldProps('password')}
         type="password"
         label="Password"
         placeholder="******************"
@@ -92,7 +107,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
 
       <div className={styles.specialGap}>
         <Input
-          {...register('passwordConfirmation')}
+          {...createFieldProps('passwordConfirmation')}
           type="password"
           label="Password confirmation"
           placeholder="******************"
@@ -114,11 +129,11 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
                 label={
                   <span className={styles.checkboxLabel}>
                     I agree to the{' '}
-                    <Link href="/legal/terms" className={styles.link}>
+                    <Link href={{ pathname: ROUTES.LEGAL.TERMS_OF_SERVICE }} className={styles.link}>
                       Terms of Service
                     </Link>{' '}
                     and{' '}
-                    <Link href="/legal/privacy" className={styles.link}>
+                    <Link href={{ pathname: ROUTES.LEGAL.PRIVACY }} className={styles.link}>
                       Privacy Policy
                     </Link>
                   </span>
