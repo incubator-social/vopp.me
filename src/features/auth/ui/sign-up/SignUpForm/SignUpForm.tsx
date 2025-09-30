@@ -61,6 +61,9 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <p>Tdlksdf123</p>
+      <p>sdfsdf@mailsac.com</p>
+      <p>Tdlksdf123!</p>
       <Input
         {...register('username')}
         label="Username"
