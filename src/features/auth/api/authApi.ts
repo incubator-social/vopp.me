@@ -1,6 +1,6 @@
 import { baseApi } from '@/src/shared/api/baseApi';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
-import { LoginBody, LoginResponse } from '@/src/shared/types/api';
+import { LoginBody, LoginResponse } from './types';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({

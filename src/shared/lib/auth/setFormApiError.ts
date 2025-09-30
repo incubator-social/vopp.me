@@ -31,5 +31,3 @@ export function setFormApiError<T extends FieldValues>(error: unknown, setError:
     );
   }
 }
-
-// src/shared/lib/api/setFormApiError.ts перемещю потом в shared

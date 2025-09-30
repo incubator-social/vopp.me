@@ -8,14 +8,12 @@ import GoogleIcon from '@/src/shared/assets/icons/google-svgrepo-com-1.svg';
 import GitHubIcon from '@/src/shared/assets/icons/github-svgrepo-com.svg';
 import clsx from 'clsx';
 import Link from 'next/link';
-
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-import { useLoginMutation } from '@/src/features/auth/api/authApi';
-import { FormValues, loginSchema } from './loginSchema';
+import { useLoginMutation } from '@/src/features/auth/api';
+import { FormValues, loginSchema } from '@/src/features/auth/modal/signInSchema';
 import { useRouter } from 'next/navigation';
-import { setFormApiError } from './setFormApiError';
+import { setFormApiError } from '@/src/shared/lib/auth/setFormApiError';
 import { useState } from 'react';
 
 export function SignInForm() {
@@ -29,10 +27,10 @@ export function SignInForm() {
     reset,
     setError,
     clearErrors,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting, isValid, isDirty }
   } = useForm<FormValues>({
     resolver: zodResolver(loginSchema),
-    mode: 'onBlur',
+    mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
       email: '',
@@ -101,7 +99,12 @@ export function SignInForm() {
         >
           <Link href={{ pathname: ROUTES.AUTH.FORGOT_PASSWORD }}>Forgot Password</Link>
         </Button>
-        <Button className={styles.button} type={'submit'} size={{ width: 330 }} disabled={isSubmitting}>
+        <Button
+          className={styles.button}
+          type={'submit'}
+          size={{ width: 330 }}
+          disabled={!isValid || !isDirty || isSubmitting}
+        >
           {isSubmitting ? 'Signing in...' : 'Sign In'}
         </Button>
       </form>
