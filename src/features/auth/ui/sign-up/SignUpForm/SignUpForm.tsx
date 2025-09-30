@@ -16,11 +16,13 @@ export const SignUpForm = () => {
     control,
     register,
     handleSubmit,
+    trigger,
+    getValues,
     clearErrors,
     formState: { errors, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
-    mode: 'onTouched',
+    mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {
       username: '',
@@ -39,9 +41,20 @@ export const SignUpForm = () => {
       onChange: async (e: React.ChangeEvent<HTMLInputElement>) => {
         await fieldRegister.onChange(e);
         clearErrors(fieldName);
+      },
+      onBlur: async (e: React.FocusEvent<HTMLInputElement>) => {
+        await fieldRegister.onBlur(e);
+
+        if (fieldName === 'password') {
+          const confirmationValue = getValues('passwordConfirmation');
+          if (confirmationValue && confirmationValue.trim() !== '') {
+            await trigger('passwordConfirmation');
+          }
+        }
       }
     };
   };
+
   const onSubmit = (data: FormValues) => {
     console.log('Form data:', data);
     // Здесь потом будет отправка на бэкенд
@@ -76,13 +89,23 @@ export const SignUpForm = () => {
       />
 
       <div className={styles.specialGap}>
-        <Input
-          {...createFieldProps('passwordConfirmation')}
-          type="password"
-          label="Password confirmation"
-          placeholder="******************"
-          errorMessage={errors.passwordConfirmation?.message}
-          className={styles.customInput}
+        <Controller
+          name="passwordConfirmation"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Input
+              {...field}
+              type="password"
+              label="Password confirmation"
+              placeholder="******************"
+              errorMessage={fieldState.error?.message}
+              className={styles.customInput}
+              onChange={(e) => {
+                field.onChange(e);
+                clearErrors('passwordConfirmation');
+              }}
+            />
+          )}
         />
 
         <div className={styles.checkboxWrapper}>
