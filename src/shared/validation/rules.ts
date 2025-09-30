@@ -1,4 +1,3 @@
-// shared/validation/rules.ts
 import { z } from 'zod';
 
 export const EMAIL_REGEX = /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/;
