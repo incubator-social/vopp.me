@@ -30,7 +30,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
     reset,
     setError,
     clearErrors,
-    formState: { errors, isValid, isDirty, isSubmitting }
+    formState: { errors, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
     mode: 'onTouched',
@@ -146,12 +146,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
           {errors.agree && <span className={styles.checkboxError}>{errors.agree?.message}</span>}
         </div>
 
-        <Button
-          type="submit"
-          variant="buttonPrimary"
-          size={{ width: '100%' }}
-          disabled={!isValid || !isDirty || isSubmitting}
-        >
+        <Button type="submit" variant="buttonPrimary" size={{ width: '100%' }} disabled={isSubmitting}>
           Sign Up
         </Button>
       </div>
