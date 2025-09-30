@@ -11,11 +11,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ROUTES } from '@/src/shared/config/routes';
 import { useForgotPasswordMutation } from '@/src/features/auth/api/authApi';
 import {
-  ForgotPasswordFormValues,
-  forgotPasswordFormSchema
+  forgotPasswordFormSchema,
+  ForgotPasswordFormValues
 } from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/forgotPasswordFormSchema';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 import { Recaptcha } from '@/src/shared/ui/Recaptcha/Recaptcha';
+import { ForgotPasswordStatus } from '@/src/features/auth/lib/types/auth.types';
 
 type Props = {
   onSubmitSuccess: (email: string) => void;
@@ -23,8 +24,7 @@ type Props = {
 
 export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
   const [forgotPassword] = useForgotPasswordMutation();
-  const [status, setStatus] = useState<'idle' | 'sent' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState<string | undefined>('');
+  const [status, setStatus] = useState<ForgotPasswordStatus>(ForgotPasswordStatus.Idle);
   const [captchaValue, setCaptchaValue] = useState<string | null>('');
   const [captchaError, setCaptchaError] = useState<string | null>(null);
 
@@ -38,7 +38,8 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-    clearErrors
+    clearErrors,
+    setError
   } = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordFormSchema),
     mode: 'onSubmit'
@@ -47,8 +48,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
   const emailValue = watch('email');
 
   const onSubmit = async (data: ForgotPasswordFormValues) => {
-    setStatus('idle');
-    setErrorMessage('');
+    setStatus(ForgotPasswordStatus.Idle);
 
     if (captchaValue === '') {
       setCaptchaError('Please complete the captcha');
@@ -63,14 +63,17 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
       }).unwrap();
 
       onSubmitSuccess(emailValue);
-      setStatus('sent');
+      setStatus(ForgotPasswordStatus.Sent);
     } catch (err: unknown) {
       const emailError = (err as { status: number; data: ErrorResponse })?.data?.messages?.find(
         (m) => m.field === 'email'
       );
       if (emailError) {
-        setStatus('error');
-        setErrorMessage(emailError.message);
+        setStatus(ForgotPasswordStatus.Error);
+        setError('email', {
+          type: 'server',
+          message: emailError.message
+        });
       }
     }
   };
@@ -84,12 +87,12 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
             label="Email"
             placeholder="Enter your email"
             {...register('email')}
-            errorMessage={errors.email?.message || (status === 'error' ? errorMessage : undefined)}
+            errorMessage={errors.email?.message}
             onChange={(e) => {
               register('email').onChange(e);
               if (errors.email || status === 'error') {
                 clearErrors('email');
-                setStatus('idle');
+                setStatus(ForgotPasswordStatus.Idle);
               }
             }}
           />

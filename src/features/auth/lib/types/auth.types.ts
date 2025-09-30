@@ -1,1 +1,5 @@
-// типы для auth
+export enum ForgotPasswordStatus {
+  Idle = 'idle',
+  Sent = 'sent',
+  Error = 'error'
+}
