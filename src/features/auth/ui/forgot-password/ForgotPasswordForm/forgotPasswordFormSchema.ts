@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { emailSchema } from '@/src/shared/schemas/form.shema';
+import { emailField } from '@/src/shared/validation/rules';
 
 export const forgotPasswordSchema = z.object({
-  email: emailSchema
+  email: emailField
 });
 
 export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;

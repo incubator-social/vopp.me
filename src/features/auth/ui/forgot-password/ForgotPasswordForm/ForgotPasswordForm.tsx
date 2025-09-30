@@ -13,7 +13,7 @@ import { useForgotPasswordMutation } from '@/src/features/auth/api/authApi';
 import {
   ForgotPasswordFormValues,
   forgotPasswordSchema
-} from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/forgot-password-form.schema';
+} from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/forgotPasswordFormSchema';
 import { ResponseErrorType } from '@/src/shared/types/api';
 
 type Props = {

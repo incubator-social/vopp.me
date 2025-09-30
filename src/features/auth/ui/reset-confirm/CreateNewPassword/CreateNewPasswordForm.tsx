@@ -6,13 +6,16 @@ import Card from '@/src/shared/ui/Card/Card';
 import { useCreateNewPasswordMutation } from '@/src/features/auth/api/authApi';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { CreateNewPasswordFormValues, createNewPasswordSchema } from './create-new-password-form.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ROUTES } from '@/src/shared/config/routes';
 import { useAppDispatch } from '@/app/providers/store/hooks';
 import { setAppError } from '@/app/appSlice';
 import clsx from 'clsx';
 import { ResponseErrorType } from '@/src/shared/types/api';
+import {
+  CreateNewPasswordFormValues,
+  createNewPasswordSchema
+} from '@/src/features/auth/ui/reset-confirm/CreateNewPassword/createNewPasswordFormSchema';
 
 export function CreateNewPasswordForm() {
   const dispatch = useAppDispatch();
