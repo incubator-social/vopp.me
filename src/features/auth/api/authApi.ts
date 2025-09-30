@@ -12,7 +12,7 @@ export const authApi = baseApi.injectEndpoints({
       query: () => ''
     }),
     forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
-      query: ({ email, recaptcha = false, baseUrl = 'http://localhost:3000' }) => ({
+      query: ({ email, recaptcha = false, baseUrl = process.env.NEXT_PUBLIC_APP_URL }) => ({
         url: '/auth/password-recovery',
         method: 'POST',
         body: { email, recaptcha, baseUrl }

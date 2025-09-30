@@ -1,6 +1,6 @@
 export type ForgotPasswordRequest = {
   email: string;
-  recaptcha: boolean;
+  recaptcha: string | null;
   baseUrl: string;
 };
 

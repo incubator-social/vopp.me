@@ -15,6 +15,7 @@ import {
   forgotPasswordFormSchema
 } from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/forgotPasswordFormSchema';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
+import { Recaptcha } from '@/src/shared/ui/Recaptcha/Recaptcha';
 
 type Props = {
   onSubmitSuccess: (email: string) => void;
@@ -24,6 +25,13 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
   const [forgotPassword] = useForgotPasswordMutation();
   const [status, setStatus] = useState<'idle' | 'sent' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | undefined>('');
+  const [captchaValue, setCaptchaValue] = useState<string | null>('');
+  const [captchaError, setCaptchaError] = useState<string | null>(null);
+
+  const handleCaptchaChange = (value: string | null) => {
+    setCaptchaError(null);
+    setCaptchaValue(value);
+  };
 
   const {
     register,
@@ -42,10 +50,15 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
     setStatus('idle');
     setErrorMessage('');
 
+    if (captchaValue === '') {
+      setCaptchaError('Please complete the captcha');
+      return;
+    }
+
     try {
       await forgotPassword({
         email: data.email,
-        recaptcha: false,
+        recaptcha: captchaValue,
         baseUrl: process.env.NEXT_PUBLIC_APP_URL + ROUTES.AUTH.CREATE_NEW_PASSWORD
       }).unwrap();
 
@@ -93,7 +106,6 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
             </p>
           )}
         </div>
-
         <div className={styles.formButtons}>
           <Button
             type="submit"
@@ -108,6 +120,8 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
             <Link href={ROUTES.AUTH.SIGN_IN}>Back to Sign In</Link>
           </Button>
         </div>
+        <Recaptcha className={styles.recaptcha} onChangeAction={handleCaptchaChange} />
+        {captchaError && <span className={clsx(styles.formError, 'regular-text-14')}>{captchaError}</span>}
       </div>
     </form>
   );
