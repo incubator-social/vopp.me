@@ -27,21 +27,16 @@ export function SignInForm() {
     reset,
     setError,
     clearErrors,
-    watch,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting, isValid, isDirty }
   } = useForm<FormValues>({
     resolver: zodResolver(signInSchema),
-    mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
+    mode: 'onChange',
+    reValidateMode: 'onChange',
     defaultValues: {
       email: '',
       password: ''
     }
   });
-
-  const email = watch('email');
-  const password = watch('password');
-  const isFilled = email.trim() !== '' && password.trim() !== '';
   const handleFieldChange = (fieldName: keyof FormValues) => {
     clearErrors(fieldName);
   };
@@ -104,7 +99,12 @@ export function SignInForm() {
         >
           <Link href={{ pathname: ROUTES.AUTH.FORGOT_PASSWORD }}>Forgot Password</Link>
         </Button>
-        <Button className={styles.button} type={'submit'} size={{ width: 330 }} disabled={!isFilled || isSubmitting}>
+        <Button
+          className={styles.button}
+          type={'submit'}
+          size={{ width: 330 }}
+          disabled={!isValid || !isDirty || isSubmitting}
+        >
           {isSubmitting ? 'Signing in...' : 'Sign In'}
         </Button>
       </form>
