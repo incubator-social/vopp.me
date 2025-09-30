@@ -8,7 +8,7 @@ import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
 
 import styles from './SignUpForm.module.scss';
 import Link from 'next/link';
-import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpForm/signUpSchema';
+import { FormValues, signUpSchema } from '@/src/features/auth/modal/signUpSchema';
 import { ROUTES } from '@/src/shared/config/routes';
 
 export const SignUpForm = () => {
