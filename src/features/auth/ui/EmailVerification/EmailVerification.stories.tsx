@@ -1,9 +1,9 @@
 import type { Meta } from '@storybook/nextjs';
-import { EmailVerificationPage } from './EmailVerificationPage';
+import { EmailVerification } from '@/src/features/auth/ui/EmailVerification/EmailVerification';
 
-const meta: Meta<typeof EmailVerificationPage> = {
-  title: 'PAGES/EmailVerificationPage',
-  component: EmailVerificationPage,
+const meta: Meta<typeof EmailVerification> = {
+  title: 'PAGES/EmailVerification',
+  component: EmailVerification,
   parameters: {
     layout: 'centered'
   }
@@ -12,7 +12,7 @@ const meta: Meta<typeof EmailVerificationPage> = {
 export default meta;
 
 export const Default = () => {
-  return <EmailVerificationPage />;
+  return <EmailVerification />;
 };
 
 Default.parameters = {
@@ -24,7 +24,7 @@ Default.parameters = {
 };
 
 export const WithoutInput = () => {
-  return <EmailVerificationPage emailStatus={'expired_without_input'} />;
+  return <EmailVerification emailStatus={'expired_without_input'} />;
 };
 
 WithoutInput.parameters = {
@@ -36,7 +36,7 @@ WithoutInput.parameters = {
 };
 
 export const WithInput = () => {
-  return <EmailVerificationPage emailStatus={'expired_with_input'} />;
+  return <EmailVerification emailStatus={'expired_with_input'} />;
 };
 
 WithInput.parameters = {
@@ -48,7 +48,7 @@ WithInput.parameters = {
 };
 
 export const Success = () => {
-  return <EmailVerificationPage emailStatus={'success'} />;
+  return <EmailVerification emailStatus={'success'} />;
 };
 
 Success.parameters = {

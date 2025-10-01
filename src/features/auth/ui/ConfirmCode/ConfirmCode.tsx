@@ -1,9 +1,12 @@
 'use client';
+
 import {
+  handleConfirmLinkError,
   ConfirmCodeError,
-  handleConfirmLinkError
-} from '@/src/features/auth/ui/ConfirmCodePage/utils/handleConfirmLinkError';
-import { getRedirectPath, Status } from '@/src/features/auth/ui/ConfirmCodePage/utils/getRedirectPath';
+  Status,
+  getRedirectPath
+} from '@/src/features/auth/ui/ConfirmCode/utils';
+
 import { redirect } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
 import { useConfirmRegistrationMutation } from '@/src/features/auth/api/authApi';
@@ -19,7 +22,7 @@ export type ModalData = {
   message: string;
 };
 
-const ConfirmCodePage = ({ searchParams }: SearchParams) => {
+export const ConfirmCode = ({ searchParams }: SearchParams) => {
   const [confirmRegistration] = useConfirmRegistrationMutation();
 
   const [isModal, setIsModal] = useState<ModalData>({ open: false, title: '', message: '' });
@@ -67,5 +70,3 @@ const ConfirmCodePage = ({ searchParams }: SearchParams) => {
     </div>
   );
 };
-
-export default ConfirmCodePage;

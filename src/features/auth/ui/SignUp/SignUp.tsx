@@ -1,18 +1,18 @@
 'use client';
-import { EmailSentModal } from '@/src/features/auth/ui/email-sent-modal';
+import { EmailSentModal } from '@/src/features/auth/ui/EmailSentModal';
+import { OAuthButtons } from '@/src/features/auth/ui/SignUp/OAuthButtons';
+import { SignInPrompt } from '@/src/features/auth/ui/SignUp/SignInPrompt';
+import { SignUpForm } from '@/src/features/auth/ui/SignUp/SignUpForm';
 import { useState } from 'react';
 import Card from '@/src/shared/ui/Card/Card';
-import styles from './SignUpPage.module.scss';
-import { OAuthButtons } from '@/src/features/auth/ui/sign-up/OAuthButtons/OAuthButtons';
-import { SignUpForm } from '@/src/features/auth/ui/sign-up/SignUpForm/SignUpForm';
-import { SignInPrompt } from '@/src/features/auth/ui/sign-up/SignInPrompt/SignInPrompt';
+import styles from './SignUp.module.scss';
 
 export type ModalDataSignUp = {
   open: boolean;
   email: string | undefined;
 };
 
-export default function SignUpPage() {
+export default function SignUp() {
   const [modal, setModal] = useState<ModalDataSignUp>({ open: false, email: '' });
 
   return (

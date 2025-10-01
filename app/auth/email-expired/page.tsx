@@ -1,5 +1,5 @@
-import { EmailVerificationPage } from '@/src/features/auth/ui/EmailVerification/EmailVerificationPage';
+import { EmailVerification } from '@/src/features/auth/ui/EmailVerification';
 
-export default function Page() {
-  return <EmailVerificationPage emailStatus={'expired_with_input'} />;
+export default function EmailVerificationExpiredPage() {
+  return <EmailVerification emailStatus={'expired_with_input'} />;
 }

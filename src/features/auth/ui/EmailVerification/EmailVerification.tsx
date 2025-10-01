@@ -1,23 +1,21 @@
 'use client';
 
 import { useEmailResendingMutation } from '@/src/features/auth/api/authApi';
-import { EmailSentModal } from '@/src/features/auth/ui/email-sent-modal';
-import {
-  emailVerificationSchema,
-  FormValuesEmailVerification
-} from '@/src/features/auth/ui/EmailVerification/EmailVerificationSchema';
-import { ModalDataSignUp } from '@/src/features/auth/ui/sign-up/SignUpPage';
-import { setSignUpServerError } from '@/src/features/auth/ui/sign-up/utils/setSignUpServerError';
+import { emailVerificationSchema, FormValuesEmailVerification } from '@/src/features/auth/modal';
+import Link from 'next/link';
+
+import { ModalDataSignUp } from '@/src/features/auth/ui/SignUp/SignUp';
+import { ROUTES } from '@/src/shared/config/routes';
+import { SVGProps, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import styles from './EmailVerificationPage.module.scss';
-import SuccessImage from '@/public/email-verification-img/success.svg';
-import ExpiredImage from '@/public/email-verification-img/time-management.svg';
+import { useForm } from 'react-hook-form';
+import { EmailSentModal } from '@/src/features/auth/ui/EmailSentModal';
+import { setSignUpServerError } from '@/src/features/auth/ui/SignUp/utils/setSignUpServerError';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
-import { SVGProps, useState } from 'react';
-import Link from 'next/link';
-import { ROUTES } from '@/src/shared/config/routes';
-import { useForm } from 'react-hook-form';
+import styles from './EmailVerification.module.scss';
+import SuccessImage from '@/public/email-verification-img/success.svg';
+import ExpiredImage from '@/public/email-verification-img/time-management.svg';
 
 type EmailStatus = 'success' | 'expired_with_input' | 'expired_without_input';
 
@@ -38,7 +36,7 @@ type ContentType = {
   buttonMarginBottom: number;
 };
 
-export const EmailVerificationPage = ({ emailStatus = 'success' }: Props) => {
+export const EmailVerification = ({ emailStatus = 'success' }: Props) => {
   const [modal, setModal] = useState<ModalDataSignUp>({ open: false, email: '' });
 
   const [emailResending] = useEmailResendingMutation();

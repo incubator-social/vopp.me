@@ -1,8 +1,8 @@
 'use client';
 
 import { useRegistrationMutation } from '@/src/features/auth/api/authApi';
-import { ModalDataSignUp } from '@/src/features/auth/ui/sign-up/SignUpPage';
-import { setSignUpServerError } from '@/src/features/auth/ui/sign-up/utils/setSignUpServerError';
+import { ModalDataSignUp } from '@/src/features/auth/ui/SignUp/SignUp';
+import { setSignUpServerError } from '@/src/features/auth/ui/SignUp/utils';
 
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -34,8 +34,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
     formState: { errors, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
+    mode: 'onTouched',
     defaultValues: {
       username: '',
       email: '',

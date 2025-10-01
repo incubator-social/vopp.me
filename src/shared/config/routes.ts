@@ -1,8 +1,8 @@
 export const ROUTES = {
   HOME: '/',
   AUTH: {
-    SIGN_IN: '/auth/sign-in',
-    SIGN_UP: '/auth/sign-up',
+    SIGN_IN: '/auth/SignIn',
+    SIGN_UP: '/auth/SignUp',
     FORGOT_PASSWORD: '/auth/forgot-password',
     CREATE_NEW_PASSWORD: '/auth/create-new-password',
     EMAIL_VERIFICATION_CONFIRMED: '/auth/email-confirmed',

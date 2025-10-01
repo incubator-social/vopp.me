@@ -1,14 +1,14 @@
-import ConfirmCodePage from '@/src/features/auth/ui/ConfirmCodePage/ConfirmCodePage';
+import { ConfirmCode } from '@/src/features/auth/ui/ConfirmCode';
 import { Suspense } from 'react';
 
-export default async function Page({
+export default async function ConfirmCodePage({
   searchParams
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   return (
     <Suspense>
-      <ConfirmCodePage searchParams={searchParams} />
+      <ConfirmCode searchParams={searchParams} />
     </Suspense>
   );
 }

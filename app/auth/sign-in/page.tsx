@@ -1,5 +1,5 @@
-import { SignInForm } from '@/src/features/auth/ui/sign-in/SignInForm/SignInForm';
+import { SignInForm } from '@/src/features/auth/ui/SignIn/SignInForm/SignInForm';
 
-export default function Page() {
+export default function SignInPage() {
   return <SignInForm />;
 }

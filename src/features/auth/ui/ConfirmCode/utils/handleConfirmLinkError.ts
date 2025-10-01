@@ -1,5 +1,5 @@
-import { ModalData } from '@/src/features/auth/ui/ConfirmCodePage/ConfirmCodePage';
-import { Status } from '@/src/features/auth/ui/ConfirmCodePage/utils/getRedirectPath';
+import { ModalData } from '@/src/features/auth/ui/ConfirmCode/ConfirmCode';
+import { Status } from '@/src/features/auth/ui/ConfirmCode/utils/getRedirectPath';
 
 export type ConfirmCodeError = {
   status: number;
