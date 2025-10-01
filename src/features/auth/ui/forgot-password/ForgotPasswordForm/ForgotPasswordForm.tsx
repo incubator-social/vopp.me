@@ -38,8 +38,8 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-    clearErrors,
-    setError
+    setError,
+    clearErrors
   } = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordFormSchema),
     mode: 'onSubmit'
