@@ -1,6 +1,6 @@
 'use client';
 import ReCAPTCHA from 'react-google-recaptcha';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 type Props = {
   onChangeAction: (value: string | null) => void;
@@ -9,10 +9,11 @@ type Props = {
 
 const language = 'en';
 
-export const Recaptcha = ({ onChangeAction, className }: Props) => {
+export const Recaptcha = forwardRef<ReCAPTCHA, Props>(({ onChangeAction, className }, ref) => {
   return (
     <div className={className}>
       <ReCAPTCHA
+        ref={ref}
         sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
         onChange={onChangeAction}
         theme={'dark'}
@@ -20,4 +21,6 @@ export const Recaptcha = ({ onChangeAction, className }: Props) => {
       />
     </div>
   );
-};
+});
+
+Recaptcha.displayName = 'Recaptcha';

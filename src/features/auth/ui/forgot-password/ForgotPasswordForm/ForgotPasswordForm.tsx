@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/ForgotPasswordForm.module.scss';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -17,6 +17,7 @@ import {
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 import { Recaptcha } from '@/src/shared/ui/Recaptcha/Recaptcha';
 import { ForgotPasswordStatus } from '@/src/features/auth/lib/types/auth.types';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 type Props = {
   onSubmitSuccess: (email: string) => void;
@@ -27,6 +28,8 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
   const [status, setStatus] = useState<ForgotPasswordStatus>(ForgotPasswordStatus.Idle);
   const [captchaValue, setCaptchaValue] = useState<string | null>('');
   const [captchaError, setCaptchaError] = useState<string | null>(null);
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleCaptchaChange = (value: string | null) => {
     setCaptchaError(null);
@@ -74,6 +77,9 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
           type: 'server',
           message: emailError.message
         });
+
+        setCaptchaValue(null);
+        recaptchaRef.current?.reset();
       }
     }
   };
@@ -123,7 +129,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
             <Link href={ROUTES.AUTH.SIGN_IN}>Back to Sign In</Link>
           </Button>
         </div>
-        <Recaptcha className={styles.recaptcha} onChangeAction={handleCaptchaChange} />
+        <Recaptcha ref={recaptchaRef} className={styles.recaptcha} onChangeAction={handleCaptchaChange} />
         {captchaError && <span className={clsx(styles.formError, 'regular-text-14')}>{captchaError}</span>}
       </div>
     </form>

@@ -1,5 +1,5 @@
 'use client';
-import styles from 'src/features/auth/ui/forgot-password/CreateNewPassword/CreateNewPasswordForm.module.scss';
+import styles from '@/src/features/auth/ui/forgot-password/CreateNewPassword/CreateNewPasswordForm.module.scss';
 import { Input } from '@/src/shared/ui/Input/Input';
 import { Button } from '@/src/shared/ui/Button/Button';
 import Card from '@/src/shared/ui/Card/Card';
@@ -14,7 +14,7 @@ import clsx from 'clsx';
 import {
   CreateNewPasswordFormValues,
   createNewPasswordSchema
-} from 'src/features/auth/ui/forgot-password/CreateNewPassword/createNewPasswordFormSchema';
+} from '@/src/features/auth/ui/forgot-password/CreateNewPassword/createNewPasswordFormSchema';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 import { use } from 'react';
 
