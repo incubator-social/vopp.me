@@ -4,7 +4,9 @@
   justify-content: center;
   align-items: center;
   padding: 23px 24px 30px;
-  margin-top: 36px;
+  width: 100%;
+  max-width: 378px;
+  margin-top: 4px;
 }
 
 .buttonsGroup {
@@ -58,4 +60,34 @@
   margin-top: 12px;
   text-decoration: none;
   color: var(--color-accent-500);
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-3px);
+  }
+
+  40% {
+    transform: translateX(3px);
+  }
+
+  60% {
+    transform: translateX(-3px);
+  }
+
+  80% {
+    transform: translateX(3px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.shake {
+  animation: shake 0.3s ease;
 }

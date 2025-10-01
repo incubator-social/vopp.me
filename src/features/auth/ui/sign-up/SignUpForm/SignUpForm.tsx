@@ -12,7 +12,7 @@ import { Checkbox } from '@/src/shared/ui/Checkbox/Checkbox';
 
 import styles from './SignUpForm.module.scss';
 import Link from 'next/link';
-import { FormValues, signUpSchema } from '@/src/features/auth/ui/sign-up/SignUpForm/signUpSchema';
+import { FormValues, signUpSchema } from '@/src/features/auth/modal/signUpSchema';
 import { ROUTES } from '@/src/shared/config/routes';
 
 type SignUpForm = {
@@ -29,11 +29,12 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
     handleSubmit,
     reset,
     setError,
+    getValues,
     clearErrors,
     formState: { errors, isSubmitting }
   } = useForm<FormValues>({
     resolver: zodResolver(signUpSchema),
-    mode: 'onTouched',
+    mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {
       username: '',
@@ -72,9 +73,18 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         await fieldRegister.onChange(e);
         clearErrors(fieldName);
       },
-      onBlur: async (e: React.ChangeEvent<HTMLInputElement>) => {
+      onBlur: async (e: React.FocusEvent<HTMLInputElement>) => {
         await fieldRegister.onBlur(e);
+
+        //Нужна новая валидация после ошибки сервера
         await trigger(fieldName);
+
+        if (fieldName === 'password') {
+          const confirmationValue = getValues('passwordConfirmation');
+          if (confirmationValue && confirmationValue.trim() !== '') {
+            await trigger('passwordConfirmation');
+          }
+        }
       }
     };
   };
@@ -107,16 +117,26 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         className={styles.customInput}
       />
 
-      <Input
-        {...createFieldProps('passwordConfirmation')}
-        type="password"
-        label="Password confirmation"
-        placeholder="******************"
-        errorMessage={errors.passwordConfirmation?.message}
-        className={styles.customInput}
-      />
-
       <div className={styles.specialGap}>
+        <Controller
+          name="passwordConfirmation"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Input
+              {...field}
+              type="password"
+              label="Password confirmation"
+              placeholder="******************"
+              errorMessage={fieldState.error?.message}
+              className={styles.customInput}
+              onChange={(e) => {
+                field.onChange(e);
+                clearErrors('passwordConfirmation');
+              }}
+            />
+          )}
+        />
+
         <div className={styles.checkboxWrapper}>
           <Controller
             name="agree"

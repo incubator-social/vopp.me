@@ -8,9 +8,10 @@ export const ROUTES = {
     EMAIL_VERIFICATION_CONFIRMED: '/auth/email-confirmed',
     EMAIL_VERIFICATION_EXPIRED: '/auth/email-expired'
   },
-  PROFILE: '/profile',
   LEGAL: {
     PRIVACY: '/legal/privacy',
     TERMS_OF_SERVICE: '/legal/terms'
-  }
+  },
+  PROFILE: '/profile',
+  PROFILE_BY_ID: (id: number | string) => `/profile/${id}`
 } as const;
