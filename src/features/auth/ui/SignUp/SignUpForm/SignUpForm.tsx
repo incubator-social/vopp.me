@@ -1,5 +1,6 @@
 'use client';
 
+import { SignUpRequest } from '@/src/features/auth/api';
 import { useRegistrationMutation } from '@/src/features/auth/api/authApi';
 import { ModalDataSignUp } from '@/src/features/auth/ui/SignUp/SignUp';
 import { setSignUpServerError } from '@/src/features/auth/ui/SignUp/utils';
@@ -45,9 +46,10 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
   });
 
   const onSubmit = async ({ username, email, password }: Partial<FormValues>) => {
-    const body = { userName: username, email, password };
+    const body = { userName: username, email, password } as SignUpRequest;
     try {
       await registration(body).unwrap();
+
       onModalChange?.({ open: true, email });
       reset({
         username: '',
