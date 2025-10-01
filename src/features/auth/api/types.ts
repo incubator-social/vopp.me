@@ -6,3 +6,14 @@ export type LoginBody = {
 export type LoginResponse = {
   accessToken: string;
 };
+
+export type MeResponse = {
+  userId: number;
+  userName: string;
+  email: string;
+  isBlocked: boolean;
+};
+
+export type UpdateTokensResponse = {
+  accessToken: string;
+};

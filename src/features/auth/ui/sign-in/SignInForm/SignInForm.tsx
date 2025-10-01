@@ -17,7 +17,7 @@ import { setFormApiError } from '@/src/shared/lib/auth/setFormApiError';
 import { useState } from 'react';
 
 export function SignInForm() {
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const router = useRouter();
   const [shake, setShake] = useState(false);
 
@@ -27,7 +27,7 @@ export function SignInForm() {
     reset,
     setError,
     clearErrors,
-    formState: { errors, isSubmitting, isValid, isDirty }
+    formState: { errors, isValid, isDirty }
   } = useForm<FormValues>({
     resolver: zodResolver(signInSchema),
     mode: 'onChange',
@@ -103,9 +103,9 @@ export function SignInForm() {
           className={styles.button}
           type={'submit'}
           size={{ width: 330 }}
-          disabled={!isValid || !isDirty || isSubmitting}
+          disabled={!isValid || !isDirty || isLoading}
         >
-          {isSubmitting ? 'Signing in...' : 'Sign In'}
+          {isLoading ? 'Signing in...' : 'Sign In'}
         </Button>
       </form>
       <p className={styles.accountQuestion}>Don&apos;t have an account?</p>

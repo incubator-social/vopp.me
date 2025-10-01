@@ -5,7 +5,7 @@ const appSlice = createSlice({
   name: 'app',
   initialState: {
     status: 'idle' as RequestStatus,
-    error: null as string | null
+    error: null as { type: 'error' | 'success'; message: string } | null
   },
   selectors: {
     selectAppStatus: (state) => state.status,
@@ -15,8 +15,8 @@ const appSlice = createSlice({
     setAppStatus: create.reducer<{ status: RequestStatus }>((state, action) => {
       state.status = action.payload.status;
     }),
-    setAppError: create.reducer<{ error: string | null }>((state, action) => {
-      state.error = action.payload.error;
+    setAppError: create.reducer<{ type: 'error' | 'success'; message: string } | null>((state, action) => {
+      state.error = action.payload;
     }),
     clearAppError: create.reducer((state) => {
       state.error = null;

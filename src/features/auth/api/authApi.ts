@@ -1,9 +1,13 @@
 import { baseApi } from '@/src/shared/api/baseApi';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
-import { LoginBody, LoginResponse } from './types';
+import { LoginBody, LoginResponse, MeResponse } from './types';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
+    getMe: build.query<MeResponse, void>({
+      query: () => ({ url: 'auth/me', method: 'GET' }),
+      providesTags: ['Auth']
+    }),
     login: build.mutation<LoginResponse, LoginBody>({
       query: (body: LoginBody) => ({
         method: 'post',
@@ -14,12 +18,29 @@ export const authApi = baseApi.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
-        } catch (e) {
-          console.error(e);
+        } catch {}
+      },
+      invalidatesTags: ['Auth']
+    }),
+    logout: build.mutation<void, void>({
+      query: () => ({
+        method: 'post',
+        url: 'auth/logout',
+        body: {},
+        responseHandler: (response) => response.text()
+      }),
+      onQueryStarted: async (_arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch {
+        } finally {
+          localStorage.removeItem(AUTH_KEYS.accessToken);
+          // сбрасываем данные из стора, пока у нас их нет, но в будущем будет, затрем все постепенно
         }
-      }
+      },
+      invalidatesTags: ['Auth']
     })
   })
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useLogoutMutation, useGetMeQuery } = authApi;
