@@ -4,7 +4,7 @@ import { Input } from '@/src/shared/ui/Input/Input';
 import { Button } from '@/src/shared/ui/Button/Button';
 import Card from '@/src/shared/ui/Card/Card';
 import { useCreateNewPasswordMutation } from '@/src/features/auth/api/authApi';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ROUTES } from '@/src/shared/config/routes';
@@ -13,9 +13,10 @@ import { setAppError } from '@/app/appSlice';
 import clsx from 'clsx';
 import { CreateNewPasswordFormValues, createNewPasswordSchema } from './createNewPasswordFormSchema';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
+import { use } from 'react';
 
 type Props = {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
 export const CreateNewPasswordForm = ({ searchParams }: Props) => {
@@ -23,7 +24,7 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
   const [createNewPassword] = useCreateNewPasswordMutation();
 
   const router = useRouter();
-  const recoveryCode = searchParams.get('code');
+  const { code } = use(searchParams);
 
   const {
     register,
@@ -46,7 +47,7 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
   };
 
   const onSubmit = async (data: CreateNewPasswordFormValues) => {
-    if (!recoveryCode) {
+    if (!code) {
       dispatch(setAppError({ error: 'Recovery code is missing' }));
       return;
     }
@@ -54,7 +55,7 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
     try {
       await createNewPassword({
         newPassword: data.newPassword,
-        recoveryCode
+        recoveryCode: code
       }).unwrap();
       router.push(ROUTES.AUTH.SIGN_IN);
     } catch (err: unknown) {
