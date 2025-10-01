@@ -14,11 +14,14 @@ import clsx from 'clsx';
 import { CreateNewPasswordFormValues, createNewPasswordSchema } from './createNewPasswordFormSchema';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 
-export function CreateNewPasswordForm() {
+type Props = {
+  searchParams: Promise<{ q?: string }>;
+};
+
+export const CreateNewPasswordForm = ({ searchParams }: Props) => {
   const dispatch = useAppDispatch();
   const [createNewPassword] = useCreateNewPasswordMutation();
 
-  const searchParams = useSearchParams();
   const router = useRouter();
   const recoveryCode = searchParams.get('code');
 
@@ -109,4 +112,4 @@ export function CreateNewPasswordForm() {
       </div>
     </Card>
   );
-}
+};
