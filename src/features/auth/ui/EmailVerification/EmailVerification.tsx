@@ -109,13 +109,11 @@ export const EmailVerification = ({ emailStatus = 'success' }: Props) => {
 
   const onSubmit = async ({ email }: Partial<FormValuesEmailVerification>) => {
     try {
-      const result = await emailResending(email).unwrap();
-      console.log(result);
+      const result = await emailResending(email as string).unwrap();
       setModal({ open: true, email });
-      reset({ email: '' });
+      reset();
     } catch (error) {
       setSignUpServerError(error, setError);
-      console.error(error);
     }
   };
 

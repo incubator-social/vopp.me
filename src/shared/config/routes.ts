@@ -3,7 +3,7 @@ export const ROUTES = {
   AUTH: {
     SIGN_IN: '/auth/SignIn',
     SIGN_UP: '/auth/SignUp',
-    CONFIRM_CODE: '/auth/confirm-code',
+    CONFIRM_CODE: 'http://localhost:3000/auth/confirm-code',
     FORGOT_PASSWORD: '/auth/forgot-password',
     CREATE_NEW_PASSWORD: '/auth/create-new-password',
     EMAIL_VERIFICATION_CONFIRMED: '/auth/email-confirmed',

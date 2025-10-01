@@ -7,8 +7,8 @@ import {
   getRedirectPath
 } from '@/src/features/auth/ui/ConfirmCode/utils';
 
-import { redirect } from 'next/navigation';
-import { use, useEffect, useState } from 'react';
+import { redirect, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useConfirmRegistrationMutation } from '@/src/features/auth/api/authApi';
 import { AlertModal } from '@/src/shared/ui/AlertModal';
 
@@ -24,21 +24,31 @@ export type ModalData = {
 
 export const ConfirmCode = ({ searchParams }: SearchParams) => {
   const [confirmRegistration] = useConfirmRegistrationMutation();
+  const [params, setParams] = useState<{ [key: string]: string | string[] | undefined } | null>(null);
 
   const [isModal, setIsModal] = useState<ModalData>({ open: false, title: '', message: '' });
-
   const [status, setStatus] = useState<Status | null>(null);
-  const path = getRedirectPath(status);
 
-  const { code } = use(searchParams);
+  const path = getRedirectPath(status);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchSearchParams = async () => {
+      const data = await searchParams;
+      setParams(data);
+    };
+    fetchSearchParams();
+  }, [searchParams]);
+
+  const { code } = params || {};
 
   useEffect(() => {
     if (!code) return;
-
     const confirmCode = async () => {
       try {
-        const result = await confirmRegistration(code).unwrap();
+        const result = await confirmRegistration(code as string).unwrap();
         if (result?.status === 204) {
+          debugger;
           setStatus('confirmed');
         }
       } catch (error) {
@@ -46,15 +56,16 @@ export const ConfirmCode = ({ searchParams }: SearchParams) => {
         handleConfirmLinkError(err, setIsModal, setStatus);
       }
     };
-
     confirmCode();
   }, [code, confirmRegistration]);
 
   useEffect(() => {
     if (path) {
-      redirect(path);
+      router.replace(path);
     }
   }, [path]);
+
+  if (!code) return <div>Loading...</div>;
 
   return (
     <div>
