@@ -67,7 +67,7 @@ yarn-error.log*
 ### Файлы окружения ###
 .env*
 .env*.local
-!.env.example  # Исключение для шаблона env-файла
+!.env.example # Исключение для шаблона env-файла
 
 ### Деплой ###
 .vercel/

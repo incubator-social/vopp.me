@@ -113,7 +113,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
           <Button
             type="submit"
             variant="buttonPrimary"
-            disabled={isSubmitting || !emailValue?.trim()}
+            disabled={isSubmitting || !emailValue?.trim() || !captchaValue}
             size={{ width: '100%' }}
           >
             {status === 'sent' ? 'Send again' : 'Send Link'}
