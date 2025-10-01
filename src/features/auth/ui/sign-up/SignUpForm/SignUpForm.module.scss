@@ -1,0 +1,52 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.specialGap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.customInput {
+  background-color: var(--color-dark-500);
+}
+
+.checkboxWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.checkboxError {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 171%;
+  color: var(--color-danger-500);
+}
+
+.checkboxLabel {
+  font-family: var(--font-family-primary), sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 133%;
+  color: var(--color-light-100);
+}
+
+.link {
+  font-family: var(--font-family-primary), sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+  }
+}
