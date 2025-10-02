@@ -7,7 +7,7 @@ import {
   getRedirectPath
 } from '@/src/features/auth/ui/ConfirmCode/utils';
 
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useConfirmRegistrationMutation } from '@/src/features/auth/api/authApi';
 import { AlertModal } from '@/src/shared/ui/AlertModal';
@@ -63,7 +63,7 @@ export const ConfirmCode = ({ searchParams }: SearchParams) => {
     if (path) {
       router.replace(path);
     }
-  }, [path]);
+  }, [path, router]);
 
   if (!code) return <div>Loading...</div>;
 

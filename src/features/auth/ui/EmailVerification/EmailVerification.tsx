@@ -34,6 +34,7 @@ type ContentType = {
   showInput: boolean;
   buttonText: string;
   buttonMarginBottom: number;
+  redirectLink?: string;
 };
 
 export const EmailVerification = ({ emailStatus = 'success' }: Props) => {
@@ -109,7 +110,7 @@ export const EmailVerification = ({ emailStatus = 'success' }: Props) => {
 
   const onSubmit = async ({ email }: Partial<FormValuesEmailVerification>) => {
     try {
-      const result = await emailResending(email as string).unwrap();
+      await emailResending(email as string).unwrap();
       setModal({ open: true, email });
       reset();
     } catch (error) {
@@ -143,13 +144,9 @@ export const EmailVerification = ({ emailStatus = 'success' }: Props) => {
         </form>
       ) : (
         <div style={{ marginBottom: content.buttonMarginBottom }}>
-          {contentCases.successCase ? (
-            <Button asChild={true}>
-              <Link href={ROUTES.AUTH.SIGN_IN}>{content.buttonText}</Link>
-            </Button>
-          ) : (
-            <Button>{content.buttonText}</Button>
-          )}
+          <Button asChild={true}>
+            <Link href={{ pathname: content.redirectLink }}>{content.buttonText}</Link>
+          </Button>
         </div>
       )}
 

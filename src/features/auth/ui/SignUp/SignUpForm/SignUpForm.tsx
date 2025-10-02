@@ -49,7 +49,6 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
     const body = { userName: username, email, password } as SignUpRequest;
     try {
       await registration(body).unwrap();
-
       onModalChange?.({ open: true, email });
       reset({
         username: '',
@@ -58,10 +57,8 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
         passwordConfirmation: '',
         agree: false
       });
-      clearErrors();
     } catch (error) {
       setSignUpServerError(error, setError);
-      console.error(error);
     }
   };
 
@@ -70,20 +67,20 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
 
     return {
       ...fieldRegister,
-      onChange: async (e: React.ChangeEvent<HTMLInputElement>) => {
-        await fieldRegister.onChange(e);
+
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+        fieldRegister.onChange(e);
         clearErrors(fieldName);
       },
-      onBlur: async (e: React.FocusEvent<HTMLInputElement>) => {
-        await fieldRegister.onBlur(e);
 
+      onBlur: (e: React.FocusEvent<HTMLInputElement>) => {
+        fieldRegister.onBlur(e);
         //Нужна новая валидация после ошибки сервера
-        await trigger(fieldName);
-
+        trigger(fieldName);
         if (fieldName === 'password') {
           const confirmationValue = getValues('passwordConfirmation');
           if (confirmationValue && confirmationValue.trim() !== '') {
-            await trigger('passwordConfirmation');
+            trigger('passwordConfirmation');
           }
         }
       }
