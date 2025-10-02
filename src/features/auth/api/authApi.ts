@@ -17,7 +17,9 @@ export const authApi = baseApi.injectEndpoints({
       onQueryStarted: async (_arg, { queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-          localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
+          }
         } catch {}
       },
       invalidatesTags: ['Auth']
@@ -34,7 +36,9 @@ export const authApi = baseApi.injectEndpoints({
           await queryFulfilled;
         } catch {
         } finally {
-          localStorage.removeItem(AUTH_KEYS.accessToken);
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem(AUTH_KEYS.accessToken);
+          }
           // сбрасываем данные из стора, пока у нас их нет, но в будущем будет, затрем все постепенно
         }
       },

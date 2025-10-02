@@ -41,7 +41,6 @@ export const SidebarWrapper = () => {
     try {
       await logout().unwrap();
     } catch {
-      dispatch(setAppError({ type: 'error', message: 'Logout failed, please try again' }));
     } finally {
       setConfirmOpen(false);
       router.replace(ROUTES.AUTH.SIGN_IN);
@@ -61,7 +60,7 @@ export const SidebarWrapper = () => {
         onConfirm={handleConfirmLogout}
         onCancel={() => {
           setConfirmOpen(false);
-          dispatch(setAppError({ type: 'success', message: "User with this email doesn't exist" })); // нужно доработать Alert, не только на ошибки
+          dispatch(setAppError({ type: 'success', message: 'The user is logged in' })); // нужно доработать Alert, не только на ошибки
         }}
       />
     </>
