@@ -56,7 +56,6 @@ export const Modal = (props: ModalProps) => {
             onEscapeKeyDown={(e) => {
               if (!closeOnEsc) e.preventDefault();
             }}
-            aria-describedby={undefined}
           >
             {/* Кастомный header или дефолт, смотря что родитель передает */}
             {headerContent ? (

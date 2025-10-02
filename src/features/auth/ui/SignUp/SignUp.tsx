@@ -21,14 +21,12 @@ export default function SignUp() {
       <OAuthButtons />
       <SignUpForm onModalChange={setModal} />
       <SignInPrompt />
-      {modal.open && (
-        <EmailSentModal
-          open={modal.open}
-          email={modal.email}
-          onOpenChange={(open) => setModal({ open, email: modal.email })}
-          classOverlay={styles.classOverlay}
-        />
-      )}
+      <EmailSentModal
+        open={modal.open}
+        email={modal.email}
+        onOpenChange={(open) => setModal({ open, email: modal.email })}
+        classOverlay={styles.classOverlay}
+      />
     </Card>
   );
 }

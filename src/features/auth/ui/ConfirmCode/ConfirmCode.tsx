@@ -48,7 +48,6 @@ export const ConfirmCode = ({ searchParams }: SearchParams) => {
       try {
         const result = await confirmRegistration(code as string).unwrap();
         if (result?.status === 204) {
-          debugger;
           setStatus('confirmed');
         }
       } catch (error) {
