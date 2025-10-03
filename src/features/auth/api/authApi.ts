@@ -7,6 +7,7 @@ import {
   ForgotPasswordRequest,
   ForgotPasswordResponse
 } from '@/src/features/auth/lib/types/api.types';
+import { ROUTES } from '@/src/shared/config/routes';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -14,10 +15,14 @@ export const authApi = baseApi.injectEndpoints({
       query: () => ''
     }),
     forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
-      query: ({ email, recaptcha = false, baseUrl = process.env.NEXT_PUBLIC_APP_URL }) => ({
+      query: ({ email, recaptcha = false }) => ({
         url: '/auth/password-recovery',
         method: 'POST',
-        body: { email, recaptcha, baseUrl }
+        body: {
+          email,
+          recaptcha,
+          baseUrl: `${process.env.NEXT_PUBLIC_APP_URL}${ROUTES.AUTH.CREATE_NEW_PASSWORD}`
+        }
       })
     }),
     createNewPassword: builder.mutation<CreateNewPasswordResponse, CreateNewPasswordRequest>({

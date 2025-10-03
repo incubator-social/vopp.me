@@ -61,8 +61,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
     try {
       await forgotPassword({
         email: data.email,
-        recaptcha: captchaValue,
-        baseUrl: process.env.NEXT_PUBLIC_APP_URL + ROUTES.AUTH.CREATE_NEW_PASSWORD
+        recaptcha: captchaValue
       }).unwrap();
 
       onSubmitSuccess(emailValue);
@@ -84,6 +83,15 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
     }
   };
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    register('email').onChange(e);
+
+    if (errors.email || status === ForgotPasswordStatus.Error) {
+      clearErrors('email');
+      setStatus(ForgotPasswordStatus.Idle);
+    }
+  };
+
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.formContent}>
@@ -94,13 +102,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
             placeholder="Enter your email"
             {...register('email')}
             errorMessage={errors.email?.message}
-            onChange={(e) => {
-              register('email').onChange(e);
-              if (errors.email || status === 'error') {
-                clearErrors('email');
-                setStatus(ForgotPasswordStatus.Idle);
-              }
-            }}
+            onChange={handleEmailChange}
           />
 
           <p className={clsx(styles.formDescription, 'regular-text-14')}>
@@ -119,7 +121,7 @@ export const ForgotPasswordForm = ({ onSubmitSuccess }: Props) => {
           <Button
             type="submit"
             variant="buttonPrimary"
-            disabled={isSubmitting || !emailValue?.trim() || !captchaValue}
+            disabled={isSubmitting || !emailValue || !captchaValue}
             size={{ width: '100%' }}
           >
             {status === 'sent' ? 'Send again' : 'Send Link'}
