@@ -1,7 +1,6 @@
 'use client';
 
-import { SignUpRequest } from '@/src/features/auth/api';
-import { useRegistrationMutation } from '@/src/features/auth/api/authApi';
+import { useRegisterUserMutation } from '@/src/features/auth/api/authApi';
 import { ModalDataSignUp } from '@/src/features/auth/ui/SignUp/SignUp';
 import { setSignUpServerError } from '@/src/features/auth/ui/SignUp/utils';
 
@@ -21,7 +20,7 @@ type SignUpForm = {
 };
 
 export const SignUpForm = ({ onModalChange }: SignUpForm) => {
-  const [registration] = useRegistrationMutation();
+  const [registerUser] = useRegisterUserMutation();
 
   const {
     trigger,
@@ -45,10 +44,10 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
     }
   });
 
-  const onSubmit = async ({ username, email, password }: Partial<FormValues>) => {
-    const body = { userName: username, email, password } as SignUpRequest;
+  const onSubmit = async ({ username, email, password }: FormValues) => {
+    const body = { userName: username, email, password };
     try {
-      await registration(body).unwrap();
+      await registerUser(body).unwrap();
       onModalChange?.({ open: true, email });
       reset({
         username: '',
@@ -142,9 +141,7 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
             render={({ field }) => (
               <Checkbox
                 checked={field.value}
-                onCheckedChange={(checked) => {
-                  field.onChange(checked);
-                }}
+                onCheckedChange={field.onChange}
                 onBlur={field.onBlur}
                 label={
                   <span className={styles.checkboxLabel}>

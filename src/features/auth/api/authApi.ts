@@ -6,7 +6,7 @@ import { LoginBody, LoginResponse, SignUpRequest, SignUpResponse } from './types
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    registration: build.mutation<SignUpResponse, SignUpRequest>({
+    registerUser: build.mutation<SignUpResponse, SignUpRequest>({
       query: (userData) => ({
         url: 'auth/registration',
         method: 'POST',
@@ -22,7 +22,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
       transformResponse: handleResponse
     }),
-    emailResending: build.mutation({
+    resendVerificationEmail: build.mutation({
       query: (email: string) => ({
         url: 'auth/registration-email-resending',
         method: 'POST',
@@ -48,5 +48,9 @@ export const authApi = baseApi.injectEndpoints({
   })
 });
 
-export const { useRegistrationMutation, useConfirmRegistrationMutation, useEmailResendingMutation, useLoginMutation } =
-  authApi;
+export const {
+  useRegisterUserMutation,
+  useConfirmRegistrationMutation,
+  useResendVerificationEmailMutation,
+  useLoginMutation
+} = authApi;

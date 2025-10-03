@@ -11,7 +11,7 @@ export type SignUpRequest = {
   userName: string;
   email: string;
   password: string;
-  baseUrl: string;
+  baseUrl?: string;
 };
 
 export type SignUpResponse = {

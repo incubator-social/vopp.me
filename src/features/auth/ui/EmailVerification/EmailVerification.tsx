@@ -1,6 +1,6 @@
 'use client';
 
-import { useEmailResendingMutation } from '@/src/features/auth/api/authApi';
+import { useResendVerificationEmailMutation } from '@/src/features/auth/api/authApi';
 import { emailVerificationSchema, FormValuesEmailVerification } from '@/src/features/auth/modal';
 import Link from 'next/link';
 
@@ -40,7 +40,7 @@ type ContentType = {
 export const EmailVerification = ({ emailStatus = 'success' }: Props) => {
   const [modal, setModal] = useState<ModalDataSignUp>({ open: false, email: '' });
 
-  const [emailResending] = useEmailResendingMutation();
+  const [resendVerificationEmail] = useResendVerificationEmailMutation();
 
   const {
     register,
@@ -110,7 +110,7 @@ export const EmailVerification = ({ emailStatus = 'success' }: Props) => {
 
   const onSubmit = async ({ email }: Partial<FormValuesEmailVerification>) => {
     try {
-      await emailResending(email as string).unwrap();
+      await resendVerificationEmail(email as string).unwrap();
       setModal({ open: true, email });
       reset();
     } catch (error) {
