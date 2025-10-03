@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
 import { Alert } from '@/src/shared/ui/Alerts/Alert';
 import { clearAppError, selectAppError } from '@/app/appSlice';
 
+import { confirmLinkErrorMessage } from '@/src/features/auth/ui/ConfirmCode/utils/handleConfirmLinkError';
+
 export const AlertProvider = ({ children }: { children: ReactNode }) => {
   const error = useAppSelector(selectAppError);
   const dispatch = useAppDispatch();
@@ -15,7 +17,9 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
     <Toast.Provider swipeDirection="right">
       {children}
 
-      {error && <Alert type={error.type} message={error.message} onClose={() => dispatch(clearAppError())} />}
+      {error && error.message !== confirmLinkErrorMessage.invalid && (
+        <Alert type={error.type} message={error.message} onClose={() => dispatch(clearAppError())} />
+      )}
       <Toast.Viewport className={styles.viewport} />
     </Toast.Provider>
   );

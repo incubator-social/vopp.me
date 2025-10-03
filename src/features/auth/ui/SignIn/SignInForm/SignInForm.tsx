@@ -1,5 +1,5 @@
 'use client';
-import styles from '@/src/features/auth/ui/sign-in/SignInForm/SignInForm.module.scss';
+import styles from '@/src/features/auth/ui/SignIn/SignInForm/SignInForm.module.scss';
 import { ROUTES } from '@/src/shared/config/routes';
 import Card from '@/src/shared/ui/Card/Card';
 import { Button } from '@/src/shared/ui/Button/Button';

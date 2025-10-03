@@ -20,6 +20,7 @@ export type ModalProps = {
   bodyClassName?: string;
   closeOnOverlayClick?: boolean;
   closeOnEsc?: boolean;
+  classOverlay?: string;
 } & ComponentPropsWithoutRef<'div'>;
 
 export const Modal = (props: ModalProps) => {
@@ -37,6 +38,7 @@ export const Modal = (props: ModalProps) => {
     bodyClassName,
     closeOnOverlayClick = false,
     closeOnEsc = false,
+    classOverlay,
     ...restProps
   } = props;
 
@@ -45,7 +47,7 @@ export const Modal = (props: ModalProps) => {
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
         <Dialog.Portal>
-          <Dialog.Overlay className={styles.overlay} />
+          <Dialog.Overlay className={clsx(styles.overlay, classOverlay)} />
           <Dialog.Content
             aria-label={title ?? 'Dialog window'}
             className={clsx(styles.content, styles[size], contentClassName)}

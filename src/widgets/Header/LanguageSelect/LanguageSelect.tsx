@@ -32,7 +32,6 @@ export const LanguageSelect = ({ className }: LanguageSelectProps) => {
 
   const handleLanguageChange = (value: string) => {
     setCurrentLanguage(value);
-    console.log('Selected language:', value);
     // В будущем: i18n.changeLanguage(value);
   };
 

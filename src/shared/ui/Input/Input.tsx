@@ -97,7 +97,7 @@ export const Input = ({
             onClick={togglePasswordVisibility}
             disabled={disabled}
           >
-            {showPassword ? <EyeClosedIcon /> : <EyeOpenIcon />}
+            {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
           </button>
         )}
       </div>

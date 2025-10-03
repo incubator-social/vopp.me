@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta } from '@storybook/nextjs';
-import { CreateNewPasswordForm } from '@/src/features/auth/ui/reset-confirm/CreateNewPassword/CreateNewPasswordForm';
+import { CreateNewPasswordForm } from '@/src/features/auth/ui/CreateNewPassword/CreateNewPasswordForm';
 
 const meta: Meta<typeof CreateNewPasswordForm> = {
   title: 'PAGES/CreateNewPasswordForm',

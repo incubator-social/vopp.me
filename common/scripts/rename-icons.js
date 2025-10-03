@@ -25,14 +25,12 @@ async function main() {
       const newName = toKebabCase(base) + ext;
       if (newName !== file) {
         await fsp.rename(join(dirWithIcons, file), join(dirWithIcons, newName));
-        console.log(`✅ ${file} → ${newName}`);
       }
     })
   );
 }
 
 main().catch((e) => {
-  console.error('❌ Ошибка при переименовании:', e);
   process.exit(1);
 });
 

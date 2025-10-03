@@ -12,6 +12,7 @@ type Props = {
   message: ReactNode;
   confirmText?: string;
   onConfirm?: () => void;
+  classOverlay?: string;
   closeButtonPosition?: 'inside' | 'outside' | 'none';
 };
 export const AlertModal = ({
@@ -21,6 +22,7 @@ export const AlertModal = ({
   message,
   confirmText = 'OK',
   onConfirm,
+  classOverlay,
   closeButtonPosition
 }: Props) => {
   const handleConfirm = () => {
@@ -38,6 +40,7 @@ export const AlertModal = ({
       title={title}
       bodyClassName={styles.body}
       closeButtonPosition={closeButtonPosition}
+      classOverlay={classOverlay}
     >
       <div className={styles.message}>{message}</div>
       <div className={styles.footer}>

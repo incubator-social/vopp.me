@@ -1,12 +1,21 @@
 'use client';
 
-import styles from './EmailVerificationPage.module.scss';
-import { useState } from 'react';
-import SuccessImage from '@/public/email-verification-img/success.svg';
-import ExpiredImage from '@/public/email-verification-img/time-management.svg';
+import { useResendVerificationEmailMutation } from '@/src/features/auth/api/authApi';
+import { emailVerificationSchema, FormValuesEmailVerification } from '@/src/features/auth/modal';
+import Link from 'next/link';
+
+import { ModalDataSignUp } from '@/src/features/auth/ui/SignUp/SignUp';
+import { ROUTES } from '@/src/shared/config/routes';
+import { SVGProps, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { EmailSentModal } from '@/src/features/auth/ui/EmailSentModal';
+import { setSignUpServerError } from '@/src/features/auth/ui/SignUp/utils/setSignUpServerError';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
-import { SVGProps } from 'react';
+import styles from './EmailVerification.module.scss';
+import SuccessImage from '@/public/email-verification-img/success.svg';
+import ExpiredImage from '@/public/email-verification-img/time-management.svg';
 
 type EmailStatus = 'success' | 'expired_with_input' | 'expired_without_input';
 
@@ -25,10 +34,25 @@ type ContentType = {
   showInput: boolean;
   buttonText: string;
   buttonMarginBottom: number;
+  redirectLink?: string;
 };
 
-export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = '' }: Props) => {
-  const [email, setEmail] = useState<string>(initialEmail);
+export const EmailVerification = ({ emailStatus = 'success' }: Props) => {
+  const [modal, setModal] = useState<ModalDataSignUp>({ open: false, email: '' });
+
+  const [resendVerificationEmail] = useResendVerificationEmailMutation();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors, isValid, isDirty, isSubmitting }
+  } = useForm<FormValuesEmailVerification>({
+    resolver: zodResolver(emailVerificationSchema),
+    mode: 'onTouched',
+    defaultValues: { email: '' }
+  });
 
   const expiredContent = {
     image: ExpiredImage,
@@ -49,7 +73,8 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
       descriptionMarginBottom: 54,
       showInput: false,
       buttonText: 'Sign In',
-      buttonMarginBottom: 72
+      buttonMarginBottom: 72,
+      redirectLink: ROUTES.AUTH.SIGN_IN
     },
 
     expiredWithInputCase: {
@@ -83,6 +108,16 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
   const content = getContent();
   const ImageComponent = content.image;
 
+  const onSubmit = async ({ email }: Partial<FormValuesEmailVerification>) => {
+    try {
+      await resendVerificationEmail(email as string).unwrap();
+      setModal({ open: true, email });
+      reset();
+    } catch (error) {
+      setSignUpServerError(error, setError);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{content.title}</h1>
@@ -91,29 +126,42 @@ export const EmailVerificationPage = ({ emailStatus = 'success', initialEmail = 
       </p>
 
       {content.showInput ? (
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <Input
+            {...register('email')}
             type={'email'}
-            value={email}
             label={'Email'}
-            onChange={(e) => setEmail(e.target.value)}
             placeholder="Epam@epam.com"
-            required
+            errorMessage={errors.email?.message}
             className={styles.input}
           />
+
           <div style={{ marginBottom: content.buttonMarginBottom }}>
-            <Button>{content.buttonText}</Button>
+            <Button type={'submit'} disabled={!isValid || !isDirty || isSubmitting} size={{ width: 229 }}>
+              {content.buttonText}
+            </Button>
           </div>
         </form>
       ) : (
         <div style={{ marginBottom: content.buttonMarginBottom }}>
-          <Button>{content.buttonText}</Button>
+          <Button asChild={true}>
+            <Link href={{ pathname: content.redirectLink }}>{content.buttonText}</Link>
+          </Button>
         </div>
       )}
 
       <div style={{ width: content.imageWidth, height: content.imageHeight }}>
         <ImageComponent width={content.imageWidth} height={content.imageHeight} />
       </div>
+
+      {modal.open && (
+        <EmailSentModal
+          open={modal.open}
+          email={modal.email}
+          onOpenChange={(open) => setModal({ open, email: modal.email })}
+          classOverlay={styles.classOverlay}
+        />
+      )}
     </div>
   );
 };

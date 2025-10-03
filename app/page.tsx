@@ -1,6 +1,6 @@
-export default function Home() {
+export default async function HomePage() {
   return (
-    <div>
+    <div style={{ padding: '10px' }}>
       <main>
         <h1>VOPP.ME</h1>
       </main>
