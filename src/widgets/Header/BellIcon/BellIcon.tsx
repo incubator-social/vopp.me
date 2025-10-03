@@ -23,7 +23,6 @@ export const BellIcon = ({ notificationCount = 0, className = '' }: BellIconProp
 
   const handleClick = () => {
     if (!isLoggedIn) return; //Не делать ничего если не авторизован
-    console.log('Open notifications panel');
   };
 
   const hasNotifications = isLoggedIn && notificationCount > 0;

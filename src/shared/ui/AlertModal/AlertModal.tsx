@@ -12,8 +12,17 @@ type Props = {
   message: ReactNode;
   confirmText?: string;
   onConfirm?: () => void;
+  classOverlay?: string;
 };
-export const AlertModal = ({ open, onOpenChange, title, message, confirmText = 'OK', onConfirm }: Props) => {
+export const AlertModal = ({
+  open,
+  onOpenChange,
+  title,
+  message,
+  confirmText = 'OK',
+  onConfirm,
+  classOverlay
+}: Props) => {
   const handleConfirm = () => {
     onConfirm?.();
     onOpenChange(false);
@@ -22,7 +31,14 @@ export const AlertModal = ({ open, onOpenChange, title, message, confirmText = '
   const sizeButton = { minWidth: 96, height: 36 };
 
   return (
-    <Modal open={open} onOpenChange={onOpenChange} size="sm" title={title} bodyClassName={styles.body}>
+    <Modal
+      open={open}
+      onOpenChange={onOpenChange}
+      size="sm"
+      title={title}
+      bodyClassName={styles.body}
+      classOverlay={classOverlay}
+    >
       <div className={styles.message}>{message}</div>
       <div className={styles.footer}>
         <Button onClick={handleConfirm} size={sizeButton}>

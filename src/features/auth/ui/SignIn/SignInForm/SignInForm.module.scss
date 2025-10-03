@@ -1,0 +1,93 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 23px 24px 30px;
+  width: 100%;
+  max-width: 378px;
+  margin-top: 36px;
+}
+
+.buttonsGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 13px;
+  gap: 60px;
+}
+
+.button {
+  border: none !important;
+}
+
+.form {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.inputContainer {
+  min-width: 330px;
+}
+
+.inputPassword {
+  &::placeholder {
+    transform: translateY(3px);
+  }
+}
+
+.buttonForgot {
+  color: var(--color-light-900) !important;
+  align-self: end !important;
+  margin-top: 12px;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+
+  &:visited {
+    color: var(--color-light-900);
+  }
+}
+
+.accountQuestion {
+  margin-top: 18px;
+}
+
+.linkSignUp {
+  margin-top: 12px;
+  text-decoration: none;
+  color: var(--color-accent-500);
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-3px);
+  }
+
+  40% {
+    transform: translateX(3px);
+  }
+
+  60% {
+    transform: translateX(-3px);
+  }
+
+  80% {
+    transform: translateX(3px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.shake {
+  animation: shake 0.3s ease;
+}

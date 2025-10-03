@@ -1,5 +1,0 @@
-import { EmailVerificationPage } from '@/src/features/auth/ui/EmailVerification/EmailVerificationPage';
-
-export default function Page() {
-  return <EmailVerificationPage />;
-}

@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './Button.module.scss';
 import { CSSProperties, ReactNode } from 'react';
 import clsx from 'clsx';
@@ -59,7 +61,6 @@ export const Button = ({
   if (asChild) {
     return <Component {...props}>{children}</Component>;
   }
-
   return (
     <Component {...props} type={type} disabled={disabled}>
       {children}
