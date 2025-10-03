@@ -63,25 +63,23 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
 
   const createFieldProps = (fieldName: keyof FormValues) => {
     const fieldRegister = register(fieldName);
-
     return {
       ...fieldRegister,
-
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-        fieldRegister.onChange(e);
+      onChange: async (e: React.ChangeEvent<HTMLInputElement>) => {
+        await fieldRegister.onChange(e);
         clearErrors(fieldName);
+
+        if (fieldName === 'password') {
+          const confirmationValue = getValues('passwordConfirmation');
+          if (confirmationValue && confirmationValue.trim() !== '') {
+            await trigger('passwordConfirmation');
+          }
+        }
       },
 
       onBlur: (e: React.FocusEvent<HTMLInputElement>) => {
         fieldRegister.onBlur(e);
-        //Нужна новая валидация после ошибки сервера
-        trigger(fieldName);
-        if (fieldName === 'password') {
-          const confirmationValue = getValues('passwordConfirmation');
-          if (confirmationValue && confirmationValue.trim() !== '') {
-            trigger('passwordConfirmation');
-          }
-        }
+        clearErrors(fieldName);
       }
     };
   };
@@ -115,23 +113,13 @@ export const SignUpForm = ({ onModalChange }: SignUpForm) => {
       />
 
       <div className={styles.specialGap}>
-        <Controller
-          name="passwordConfirmation"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Input
-              {...field}
-              type="password"
-              label="Password confirmation"
-              placeholder="******************"
-              errorMessage={fieldState.error?.message}
-              className={styles.customInput}
-              onChange={(e) => {
-                field.onChange(e);
-                clearErrors('passwordConfirmation');
-              }}
-            />
-          )}
+        <Input
+          {...createFieldProps('passwordConfirmation')}
+          type="password"
+          label="Password confirmation"
+          placeholder="******************"
+          errorMessage={errors.passwordConfirmation?.message}
+          className={styles.customInput}
         />
 
         <div className={styles.checkboxWrapper}>
