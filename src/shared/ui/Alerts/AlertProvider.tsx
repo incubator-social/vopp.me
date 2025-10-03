@@ -17,8 +17,8 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
     <Toast.Provider swipeDirection="right">
       {children}
 
-      {error && error !== confirmLinkErrorMessage.invalid && (
-        <Alert type="error" message={error} onClose={() => dispatch(clearAppError())} />
+      {error && error.message !== confirmLinkErrorMessage.invalid && (
+        <Alert type={error.type} message={error.message} onClose={() => dispatch(clearAppError())} />
       )}
       <Toast.Viewport className={styles.viewport} />
     </Toast.Provider>

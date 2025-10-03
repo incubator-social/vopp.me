@@ -26,16 +26,26 @@ const Sidebar = ({ value, onValueChange, defaultValue, isDisabledValue }: Sideba
         <Nav.List className={styles['nav-list']}>
           {options.map(({ id, label, icon: Icon, activeIcon: ActiveIcon }) => (
             <Nav.Item key={id} value={id} className={styles['nav-item']}>
-              <Nav.Link
-                className={clsx(styles['nav-link'], 'regular-text-14')}
-                active={selectedValue === id}
-                onSelect={() => handleChangeValue(id)}
-                aria-disabled={isDisabledValue === id}
-                tabIndex={0}
-              >
-                {selectedValue === id ? <ActiveIcon /> : <Icon />}
-                <span>{label}</span>
-              </Nav.Link>
+              {id === 'logout' ? (
+                <button
+                  type="button"
+                  className={clsx(styles['nav-link'], 'regular-text-14')}
+                  onClick={() => handleChangeValue(id)}
+                >
+                  {selectedValue === id ? <ActiveIcon /> : <Icon />}
+                  <span>{label}</span>
+                </button>
+              ) : (
+                <Nav.Link
+                  className={clsx(styles['nav-link'], 'regular-text-14')}
+                  active={selectedValue === id}
+                  onSelect={() => handleChangeValue(id)}
+                  tabIndex={0}
+                >
+                  {selectedValue === id ? <ActiveIcon /> : <Icon />}
+                  <span>{label}</span>
+                </Nav.Link>
+              )}
             </Nav.Item>
           ))}
         </Nav.List>

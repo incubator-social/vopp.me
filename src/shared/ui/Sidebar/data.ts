@@ -22,7 +22,7 @@ export const options: Option[] = [
   { label: 'Search', icon: Search, activeIcon: Search, id: 'search' },
   { label: 'Statistics', icon: Statistics, activeIcon: Statistics, id: 'statistics' },
   { label: 'Favorites', icon: Favorites, activeIcon: FavoritesActive, id: 'favorites' },
-  { label: 'Log Out', icon: Logout, activeIcon: Logout, id: 'log-out' }
+  { label: 'Log Out', icon: Logout, activeIcon: Logout, id: 'logout' }
 ];
 
 //types

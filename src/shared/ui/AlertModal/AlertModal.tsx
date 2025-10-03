@@ -8,11 +8,12 @@ import styles from './AlertModal.module.scss';
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  title: string;
+  title?: string;
   message: ReactNode;
   confirmText?: string;
   onConfirm?: () => void;
   classOverlay?: string;
+  closeButtonPosition?: 'inside' | 'outside' | 'none';
 };
 export const AlertModal = ({
   open,
@@ -21,7 +22,8 @@ export const AlertModal = ({
   message,
   confirmText = 'OK',
   onConfirm,
-  classOverlay
+  classOverlay,
+  closeButtonPosition
 }: Props) => {
   const handleConfirm = () => {
     onConfirm?.();
@@ -37,6 +39,7 @@ export const AlertModal = ({
       size="sm"
       title={title}
       bodyClassName={styles.body}
+      closeButtonPosition={closeButtonPosition}
       classOverlay={classOverlay}
     >
       <div className={styles.message}>{message}</div>

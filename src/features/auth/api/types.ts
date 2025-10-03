@@ -17,3 +17,14 @@ export type SignUpRequest = {
 export type SignUpResponse = {
   status: string | number | undefined;
 };
+
+export type MeResponse = {
+  userId: number;
+  userName: string;
+  email: string;
+  isBlocked: boolean;
+};
+
+export type UpdateTokensResponse = {
+  accessToken: string;
+};
