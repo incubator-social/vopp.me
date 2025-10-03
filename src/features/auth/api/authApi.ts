@@ -1,5 +1,7 @@
 import { baseApi } from '@/src/shared/api/baseApi';
 import {
+  CheckRecoveryCodeRequest,
+  CheckRecoveryCodeResponse,
   CreateNewPasswordRequest,
   CreateNewPasswordResponse,
   ForgotPasswordRequest,
@@ -24,8 +26,15 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { newPassword, recoveryCode }
       })
+    }),
+    checkRecoveryCode: builder.mutation<CheckRecoveryCodeResponse, CheckRecoveryCodeRequest>({
+      query: ({ recoveryCode }) => ({
+        url: '/auth/check-recovery-code',
+        method: 'POST',
+        body: { recoveryCode }
+      })
     })
   })
 });
 
-export const { useForgotPasswordMutation, useCreateNewPasswordMutation } = authApi;
+export const { useForgotPasswordMutation, useCreateNewPasswordMutation, useCheckRecoveryCodeMutation } = authApi;

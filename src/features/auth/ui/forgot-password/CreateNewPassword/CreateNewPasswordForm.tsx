@@ -3,7 +3,7 @@ import styles from '@/src/features/auth/ui/forgot-password/CreateNewPassword/Cre
 import { Input } from '@/src/shared/ui/Input/Input';
 import { Button } from '@/src/shared/ui/Button/Button';
 import Card from '@/src/shared/ui/Card/Card';
-import { useCreateNewPasswordMutation } from '@/src/features/auth/api/authApi';
+import { useCheckRecoveryCodeMutation, useCreateNewPasswordMutation } from '@/src/features/auth/api/authApi';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,6 +25,7 @@ type Props = {
 export const CreateNewPasswordForm = ({ searchParams }: Props) => {
   const dispatch = useAppDispatch();
   const [createNewPassword] = useCreateNewPasswordMutation();
+  const [checkRecoveryCode] = useCheckRecoveryCodeMutation();
 
   const router = useRouter();
   const { code } = use(searchParams);
@@ -70,6 +71,24 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
     }
   };
 
+  const createInputProps = (fieldName: keyof CreateNewPasswordFormValues) => {
+    const fieldRegister = register(fieldName);
+
+    return {
+      ...fieldRegister,
+      errorMessage: errors[fieldName]?.message,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+        fieldRegister.onChange(e);
+        if (errors[fieldName]) {
+          clearErrors(fieldName);
+        }
+      },
+      onBlur: fieldRegister.onBlur,
+      type: 'password' as const,
+      placeholder: '******************'
+    };
+  };
+
   return (
     <Card>
       <div className={styles.container}>
@@ -77,31 +96,13 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             label={labels.newPassword}
-            type="password"
-            {...register('newPassword')}
-            errorMessage={errors.newPassword?.message}
             containerStyle={{ marginBottom: '24px' }}
-            placeholder="******************"
-            onChange={(e) => {
-              register('newPassword').onChange(e);
-              if (errors.newPassword) {
-                clearErrors('newPassword');
-              }
-            }}
+            {...createInputProps('newPassword')}
           />
           <Input
             label={labels.confirmPassword}
-            type="password"
-            {...register('confirmPassword')}
-            placeholder="******************"
-            errorMessage={errors.confirmPassword?.message}
-            containerStyle={{ marginBottom: '7px' }}
-            onChange={(e) => {
-              register('confirmPassword').onChange(e);
-              if (errors.confirmPassword) {
-                clearErrors('confirmPassword');
-              }
-            }}
+            containerStyle={{ marginBottom: '24px' }}
+            {...createInputProps('confirmPassword')}
           />
 
           <span className={styles.newPassText}>

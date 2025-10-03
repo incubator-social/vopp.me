@@ -17,6 +17,14 @@ export type CreateNewPasswordResponse = {
   message: string;
 };
 
+export type CheckRecoveryCodeRequest = {
+  recoveryCode: string;
+};
+
+export type CheckRecoveryCodeResponse = {
+  email: string;
+};
+
 export type ErrorResponse = {
   statusCode: number;
   messages: [
