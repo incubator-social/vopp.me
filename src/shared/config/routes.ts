@@ -3,7 +3,7 @@ export const ROUTES = {
   AUTH: {
     SIGN_IN: '/auth/sign-in',
     SIGN_UP: '/auth/sign-up',
-    CONFIRM_CODE: 'http://localhost:3000/auth/confirm-code',
+    CONFIRM_CODE: `${process.env.NEXT_PUBLIC_APP_URL}/auth/confirm-code`,
     FORGOT_PASSWORD: '/auth/forgot-password',
     CREATE_NEW_PASSWORD: '/auth/create-new-password',
     EMAIL_VERIFICATION_CONFIRMED: '/auth/email-confirmed',
