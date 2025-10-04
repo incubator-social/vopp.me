@@ -1,6 +1,7 @@
 module.exports = {
   extends: ['stylelint-config-standard', 'stylelint-config-standard-scss'],
   plugins: ['stylelint-scss'],
+  ignoreFiles: ['**/*.stories.{js,jsx,ts,tsx}', '**/.storybook/**/*.{css,scss}', '**/stories/**/*.{css,scss}'],
   rules: {
     'comment-empty-line-before': null,
     'property-no-unknown': null,
