@@ -21,7 +21,7 @@ const eslintConfig = [
       'storybook-static/**',
       '.storybook/**',
       '**/*.min.js',
-      '**/sb-manager/**',
+      '**/sb-manager/**'
     ]
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
