@@ -1,6 +1,5 @@
 import { handleResponse } from '@/src/features/auth/api/utils';
 import { baseApi } from '@/src/shared/api/baseApi';
-import { ROUTES } from '@/src/shared/config/routes';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
 import { LoginBody, LoginResponse, SignUpRequest, SignUpResponse, MeResponse } from './types';
 import {
@@ -79,8 +78,8 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ['Auth']
     }),
-    forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
-      query: ({ email, recaptcha = false }) => ({
+    forgotPassword: build.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
+      query: ({ email, recaptcha = null }: ForgotPasswordRequest) => ({
         url: '/auth/password-recovery',
         method: 'POST',
         body: {
@@ -90,15 +89,15 @@ export const authApi = baseApi.injectEndpoints({
         }
       })
     }),
-    createNewPassword: builder.mutation<CreateNewPasswordResponse, CreateNewPasswordRequest>({
-      query: ({ newPassword, recoveryCode }) => ({
+    createNewPassword: build.mutation<CreateNewPasswordResponse, CreateNewPasswordRequest>({
+      query: ({ newPassword, recoveryCode }: CreateNewPasswordRequest) => ({
         url: '/auth/new-password',
         method: 'POST',
         body: { newPassword, recoveryCode }
       })
     }),
-    checkRecoveryCode: builder.mutation<CheckRecoveryCodeResponse, CheckRecoveryCodeRequest>({
-      query: ({ recoveryCode }) => ({
+    checkRecoveryCode: build.mutation<CheckRecoveryCodeResponse, CheckRecoveryCodeRequest>({
+      query: ({ recoveryCode }: CheckRecoveryCodeRequest) => ({
         url: '/auth/check-recovery-code',
         method: 'POST',
         body: { recoveryCode }
