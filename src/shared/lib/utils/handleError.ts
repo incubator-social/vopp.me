@@ -1,7 +1,7 @@
 import { BaseQueryApi, FetchBaseQueryError, FetchBaseQueryMeta, QueryReturnValue } from '@reduxjs/toolkit/query';
 import { setAppError } from '@/app/appSlice';
 import { isErrorWithMessage } from './isErrorWithMessage';
-import { ResponseErrorType } from '@/src/shared/types/api';
+import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 
 export const handleError = (
   api: BaseQueryApi,
@@ -10,7 +10,7 @@ export const handleError = (
   if (!result.error) return;
 
   let error = 'Some error occurred';
-  const data = result.error?.data as ResponseErrorType | undefined;
+  const data = result.error?.data as ErrorResponse | undefined;
 
   switch (result.error.status) {
     case 'PARSING_ERROR':
@@ -19,6 +19,9 @@ export const handleError = (
       break;
     case 'FETCH_ERROR':
       error = 'Network error. Please check your connection.';
+      break;
+    case 429:
+      error = 'More than 5 attempts from one IP-address during 10 seconds';
       break;
     case 400:
     case 403:
