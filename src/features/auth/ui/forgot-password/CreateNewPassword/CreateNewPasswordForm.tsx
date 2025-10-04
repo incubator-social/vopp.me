@@ -33,7 +33,7 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
 
   useEffect(() => {
     if (!code) {
-      dispatch(setAppError({ error: 'Recovery code is missing' }));
+      dispatch(setAppError({ type: 'error', message: 'Recovery code is missing' }));
       return;
     }
 
@@ -45,7 +45,12 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
         if (error.data.messages?.[0]?.message === 'Code is not valid') {
           router.replace(ROUTES.AUTH.EMAIL_VERIFICATION_EXPIRED);
         } else {
-          dispatch(setAppError({ error: error?.data?.messages?.[0]?.message || 'Something went wrong' }));
+          dispatch(
+            setAppError({
+              type: 'error',
+              message: error?.data?.messages?.[0]?.message || 'Something went wrong'
+            })
+          );
         }
       }
     };
@@ -79,7 +84,7 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
 
   const onSubmit = async (data: CreateNewPasswordFormValues) => {
     if (!code) {
-      dispatch(setAppError({ error: 'Recovery code is missing' }));
+      dispatch(setAppError({ type: 'error', message: 'Recovery code is missing' }));
       return;
     }
     try {
