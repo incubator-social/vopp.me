@@ -20,6 +20,7 @@ export type ModalProps = {
   bodyClassName?: string;
   closeOnOverlayClick?: boolean;
   closeOnEsc?: boolean;
+  classOverlay?: string;
 } & ComponentPropsWithoutRef<'div'>;
 
 export const Modal = (props: ModalProps) => {
@@ -37,6 +38,7 @@ export const Modal = (props: ModalProps) => {
     bodyClassName,
     closeOnOverlayClick = false,
     closeOnEsc = false,
+    classOverlay,
     ...restProps
   } = props;
 
@@ -45,8 +47,9 @@ export const Modal = (props: ModalProps) => {
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
         <Dialog.Portal>
-          <Dialog.Overlay className={styles.overlay} />
+          <Dialog.Overlay className={clsx(styles.overlay, classOverlay)} />
           <Dialog.Content
+            aria-label={title ?? 'Dialog window'}
             className={clsx(styles.content, styles[size], contentClassName)}
             onInteractOutside={(e) => {
               if (!closeOnOverlayClick) e.preventDefault();
@@ -55,6 +58,9 @@ export const Modal = (props: ModalProps) => {
               if (!closeOnEsc) e.preventDefault();
             }}
           >
+            {/* скрытый title для a11y, если нет кастомного */}
+            <Dialog.Title className={styles.srOnly}>{title ?? 'Dialog window'}</Dialog.Title>
+
             {/* Кастомный header или дефолт, смотря что родитель передает */}
             {headerContent ? (
               <div className={styles.header}>{headerContent}</div>
@@ -76,9 +82,9 @@ export const Modal = (props: ModalProps) => {
                 </div>
               )
             )}
-
-            <div className={clsx(styles.body, bodyClassName)}>{children}</div>
-
+            <Dialog.Description asChild>
+              <div className={clsx(styles.body, bodyClassName)}>{children}</div>
+            </Dialog.Description>
             {closeButtonPosition === 'outside' && (
               <Dialog.Close asChild>
                 <button className={styles.closeButtonOutside} type="button">

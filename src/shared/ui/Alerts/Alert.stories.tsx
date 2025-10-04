@@ -1,15 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Alert } from '@/src/shared/ui/Alerts/Alert';
 import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
+import StoreProvider from '@/app/providers/store/StoreProvider';
 
 const meta = {
   title: 'UI/Alert',
   component: Alert,
   decorators: [
     (Story) => (
-      <AlertProvider>
-        <Story />
-      </AlertProvider>
+      <StoreProvider>
+        <AlertProvider>
+          <Story />
+        </AlertProvider>
+      </StoreProvider>
     )
   ],
   parameters: {

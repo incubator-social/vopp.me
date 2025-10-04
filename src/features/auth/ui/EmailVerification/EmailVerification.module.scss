@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 35px;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.description {
+  max-width: 294px;
+  text-align: center;
+}
+
+.image {
+  object-fit: contain;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 229px;
+}

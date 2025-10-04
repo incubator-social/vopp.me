@@ -1,5 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 import { AUTH_KEYS } from '@/src//shared/config/storage';
+
 export type DecodedToken = {
   userId: number;
   email: string;

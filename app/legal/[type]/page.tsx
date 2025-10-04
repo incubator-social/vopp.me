@@ -35,7 +35,7 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <main className={s.main}>
-      <Link href={ROUTES.AUTH.SIGN_IN} className={s.backLink} aria-label="Back to Sign up">
+      <Link href={ROUTES.AUTH.SIGN_UP} className={s.backLink} aria-label="Back to Sign up">
         <ArrowBackOutline />
         <span>Back to Sign up</span>
       </Link>

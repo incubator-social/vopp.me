@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './Button.module.scss';
 import { CSSProperties, ReactNode } from 'react';
 import clsx from 'clsx';
