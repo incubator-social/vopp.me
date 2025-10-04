@@ -14,7 +14,15 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   {
-    ignores: ['.next', 'node_modules', 'common/scripts']
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'common/scripts/**',
+      'storybook-static/**',
+      '.storybook/**',
+      '**/*.min.js',
+      '**/sb-manager/**',
+    ]
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   ...storybook.configs['flat/recommended']

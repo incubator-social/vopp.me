@@ -3,5 +3,11 @@
   "rules": {
     "prettier/prettier": "error",
     "react-hooks/exhaustive-deps": "off"
-  }
+  },
+  "ignorePatterns": [
+    "**/storybook-static/**",
+    "**/.next/**",
+    "**/node_modules/**",
+    "**/dist/**"
+  ]
 }
