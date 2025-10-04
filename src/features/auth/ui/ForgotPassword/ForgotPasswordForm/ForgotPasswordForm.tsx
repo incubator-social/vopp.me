@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import styles from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/ForgotPasswordForm.module.scss';
+import styles from '@/src/features/auth/ui/ForgotPassword/ForgotPasswordForm/ForgotPasswordForm.module.scss';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { Button } from '@/src/shared/ui/Button/Button';
@@ -13,7 +13,7 @@ import { useForgotPasswordMutation } from '@/src/features/auth/api/authApi';
 import {
   forgotPasswordFormSchema,
   ForgotPasswordFormValues
-} from '@/src/features/auth/ui/forgot-password/ForgotPasswordForm/forgotPasswordFormSchema';
+} from '@/src/features/auth/ui/ForgotPassword/ForgotPasswordForm/forgotPasswordFormSchema';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 import { Recaptcha } from '@/src/shared/ui/Recaptcha/Recaptcha';
 import { ForgotPasswordStatus } from '@/src/features/auth/lib/types/auth.types';
