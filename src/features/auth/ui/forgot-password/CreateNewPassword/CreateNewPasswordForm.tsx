@@ -16,7 +16,7 @@ import {
   createNewPasswordSchema
 } from '@/src/features/auth/ui/forgot-password/CreateNewPassword/createNewPasswordFormSchema';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
-import { use } from 'react';
+import { use, useEffect } from 'react';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -24,11 +24,34 @@ type Props = {
 
 export const CreateNewPasswordForm = ({ searchParams }: Props) => {
   const dispatch = useAppDispatch();
-  const [createNewPassword] = useCreateNewPasswordMutation();
-  const [checkRecoveryCode] = useCheckRecoveryCodeMutation();
-
   const router = useRouter();
-  const { code } = use(searchParams);
+
+  const code = use(searchParams).code;
+
+  const [checkRecoveryCode, { isLoading }] = useCheckRecoveryCodeMutation();
+  const [createNewPassword] = useCreateNewPasswordMutation();
+
+  useEffect(() => {
+    if (!code) {
+      dispatch(setAppError({ error: 'Recovery code is missing' }));
+      return;
+    }
+
+    const validateCode = async () => {
+      try {
+        await checkRecoveryCode({ recoveryCode: code }).unwrap();
+      } catch (err: unknown) {
+        const error = err as { status: number; data: ErrorResponse };
+        if (error.data.messages?.[0]?.message === 'Code is not valid') {
+          router.replace(ROUTES.AUTH.EMAIL_VERIFICATION_EXPIRED);
+        } else {
+          dispatch(setAppError({ error: error?.data?.messages?.[0]?.message || 'Something went wrong' }));
+        }
+      }
+    };
+
+    validateCode();
+  }, [code, checkRecoveryCode, router, dispatch]);
 
   const {
     register,
@@ -43,6 +66,10 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
     reValidateMode: 'onSubmit'
   });
 
+  if (isLoading) {
+    return <div>Checking link...</div>;
+  }
+
   const [newPassword, confirmPassword] = watch(['newPassword', 'confirmPassword']);
 
   const labels = {
@@ -55,7 +82,6 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
       dispatch(setAppError({ error: 'Recovery code is missing' }));
       return;
     }
-
     try {
       await createNewPassword({
         newPassword: data.newPassword,
