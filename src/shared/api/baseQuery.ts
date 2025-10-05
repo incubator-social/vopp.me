@@ -9,9 +9,6 @@ export const baseQuery = fetchBaseQuery({
     if (token) headers.set('Authorization', `Bearer ${token}`);
 
     headers.set('Content-Type', 'application/json');
-    headers.set('Origin', 'https://vopp.me');
-    headers.set('Access-Control-Request-Method', 'POST');
-    headers.set('Access-Control-Request-Headers', 'Content-Type, Authorization');
     return headers;
   }
 });
