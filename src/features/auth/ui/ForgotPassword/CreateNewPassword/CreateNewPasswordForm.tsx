@@ -43,7 +43,7 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
       } catch (err: unknown) {
         const error = err as { status: number; data: ErrorResponse };
         if (error.data.messages?.[0]?.message === 'Code is not valid') {
-          router.replace(ROUTES.AUTH.EMAIL_VERIFICATION_EXPIRED);
+          router.replace(ROUTES.AUTH.RECOVERY_LINK_EXPIRED);
         } else {
           dispatch(
             setAppError({

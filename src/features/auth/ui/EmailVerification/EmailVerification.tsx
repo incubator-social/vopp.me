@@ -88,7 +88,8 @@ export const EmailVerification = ({ emailStatus = 'success' }: Props) => {
       ...expiredContent,
       showInput: false,
       buttonText: 'Resend link',
-      buttonMarginBottom: 31
+      buttonMarginBottom: 31,
+      redirectLink: ROUTES.AUTH.FORGOT_PASSWORD
     }
   };
 
