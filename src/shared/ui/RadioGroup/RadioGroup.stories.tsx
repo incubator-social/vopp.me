@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { Meta, StoryObj } from '@storybook/nextjs';
 import { useState } from 'react';
 import RadioGroup, { RadioGroupProps } from './RadioGroup';
 

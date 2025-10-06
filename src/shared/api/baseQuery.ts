@@ -1,0 +1,14 @@
+import { fetchBaseQuery } from '@reduxjs/toolkit/query';
+import { AUTH_KEYS } from '../config/storage';
+
+export const baseQuery = fetchBaseQuery({
+  baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
+  credentials: 'include',
+  prepareHeaders: (headers) => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem(AUTH_KEYS.accessToken) : null;
+    if (token) headers.set('Authorization', `Bearer ${token}`);
+
+    headers.set('Content-Type', 'application/json');
+    return headers;
+  }
+});

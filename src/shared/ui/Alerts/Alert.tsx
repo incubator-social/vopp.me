@@ -1,9 +1,8 @@
-'use client';
-
 import * as Toast from '@radix-ui/react-toast';
 import { useState } from 'react';
-import styles from 'src/shared/ui/Alerts/alert.module.scss';
+import styles from '@/src/shared/ui/Alerts/alert.module.scss';
 import CloseIcon from '@/src/shared/assets/icons/close.svg';
+import clsx from 'clsx';
 
 type ToastItemProps = {
   type: 'success' | 'error';
@@ -23,16 +22,9 @@ export const Alert = ({ type, message, duration = 10000, onClose }: ToastItemPro
         if (!state) onClose?.();
       }}
       duration={duration}
-      className={`regular-text-16 ${styles.alert} ${styles[`alert--${type}`]}`}
+      className={clsx('regular-text-16', styles.alert, styles[`alert--${type}`])}
     >
-      {type === 'error' ? (
-        <div className={styles.message}>
-          <span className="bold-text-16">Ошибка! </span>
-          {message}
-        </div>
-      ) : (
-        message
-      )}
+      {message}
       <Toast.Close className={styles.close}>
         <CloseIcon />
       </Toast.Close>

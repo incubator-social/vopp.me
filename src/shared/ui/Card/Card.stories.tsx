@@ -1,5 +1,4 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite';
-import styles from './Card.module.scss';
+import { Meta, StoryObj } from '@storybook/nextjs';
 import Card, { CardProps } from './Card';
 
 const meta = {
@@ -20,33 +19,29 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template: Story['render'] = (args: CardProps) => {
-  return <Card className={args.className}>{args.children}</Card>;
+  return <Card>{args.children}</Card>;
 };
 
 export const Default: Story = {
   render: Template,
   args: {
-    children: <div>Default</div>
+    children: <h1>Content</h1>
   }
 };
 
-export const Signup: Story = {
+export const WithInlineStyles: Story = {
   render: Template,
   args: {
-    className: styles['sign-up'],
     children: (
-      <div className={styles.container}>
-        <h1>Sign Up</h1>
-        <div className={styles.icons}></div>
-        <div className={styles.form}></div>
-        <div className={styles.terms}></div>
-        <button className={styles.button}>
-          <h3>Sign Up</h3>
-        </button>
-        <p className={styles['account-text']}>Do you have an account?</p>
-        <span className={styles['sign-in']}>
-          <a className={styles['sign-in-link']}>Sign In</a>
-        </span>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '23px 24px 24px'
+        }}
+      >
+        <h1 style={{ marginBottom: '13px' }}>Sign Up</h1>
       </div>
     )
   }

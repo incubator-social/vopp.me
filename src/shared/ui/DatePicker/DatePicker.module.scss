@@ -1,0 +1,152 @@
+.container {
+  position: relative;
+}
+
+.label {
+  width: fit-content;
+  display: block;
+  color: var(--color-light-900);
+
+  &:has(.trigger:disabled) {
+    color: var(--color-dark-100);
+  }
+}
+
+.trigger {
+  border: 1px solid var(--color-dark-300);
+  border-radius: 2px;
+  color: var(--color-light-100);
+  padding: 6px 12px;
+  display: flex;
+  gap: 23px;
+  transition: background-color var(--transition-duration);
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    background-color: var(--color-dark-500);
+  }
+
+  &:focus {
+    border-color: var(--color-accent-700);
+    background-color: var(--color-dark-500);
+  }
+
+  &:disabled {
+    background-color: var(--color-dark-500);
+    color: var(--color-light-900);
+    cursor: unset;
+
+    svg {
+      color: var(--color-light-100);
+    }
+  }
+}
+
+.open .trigger {
+  background-color: var(--color-dark-500);
+}
+
+.error {
+  .trigger {
+    color: var(--color-danger-500);
+    border-color: var(--color-danger-500);
+  }
+}
+
+.errorMessage {
+  color: var(--color-danger-500);
+}
+
+.datePicker {
+  z-index: 1;
+  background-color: var(--color-dark-500);
+  position: absolute;
+  left: 0;
+  padding: 16px 24px;
+  border: 1px solid var(--color-dark-300);
+  border-radius: 2px;
+
+  --rdp-accent-color: var(--color-accent-500);
+  --rdp-day-height: 36px;
+  --rdp-day-width: 36px;
+  --rdp-day_button-height: 36px;
+  --rdp-day_button-width: 36px;
+  --rdp-selected-border: none;
+  --rdp-today-color: var(--color-accent-500);
+  --rdp-outside-opacity: 1;
+
+  :global(.rdp-selected) {
+    background-color: var(--color-accent-900);
+    font-weight: normal;
+    font-size: 16px;
+  }
+
+  :global(.rdp-button_previous),
+  :global(.rdp-button_next) {
+    background-color: var(--color-dark-100);
+    border-radius: 50%;
+    color: var(--color-light-100);
+
+    svg {
+      fill: var(--color-light-100);
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  &[data-mode='single'] {
+    :global(.rdp-selected) {
+      border-radius: 50%;
+    }
+  }
+
+  &[data-mode='range'] {
+    --rdp-range_middle-background-color: var(--color-accent-900);
+    --rdp-range_start-background: var(--color-accent-900);
+    --rdp-range_end-background: var(--color-accent-900);
+
+    :global(.rdp-range_start) {
+      border-bottom-left-radius: 50px;
+      border-top-left-radius: 50px;
+    }
+
+    :global(.rdp-range_end) {
+      border-bottom-right-radius: 50px;
+      border-top-right-radius: 50px;
+    }
+
+    :global(.rdp-range_start .rdp-day_button),
+    :global(.rdp-range_end .rdp-day_button) {
+      background-color: unset;
+    }
+
+    :global(.rdp-day:hover button) {
+      border-radius: 50%;
+      background-color: var(--color-accent-700);
+    }
+
+    :global(.rdp-day:active button) {
+      border-radius: 50%;
+      background-color: var(--color-accent-900);
+    }
+
+    :global(.rdp-day:focus-within button) {
+      border-radius: 50%;
+      border: 2px solid var(--color-accent-300);
+    }
+  }
+
+  :global(.rdp-outside),
+  :global(.rdp-range_start.rdp-outside .rdp-day_button),
+  :global(.rdp-range_end.rdp-outside .rdp-day_button) {
+    color: var(--color-light-900);
+  }
+}
+
+.weekend {
+  color: var(--color-danger-300);
+}

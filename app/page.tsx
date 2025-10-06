@@ -1,13 +1,9 @@
-export default function Home() {
+export default async function HomePage() {
   return (
     <div style={{ padding: '10px' }}>
-      <div>
+      <main>
         <h1>VOPP.ME</h1>
-      </div>
-      <main>{/* КОНТЕНТ */}</main>
-      <footer>
-        <p className="small-text">© 2025 Все права защищены</p>
-      </footer>
+      </main>
     </div>
   );
 }
