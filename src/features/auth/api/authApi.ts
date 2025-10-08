@@ -1,6 +1,5 @@
 import { handleResponse } from '@/src/features/auth/api/utils';
 import { baseApi } from '@/src/shared/api/baseApi';
-import { AUTH_KEYS } from '@/src/shared/config/storage';
 import { LoginBody, LoginResponse, SignUpRequest, SignUpResponse, MeResponse } from './types';
 import {
   CheckRecoveryCodeRequest,
@@ -11,6 +10,7 @@ import {
   ForgotPasswordResponse
 } from '@/src/features/auth/lib/types/api.types';
 import { ROUTES } from '@/src/shared/config/routes';
+import { clearAccessToken, saveAccessToken } from '@/src/shared/lib/auth/token';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -52,7 +52,7 @@ export const authApi = baseApi.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           if (typeof window !== 'undefined') {
-            localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
+            saveAccessToken(data.accessToken);
           }
         } catch {}
       },
@@ -65,15 +65,16 @@ export const authApi = baseApi.injectEndpoints({
         body: {},
         responseHandler: (response) => response.text()
       }),
-      onQueryStarted: async (_arg, { queryFulfilled }) => {
+      onQueryStarted: async (_arg, { dispatch, queryFulfilled }) => {
         try {
           await queryFulfilled;
         } catch {
         } finally {
           if (typeof window !== 'undefined') {
-            localStorage.removeItem(AUTH_KEYS.accessToken);
+            clearAccessToken();
           }
-          // сбрасываем данные из стора, пока у нас их нет, но в будущем будет, затрем все постепенно
+          dispatch(baseApi.util.resetApiState());
+          // сбрасываем данные из стора
         }
       },
       invalidatesTags: ['Auth']
