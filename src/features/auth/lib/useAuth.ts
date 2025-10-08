@@ -1,25 +1,23 @@
 'use client';
 
 import { useGetMeQuery } from '@/src/features/auth/api';
-import { AUTH_KEYS } from '@/src/shared/config/storage';
 
 export function useAuth() {
-  const token = typeof window !== 'undefined' ? localStorage.getItem(AUTH_KEYS.accessToken) : null;
-
   const {
     data: user,
     isLoading,
+    isFetching,
     isError
   } = useGetMeQuery(undefined, {
-    skip: !token
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true
   });
-
-  const isAuthenticated = Boolean(user && !isError);
 
   return {
     user,
-    isLoading,
+    isLoading: isLoading || isFetching,
     isError,
-    isAuthenticated
+    isAuthenticated: Boolean(user && !isError)
   };
 }

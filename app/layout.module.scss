@@ -1,5 +1,16 @@
-.main {
-  min-height: calc(100dvh - 60px);
+.layoutWrapper {
   display: flex;
-  justify-content: center;
+  max-width: 1280px;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+
+  h1 {
+    text-align: center;
+  }
 }

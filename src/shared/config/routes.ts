@@ -15,5 +15,6 @@ export const ROUTES = {
     TERMS_OF_SERVICE: '/legal/terms'
   },
   PROFILE: '/profile',
-  PROFILE_BY_ID: (id: number | string) => `/profile/${id}`
+  PROFILE_BY_ID: (id: number | string) => `/profile/${id}`,
+  SETTINGS: '/settings'
 } as const;

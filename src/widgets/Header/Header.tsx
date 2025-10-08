@@ -5,36 +5,24 @@ import styles from './Header.module.scss';
 import { LanguageSelect } from '@/src/widgets/Header/LanguageSelect/LanguageSelect';
 import { BellIcon } from '@/src/widgets/Header/BellIcon/BellIcon';
 import { AuthButtons } from '@/src/widgets/Header/AuthButtons/AuthButtons';
-import { usePathname } from 'next/navigation';
+import { ROUTES } from '@/src/shared/config/routes';
+import { useAuth } from '@/src/features/auth/lib';
 
-export type HeaderProps = {
-  isLoggedIn?: boolean;
-  notificationCount?: number;
-};
-
-//  ДЛЯ БУДУЩЕЙ REDUX-ИНТЕГРАЦИИ:
-// Уберем пропсы и будем брать данные напрямую:
-// const isLoggedIn = useSelector(selectIsLoggedIn);
-// const notificationCount = useSelector(selectNotificationCount);
-
-export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProps) => {
-  const pathname = usePathname();
-
-  const isAuthPage = pathname ? pathname.startsWith('/auth/SignIn') || pathname.startsWith('/auth/SignUp') : false;
-
-  const shouldShowAuthButtons = !isLoggedIn && !isAuthPage;
-  const shouldShowBell = isLoggedIn && notificationCount > 0;
+export const Header = () => {
+  const { user, isLoading } = useAuth();
+  const notificationCount = 3;
 
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <Link href="/" className={styles.logo}>
+        <Link href={ROUTES.HOME} className={styles.logo}>
           VOPP.ME
         </Link>
+
         <div className={styles.rightSection}>
-          {shouldShowBell && <BellIcon notificationCount={notificationCount} />}
+          {!isLoading && user && <BellIcon notificationCount={notificationCount} />}
           <LanguageSelect />
-          {shouldShowAuthButtons && <AuthButtons />}
+          {!isLoading && !user && <AuthButtons />}
         </div>
       </div>
     </header>

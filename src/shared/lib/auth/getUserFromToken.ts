@@ -18,7 +18,6 @@ export function getUserFromToken(): DecodedToken | null {
       localStorage.removeItem(AUTH_KEYS.accessToken);
       return null;
     }
-
     return decoded;
   } catch {
     return null;

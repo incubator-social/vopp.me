@@ -43,7 +43,7 @@ export const SidebarWrapper = () => {
     } catch {
     } finally {
       setConfirmOpen(false);
-      router.replace(ROUTES.AUTH.SIGN_IN);
+      router.push(ROUTES.AUTH.SIGN_IN);
     }
   };
 
