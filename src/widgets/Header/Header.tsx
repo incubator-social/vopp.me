@@ -1,29 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import styles from './Header.module.scss';
+import { useSelector } from 'react-redux';
 import { LanguageSelect } from '@/src/widgets/Header/LanguageSelect/LanguageSelect';
 import { BellIcon } from '@/src/widgets/Header/BellIcon/BellIcon';
 import { AuthButtons } from '@/src/widgets/Header/AuthButtons/AuthButtons';
-import { usePathname } from 'next/navigation';
+import styles from './Header.module.scss';
+import { selectIsAuthenticated } from '@/app/appSlice';
 
-export type HeaderProps = {
-  isLoggedIn?: boolean;
-  notificationCount?: number;
-};
-
-//  ДЛЯ БУДУЩЕЙ REDUX-ИНТЕГРАЦИИ:
-// Уберем пропсы и будем брать данные напрямую:
-// const isLoggedIn = useSelector(selectIsLoggedIn);
-// const notificationCount = useSelector(selectNotificationCount);
-
-export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProps) => {
-  const pathname = usePathname();
-
-  const isAuthPage = pathname ? pathname.startsWith('/auth/SignIn') || pathname.startsWith('/auth/SignUp') : false;
-
-  const shouldShowAuthButtons = !isLoggedIn && !isAuthPage;
-  const shouldShowBell = isLoggedIn && notificationCount > 0;
+export const Header = () => {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   return (
     <header className={styles.header}>
@@ -31,10 +17,19 @@ export const Header = ({ isLoggedIn = false, notificationCount = 0 }: HeaderProp
         <Link href="/" className={styles.logo}>
           VOPP.ME
         </Link>
+
         <div className={styles.rightSection}>
-          {shouldShowBell && <BellIcon notificationCount={notificationCount} />}
-          <LanguageSelect />
-          {shouldShowAuthButtons && <AuthButtons />}
+          {isAuthenticated ? (
+            <>
+              <BellIcon notificationCount={3} />
+              <LanguageSelect />
+            </>
+          ) : (
+            <>
+              <LanguageSelect />
+              <AuthButtons />
+            </>
+          )}
         </div>
       </div>
     </header>

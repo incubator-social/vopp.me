@@ -11,12 +11,21 @@ import {
   ForgotPasswordResponse
 } from '@/src/features/auth/lib/types/api.types';
 import { ROUTES } from '@/src/shared/config/routes';
+import { setAuthenticated } from '@/app/appSlice';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getMe: build.query<MeResponse, void>({
+    getMe: build.query<MeResponse | null, void>({
       query: () => ({ url: 'auth/me', method: 'GET' }),
-      providesTags: ['Auth']
+      providesTags: ['Auth'],
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
+        try {
+          await queryFulfilled;
+          dispatch(setAuthenticated(true));
+        } catch (err) {
+          dispatch(setAuthenticated(false));
+        }
+      }
     }),
     registerUser: build.mutation<SignUpResponse, SignUpRequest>({
       query: (userData) => ({
@@ -48,13 +57,16 @@ export const authApi = baseApi.injectEndpoints({
         url: 'auth/login',
         body
       }),
-      onQueryStarted: async (_arg, { queryFulfilled }) => {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const { data } = await queryFulfilled;
           if (typeof window !== 'undefined') {
             localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
           }
-        } catch {}
+          dispatch(setAuthenticated(true));
+        } catch {
+          dispatch(setAuthenticated(false));
+        }
       },
       invalidatesTags: ['Auth']
     }),
@@ -65,18 +77,17 @@ export const authApi = baseApi.injectEndpoints({
         body: {},
         responseHandler: (response) => response.text()
       }),
-      onQueryStarted: async (_arg, { queryFulfilled }) => {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-        } catch {
-        } finally {
           if (typeof window !== 'undefined') {
             localStorage.removeItem(AUTH_KEYS.accessToken);
           }
-          // сбрасываем данные из стора, пока у нас их нет, но в будущем будет, затрем все постепенно
+          dispatch(setAuthenticated(false));
+        } catch {
+        } finally {
         }
-      },
-      invalidatesTags: ['Auth']
+      }
     }),
     forgotPassword: build.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
       query: ({ email, recaptcha = null }: ForgotPasswordRequest) => ({
