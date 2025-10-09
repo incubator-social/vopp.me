@@ -36,9 +36,7 @@ export function withAuth<P extends object>(WrappedComponent: React.ComponentType
     }, [isAuthenticated, isLoading, router]);
 
     // пока грузим или редиректим — ничего не показываем
-    if (isLoading || (requireAuth && !isAuthenticated)) {
-      return null;
-    }
+    if (isLoading || (requireAuth && !isAuthenticated)) return null;
 
     return <WrappedComponent {...props} />;
   };
