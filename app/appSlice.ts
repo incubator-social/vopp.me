@@ -25,7 +25,5 @@ const appSlice = createSlice({
 });
 
 export const { selectAppStatus, selectAppError } = appSlice.selectors;
-
 export const { setAppStatus, setAppError, clearAppError } = appSlice.actions;
-
 export const appReducer = appSlice.reducer;
