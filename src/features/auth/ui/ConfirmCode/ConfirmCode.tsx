@@ -63,6 +63,4 @@ export const ConfirmCode = ({ searchParams }: SearchParams) => {
   }, [path, router]);
 
   if (!code) return <div>Loading...</div>;
-
-  return <div></div>;
 };
