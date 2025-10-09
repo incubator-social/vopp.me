@@ -4,7 +4,7 @@ import { AUTH_KEYS } from '../config/storage';
 import { UpdateTokensResponse } from '@/src/features/auth/api';
 import { baseApi } from './baseApi';
 import { baseQuery } from './baseQuery';
-import { handleError } from '../lib/utils/handleError';
+import { handleError } from '@/src/shared/lib/utils/handleError';
 
 const mutex = new Mutex();
 

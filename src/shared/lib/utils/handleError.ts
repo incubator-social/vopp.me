@@ -18,8 +18,8 @@ export const handleError = (
       error = result.error.error;
       break;
     case 'FETCH_ERROR':
-      // error = 'Network error. Please check your connection.';
-      error = JSON.stringify(result.error);
+      error = 'Network error. Please check your connection.';
+      // error = JSON.stringify(result.error);
       break;
     case 429:
       error = 'More than 5 attempts from one IP-address during 10 seconds';

@@ -1,18 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RequestStatus } from '@/src/shared/types/common';
-import { authApi } from '@/src/features/auth/api';
 
 const appSlice = createSlice({
   name: 'app',
   initialState: {
     status: 'idle' as RequestStatus,
-    error: null as { type: 'error' | 'success'; message: string } | null,
-    isAuthenticated: false
+    error: null as { type: 'error' | 'success'; message: string } | null
   },
   selectors: {
     selectAppStatus: (state) => state.status,
-    selectAppError: (state) => state.error,
-    selectIsAuthenticated: (state) => state.isAuthenticated
+    selectAppError: (state) => state.error
   },
   reducers: (create) => ({
     setAppStatus: create.reducer<{ status: RequestStatus }>((state, action) => {
@@ -23,23 +20,12 @@ const appSlice = createSlice({
     }),
     clearAppError: create.reducer((state) => {
       state.error = null;
-    }),
-    setAuthenticated: create.reducer<boolean>((state, action) => {
-      state.isAuthenticated = action.payload;
     })
-  }),
-  extraReducers: (builder) => {
-    builder.addMatcher(authApi.endpoints.getMe.matchFulfilled, (state) => {
-      state.isAuthenticated = true;
-    });
-    builder.addMatcher(authApi.endpoints.getMe.matchRejected, (state) => {
-      state.isAuthenticated = false;
-    });
-  }
+  })
 });
 
-export const { selectAppStatus, selectAppError, selectIsAuthenticated } = appSlice.selectors;
+export const { selectAppStatus, selectAppError } = appSlice.selectors;
 
-export const { setAppStatus, setAppError, clearAppError, setAuthenticated } = appSlice.actions;
+export const { setAppStatus, setAppError, clearAppError } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

@@ -1,5 +1,5 @@
-import { handleResponse } from '@/src/features/auth/api/utils';
 import { baseApi } from '@/src/shared/api/baseApi';
+import { handleResponse } from '@/src/features/auth/api/utils';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
 import { LoginBody, LoginResponse, SignUpRequest, SignUpResponse, MeResponse } from './types';
 import {
@@ -11,21 +11,12 @@ import {
   ForgotPasswordResponse
 } from '@/src/features/auth/lib/types/api.types';
 import { ROUTES } from '@/src/shared/config/routes';
-import { setAuthenticated } from '@/app/appSlice';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getMe: build.query<MeResponse | null, void>({
       query: () => ({ url: 'auth/me', method: 'GET' }),
-      providesTags: ['Auth'],
-      async onQueryStarted(_, { queryFulfilled, dispatch }) {
-        try {
-          await queryFulfilled;
-          dispatch(setAuthenticated(true));
-        } catch (err) {
-          dispatch(setAuthenticated(false));
-        }
-      }
+      providesTags: ['Auth']
     }),
     registerUser: build.mutation<SignUpResponse, SignUpRequest>({
       query: (userData) => ({
@@ -57,16 +48,14 @@ export const authApi = baseApi.injectEndpoints({
         url: 'auth/login',
         body
       }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_arg, { queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           if (typeof window !== 'undefined') {
             localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
           }
-          dispatch(setAuthenticated(true));
-        } catch {
-          dispatch(setAuthenticated(false));
-        }
+          window.dispatchEvent(new Event('auth-changed'));
+        } catch {}
       },
       invalidatesTags: ['Auth']
     }),
@@ -82,8 +71,9 @@ export const authApi = baseApi.injectEndpoints({
           await queryFulfilled;
           if (typeof window !== 'undefined') {
             localStorage.removeItem(AUTH_KEYS.accessToken);
+            dispatch(baseApi.util.resetApiState());
+            window.dispatchEvent(new Event('auth-changed'));
           }
-          dispatch(setAuthenticated(false));
         } catch {
         } finally {
         }
