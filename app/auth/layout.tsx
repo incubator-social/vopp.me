@@ -1,10 +1,10 @@
 'use client';
 
 import { useAuth } from '@/src/features/auth/lib';
+import { AUTH_KEYS } from '@/src/shared/config/storage';
 import styles from './layout.module.scss';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { ROUTES } from '@/src/shared/config/routes';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();

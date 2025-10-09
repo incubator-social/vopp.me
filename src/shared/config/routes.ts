@@ -4,6 +4,7 @@ export const ROUTES = {
     SIGN_IN: '/auth/sign-in',
     SIGN_UP: '/auth/sign-up',
     CONFIRM_CODE: `${process.env.NEXT_PUBLIC_APP_URL}/auth/confirm-code`,
+    GET_TOKEN_FROM_GITHUB: '/auth/get-token-github',
     FORGOT_PASSWORD: '/auth/forgot-password',
     CREATE_NEW_PASSWORD: '/auth/create-new-password',
     EMAIL_VERIFICATION_CONFIRMED: '/auth/email-confirmed',
@@ -15,5 +16,8 @@ export const ROUTES = {
     TERMS_OF_SERVICE: '/legal/terms'
   },
   PROFILE: '/profile',
-  PROFILE_BY_ID: (id: number | string) => `/profile/${id}`
+  PROFILE_BY_ID: (id: number | string) => `/profile/${id}`,
+  GITHUB: {
+    AUTHORIZATION: '/auth/github/login'
+  }
 } as const;

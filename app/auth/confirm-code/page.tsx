@@ -6,6 +6,7 @@ export default async function ConfirmCodePage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  debugger;
   return (
     <Suspense>
       <ConfirmCode searchParams={searchParams} />

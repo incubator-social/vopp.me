@@ -4,3 +4,12 @@
   gap: 60px;
   margin-bottom: 24px;
 }
+
+.button {
+  border: none;
+  color: var(--color-light-100) !important;
+
+  &:hover {
+    border: none;
+  }
+}
