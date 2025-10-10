@@ -44,6 +44,7 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
           } else {
             localStorage.removeItem(AUTH_KEYS.accessToken);
             api.dispatch(baseApi.util.resetApiState());
+            window.dispatchEvent(new Event('auth-changed'));
             return refreshResult;
           }
         } finally {
