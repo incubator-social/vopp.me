@@ -10,11 +10,12 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useLoginMutation } from '@/src/features/auth/api';
+import { authApi, useLoginMutation } from '@/src/features/auth/api';
 import { FormValues, signInSchema } from '@/src/features/auth/modal/signInSchema';
 import { useRouter } from 'next/navigation';
 import { setFormApiError } from '@/src/shared/lib/auth/setFormApiError';
 import { useState } from 'react';
+import { useAppDispatch } from '@/app/providers/store/hooks';
 
 export function SignInForm() {
   const [login, { isLoading }] = useLoginMutation();
@@ -45,7 +46,7 @@ export function SignInForm() {
     try {
       await login({ email, password }).unwrap();
       reset();
-      router.push(ROUTES.PROFILE);
+      router.replace(ROUTES.PROFILE);
     } catch (error) {
       setFormApiError(error, setError, 'password');
       setShake(false);

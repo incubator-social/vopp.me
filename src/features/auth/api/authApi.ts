@@ -18,6 +18,46 @@ export const authApi = baseApi.injectEndpoints({
       query: () => ({ url: 'auth/me', method: 'GET' }),
       providesTags: ['Auth']
     }),
+    login: build.mutation<LoginResponse, LoginBody>({
+      query: (body: LoginBody) => ({
+        method: 'post',
+        url: 'auth/login',
+        body
+      }),
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
+          }
+          window.dispatchEvent(new Event('auth-changed'));
+          dispatch(authApi.endpoints.getMe.initiate());
+        } catch {
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem(AUTH_KEYS.accessToken);
+          }
+        }
+      },
+      invalidatesTags: ['Auth']
+    }),
+    logout: build.mutation<void, void>({
+      query: () => ({
+        method: 'POST',
+        url: 'auth/logout',
+        body: {},
+        responseHandler: (response) => response.text()
+      }),
+      async onQueryStarted(_arg, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch {
+        } finally {
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem(AUTH_KEYS.accessToken);
+          }
+        }
+      }
+    }),
     registerUser: build.mutation<SignUpResponse, SignUpRequest>({
       query: (userData) => ({
         url: 'auth/registration',
@@ -41,43 +81,6 @@ export const authApi = baseApi.injectEndpoints({
         body: { email, baseUrl: ROUTES.AUTH.CONFIRM_CODE }
       }),
       transformResponse: handleResponse
-    }),
-    login: build.mutation<LoginResponse, LoginBody>({
-      query: (body: LoginBody) => ({
-        method: 'post',
-        url: 'auth/login',
-        body
-      }),
-      async onQueryStarted(_arg, { queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          if (typeof window !== 'undefined') {
-            localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
-          }
-          window.dispatchEvent(new Event('auth-changed'));
-        } catch {}
-      },
-      invalidatesTags: ['Auth']
-    }),
-    logout: build.mutation<void, void>({
-      query: () => ({
-        method: 'post',
-        url: 'auth/logout',
-        body: {},
-        responseHandler: (response) => response.text()
-      }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
-        try {
-          await queryFulfilled;
-          if (typeof window !== 'undefined') {
-            localStorage.removeItem(AUTH_KEYS.accessToken);
-            dispatch(baseApi.util.resetApiState());
-            window.dispatchEvent(new Event('auth-changed'));
-          }
-        } catch {
-        } finally {
-        }
-      }
     }),
     forgotPassword: build.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
       query: ({ email, recaptcha = null }: ForgotPasswordRequest) => ({

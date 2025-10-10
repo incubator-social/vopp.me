@@ -5,6 +5,7 @@ import { UpdateTokensResponse } from '@/src/features/auth/api';
 import { baseApi } from './baseApi';
 import { baseQuery } from './baseQuery';
 import { handleError } from '@/src/shared/lib/utils/handleError';
+import { setIsAuth } from '@/app/appSlice';
 
 const mutex = new Mutex();
 
@@ -21,6 +22,7 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
     const token = typeof window !== 'undefined' ? localStorage.getItem(AUTH_KEYS.accessToken) : null;
 
     if (!token) {
+      api.dispatch(setIsAuth({ isAuth: false }));
       return result;
     }
     const isUpdatingTokens =
@@ -38,13 +40,13 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
             if (accessToken) {
               localStorage.setItem(AUTH_KEYS.accessToken, accessToken);
               window.dispatchEvent(new Event('auth-changed'));
+              api.dispatch(setIsAuth({ isAuth: true }));
             }
-
             result = await baseQuery(args, api, extraOptions);
           } else {
             localStorage.removeItem(AUTH_KEYS.accessToken);
             api.dispatch(baseApi.util.resetApiState());
-            window.dispatchEvent(new Event('auth-changed'));
+            api.dispatch(setIsAuth({ isAuth: false }));
             return refreshResult;
           }
         } finally {

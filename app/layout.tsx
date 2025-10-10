@@ -5,6 +5,7 @@ import '@/src/shared/styles/index.scss';
 import styles from './layout.module.scss';
 import { Header } from '@/src/widgets/Header/Header';
 import { SidebarWrapper } from '@/src/widgets/SidebarWrapper/SidebarWrapper';
+import { AppInitializer } from '@/app/AppInitializer';
 
 export const metadata: Metadata = {
   title: 'Connect with friends and join communities with Vopp.me',
@@ -17,11 +18,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <StoreProvider>
           <AlertProvider>
-            <Header />
-            <div className={styles.content}>
-              <SidebarWrapper />
-              <main className={styles.main}>{children}</main>
-            </div>
+            <AppInitializer>
+              <Header />
+              <div className={styles.content}>
+                <SidebarWrapper />
+                <main className={styles.main}>{children}</main>
+              </div>
+            </AppInitializer>
           </AlertProvider>
         </StoreProvider>
       </body>
