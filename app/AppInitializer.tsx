@@ -6,12 +6,6 @@ import { AUTH_KEYS } from '@/src/shared/config/storage';
 import { useAppDispatch } from '@/app/providers/store/hooks';
 import { setIsAuth } from '@/app/appSlice';
 
-/**
- * Инициализация авторизации:
- * - проверяет наличие токена в localStorage
- * - если токен есть → делает запрос /me
- * - если токена нет → сразу устанавливает isAuth = false (без запроса)
- */
 export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
   const [checkedToken, setCheckedToken] = useState(false);

@@ -10,12 +10,12 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { authApi, useLoginMutation } from '@/src/features/auth/api';
+import { useLoginMutation } from '@/src/features/auth/api';
 import { FormValues, signInSchema } from '@/src/features/auth/modal/signInSchema';
 import { useRouter } from 'next/navigation';
 import { setFormApiError } from '@/src/shared/lib/auth/setFormApiError';
 import { useState } from 'react';
-import { useAppDispatch } from '@/app/providers/store/hooks';
+import { jwtDecode } from 'jwt-decode';
 
 export function SignInForm() {
   const [login, { isLoading }] = useLoginMutation();
@@ -44,10 +44,17 @@ export function SignInForm() {
 
   const onSubmit = async ({ email, password }: FormValues) => {
     try {
-      await login({ email, password }).unwrap();
+      sessionStorage.setItem('skip-auth-redirect', '1');
+      const { accessToken } = await login({ email, password }).unwrap();
+      const user = jwtDecode<{
+        userId: number;
+        iat: number;
+        exp: number;
+      }>(accessToken);
       reset();
-      router.replace(ROUTES.PROFILE);
+      router.replace(ROUTES.PROFILE_BY_ID(user.userId));
     } catch (error) {
+      sessionStorage.removeItem('skip-auth-redirect');
       setFormApiError(error, setError, 'password');
       setShake(false);
       requestAnimationFrame(() => setShake(true));

@@ -2,7 +2,7 @@
 
 import { useAppSelector } from '@/app/providers/store/hooks';
 import { selectIsAuth } from '@/app/appSlice';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import { ROUTES } from '@/src/shared/config/routes';
 
@@ -11,38 +11,44 @@ type Options = {
   redirectTo?: string;
 };
 
-/**
- * HOC для защиты страниц и компонентов через Redux-флаг isAuth
- * @example export default withAuth(ProfilePage, { requireAuth: true });
- */
 export function withAuth<P extends object>(WrappedComponent: React.ComponentType<P>, options: Options = {}) {
   const { requireAuth = false, redirectTo = ROUTES.AUTH.SIGN_IN } = options;
 
   return function AuthGuard(props: P) {
     const router = useRouter();
+    const pathname = usePathname();
     const isAuth = useAppSelector(selectIsAuth);
 
     useEffect(() => {
-      // для защищённых страниц — редиректим неавторизованных
+      if (isAuth === null) return; // ждём определения статуса
+
+      const onAuthSection = pathname.startsWith('/auth');
+      const skip = sessionStorage.getItem('skip-auth-redirect') === '1';
+
+      // защищённые страницы: если не авторизован — уводим на логин
       if (requireAuth && !isAuth) {
         router.replace(redirectTo);
+        return;
       }
 
-      // для публичных страниц — редиректим авторизованных на главную
-      if (!requireAuth && isAuth) {
-        router.replace(ROUTES.HOME);
+      // публичные auth-страницы: если уже авторизован — уводим на главную,
+      if (!requireAuth && isAuth && onAuthSection && !skip) {
+        const id = setTimeout(() => {
+          if (window.location.pathname.startsWith('/auth')) {
+            router.replace(ROUTES.HOME);
+          }
+        }, 0);
+        return () => clearTimeout(id);
       }
-    }, [isAuth, requireAuth, router, redirectTo]);
 
-    // пока Redux ещё не определил статус (при первой загрузке) — ничего не рендерим
+      // если флаг стоял, очищаем его (логин успешно инициировал свой redirect)
+      if (skip) sessionStorage.removeItem('skip-auth-redirect');
+    }, [isAuth, requireAuth, redirectTo, router, pathname]);
+
     if (isAuth === null) return null;
-
-    // если неавторизован и страница требует авторизации — скрываем до редиректа
     if (requireAuth && !isAuth) return null;
+    if (!requireAuth && isAuth && pathname.startsWith('/auth')) return null;
 
-    // если авторизован, но страница только для гостей — тоже скрываем
-    if (!requireAuth && isAuth) return null;
-
-    return <WrappedComponent {...props} />;
+    return <WrappedComponent {...(props as P)} />;
   };
 }

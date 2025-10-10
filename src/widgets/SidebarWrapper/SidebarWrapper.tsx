@@ -6,7 +6,7 @@ import { useLogoutMutation } from '@/src/features/auth/api';
 import { ROUTES } from '@/src/shared/config/routes';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
 import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { baseApi } from '@/src/shared/api/baseApi';
 
@@ -15,14 +15,9 @@ export const SidebarWrapper = () => {
   const [active, setActive] = useState('profile');
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
-  const pathname = usePathname();
   const [logout] = useLogoutMutation();
 
   const isAuth = useAppSelector(selectIsAuth);
-
-  // if (pathname.startsWith('/auth')) {
-  //   return null;
-  // }
 
   if (!isAuth) return null;
 

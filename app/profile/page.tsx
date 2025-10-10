@@ -11,12 +11,13 @@ export default function ProfileRedirectPage() {
   useEffect(() => {
     const user = getUserFromToken();
 
-    if (!user) {
+    if (user) {
+      router.replace(ROUTES.PROFILE_BY_ID(user.userId));
+      return;
+    } else {
       router.replace(ROUTES.HOME);
       return;
     }
-
-    router.replace(ROUTES.PROFILE_BY_ID(user.userId));
   }, [router]);
 
   return null;
