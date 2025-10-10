@@ -10,7 +10,6 @@ import {
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useConfirmRegistrationMutation } from '@/src/features/auth/api/authApi';
-import { AlertModal } from '@/src/shared/ui/AlertModal';
 
 type SearchParams = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -26,7 +25,6 @@ export const ConfirmCode = ({ searchParams }: SearchParams) => {
   const [confirmRegistration] = useConfirmRegistrationMutation();
   const [params, setParams] = useState<{ [key: string]: string | string[] | undefined } | null>(null);
 
-  const [isModal, setIsModal] = useState<ModalData>({ open: false, title: '', message: '' });
   const [status, setStatus] = useState<Status | null>(null);
 
   const path = getRedirectPath(status);
@@ -52,7 +50,7 @@ export const ConfirmCode = ({ searchParams }: SearchParams) => {
         }
       } catch (error) {
         const err = error as ConfirmCodeError;
-        handleConfirmLinkError(err, setIsModal, setStatus);
+        handleConfirmLinkError(err, setStatus);
       }
     };
     confirmCode();
@@ -65,18 +63,4 @@ export const ConfirmCode = ({ searchParams }: SearchParams) => {
   }, [path, router]);
 
   if (!code) return <div>Loading...</div>;
-
-  return (
-    <div>
-      {isModal.open && (
-        <AlertModal
-          open={isModal.open}
-          onOpenChange={(open) => setIsModal((prev) => ({ ...prev, open }))}
-          title={isModal.title}
-          message={isModal.message}
-          onConfirm={() => setStatus('invalid')}
-        />
-      )}
-    </div>
-  );
 };
