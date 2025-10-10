@@ -1,7 +1,15 @@
 import { handleResponse } from '@/src/features/auth/api/utils';
 import { baseApi } from '@/src/shared/api/baseApi';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
-import { LoginBody, LoginResponse, SignUpRequest, SignUpResponse, MeResponse } from './types';
+import {
+  LoginBody,
+  LoginResponse,
+  SignUpRequest,
+  SignUpResponse,
+  MeResponse,
+  GoogleOAuthResponse,
+  GoogleOAuthRequest
+} from './types';
 import {
   CheckRecoveryCodeRequest,
   CheckRecoveryCodeResponse,
@@ -58,6 +66,23 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ['Auth']
     }),
+
+    googleOAuthLogin: build.mutation<GoogleOAuthResponse, GoogleOAuthRequest>({
+      query: ({ code }) => ({
+        method: 'POST',
+        url: 'auth/google/login',
+        body: { redirectUrl: `${process.env.NEXT_PUBLIC_APP_URL}${ROUTES.HOME}`, code }
+      }),
+      onQueryStarted: async (_arg, { queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          if (typeof window !== 'undefined' && data?.accessToken) {
+            localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
+          }
+        } catch {}
+      }
+    }),
+
     logout: build.mutation<void, void>({
       query: () => ({
         method: 'post',
@@ -115,5 +140,6 @@ export const {
   useGetMeQuery,
   useForgotPasswordMutation,
   useCreateNewPasswordMutation,
-  useCheckRecoveryCodeMutation
+  useCheckRecoveryCodeMutation,
+  useGoogleOAuthLoginMutation
 } = authApi;

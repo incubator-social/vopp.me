@@ -4,7 +4,7 @@ import { AUTH_KEYS } from '@/src/shared/config/storage';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
-const GetTokenGithubPage = () => {
+const GetTokenGithubOAuth = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('accessToken');
@@ -21,4 +21,4 @@ const GetTokenGithubPage = () => {
   return null;
 };
 
-export default GetTokenGithubPage;
+export default GetTokenGithubOAuth;

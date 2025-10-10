@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/src/features/auth/lib';
-import { AUTH_KEYS } from '@/src/shared/config/storage';
+import { ROUTES } from '@/src/shared/config/routes';
 import styles from './layout.module.scss';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
