@@ -12,7 +12,7 @@ import { useState } from 'react';
 
 export const SidebarWrapper = () => {
   const dispatch = useAppDispatch();
-  const [active, setActive] = useState('my-profile');
+  const [active, setActive] = useState('profile');
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();

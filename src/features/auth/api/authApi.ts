@@ -1,5 +1,5 @@
-import { handleResponse } from '@/src/features/auth/api/utils';
 import { baseApi } from '@/src/shared/api/baseApi';
+import { handleResponse } from '@/src/features/auth/api/utils';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
 import { LoginBody, LoginResponse, SignUpRequest, SignUpResponse, MeResponse } from './types';
 import {
@@ -14,7 +14,7 @@ import { ROUTES } from '@/src/shared/config/routes';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getMe: build.query<MeResponse, void>({
+    getMe: build.query<MeResponse | null, void>({
       query: () => ({ url: 'auth/me', method: 'GET' }),
       providesTags: ['Auth']
     }),
@@ -48,12 +48,13 @@ export const authApi = baseApi.injectEndpoints({
         url: 'auth/login',
         body
       }),
-      onQueryStarted: async (_arg, { queryFulfilled }) => {
+      async onQueryStarted(_arg, { queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           if (typeof window !== 'undefined') {
             localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
           }
+          window.dispatchEvent(new Event('auth-changed'));
         } catch {}
       },
       invalidatesTags: ['Auth']
@@ -65,18 +66,18 @@ export const authApi = baseApi.injectEndpoints({
         body: {},
         responseHandler: (response) => response.text()
       }),
-      onQueryStarted: async (_arg, { queryFulfilled }) => {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-        } catch {
-        } finally {
           if (typeof window !== 'undefined') {
             localStorage.removeItem(AUTH_KEYS.accessToken);
+            dispatch(baseApi.util.resetApiState());
+            window.dispatchEvent(new Event('auth-changed'));
           }
-          // сбрасываем данные из стора, пока у нас их нет, но в будущем будет, затрем все постепенно
+        } catch {
+        } finally {
         }
-      },
-      invalidatesTags: ['Auth']
+      }
     }),
     forgotPassword: build.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
       query: ({ email, recaptcha = null }: ForgotPasswordRequest) => ({

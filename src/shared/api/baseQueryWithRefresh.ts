@@ -4,7 +4,7 @@ import { AUTH_KEYS } from '../config/storage';
 import { UpdateTokensResponse } from '@/src/features/auth/api';
 import { baseApi } from './baseApi';
 import { baseQuery } from './baseQuery';
-import { handleError } from '../lib/utils/handleError';
+import { handleError } from '@/src/shared/lib/utils/handleError';
 
 const mutex = new Mutex();
 
@@ -37,12 +37,14 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
 
             if (accessToken) {
               localStorage.setItem(AUTH_KEYS.accessToken, accessToken);
+              window.dispatchEvent(new Event('auth-changed'));
             }
 
             result = await baseQuery(args, api, extraOptions);
           } else {
             localStorage.removeItem(AUTH_KEYS.accessToken);
             api.dispatch(baseApi.util.resetApiState());
+            window.dispatchEvent(new Event('auth-changed'));
             return refreshResult;
           }
         } finally {
