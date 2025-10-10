@@ -37,6 +37,7 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
 
             if (accessToken) {
               localStorage.setItem(AUTH_KEYS.accessToken, accessToken);
+              window.dispatchEvent(new Event('auth-changed'));
             }
 
             result = await baseQuery(args, api, extraOptions);
