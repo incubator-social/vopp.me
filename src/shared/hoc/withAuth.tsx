@@ -43,7 +43,7 @@ export function withAuth<P extends object>(WrappedComponent: React.ComponentType
 
       // если флаг стоял, очищаем его (логин успешно инициировал свой redirect)
       if (skip) sessionStorage.removeItem('skip-auth-redirect');
-    }, [isAuth, requireAuth, redirectTo, router, pathname]);
+    }, [isAuth, pathname, router]);
 
     if (isAuth === null) return null;
     if (requireAuth && !isAuth) return null;
