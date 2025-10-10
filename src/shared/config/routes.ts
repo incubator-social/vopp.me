@@ -14,6 +14,7 @@ export const ROUTES = {
     PRIVACY: '/legal/privacy',
     TERMS_OF_SERVICE: '/legal/terms'
   },
+  SETTINGS: '/settings',
   PROFILE: '/profile',
   PROFILE_BY_ID: (id: number | string) => `/profile/${id}`
 } as const;

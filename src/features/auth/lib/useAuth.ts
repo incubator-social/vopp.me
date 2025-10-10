@@ -5,6 +5,7 @@ import { useGetMeQuery } from '@/src/features/auth/api';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
 
 export function useAuth() {
+  const [initialized, setInitialized] = useState(false);
   const [token, setToken] = useState<string | null>(
     typeof window !== 'undefined' ? localStorage.getItem(AUTH_KEYS.accessToken) : null
   );
@@ -14,6 +15,7 @@ export function useAuth() {
 
     const sync = () => {
       setToken(localStorage.getItem(AUTH_KEYS.accessToken));
+      setInitialized(true);
     };
 
     sync();
@@ -31,7 +33,7 @@ export function useAuth() {
 
   return {
     user,
-    isLoading,
+    isLoading: isLoading || !initialized,
     isError,
     isAuthenticated
   };
