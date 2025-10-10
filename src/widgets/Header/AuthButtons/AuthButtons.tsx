@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { Button } from '@/src/shared/ui/Button/Button';
 import styles from './AuthButtons.module.scss';
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/src/shared/config/routes';
 
 type AuthButtonsProps = {
   className?: string;
@@ -11,11 +12,11 @@ export const AuthButtons = ({ className }: AuthButtonsProps) => {
   const router = useRouter();
 
   const handleLogin = () => {
-    router.push('/auth/sign-in');
+    router.push(ROUTES.AUTH.SIGN_IN);
   };
 
   const handleSignUp = () => {
-    router.push('/auth/sign-up');
+    router.push(ROUTES.AUTH.SIGN_UP);
   };
 
   return (
