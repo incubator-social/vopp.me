@@ -6,15 +6,12 @@ import { BellIcon } from '@/src/widgets/Header/BellIcon/BellIcon';
 import { AuthButtons } from '@/src/widgets/Header/AuthButtons/AuthButtons';
 import styles from './Header.module.scss';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { useEffect, useState } from 'react';
+import { useMounted } from '@/src/shared/hooks/useMounted';
 
 export const Header = () => {
-  const [boot, setBoot] = useState(true);
-  useEffect(() => {
-    setBoot(false);
-  }, []);
+  const mounted = useMounted();
   const { isAuth, isChecking } = useAuth();
-  const ready = !isChecking && !boot;
+  const ready = !isChecking && mounted;
 
   return (
     <header className={styles.header}>
