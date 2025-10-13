@@ -24,7 +24,6 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
     const token = typeof window !== 'undefined' ? localStorage.getItem(AUTH_KEYS.accessToken) : null;
 
     if (!token) {
-      api.dispatch({ type: 'app/setIsAuth', payload: { isAuth: false } });
       return result;
     }
     const isUpdatingTokens =
@@ -42,12 +41,10 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
             if (accessToken) {
               localStorage.setItem(AUTH_KEYS.accessToken, accessToken);
               window.dispatchEvent(new Event('auth-changed'));
-              api.dispatch({ type: 'app/setIsAuth', payload: { isAuth: true } });
             }
             result = await baseQuery(args, api, extraOptions);
           } else {
             localStorage.removeItem(AUTH_KEYS.accessToken);
-            api.dispatch({ type: 'app/setIsAuth', payload: { isAuth: false } });
             return refreshResult;
           }
         } finally {

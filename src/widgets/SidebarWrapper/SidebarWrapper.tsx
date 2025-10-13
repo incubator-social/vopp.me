@@ -1,14 +1,13 @@
 'use client';
-
-import { selectIsAuth, setAppError } from '@/app/appSlice';
-import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
+import { setAppError } from '@/app/appSlice';
+import { useAppDispatch } from '@/app/providers/store/hooks';
 import { useLogoutMutation } from '@/src/features/auth/api';
 import { ROUTES } from '@/src/shared/config/routes';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
 import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { baseApi } from '@/src/shared/api/baseApi';
+import { useAuth } from '@/src/features/auth/lib/useAuth';
 
 export const SidebarWrapper = () => {
   const dispatch = useAppDispatch();
@@ -17,8 +16,9 @@ export const SidebarWrapper = () => {
   const router = useRouter();
   const [logout] = useLogoutMutation();
 
-  const isAuth = useAppSelector(selectIsAuth);
+  const { isAuth, isChecking } = useAuth();
 
+  if (isChecking) return null;
   if (!isAuth) return null;
 
   const handleValueChange = (value: string) => {
@@ -33,7 +33,6 @@ export const SidebarWrapper = () => {
   const handleConfirmLogout = async () => {
     try {
       await logout().unwrap();
-      dispatch(baseApi.util.resetApiState());
     } catch {
     } finally {
       setConfirmOpen(false);

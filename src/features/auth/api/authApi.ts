@@ -29,16 +29,16 @@ export const authApi = baseApi.injectEndpoints({
           const { data } = await queryFulfilled;
           if (typeof window !== 'undefined') {
             localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
+            window.dispatchEvent(new Event('auth-changed'));
           }
-          window.dispatchEvent(new Event('auth-changed'));
-          dispatch(authApi.endpoints.getMe.initiate());
+          dispatch(authApi.util.invalidateTags(['Auth']));
         } catch {
           if (typeof window !== 'undefined') {
             localStorage.removeItem(AUTH_KEYS.accessToken);
+            window.dispatchEvent(new Event('auth-changed'));
           }
         }
-      },
-      invalidatesTags: ['Auth']
+      }
     }),
     logout: build.mutation<void, void>({
       query: () => ({
@@ -54,6 +54,7 @@ export const authApi = baseApi.injectEndpoints({
         } finally {
           if (typeof window !== 'undefined') {
             localStorage.removeItem(AUTH_KEYS.accessToken);
+            window.dispatchEvent(new Event('auth-changed'));
           }
         }
       }
