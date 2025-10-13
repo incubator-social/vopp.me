@@ -1,5 +1,4 @@
 'use client';
-
 import { useSyncExternalStore } from 'react';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
 

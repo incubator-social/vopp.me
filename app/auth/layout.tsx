@@ -1,5 +1,4 @@
 'use client';
-
 import { withAuth } from '@/src/shared/hoc/withAuth';
 import styles from './layout.module.scss';
 

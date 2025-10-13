@@ -44,7 +44,6 @@ export function SignInForm() {
 
   const onSubmit = async ({ email, password }: FormValues) => {
     try {
-      sessionStorage.setItem('skip-auth-redirect', '1');
       const { accessToken } = await login({ email, password }).unwrap();
       const user = jwtDecode<{
         userId: number;
@@ -54,7 +53,6 @@ export function SignInForm() {
       reset();
       router.replace(ROUTES.PROFILE_BY_ID(user.userId));
     } catch (error) {
-      sessionStorage.removeItem('skip-auth-redirect');
       setFormApiError(error, setError, 'password');
       setShake(false);
       requestAnimationFrame(() => setShake(true));

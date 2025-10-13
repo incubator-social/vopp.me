@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ROUTES } from '@/src/shared/config/routes';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
+import { useMounted } from '@/src/shared/hooks/useMounted';
 
 type Options = { requireAuth?: boolean; redirectTo?: string };
 
@@ -14,27 +15,25 @@ export function withAuth<P extends object>(Wrapped: React.ComponentType<P>, opts
     const router = useRouter();
     const pathname = usePathname();
     const onAuthSection = pathname.startsWith('/auth');
+    const mounted = useMounted();
 
     useEffect(() => {
-      if (isChecking) return;
+      if (isChecking || !mounted) return;
 
       if (requireAuth && !isAuth) {
         router.replace(redirectTo);
+        return;
       }
 
       if (!requireAuth && isAuth && onAuthSection) {
-        const id = setTimeout(() => {
-          if (window.location.pathname.startsWith('/auth')) {
-            router.replace(ROUTES.HOME);
-          }
-        }, 0);
-        return () => clearTimeout(id);
+        router.replace(ROUTES.HOME);
       }
-    }, [isAuth, isChecking, pathname, router, onAuthSection]);
+    }, [isAuth, isChecking, mounted, redirectTo, onAuthSection, router]);
 
+    if (!mounted && onAuthSection) return null;
     if (isChecking) return null;
     if (requireAuth && !isAuth) return null;
-    if (!requireAuth && isAuth && pathname.startsWith('/auth')) return null;
+    if (!requireAuth && isAuth && onAuthSection) return null;
 
     return <Wrapped {...(props as P)} />;
   };
