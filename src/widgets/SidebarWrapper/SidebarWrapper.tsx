@@ -6,8 +6,9 @@ import { ROUTES } from '@/src/shared/config/routes';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
 import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
+import styles from './SidebarWrapper.module.scss';
 
 export const SidebarWrapper = () => {
   const dispatch = useAppDispatch();
@@ -16,9 +17,14 @@ export const SidebarWrapper = () => {
   const router = useRouter();
   const [logout] = useLogoutMutation();
 
-  const { isAuth, isChecking } = useAuth();
+  const [boot, setBoot] = useState(true);
+  useEffect(() => {
+    setBoot(false);
+  }, []);
 
-  if (isChecking) return null;
+  const { user, isAuth, isChecking } = useAuth();
+
+  if (isChecking || boot) return <div className={styles.skeleton}></div>;
   if (!isAuth) return null;
 
   const handleValueChange = (value: string) => {
@@ -47,7 +53,7 @@ export const SidebarWrapper = () => {
       <ConfirmModal
         open={confirmOpen}
         title="Log Out"
-        message={`Are you really want to log out of your account "???????????"?`} // TODO
+        message={`Are you really want to log out of your account ${user?.email}?`}
         confirmText="Yes"
         cancelText="No"
         onConfirm={handleConfirmLogout}

@@ -10,5 +10,5 @@ export function useAuth() {
   const isChecking = !!token && (isLoading || isFetching);
   const isAuth = Boolean(token && isSuccess && user);
 
-  return { user: user ?? null, isAuth, isChecking };
+  return { user: user ?? null, isAuth, isChecking, isFetching };
 }

@@ -28,7 +28,7 @@ export function withAuth<P extends object>(Wrapped: React.ComponentType<P>, opts
       if (!requireAuth && isAuth && onAuthSection) {
         router.replace(ROUTES.HOME);
       }
-    }, [isAuth, isChecking, mounted, redirectTo, onAuthSection, router]);
+    }, [isAuth, isChecking, mounted, onAuthSection, router]);
 
     if (!mounted && onAuthSection) return null;
     if (isChecking) return null;
