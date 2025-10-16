@@ -18,8 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StoreProvider>
           <AlertProvider>
             <Header />
-            <SidebarWrapper />
-            <main className={styles.main}>{children}</main>
+            <div className={styles.content}>
+              <SidebarWrapper />
+              <main className={styles.main}>{children}</main>
+            </div>
           </AlertProvider>
         </StoreProvider>
       </body>
