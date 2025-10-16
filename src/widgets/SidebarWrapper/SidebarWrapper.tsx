@@ -2,15 +2,19 @@
 
 import { setAppError } from '@/app/appSlice';
 import { useAppDispatch } from '@/app/providers/store/hooks';
+import AddPost from '@/src/features/add-post/AddPost';
 import { useLogoutMutation } from '@/src/features/auth/api';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { ROUTES } from '@/src/shared/config/routes';
+import Card from '@/src/shared/ui/Card/Card';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
 import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export const SidebarWrapper = () => {
+  const [isOpenAddPost, setIsOpenAddPost] = useState<boolean>(true);
+
   const dispatch = useAppDispatch();
   const [active, setActive] = useState('my-profile');
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -50,6 +54,8 @@ export const SidebarWrapper = () => {
   return (
     <>
       <Sidebar value={active} onValueChange={handleValueChange} />
+
+      {isOpenAddPost && <AddPost />}
 
       <ConfirmModal
         open={confirmOpen}
