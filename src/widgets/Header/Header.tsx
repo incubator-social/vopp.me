@@ -6,24 +6,19 @@ import { BellIcon } from '@/src/widgets/Header/BellIcon/BellIcon';
 import { AuthButtons } from '@/src/widgets/Header/AuthButtons/AuthButtons';
 import styles from './Header.module.scss';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { useMounted } from '@/src/shared/hooks/useMounted';
 
 export const Header = () => {
-  const mounted = useMounted();
-  const { isAuth, isFetching } = useAuth();
-  const ready = !isFetching && mounted;
-
+  const { isAuth, isReady } = useAuth();
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
           VOPP.ME
         </Link>
-
         <div className={styles.rightSection}>
-          {isAuth && ready && <BellIcon notificationCount={3} />}
+          {isReady && isAuth && <BellIcon notificationCount={3} />}
           <LanguageSelect />
-          {!isAuth && ready && <AuthButtons />}
+          {isReady && !isAuth && <AuthButtons />}
         </div>
       </div>
     </header>

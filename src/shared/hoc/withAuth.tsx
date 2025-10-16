@@ -5,9 +5,9 @@ import { ROUTES } from '@/src/shared/config/routes';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { useMounted } from '@/src/shared/hooks/useMounted';
 
-type Options = { requireAuth?: boolean; redirectTo?: string };
+type WithAuthOptions = { requireAuth?: boolean; redirectTo?: string };
 
-export function withAuth<P extends object>(Wrapped: React.ComponentType<P>, opts: Options = {}) {
+export function withAuth<P extends object>(Wrapped: React.ComponentType<P>, opts: WithAuthOptions = {}) {
   const { requireAuth = false, redirectTo = ROUTES.AUTH.SIGN_IN } = opts;
 
   return function Guard(props: P) {

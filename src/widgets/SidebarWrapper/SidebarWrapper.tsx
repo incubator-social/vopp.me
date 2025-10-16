@@ -6,7 +6,7 @@ import { ROUTES } from '@/src/shared/config/routes';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
 import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import styles from './SidebarWrapper.module.scss';
 
@@ -16,16 +16,9 @@ export const SidebarWrapper = () => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
   const [logout] = useLogoutMutation();
+  const { user, isAuth, isReady } = useAuth();
 
-  const [boot, setBoot] = useState(true);
-  useEffect(() => {
-    setBoot(false);
-  }, []);
-
-  const { user, isAuth, isFetching } = useAuth();
-
-  if (isFetching || boot) return <div className={styles.skeleton}></div>;
-  if (!isAuth) return null;
+  if (!isReady) return <div className={styles.skeleton}></div>;
 
   const handleValueChange = (value: string) => {
     if (value === 'logout') {
@@ -48,7 +41,7 @@ export const SidebarWrapper = () => {
 
   return (
     <>
-      <Sidebar value={active} onValueChange={handleValueChange} />
+      {isReady && isAuth && <Sidebar value={active} onValueChange={handleValueChange} />}
 
       <ConfirmModal
         open={confirmOpen}

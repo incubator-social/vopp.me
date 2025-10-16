@@ -3,6 +3,7 @@ import { Mutex } from 'async-mutex';
 import { AUTH_KEYS } from '../config/storage';
 import { baseQuery } from './baseQuery';
 import { handleError } from '@/src/shared/lib/utils/handleError';
+import { baseApi } from '@/src/shared/api/baseApi';
 
 const mutex = new Mutex();
 
@@ -45,6 +46,7 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
             result = await baseQuery(args, api, extraOptions);
           } else {
             localStorage.removeItem(AUTH_KEYS.accessToken);
+            api.dispatch(baseApi.util.resetApiState());
             return refreshResult;
           }
         } finally {

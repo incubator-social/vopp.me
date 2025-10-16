@@ -15,7 +15,7 @@ import { FormValues, signInSchema } from '@/src/features/auth/modal/signInSchema
 import { useRouter } from 'next/navigation';
 import { setFormApiError } from '@/src/shared/lib/auth/setFormApiError';
 import { useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import { getUserFromToken } from '@/src/shared/lib/auth';
 
 export function SignInForm() {
   const [login, { isLoading }] = useLoginMutation();
@@ -44,14 +44,12 @@ export function SignInForm() {
 
   const onSubmit = async ({ email, password }: FormValues) => {
     try {
-      const { accessToken } = await login({ email, password }).unwrap();
-      const user = jwtDecode<{
-        userId: number;
-        iat: number;
-        exp: number;
-      }>(accessToken);
+      await login({ email, password }).unwrap();
+      const user = getUserFromToken();
+      if (user) {
+        router.replace(ROUTES.PROFILE_BY_ID(user.userId));
+      }
       reset();
-      router.replace(ROUTES.PROFILE_BY_ID(user.userId));
     } catch (error) {
       setFormApiError(error, setError, 'password');
       setShake(false);

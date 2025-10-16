@@ -45,13 +45,13 @@ export const authApi = baseApi.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-        } catch {
-        } finally {
           if (typeof window !== 'undefined') {
             localStorage.removeItem(AUTH_KEYS.accessToken);
             window.dispatchEvent(new Event('auth-changed'));
           }
           dispatch(baseApi.util.resetApiState());
+        } catch {
+        } finally {
         }
       }
     }),
