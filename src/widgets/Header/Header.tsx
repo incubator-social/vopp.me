@@ -8,7 +8,7 @@ import styles from './Header.module.scss';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 
 export const Header = () => {
-  const { isAuth, isReady } = useAuth();
+  const { isAuth, uiReady } = useAuth();
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -16,9 +16,9 @@ export const Header = () => {
           VOPP.ME
         </Link>
         <div className={styles.rightSection}>
-          {isReady && isAuth && <BellIcon notificationCount={3} />}
+          {uiReady && isAuth && <BellIcon notificationCount={3} />}
           <LanguageSelect />
-          {isReady && !isAuth && <AuthButtons />}
+          {uiReady && !isAuth && <AuthButtons />}
         </div>
       </div>
     </header>

@@ -16,9 +16,9 @@ export const SidebarWrapper = () => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
   const [logout] = useLogoutMutation();
-  const { user, isAuth, isReady } = useAuth();
+  const { user, isAuth, uiReady } = useAuth();
 
-  if (!isReady) return <div className={styles.skeleton}></div>;
+  if (!uiReady) return <div className={styles.skeleton}></div>;
 
   const handleValueChange = (value: string) => {
     if (value === 'logout') {
@@ -41,7 +41,7 @@ export const SidebarWrapper = () => {
 
   return (
     <>
-      {isReady && isAuth && <Sidebar value={active} onValueChange={handleValueChange} />}
+      {uiReady && isAuth && <Sidebar value={active} onValueChange={handleValueChange} />}
 
       <ConfirmModal
         open={confirmOpen}

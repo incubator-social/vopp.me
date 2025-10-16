@@ -19,7 +19,7 @@ export function useAuth() {
   } = useGetMeQuery(undefined, { skip: !hasToken });
 
   const isChecking = hasToken && (isUninitialized || isLoading || isFetching);
-  const isReady = mounted && !isChecking;
+  const uiReady = mounted && !isChecking;
   const isAuth = hasToken && !!user && !isError;
 
   return {
@@ -27,7 +27,7 @@ export function useAuth() {
     hasToken,
     isChecking,
     isAuth,
-    isReady,
+    uiReady: uiReady,
     isSuccess,
     isError
   };

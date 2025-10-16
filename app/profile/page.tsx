@@ -6,16 +6,16 @@ import { useAuth } from '@/src/features/auth/lib/useAuth';
 
 export default function ProfileRedirectPage() {
   const router = useRouter();
-  const { user, isAuth, isReady } = useAuth();
+  const { user, isAuth, uiReady } = useAuth();
 
   useEffect(() => {
-    if (!isReady) return;
+    if (!uiReady) return;
     if (isAuth && user) {
       router.replace(ROUTES.PROFILE_BY_ID(user.userId));
     } else {
       router.replace(ROUTES.HOME);
     }
-  }, [isAuth, isReady, user, router]);
+  }, [isAuth, uiReady, user, router]);
 
   return null;
 }
