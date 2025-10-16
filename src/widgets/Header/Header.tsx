@@ -10,8 +10,8 @@ import { useMounted } from '@/src/shared/hooks/useMounted';
 
 export const Header = () => {
   const mounted = useMounted();
-  const { isAuth, isChecking } = useAuth();
-  const ready = !isChecking && mounted;
+  const { isAuth, isFetching } = useAuth();
+  const ready = !isFetching && mounted;
 
   return (
     <header className={styles.header}>

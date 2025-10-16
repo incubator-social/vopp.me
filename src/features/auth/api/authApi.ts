@@ -24,21 +24,16 @@ export const authApi = baseApi.injectEndpoints({
         url: 'auth/login',
         body
       }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_arg, { queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           if (typeof window !== 'undefined') {
             localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
             window.dispatchEvent(new Event('auth-changed'));
           }
-          dispatch(authApi.util.invalidateTags(['Auth']));
-        } catch {
-          if (typeof window !== 'undefined') {
-            localStorage.removeItem(AUTH_KEYS.accessToken);
-            window.dispatchEvent(new Event('auth-changed'));
-          }
-        }
-      }
+        } catch {}
+      },
+      invalidatesTags: ['Auth']
     }),
     logout: build.mutation<void, void>({
       query: () => ({
@@ -47,7 +42,7 @@ export const authApi = baseApi.injectEndpoints({
         body: {},
         responseHandler: (response) => response.text()
       }),
-      async onQueryStarted(_arg, { queryFulfilled }) {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
         } catch {
@@ -56,6 +51,7 @@ export const authApi = baseApi.injectEndpoints({
             localStorage.removeItem(AUTH_KEYS.accessToken);
             window.dispatchEvent(new Event('auth-changed'));
           }
+          dispatch(baseApi.util.resetApiState());
         }
       }
     }),

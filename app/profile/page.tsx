@@ -1,24 +1,24 @@
 'use client';
-
 import { ROUTES } from '@/src/shared/config/routes';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { getUserFromToken } from '@/src/shared/lib/auth/getUserFromToken';
+import { useAuth } from '@/src/features/auth/lib/useAuth';
+import { useMounted } from '@/src/shared/hooks/useMounted';
 
 export default function ProfileRedirectPage() {
   const router = useRouter();
+  const mounted = useMounted();
+  const { user, isAuth, isFetching } = useAuth();
 
   useEffect(() => {
-    const user = getUserFromToken();
+    if (isFetching || !mounted) return;
 
-    if (user) {
+    if (isAuth && user) {
       router.replace(ROUTES.PROFILE_BY_ID(user.userId));
-      return;
     } else {
       router.replace(ROUTES.HOME);
-      return;
     }
-  }, [router]);
+  }, [isAuth, user, isFetching, router]);
 
   return null;
 }

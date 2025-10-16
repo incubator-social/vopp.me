@@ -22,9 +22,9 @@ export const SidebarWrapper = () => {
     setBoot(false);
   }, []);
 
-  const { user, isAuth, isChecking } = useAuth();
+  const { user, isAuth, isFetching } = useAuth();
 
-  if (isChecking || boot) return <div className={styles.skeleton}></div>;
+  if (isFetching || boot) return <div className={styles.skeleton}></div>;
   if (!isAuth) return null;
 
   const handleValueChange = (value: string) => {
