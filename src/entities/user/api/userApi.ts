@@ -1,12 +1,13 @@
+import { use } from 'react';
 import { baseApi } from '@/src/shared/api/baseApi';
 
 export type PublicUserResponse = {
   totalCount: number;
 };
 
-export const publicUserApi = baseApi.injectEndpoints({
+export const userApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getPublicUserCount: build.query<PublicUserResponse, void>({
+    getPublicUsers: build.query<PublicUserResponse, void>({
       query: () => ({
         url: 'public-user',
         method: 'GET'
@@ -15,4 +16,4 @@ export const publicUserApi = baseApi.injectEndpoints({
   })
 });
 
-export const { useGetPublicUserCountQuery } = publicUserApi;
+export const { useGetPublicUsersQuery } = userApi;

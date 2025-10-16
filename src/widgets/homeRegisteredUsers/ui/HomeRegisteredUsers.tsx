@@ -1,12 +1,31 @@
 'use client';
-import { useGetPublicUserCountQuery } from '@/src/entities/user/api/userApi';
+import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
+import { useGetPublicUsersQuery, userApi } from '@/src/entities/user/api/userApi';
+import { useEffect, useRef } from 'react';
 
-export const HomeRegisteredUsers = () => {
+type Props = {
+  initialUsersCount: number;
+};
+
+export const HomeRegisteredUsers = ({ initialUsersCount }: Props) => {
+  const dispatch = useAppDispatch();
+  const dataFromCache = useAppSelector((state) => userApi.endpoints.getPublicUsers.select()(state).data);
   // 📌 общее количество пользователей
-  const { data: usersData, isFetching: isFetchingUsers, error: usersError } = useGetPublicUserCountQuery();
+  const needHydrateStateRef = useRef(!!initialUsersCount && !dataFromCache);
 
-  if (isFetchingUsers) return <div>Загрузка...</div>;
-  if (usersError) return <div>Ошибка загрузки</div>;
+  const { data, isFetching, error } = useGetPublicUsersQuery(undefined, { skip: needHydrateStateRef.current });
+  useEffect(() => {
+    if (needHydrateStateRef.current) {
+      needHydrateStateRef.current = false;
+      const thunk = userApi.util.upsertQueryData('getPublicUsers', undefined, { totalCount: initialUsersCount });
+      dispatch(thunk);
+    }
+  }, [dispatch, initialUsersCount]);
 
-  return <p>Всего зарегистрированных пользователей: {usersData?.totalCount ?? 0}</p>;
+  const dataForRender = data?.totalCount || initialUsersCount;
+
+  if (isFetching) return <div>Загрузка...</div>;
+  if (error) return <div>Ошибка загрузки</div>;
+
+  return <p>Всего зарегистрированных пользователей: {dataForRender ?? 0}</p>;
 };

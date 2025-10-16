@@ -1,14 +1,15 @@
 import { PostsResponse, PostsResponseSchema } from '../model/posts.schemas';
 
 import { baseApi } from '@/src/shared/api/baseApi';
+import { GetPublicPostsArgs } from '../model/posts.types';
 
-export const publicPostsApi = baseApi.injectEndpoints({
+export const postsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getPosts: build.query<PostsResponse, void>({
-      query: () => ({
-        url: '/public-posts/all/0',
+    getPublicPosts: build.query<PostsResponse, GetPublicPostsArgs>({
+      query: ({ endCursorPostId, pageSize, sortBy, sortDirection }) => ({
+        url: `/public-posts/all/${endCursorPostId}`,
         method: 'GET',
-        params: { pageSize: 4, sortBy: 'createdAt', sortDirection: 'desc' }
+        params: { pageSize, sortBy, sortDirection }
       }),
       // валидируем через Zod
       transformResponse: (response: unknown) => PostsResponseSchema.parse(response),
@@ -17,4 +18,4 @@ export const publicPostsApi = baseApi.injectEndpoints({
   })
 });
 
-export const { useGetPostsQuery } = publicPostsApi;
+export const { useGetPublicPostsQuery } = postsApi;
