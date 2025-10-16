@@ -26,7 +26,12 @@ export const HomePublicPosts = ({ initialPosts }: Props) => {
     data: postsData,
     isFetching,
     error
-  } = useGetPublicPostsQuery(defaultArgs, { skip: needHydrateStateRef.current });
+  } = useGetPublicPostsQuery(defaultArgs, {
+    skip: needHydrateStateRef.current,
+    pollingInterval: 60000,
+    refetchOnFocus: true,
+    refetchOnReconnect: true
+  });
 
   useEffect(() => {
     if (needHydrateStateRef.current) {

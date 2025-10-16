@@ -6,19 +6,16 @@ export default async function HomePage() {
   const responsePulicPosts = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/public-posts/all/0?pageSize=4&sortBy=createdAt&sortDirection=desc`
   );
-
   const dataPublicPosts = (await responsePulicPosts.json()) as PostsResponse;
   const posts = PostsResponseSchema.parse(dataPublicPosts);
 
   const responseRegisteredUsers = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/public-user/`);
   const dataCount = await responseRegisteredUsers.json();
-  console.log(dataCount);
+
+  console.log(posts);
   return (
     <div style={{ padding: '10px' }}>
-      <h1>VOPP.ME</h1>
-      {/* Счётчик пользователей */}
       <HomeRegisteredUsers initialUsersCount={dataCount.totalCount} />
-      {/* Список постов */}
       <HomePublicPosts initialPosts={posts} />
     </div>
   );

@@ -1,4 +1,3 @@
-import { use } from 'react';
 import { baseApi } from '@/src/shared/api/baseApi';
 
 export type PublicUserResponse = {
@@ -11,7 +10,8 @@ export const userApi = baseApi.injectEndpoints({
       query: () => ({
         url: 'public-user',
         method: 'GET'
-      })
+      }),
+      providesTags: ['User']
     })
   })
 });
