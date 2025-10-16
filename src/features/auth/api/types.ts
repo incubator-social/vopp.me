@@ -30,8 +30,9 @@ export type UpdateTokensResponse = {
 };
 
 export type GoogleOAuthResponse = {
-  accessToken: string;
-  email: string;
+  accessToken: string | undefined;
+  email: string | undefined;
+  status: string | number | undefined;
 };
 
 export type GoogleOAuthRequest = {
