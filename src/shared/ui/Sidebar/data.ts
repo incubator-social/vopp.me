@@ -14,21 +14,31 @@ import PersonActive from '../../assets/icons/person.svg';
 import MessageActive from '../../assets/icons/message-circle.svg';
 import FavoritesActive from '../../assets/icons/bookmark.svg';
 
+export type Option = {
+  id: OptionId;
+  label: string;
+  icon: ElementType;
+  activeIcon: ElementType;
+};
+
+export const enum OptionId {
+  Feed = 'feed',
+  Create = 'create',
+  MyProfile = 'profile',
+  Messenger = 'messenger',
+  Search = 'search',
+  Statistics = 'statistics',
+  Favorites = 'favorites',
+  Logout = 'logout'
+}
+
 export const options: Option[] = [
   { label: 'Feed', icon: Home, activeIcon: HomeActive, id: 'feed' },
   { label: 'Create', icon: Plus, activeIcon: PlusActive, id: 'create' },
-  { label: 'My Profile', icon: Person, activeIcon: PersonActive, id: 'my-profile' },
+  { label: 'My Profile', icon: Person, activeIcon: PersonActive, id: 'profile' },
   { label: 'Messenger', icon: Message, activeIcon: MessageActive, id: 'messenger' },
   { label: 'Search', icon: Search, activeIcon: Search, id: 'search' },
   { label: 'Statistics', icon: Statistics, activeIcon: Statistics, id: 'statistics' },
   { label: 'Favorites', icon: Favorites, activeIcon: FavoritesActive, id: 'favorites' },
   { label: 'Log Out', icon: Logout, activeIcon: Logout, id: 'logout' }
 ];
-
-//types
-export type Option = {
-  id: string;
-  label: string;
-  icon: ElementType;
-  activeIcon: ElementType;
-};

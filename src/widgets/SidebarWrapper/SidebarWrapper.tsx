@@ -1,22 +1,23 @@
 'use client';
 
 import { setAppError } from '@/app/appSlice';
-import { useAppDispatch } from '@/app/providers/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
 import AddPost from '@/src/features/add-post/AddPost';
 import { useLogoutMutation } from '@/src/features/auth/api';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { ROUTES } from '@/src/shared/config/routes';
-import Card from '@/src/shared/ui/Card/Card';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
+import { OptionId } from '@/src/shared/ui/Sidebar/data';
 import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
+import { setActiveButton } from '@/src/widgets/SidebarWrapper/store';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export const SidebarWrapper = () => {
-  const [isOpenAddPost, setIsOpenAddPost] = useState<boolean>(true);
-
   const dispatch = useAppDispatch();
-  const [active, setActive] = useState('my-profile');
+  const activeButton = useAppSelector((state) => state.sidebar.activeButton);
+  const isOpenAddPost = useAppSelector((state) => state.sidebar.isOpenAddPost);
+
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -32,13 +33,13 @@ export const SidebarWrapper = () => {
 
   if (!isAuthenticated) return null;
 
-  const handleValueChange = (value: string) => {
+  const handleValueChange = (value: OptionId) => {
     if (value === 'logout') {
       setConfirmOpen(true);
       return;
     }
-    setActive(value);
-    router.push(`/${value}`);
+    dispatch(setActiveButton(value));
+    // router.push(`/${value}`);
   };
 
   const handleConfirmLogout = async () => {
@@ -53,7 +54,7 @@ export const SidebarWrapper = () => {
 
   return (
     <>
-      <Sidebar value={active} onValueChange={handleValueChange} />
+      <Sidebar value={activeButton} onValueChange={handleValueChange} />
 
       {isOpenAddPost && <AddPost />}
 

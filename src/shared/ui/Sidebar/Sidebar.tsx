@@ -5,6 +5,13 @@ import clsx from 'clsx';
 import styles from './Sidebar.module.scss';
 import { options } from './data';
 
+export type SidebarProps = {
+  value: string;
+  onValueChange: (value: string) => void;
+  isDisabledValue?: string;
+  defaultValue?: string;
+};
+
 const Sidebar = ({ value, onValueChange, defaultValue, isDisabledValue }: SidebarProps) => {
   const selectedValue = value || options[0].id;
 
@@ -55,11 +62,3 @@ const Sidebar = ({ value, onValueChange, defaultValue, isDisabledValue }: Sideba
 };
 
 export default Sidebar;
-
-//types
-export type SidebarProps = {
-  value: string;
-  onValueChange: (value: string) => void;
-  isDisabledValue?: string;
-  defaultValue?: string;
-};

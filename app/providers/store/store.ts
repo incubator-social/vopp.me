@@ -1,3 +1,4 @@
+import { sidebarReducer } from '@/src/widgets/SidebarWrapper/store';
 import { configureStore } from '@reduxjs/toolkit';
 import { baseApi } from '@/src/shared/api/baseApi';
 import { appReducer } from '@/app/appSlice';
@@ -6,7 +7,8 @@ export const makeStore = () => {
   return configureStore({
     reducer: {
       [baseApi.reducerPath]: baseApi.reducer,
-      app: appReducer
+      app: appReducer,
+      sidebar: sidebarReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware)
   });
