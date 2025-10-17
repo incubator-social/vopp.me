@@ -1,12 +1,16 @@
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { Mutex } from 'async-mutex';
 import { AUTH_KEYS } from '../config/storage';
-import { UpdateTokensResponse } from '@/src/features/auth/api';
-import { baseApi } from './baseApi';
 import { baseQuery } from './baseQuery';
-import { handleError } from '../lib/utils/handleError';
+import { handleError } from '@/src/shared/lib/utils/handleError';
+import { baseApi } from '@/src/shared/api/baseApi';
 
 const mutex = new Mutex();
+
+type UpdateTokensResponse = {
+  accessToken: string;
+  refreshToken?: string;
+};
 
 export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,
@@ -37,8 +41,8 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
 
             if (accessToken) {
               localStorage.setItem(AUTH_KEYS.accessToken, accessToken);
+              window.dispatchEvent(new Event('auth-changed'));
             }
-
             result = await baseQuery(args, api, extraOptions);
           } else {
             localStorage.removeItem(AUTH_KEYS.accessToken);
