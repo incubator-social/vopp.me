@@ -10,8 +10,7 @@ export const userApi = baseApi.injectEndpoints({
       query: () => ({
         url: 'public-user',
         method: 'GET'
-      }),
-      providesTags: ['User']
+      })
     })
   })
 });

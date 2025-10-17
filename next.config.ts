@@ -2,6 +2,14 @@ import type { NextConfig } from 'next';
 import type { RuleSetRule } from 'webpack';
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'staging-it-incubator.s3.eu-central-1.amazonaws.com'
+      }
+    ]
+  },
   webpack(config) {
     const fileLoaderRule = config.module.rules.find(
       (rule: RuleSetRule | string): rule is RuleSetRule =>
