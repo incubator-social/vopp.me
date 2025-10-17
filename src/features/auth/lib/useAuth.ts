@@ -27,8 +27,9 @@ export function useAuth() {
     hasToken,
     isChecking,
     isAuth,
-    uiReady: uiReady,
+    uiReady,
     isSuccess,
-    isError
+    isError,
+    isFetching
   };
 }

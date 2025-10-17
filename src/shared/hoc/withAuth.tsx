@@ -11,14 +11,13 @@ export function withAuth<P extends object>(Wrapped: React.ComponentType<P>, opts
   const { requireAuth = false, redirectTo = ROUTES.AUTH.SIGN_IN } = opts;
 
   return function Guard(props: P) {
-    const { isAuth, isFetching } = useAuth();
+    const { isAuth, uiReady, isFetching } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
-    const mounted = useMounted();
     const onAuthSection = pathname.startsWith('/auth');
 
     useEffect(() => {
-      if (isFetching || !mounted) return;
+      if (!uiReady) return;
 
       if (requireAuth && !isAuth) {
         router.replace(redirectTo);
@@ -28,9 +27,9 @@ export function withAuth<P extends object>(Wrapped: React.ComponentType<P>, opts
       if (!requireAuth && isAuth && onAuthSection) {
         router.replace(ROUTES.HOME);
       }
-    }, [isAuth, isFetching, mounted, onAuthSection, router]);
+    }, [isAuth, uiReady, onAuthSection, router]);
 
-    if (!mounted && onAuthSection) return null;
+    if (!uiReady && onAuthSection) return null;
     if (isFetching) return null;
     if (requireAuth && !isAuth) return null;
     if (!requireAuth && isAuth && onAuthSection) return null;
