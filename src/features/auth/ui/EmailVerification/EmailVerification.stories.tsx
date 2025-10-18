@@ -1,3 +1,4 @@
+import StoreProvider from '@/app/providers/store/StoreProvider';
 import type { Meta } from '@storybook/nextjs';
 import { EmailVerification } from '@/src/features/auth/ui/EmailVerification/EmailVerification';
 
@@ -12,7 +13,11 @@ const meta: Meta<typeof EmailVerification> = {
 export default meta;
 
 export const Default = () => {
-  return <EmailVerification />;
+  return (
+    <StoreProvider>
+      <EmailVerification />;
+    </StoreProvider>
+  );
 };
 
 Default.parameters = {
@@ -24,7 +29,11 @@ Default.parameters = {
 };
 
 export const WithoutInput = () => {
-  return <EmailVerification emailStatus={'expired_without_input'} />;
+  return (
+    <StoreProvider>
+      <EmailVerification emailStatus={'expired_without_input'} />;
+    </StoreProvider>
+  );
 };
 
 WithoutInput.parameters = {
@@ -36,7 +45,11 @@ WithoutInput.parameters = {
 };
 
 export const WithInput = () => {
-  return <EmailVerification emailStatus={'expired_with_input'} />;
+  return (
+    <StoreProvider>
+      <EmailVerification emailStatus={'expired_with_input'} />;
+    </StoreProvider>
+  );
 };
 
 WithInput.parameters = {
@@ -48,7 +61,11 @@ WithInput.parameters = {
 };
 
 export const Success = () => {
-  return <EmailVerification emailStatus={'success'} />;
+  return (
+    <StoreProvider>
+      <EmailVerification emailStatus={'success'} />;
+    </StoreProvider>
+  );
 };
 
 Success.parameters = {

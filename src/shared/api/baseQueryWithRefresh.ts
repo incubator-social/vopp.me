@@ -24,13 +24,21 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
       return result;
     }
     const isUpdatingTokens =
-      typeof args !== 'string' && typeof args?.url === 'string' && args.url.includes('auth/update-tokens');
+      typeof args !== 'string' &&
+      typeof args?.url === 'string' &&
+      (args.url.includes('auth/update-tokens') || args.url.includes('auth/github/update-tokens'));
 
     if (!isUpdatingTokens) {
       if (!mutex.isLocked()) {
         const release = await mutex.acquire();
         try {
-          const refreshResult = await baseQuery({ url: 'auth/update-tokens', method: 'POST' }, api, extraOptions);
+          let refreshResult;
+
+          if (typeof args !== 'string' && args?.url.includes('github')) {
+            refreshResult = await baseQuery({ url: 'auth/github/update-tokens', method: 'POST' }, api, extraOptions);
+          } else {
+            refreshResult = await baseQuery({ url: 'auth/update-tokens', method: 'POST' }, api, extraOptions);
+          }
 
           if (refreshResult.data) {
             const { accessToken } = refreshResult.data as UpdateTokensResponse;

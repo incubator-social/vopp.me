@@ -1,7 +1,15 @@
-import { handleResponse } from '@/src/features/auth/api/utils';
+import { handleSignUpResponse } from '@/src/features/auth/api/utils';
 import { baseApi } from '@/src/shared/api/baseApi';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
-import { LoginBody, LoginResponse, SignUpRequest, SignUpResponse, MeResponse } from './types';
+import {
+  LoginBody,
+  LoginResponse,
+  SignUpRequest,
+  SignUpResponse,
+  MeResponse,
+  GoogleOAuthResponse,
+  GoogleOAuthRequest
+} from './types';
 import {
   CheckRecoveryCodeRequest,
   CheckRecoveryCodeResponse,
@@ -24,7 +32,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { ...userData, baseUrl: ROUTES.AUTH.CONFIRM_CODE }
       }),
-      transformResponse: handleResponse
+      transformResponse: handleSignUpResponse
     }),
     confirmRegistration: build.mutation({
       query: (confirmationCode: string) => ({
@@ -32,7 +40,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { confirmationCode }
       }),
-      transformResponse: handleResponse
+      transformResponse: handleSignUpResponse
     }),
     resendVerificationEmail: build.mutation({
       query: (email: string) => ({
@@ -40,7 +48,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { email, baseUrl: ROUTES.AUTH.CONFIRM_CODE }
       }),
-      transformResponse: handleResponse
+      transformResponse: handleSignUpResponse
     }),
     login: build.mutation<LoginResponse, LoginBody>({
       query: (body: LoginBody) => ({
@@ -53,6 +61,30 @@ export const authApi = baseApi.injectEndpoints({
           const { data } = await queryFulfilled;
           if (typeof window !== 'undefined') {
             localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
+          }
+        } catch {}
+      },
+      invalidatesTags: ['Auth']
+    }),
+    googleOAuthLogin: build.mutation<GoogleOAuthResponse, GoogleOAuthRequest>({
+      query: ({ code }) => ({
+        method: 'POST',
+        url: 'auth/google/login',
+        body: { redirectUrl: `${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}`, code }
+      }),
+      transformResponse: (
+        response: GoogleOAuthResponse,
+        meta: {
+          response: { status: number | string | undefined };
+        }
+      ) => {
+        return { accessToken: response?.accessToken, email: response?.email, status: meta?.response.status };
+      },
+      onQueryStarted: async (_arg, { queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          if (typeof window !== 'undefined' && data?.accessToken) {
+            localStorage.setItem(AUTH_KEYS.accessToken, data?.accessToken);
           }
         } catch {}
       },
@@ -115,5 +147,6 @@ export const {
   useGetMeQuery,
   useForgotPasswordMutation,
   useCreateNewPasswordMutation,
-  useCheckRecoveryCodeMutation
+  useCheckRecoveryCodeMutation,
+  useGoogleOAuthLoginMutation
 } = authApi;
