@@ -1,5 +1,5 @@
 import { BaseQueryApi, FetchBaseQueryError, FetchBaseQueryMeta, QueryReturnValue } from '@reduxjs/toolkit/query';
-import { setAppError } from '@/app/appSlice';
+import { setAppError } from '@/app/store/appSlice';
 import { isErrorWithMessage } from './isErrorWithMessage';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 

@@ -87,7 +87,8 @@ export const authApi = baseApi.injectEndpoints({
             localStorage.setItem(AUTH_KEYS.accessToken, data?.accessToken);
           }
         } catch {}
-      }
+      },
+      invalidatesTags: ['Auth']
     }),
     logout: build.mutation<void, void>({
       query: () => ({

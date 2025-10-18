@@ -59,7 +59,7 @@ export function SignInForm() {
 
   return (
     <Card className={styles.container}>
-      <h1>Sign In</h1>
+      <h1 className={styles.h1}>Sign In</h1>
       <OAuthButtons />
       <form
         className={clsx(styles.form, shake && styles.shake)}
