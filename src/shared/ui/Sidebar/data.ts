@@ -17,7 +17,7 @@ import FavoritesActive from '../../assets/icons/bookmark.svg';
 export const options: Option[] = [
   { label: 'Feed', icon: Home, activeIcon: HomeActive, id: 'feed' },
   { label: 'Create', icon: Plus, activeIcon: PlusActive, id: 'create' },
-  { label: 'My Profile', icon: Person, activeIcon: PersonActive, id: 'my-profile' },
+  { label: 'My Profile', icon: Person, activeIcon: PersonActive, id: 'profile' },
   { label: 'Messenger', icon: Message, activeIcon: MessageActive, id: 'messenger' },
   { label: 'Search', icon: Search, activeIcon: Search, id: 'search' },
   { label: 'Statistics', icon: Statistics, activeIcon: Statistics, id: 'statistics' },
