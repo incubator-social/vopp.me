@@ -16,7 +16,9 @@ const GetTokenGithubOAuth = () => {
     if (token && typeof window !== 'undefined') {
       localStorage.setItem(AUTH_KEYS.accessToken, token);
       router.replace(ROUTES.HOME);
-    } else {
+    }
+
+    if (!token) {
       dispatch(setAppError({ type: 'error', message: 'Error during authentication via GitHub' }));
       router.replace(ROUTES.AUTH.SIGN_UP);
     }
