@@ -1,15 +1,25 @@
 import Image from 'next/image';
 import styles from './PostCard.module.scss';
+import { Post } from '../model/posts.schemas';
+import { formatRelativeTime } from '@/src/shared/lib/utils/formatRelativeTime';
 
-export const PostCard = ({ post }) => {
-  const createdAt = new Date(post.createdAt);
-  //const timeAgo = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+type Props = {
+  post: Post;
+};
 
-  const diffMinutes = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60));
+export const PostCard = ({ post }: Props) => {
+  const initial = post.userName?.[0]?.toUpperCase() ?? '?';
+
+  let visibleText = post.description ? post.description : '';
+
+  let isLong = false;
+  if (post.description && post.description.length > 80) {
+    visibleText = post.description.slice(0, 80) + '...';
+    isLong = true;
+  }
 
   return (
     <div className={styles.card}>
-      {/* Фото поста */}
       {post.images.length > 0 && (
         <div className={styles.imageWrapper}>
           <Image
@@ -22,25 +32,31 @@ export const PostCard = ({ post }) => {
         </div>
       )}
 
-      {/* Информация о пользователе */}
       <div className={styles.userInfo}>
-        {post.avatarOwner && (
+        {post.avatarOwner ? (
           <Image src={post.avatarOwner} alt={post.userName} width={36} height={36} className={styles.avatar} />
+        ) : (
+          <div className={styles.avatarFallback}>{initial}</div>
         )}
         <div>
           <p className={styles.userName}>{post.userName}</p>
-          <p className={styles.time}>
-            {diffMinutes < 60 ? `${diffMinutes} min ago` : `${Math.floor(diffMinutes / 60)} h ago`}
-          </p>
         </div>
       </div>
 
-      {/* Описание поста */}
-      <p className={styles.description}>
-        {post.description?.length && post.description.length > 50
-          ? post.description.slice(0, 50) + '... Show more'
-          : post.description}
-      </p>
+      <div>
+        <p className={styles.time}>{formatRelativeTime(post.createdAt)}</p>
+      </div>
+
+      <div>
+        <p className={styles.description}>
+          {visibleText}
+          {isLong && (
+            <button type="button" className={styles.showMore} onClick={() => {}}>
+              Show more
+            </button>
+          )}
+        </p>
+      </div>
     </div>
   );
 };

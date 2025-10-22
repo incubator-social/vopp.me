@@ -18,10 +18,10 @@ export const HomePublicPosts = ({ initialPosts }: Props) => {
     sortBy: 'createdAt',
     sortDirection: 'desc' as const
   };
-  // проверяем кэш
+  // проверяем кэш, достаем его из стора
   const dataFromCache = useAppSelector((state) => postsApi.endpoints.getPublicPosts.select(defaultArgs)(state).data);
 
-  // ref нужен, чтобы гидрировать только один раз
+  // ref нужен, чтобы гидрировать только один раз, дальше будем скипать
   const needHydrateStateRef = useRef(!!initialPosts.items && !dataFromCache?.items);
 
   const {

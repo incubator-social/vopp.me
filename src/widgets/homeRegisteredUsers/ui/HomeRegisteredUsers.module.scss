@@ -6,6 +6,9 @@
   background: #171717;
   border-radius: 2px;
   padding: 12px 24px;
-  width: 972px;
+  width: 100%;
+  max-width: 972px;
   height: 72px;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
