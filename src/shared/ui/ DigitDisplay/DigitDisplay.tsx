@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import styles from './ DigitDisplay.module.scss';
+import styles from './DigitDisplay.module.scss';
 
 type Props = {
   usersCount: number;

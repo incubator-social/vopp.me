@@ -1,43 +1,35 @@
-import Image from 'next/image';
-import styles from './PostCard.module.scss';
-import { Post } from '../model/posts.schemas';
+import styles from './HomePostCard.module.scss';
+import { Post } from '../../../entities/post/model/posts.schemas';
 import { formatRelativeTime } from '@/src/shared/lib/utils/formatRelativeTime';
 import { Carousel } from '@/src/shared/ui/Carousel/Carousel';
 import { useState } from 'react';
+import clsx from 'clsx';
+import { Avatar } from '@/src/shared/ui/Avatar/Avatar';
 
 type Props = {
   post: Post;
 };
 
-export const PostCard = ({ post }: Props) => {
-  const [expanded, setExpanded] = useState(false); // 👈 состояние для Show more
-  const initial = post.userName?.[0]?.toUpperCase() ?? '?';
+export const HomePostCard = ({ post }: Props) => {
+  const [expanded, setExpanded] = useState(false);
 
   const toggleExpand = () => setExpanded((prev) => !prev);
 
-  // если expanded=false — показываем только кусок
   const description =
     !expanded && post.description && post.description.length > 80
       ? post.description.slice(0, 80) + '...'
       : post.description;
 
   return (
-    <div className={styles.card}>
+    <div className={clsx(styles.card, expanded && styles.cardExpanded)}>
       {post.images.length > 0 && (
-        <div
-          className={styles.imageWrapper}
-          style={{ height: expanded ? 120 : 240 }} // 👈 уменьшаем картинку при expanded
-        >
+        <div className={clsx(styles.imageWrapper, expanded && styles.imageWrapperExpanded)}>
           <Carousel images={post.images} variant="small" />
         </div>
       )}
 
       <div className={styles.userInfo}>
-        {post.avatarOwner ? (
-          <Image src={post.avatarOwner} alt={post.userName} width={36} height={36} className={styles.avatar} />
-        ) : (
-          <div className={styles.avatarFallback}>{initial}</div>
-        )}
+        <Avatar src={post.avatarOwner} name={post.userName} size={36} />
         <div>
           <p className={styles.userName}>{post.userName}</p>
         </div>

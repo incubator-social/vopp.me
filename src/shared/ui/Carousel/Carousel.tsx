@@ -1,13 +1,15 @@
 'use client';
 
 import useEmblaCarousel from 'embla-carousel-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './Carousel.module.scss';
 import { carouselVariants, CarouselVariant } from './variants';
 import type { EmblaOptionsType } from 'embla-carousel';
 import ArrowBackOutline from './../../assets/icons/arrow-ios-back-outline.svg';
 import ArrowForwardOutline from './../../assets/icons/arrow-ios-forward-outline.svg';
 import { getDotTargetIndex, getDotsCount } from './carouselDots';
+import Image from 'next/image';
+import clsx from 'clsx';
 
 type CarouselImage = {
   url: string;
@@ -29,15 +31,19 @@ export const Carousel = ({ images, variant = 'small', options }: Props) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, ...options });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi]);
+  const scrollPrev = () => emblaApi?.scrollPrev();
+  const scrollNext = () => emblaApi?.scrollNext();
+  const scrollTo = (index: number) => emblaApi?.scrollTo(index);
 
   useEffect(() => {
     if (!emblaApi) return;
     const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
     emblaApi.on('select', onSelect);
     onSelect();
+
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
   }, [emblaApi]);
 
   return (
@@ -46,22 +52,18 @@ export const Carousel = ({ images, variant = 'small', options }: Props) => {
       <div className={styles.viewport} ref={emblaRef}>
         <div className={styles.container}>
           {images.map((image, idx) => (
-            <div
-              className={styles.slide}
-              key={image.uploadId ?? idx}
-              style={{ width: config.image.w, height: config.image.h }}
-            >
-              <img src={image.url} alt={`slide-${idx}`} className={styles.image} />
+            <div className={styles.slide} key={image.uploadId ?? idx}>
+              <Image src={image.url} alt={`slide-${idx}`} fill className={styles.image} />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Arrows — только если больше одной картинки */}
+      {/* Arrows */}
       {images.length > 1 && (
         <>
           <button
-            className={`${styles.arrow} ${styles.prev}`}
+            className={clsx(styles.arrow, styles.prev)}
             style={{ width: config.arrow.w, height: config.arrow.h }}
             onClick={scrollPrev}
             aria-label="Previous slide"
@@ -69,7 +71,7 @@ export const Carousel = ({ images, variant = 'small', options }: Props) => {
             <ArrowBackOutline width={config.arrow.w} height={config.arrow.h} />
           </button>
           <button
-            className={`${styles.arrow} ${styles.next}`}
+            className={clsx(styles.arrow, styles.next)}
             style={{ width: config.arrow.w, height: config.arrow.h }}
             onClick={scrollNext}
             aria-label="Next slide"
@@ -78,15 +80,18 @@ export const Carousel = ({ images, variant = 'small', options }: Props) => {
           </button>
         </>
       )}
+
+      {/* Dots */}
       {images.length > 1 && (
         <div className={styles.dots} style={{ width: config.dots.w, height: config.dots.h }}>
           {Array.from({ length: getDotsCount(images.length) }).map((_, idx) => {
             const targetIndex = getDotTargetIndex(selectedIndex, images.length, idx);
+            const isActive = idx === selectedIndex % getDotsCount(images.length);
 
             return (
               <button
                 key={idx}
-                className={`${styles.dot} ${idx === selectedIndex % getDotsCount(images.length) ? styles.activeDot : ''}`}
+                className={clsx(styles.dot, isActive && styles.activeDot)}
                 style={{ width: config.dots.dot, height: config.dots.dot }}
                 onClick={() => scrollTo(targetIndex)}
                 aria-label={`Go to slide ${idx + 1}`}

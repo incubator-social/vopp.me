@@ -1,1 +1,1 @@
-export { DigitDisplay } from './ DigitDisplay';
+export { DigitDisplay } from './DigitDisplay';

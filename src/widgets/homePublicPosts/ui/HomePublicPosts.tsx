@@ -2,7 +2,7 @@
 import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
 import { postsApi, useGetPublicPostsQuery } from '@/src/entities/post/api/postsApi';
 import { PostsResponse } from '@/src/entities/post/model/posts.schemas';
-import { PostCard } from '@/src/entities/post/ui/PostСard';
+import { HomePostCard } from '@/src/widgets/HomePostCard/ui/HomePostCard';
 import { useEffect, useRef } from 'react';
 import styles from './HomePublicPosts.module.scss';
 
@@ -48,14 +48,12 @@ export const HomePublicPosts = ({ initialPosts }: Props) => {
   if (isFetching && !dataForRender) return <div>Загрузка...</div>;
   if (error) return <div>Ошибка загрузки</div>;
 
-  //  const images = ['/images/1.jpg', '/images/2.jpg', '/images/3.jpg', '/images/4.jpg', '/images/5.jpg'];
-
   return (
     <div>
       <ul className={styles.container}>
         {dataForRender.map((post) => (
           <li key={post.id}>
-            <PostCard post={post} />
+            <HomePostCard post={post} />
           </li>
         ))}
       </ul>
