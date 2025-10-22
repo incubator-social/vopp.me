@@ -2,33 +2,33 @@ import Image from 'next/image';
 import styles from './PostCard.module.scss';
 import { Post } from '../model/posts.schemas';
 import { formatRelativeTime } from '@/src/shared/lib/utils/formatRelativeTime';
+import { Carousel } from '@/src/shared/ui/Carousel/Carousel';
+import { useState } from 'react';
 
 type Props = {
   post: Post;
 };
 
 export const PostCard = ({ post }: Props) => {
+  const [expanded, setExpanded] = useState(false); // 👈 состояние для Show more
   const initial = post.userName?.[0]?.toUpperCase() ?? '?';
 
-  let visibleText = post.description ? post.description : '';
+  const toggleExpand = () => setExpanded((prev) => !prev);
 
-  let isLong = false;
-  if (post.description && post.description.length > 80) {
-    visibleText = post.description.slice(0, 80) + '...';
-    isLong = true;
-  }
+  // если expanded=false — показываем только кусок
+  const description =
+    !expanded && post.description && post.description.length > 80
+      ? post.description.slice(0, 80) + '...'
+      : post.description;
 
   return (
     <div className={styles.card}>
       {post.images.length > 0 && (
-        <div className={styles.imageWrapper}>
-          <Image
-            src={post.images[0].url}
-            alt={post.description ?? 'post'}
-            width={234}
-            height={240}
-            className={styles.postImage}
-          />
+        <div
+          className={styles.imageWrapper}
+          style={{ height: expanded ? 120 : 240 }} // 👈 уменьшаем картинку при expanded
+        >
+          <Carousel images={post.images} variant="small" />
         </div>
       )}
 
@@ -49,10 +49,10 @@ export const PostCard = ({ post }: Props) => {
 
       <div>
         <p className={styles.description}>
-          {visibleText}
-          {isLong && (
-            <button type="button" className={styles.showMore} onClick={() => {}}>
-              Show more
+          {description}
+          {post.description && post.description.length > 80 && (
+            <button type="button" className={styles.showMore} onClick={toggleExpand}>
+              {expanded ? 'Hide' : 'Show more'}
             </button>
           )}
         </p>
