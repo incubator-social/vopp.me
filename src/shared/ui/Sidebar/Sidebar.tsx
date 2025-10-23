@@ -3,11 +3,11 @@
 import * as Nav from '@radix-ui/react-navigation-menu';
 import clsx from 'clsx';
 import styles from './Sidebar.module.scss';
-import { options } from './data';
+import { OptionId, options } from './data';
 
 export type SidebarProps = {
   value: string;
-  onValueChange: (value: string) => void;
+  onValueChange: (value: OptionId) => void;
   isDisabledValue?: string;
   defaultValue?: string;
 };
@@ -17,7 +17,7 @@ const Sidebar = ({ value, onValueChange, defaultValue, isDisabledValue }: Sideba
 
   const handleChangeValue = (newValue: string) => {
     if (newValue !== isDisabledValue) {
-      onValueChange(newValue);
+      onValueChange(newValue as OptionId);
     }
   };
 

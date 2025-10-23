@@ -4,11 +4,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 type SidebarState = {
   activeButton: OptionId;
   isOpenAddPost: boolean;
+  image: null | string;
 };
 
 const initialState: SidebarState = {
   activeButton: OptionId.Feed,
-  isOpenAddPost: false
+  isOpenAddPost: false,
+  image: null
 };
 
 const sidebarSlice = createSlice({

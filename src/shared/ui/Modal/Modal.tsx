@@ -32,7 +32,6 @@ export const Modal = (props: ModalProps) => {
     title,
     children,
     headerContent,
-    containerClassName,
     contentClassName,
     closeButtonPosition = 'inside',
     bodyClassName,
@@ -43,7 +42,7 @@ export const Modal = (props: ModalProps) => {
   } = props;
 
   return (
-    <div {...restProps} className={containerClassName}>
+    <div {...restProps}>
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
         <Dialog.Portal>

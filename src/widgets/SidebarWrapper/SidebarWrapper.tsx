@@ -9,7 +9,7 @@ import { ROUTES } from '@/src/shared/config/routes';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
 import { OptionId } from '@/src/shared/ui/Sidebar/data';
 import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
-import { setActiveButton } from '@/src/widgets/SidebarWrapper/store';
+import { openAddPost, setActiveButton } from '@/src/widgets/SidebarWrapper/store';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -34,12 +34,18 @@ export const SidebarWrapper = () => {
   if (!isAuthenticated) return null;
 
   const handleValueChange = (value: OptionId) => {
-    if (value === 'logout') {
+    dispatch(setActiveButton(value));
+    if (value === OptionId.Logout) {
       setConfirmOpen(true);
       return;
     }
-    dispatch(setActiveButton(value));
-    // router.push(`/${value}`);
+    if (value === OptionId.MyProfile) {
+      router.push(`/${value}`);
+    }
+    // открыть AddPost на любой странице без перехода
+    if (value === OptionId.Create) {
+      dispatch(openAddPost());
+    }
   };
 
   const handleConfirmLogout = async () => {

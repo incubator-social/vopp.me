@@ -33,12 +33,12 @@ export const enum OptionId {
 }
 
 export const options: Option[] = [
-  { label: 'Feed', icon: Home, activeIcon: HomeActive, id: 'feed' },
-  { label: 'Create', icon: Plus, activeIcon: PlusActive, id: 'create' },
-  { label: 'My Profile', icon: Person, activeIcon: PersonActive, id: 'profile' },
-  { label: 'Messenger', icon: Message, activeIcon: MessageActive, id: 'messenger' },
-  { label: 'Search', icon: Search, activeIcon: Search, id: 'search' },
-  { label: 'Statistics', icon: Statistics, activeIcon: Statistics, id: 'statistics' },
-  { label: 'Favorites', icon: Favorites, activeIcon: FavoritesActive, id: 'favorites' },
-  { label: 'Log Out', icon: Logout, activeIcon: Logout, id: 'logout' }
+  { label: 'Feed', icon: Home, activeIcon: HomeActive, id: OptionId.Feed },
+  { label: 'Create', icon: Plus, activeIcon: PlusActive, id: OptionId.Create },
+  { label: 'My Profile', icon: Person, activeIcon: PersonActive, id: OptionId.MyProfile },
+  { label: 'Messenger', icon: Message, activeIcon: MessageActive, id: OptionId.Messenger },
+  { label: 'Search', icon: Search, activeIcon: Search, id: OptionId.Search },
+  { label: 'Statistics', icon: Statistics, activeIcon: Statistics, id: OptionId.Statistics },
+  { label: 'Favorites', icon: Favorites, activeIcon: FavoritesActive, id: OptionId.Favorites },
+  { label: 'Log Out', icon: Logout, activeIcon: Logout, id: OptionId.Logout }
 ];
