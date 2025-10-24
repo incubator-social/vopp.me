@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 import styles from '@/src/shared/ui/Alerts/alert.module.scss';
 import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
 import { Alert } from '@/src/shared/ui/Alerts/Alert';
-import { clearAppError, selectAppError } from '@/app/appSlice';
+import { clearAppError, selectAppError } from '@/app/store/appSlice';
 
 import { confirmLinkErrorMessage } from '@/src/features/auth/ui/ConfirmCode/utils/handleConfirmLinkError';
 

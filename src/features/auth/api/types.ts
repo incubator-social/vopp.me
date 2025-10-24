@@ -28,3 +28,14 @@ export type MeResponse = {
 export type UpdateTokensResponse = {
   accessToken: string;
 };
+
+export type GoogleOAuthResponse = {
+  accessToken: string | undefined;
+  email: string | undefined;
+  status: string | number | undefined;
+};
+
+export type GoogleOAuthRequest = {
+  redirectUrl?: string;
+  code: string;
+};
