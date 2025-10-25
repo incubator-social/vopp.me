@@ -12,6 +12,8 @@ import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
 import { openAddPost, setActiveButton } from '@/src/widgets/SidebarWrapper/store';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useAuth } from '@/src/features/auth/lib/useAuth';
+import styles from './SidebarWrapper.module.scss';
 
 export const SidebarWrapper = () => {
   const dispatch = useAppDispatch();
@@ -22,16 +24,9 @@ export const SidebarWrapper = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [logout] = useLogoutMutation();
+  const { user, isAuth, uiReady } = useAuth();
 
-  const { user, isLoading, isAuthenticated } = useAuth();
-
-  if (pathname.startsWith('/auth')) {
-    return null;
-  }
-
-  if (isLoading) return null; // нужно сделать скелетон, но это не входит в мою задачу
-
-  if (!isAuthenticated) return null;
+  if (!uiReady) return <div className={styles.skeleton}></div>;
 
   const handleValueChange = (value: OptionId) => {
     dispatch(setActiveButton(value));
@@ -63,11 +58,12 @@ export const SidebarWrapper = () => {
       <Sidebar value={activeButton} onValueChange={handleValueChange} />
 
       {isOpenAddPost && <AddPost />}
+      {uiReady && isAuth && <Sidebar value={active} onValueChange={handleValueChange} />}
 
       <ConfirmModal
         open={confirmOpen}
         title="Log Out"
-        message={`Are you really want to log out of your account "${user?.email}"?`}
+        message={`Are you really want to log out of your account ${user?.email}?`}
         confirmText="Yes"
         cancelText="No"
         onConfirm={handleConfirmLogout}

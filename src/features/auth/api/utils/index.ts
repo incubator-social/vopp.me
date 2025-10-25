@@ -1,1 +1,1 @@
-export { handleResponse } from './handleResponse';
+export { handleSignUpResponse } from './handleSignUpResponse';

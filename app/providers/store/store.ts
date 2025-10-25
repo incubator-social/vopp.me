@@ -1,7 +1,7 @@
 import { sidebarReducer } from '@/src/widgets/SidebarWrapper/store';
 import { configureStore } from '@reduxjs/toolkit';
 import { baseApi } from '@/src/shared/api/baseApi';
-import { appReducer } from '@/app/appSlice';
+import { appReducer } from '@/app/store/appSlice';
 
 export const makeStore = () => {
   return configureStore({

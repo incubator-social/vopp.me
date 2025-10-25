@@ -1,12 +1,16 @@
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { Mutex } from 'async-mutex';
 import { AUTH_KEYS } from '../config/storage';
-import { UpdateTokensResponse } from '@/src/features/auth/api';
-import { baseApi } from './baseApi';
 import { baseQuery } from './baseQuery';
-import { handleError } from '../lib/utils/handleError';
+import { handleError } from '@/src/shared/lib/utils/handleError';
+import { baseApi } from '@/src/shared/api/baseApi';
 
 const mutex = new Mutex();
+
+type UpdateTokensResponse = {
+  accessToken: string;
+  refreshToken?: string;
+};
 
 export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,
@@ -24,21 +28,29 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
       return result;
     }
     const isUpdatingTokens =
-      typeof args !== 'string' && typeof args?.url === 'string' && args.url.includes('auth/update-tokens');
+      typeof args !== 'string' &&
+      typeof args?.url === 'string' &&
+      (args.url.includes('auth/update-tokens') || args.url.includes('auth/github/update-tokens'));
 
     if (!isUpdatingTokens) {
       if (!mutex.isLocked()) {
         const release = await mutex.acquire();
         try {
-          const refreshResult = await baseQuery({ url: 'auth/update-tokens', method: 'POST' }, api, extraOptions);
+          let refreshResult;
+
+          if (typeof args !== 'string' && args?.url.includes('github')) {
+            refreshResult = await baseQuery({ url: 'auth/github/update-tokens', method: 'POST' }, api, extraOptions);
+          } else {
+            refreshResult = await baseQuery({ url: 'auth/update-tokens', method: 'POST' }, api, extraOptions);
+          }
 
           if (refreshResult.data) {
             const { accessToken } = refreshResult.data as UpdateTokensResponse;
 
             if (accessToken) {
               localStorage.setItem(AUTH_KEYS.accessToken, accessToken);
+              window.dispatchEvent(new Event('auth-changed'));
             }
-
             result = await baseQuery(args, api, extraOptions);
           } else {
             localStorage.removeItem(AUTH_KEYS.accessToken);
