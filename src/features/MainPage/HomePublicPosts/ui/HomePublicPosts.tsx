@@ -2,7 +2,7 @@
 import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
 import { postsApi, useGetPublicPostsQuery } from '@/src/entities/post/api/postsApi';
 import { PostsResponse } from '@/src/entities/post/model/posts.schemas';
-import { HomePostCard } from '@/src/widgets/HomePostCard/ui/HomePostCard';
+import { HomePostCard } from '@/src/features/MainPage/HomePostCard/ui/HomePostCard';
 import { useEffect, useRef } from 'react';
 import styles from './HomePublicPosts.module.scss';
 

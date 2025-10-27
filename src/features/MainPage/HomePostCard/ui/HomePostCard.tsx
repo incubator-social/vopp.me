@@ -1,5 +1,5 @@
 import styles from './HomePostCard.module.scss';
-import { Post } from '../../../entities/post/model/posts.schemas';
+import { Post } from '../../../../entities/post/model/posts.schemas';
 import { formatRelativeTime } from '@/src/shared/lib/utils/formatRelativeTime';
 import { Carousel } from '@/src/shared/ui/Carousel/Carousel';
 import { useState } from 'react';

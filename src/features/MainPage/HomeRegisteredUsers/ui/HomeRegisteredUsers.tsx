@@ -1,4 +1,4 @@
-import { DigitDisplay } from '@/src/shared/ui/ DigitDisplay';
+import { DigitDisplay } from '@/src/shared/ui/DigitDisplay';
 import styles from './HomeRegisteredUsers.module.scss';
 
 type Props = {

@@ -3,11 +3,11 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import { useEffect, useState } from 'react';
 import styles from './Carousel.module.scss';
-import { carouselVariants, CarouselVariant } from './variants';
+import { carouselVariants, CarouselVariant } from './constants/variants';
 import type { EmblaOptionsType } from 'embla-carousel';
 import ArrowBackOutline from './../../assets/icons/arrow-ios-back-outline.svg';
 import ArrowForwardOutline from './../../assets/icons/arrow-ios-forward-outline.svg';
-import { getDotTargetIndex, getDotsCount } from './carouselDots';
+import { getDotTargetIndex, getDotsCount } from './helpers/carouselDots';
 import Image from 'next/image';
 import clsx from 'clsx';
 
@@ -53,7 +53,15 @@ export const Carousel = ({ images, variant = 'small', options }: Props) => {
         <div className={styles.container}>
           {images.map((image, idx) => (
             <div className={styles.slide} key={image.uploadId ?? idx}>
-              <Image src={image.url} alt={`slide-${idx}`} fill className={styles.image} />
+              <Image
+                src={image.url}
+                alt={`slide-${idx}`}
+                fill
+                sizes={`(max-width: 600px) 100vw, ${config.image.w}px`}
+                priority={idx === 0}
+                className={styles.image}
+                onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
+              />
             </div>
           ))}
         </div>
