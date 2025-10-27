@@ -1,0 +1,42 @@
+.container {
+  padding: 20px;
+  max-width: 935px;
+  margin: 0 auto;
+}
+
+.profileHeader {
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.username {
+  font-size: 28px;
+  font-weight: 300;
+  margin-bottom: 12px;
+}
+
+.stats {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 16px;
+}
+
+.stat {
+  font-size: 16px;
+}
+
+.profileButton {
+  background: #0095f6;
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bio {
+  font-size: 16px;
+  line-height: 1.5;
+}
