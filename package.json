@@ -80,7 +80,7 @@
     "eslint-plugin-storybook": "9.1.2",
     "husky": "9.1.7",
     "kill-port": "^2.0.1",
-    "playwright": "1.54.2",
+    "playwright": "^1.56.1",
     "prettier": "3.6.2",
     "sass": "1.90.0",
     "storybook": "9.1.3",

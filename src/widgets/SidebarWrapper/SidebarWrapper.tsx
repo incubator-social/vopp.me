@@ -1,7 +1,7 @@
 'use client';
 
-import { setAppError } from '@/app/appSlice';
 import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
+import { setAppError } from '@/app/store';
 import AddPost from '@/src/features/add-post/AddPost';
 import { useLogoutMutation } from '@/src/features/auth/api';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
@@ -9,10 +9,9 @@ import { ROUTES } from '@/src/shared/config/routes';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
 import { OptionId } from '@/src/shared/ui/Sidebar/data';
 import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
-import { openAddPost, setActiveButton } from '@/src/widgets/SidebarWrapper/store';
-import { usePathname, useRouter } from 'next/navigation';
+import { openAddPost, setActiveButton, setPreviousActiveButton } from '@/src/widgets/SidebarWrapper/store';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useAuth } from '@/src/features/auth/lib/useAuth';
 import styles from './SidebarWrapper.module.scss';
 
 export const SidebarWrapper = () => {
@@ -22,13 +21,16 @@ export const SidebarWrapper = () => {
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
-  const pathname = usePathname();
   const [logout] = useLogoutMutation();
   const { user, isAuth, uiReady } = useAuth();
 
   if (!uiReady) return <div className={styles.skeleton}></div>;
 
   const handleValueChange = (value: OptionId) => {
+    //сохраняем историю активных кнопок, чтобы вернуть прошлую при закрытии AddPost (такой страницы нет)
+    if (value !== OptionId.Create) {
+      dispatch(setPreviousActiveButton(value));
+    }
     dispatch(setActiveButton(value));
     if (value === OptionId.Logout) {
       setConfirmOpen(true);
@@ -55,10 +57,8 @@ export const SidebarWrapper = () => {
 
   return (
     <>
-      <Sidebar value={activeButton} onValueChange={handleValueChange} />
-
       {isOpenAddPost && <AddPost />}
-      {uiReady && isAuth && <Sidebar value={active} onValueChange={handleValueChange} />}
+      {uiReady && isAuth && <Sidebar value={activeButton} onValueChange={handleValueChange} />}
 
       <ConfirmModal
         open={confirmOpen}

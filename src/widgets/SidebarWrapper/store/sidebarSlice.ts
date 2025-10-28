@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type SidebarState = {
   activeButton: OptionId;
+  previousActiveButton: OptionId | null;
   isOpenAddPost: boolean;
   image: null | string;
 };
@@ -20,6 +21,9 @@ const sidebarSlice = createSlice({
     setActiveButton: (state, action: PayloadAction<OptionId>) => {
       state.activeButton = action.payload;
     },
+    setPreviousActiveButton: (state, action: PayloadAction<OptionId>) => {
+      state.previousActiveButton = action.payload;
+    },
     openAddPost: (state) => {
       state.isOpenAddPost = true;
     },
@@ -29,5 +33,5 @@ const sidebarSlice = createSlice({
   }
 });
 
-export const { setActiveButton, openAddPost, closeAddPost } = sidebarSlice.actions;
+export const { setActiveButton, setPreviousActiveButton, openAddPost, closeAddPost } = sidebarSlice.actions;
 export const sidebarReducer = sidebarSlice.reducer;

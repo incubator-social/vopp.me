@@ -1,6 +1,5 @@
 import { baseApi } from '@/src/shared/api/baseApi';
 import { handleSignUpResponse } from '@/src/features/auth/api/utils';
-import { handleResponse } from '@/src/features/auth/api/utils';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
 import {
   LoginBody,
