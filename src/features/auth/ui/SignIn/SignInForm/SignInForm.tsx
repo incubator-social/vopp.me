@@ -1,11 +1,10 @@
 'use client';
 import styles from '@/src/features/auth/ui/SignIn/SignInForm/SignInForm.module.scss';
+import { OAuthButtons } from '@/src/features/auth/ui/OAuthButtons';
 import { ROUTES } from '@/src/shared/config/routes';
 import Card from '@/src/shared/ui/Card/Card';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { Input } from '@/src/shared/ui/Input/Input';
-import GoogleIcon from '@/src/shared/assets/icons/google-svgrepo-com-1.svg';
-import GitHubIcon from '@/src/shared/assets/icons/github-svgrepo-com.svg';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -15,6 +14,7 @@ import { FormValues, signInSchema } from '@/src/features/auth/modal/signInSchema
 import { useRouter } from 'next/navigation';
 import { setFormApiError } from '@/src/shared/lib/auth/setFormApiError';
 import { useState } from 'react';
+import { getUserFromToken } from '@/src/shared/lib/auth';
 
 export function SignInForm() {
   const [login, { isLoading }] = useLoginMutation();
@@ -44,8 +44,11 @@ export function SignInForm() {
   const onSubmit = async ({ email, password }: FormValues) => {
     try {
       await login({ email, password }).unwrap();
+      const user = getUserFromToken();
+      if (user) {
+        router.replace(ROUTES.PROFILE_BY_ID(user.userId));
+      }
       reset();
-      router.push(ROUTES.PROFILE);
     } catch (error) {
       setFormApiError(error, setError, 'password');
       setShake(false);
@@ -60,11 +63,8 @@ export function SignInForm() {
 
   return (
     <Card className={styles.container}>
-      <h1>Sign In</h1>
-      <div className={styles.buttonsGroup}>
-        <GoogleIcon width={36} height={36} />
-        <GitHubIcon width={36} height={36} />
-      </div>
+      <h1 className={styles.h1}>Sign In</h1>
+      <OAuthButtons />
       <form
         className={clsx(styles.form, shake && styles.shake)}
         onSubmit={handleSubmit(onSubmit, onInvalid)}

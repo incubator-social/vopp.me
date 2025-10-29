@@ -1,5 +1,4 @@
 import { BaseQueryApi, FetchBaseQueryError, FetchBaseQueryMeta, QueryReturnValue } from '@reduxjs/toolkit/query';
-import { setAppError } from '@/app/appSlice';
 import { isErrorWithMessage } from './isErrorWithMessage';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 
@@ -18,8 +17,7 @@ export const handleError = (
       error = result.error.error;
       break;
     case 'FETCH_ERROR':
-      // error = 'Network error. Please check your connection.';
-      error = JSON.stringify(result.error);
+      error = 'Network error. Please check your connection.';
       break;
     case 429:
       error = 'More than 5 attempts from one IP-address during 10 seconds';
@@ -38,5 +36,5 @@ export const handleError = (
       error = JSON.stringify(result.error);
       break;
   }
-  api.dispatch(setAppError({ type: 'error', message: error }));
+  api.dispatch({ type: 'app/setAppError', payload: { type: 'error', message: error } });
 };

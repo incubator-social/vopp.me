@@ -1,23 +1,21 @@
 'use client';
-
 import { ROUTES } from '@/src/shared/config/routes';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { getUserFromToken } from '@/src/shared/lib/auth/getUserFromToken';
+import { useAuth } from '@/src/features/auth/lib/useAuth';
 
 export default function ProfileRedirectPage() {
   const router = useRouter();
+  const { user, isAuth, uiReady } = useAuth();
 
   useEffect(() => {
-    const user = getUserFromToken();
-
-    if (!user) {
+    if (!uiReady) return;
+    if (isAuth && user) {
+      router.replace(ROUTES.PROFILE_BY_ID(user.userId));
+    } else {
       router.replace(ROUTES.HOME);
-      return;
     }
-
-    router.replace(ROUTES.PROFILE_BY_ID(user.userId));
-  }, [router]);
+  }, [isAuth, uiReady, user, router]);
 
   return null;
 }

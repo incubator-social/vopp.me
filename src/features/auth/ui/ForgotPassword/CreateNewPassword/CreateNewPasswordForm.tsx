@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ROUTES } from '@/src/shared/config/routes';
 import { useAppDispatch } from '@/app/providers/store/hooks';
-import { setAppError } from '@/app/appSlice';
+import { setAppError } from '@/app/store/appSlice';
 import clsx from 'clsx';
 import {
   CreateNewPasswordFormValues,

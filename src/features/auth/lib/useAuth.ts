@@ -1,25 +1,35 @@
 'use client';
-
 import { useGetMeQuery } from '@/src/features/auth/api';
-import { AUTH_KEYS } from '@/src/shared/config/storage';
+import { useToken } from './useToken';
+import { useMounted } from '@/src/shared/hooks/useMounted';
 
 export function useAuth() {
-  const token = typeof window !== 'undefined' ? localStorage.getItem(AUTH_KEYS.accessToken) : null;
+  const mounted = useMounted();
+
+  const token = useToken();
+  const hasToken = !!token;
 
   const {
     data: user,
+    isUninitialized,
     isLoading,
+    isFetching,
+    isSuccess,
     isError
-  } = useGetMeQuery(undefined, {
-    skip: !token
-  });
+  } = useGetMeQuery(undefined, { skip: !hasToken });
 
-  const isAuthenticated = Boolean(user && !isError);
+  const isChecking = hasToken && (isUninitialized || isLoading || isFetching);
+  const uiReady = mounted && !isChecking;
+  const isAuth = hasToken && !!user && !isError;
 
   return {
-    user,
-    isLoading,
+    user: user ?? null,
+    hasToken,
+    isChecking,
+    isAuth,
+    uiReady,
+    isSuccess,
     isError,
-    isAuthenticated
+    isFetching
   };
 }

@@ -1,7 +1,16 @@
-import { handleResponse } from '@/src/features/auth/api/utils';
 import { baseApi } from '@/src/shared/api/baseApi';
+import { handleSignUpResponse } from '@/src/features/auth/api/utils';
+import { handleResponse } from '@/src/features/auth/api/utils';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
-import { LoginBody, LoginResponse, SignUpRequest, SignUpResponse, MeResponse } from './types';
+import {
+  LoginBody,
+  LoginResponse,
+  SignUpRequest,
+  SignUpResponse,
+  MeResponse,
+  GoogleOAuthResponse,
+  GoogleOAuthRequest
+} from './types';
 import {
   CheckRecoveryCodeRequest,
   CheckRecoveryCodeResponse,
@@ -14,7 +23,7 @@ import { ROUTES } from '@/src/shared/config/routes';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getMe: build.query<MeResponse, void>({
+    getMe: build.query<MeResponse | null, void>({
       query: () => ({ url: 'auth/me', method: 'GET' }),
       providesTags: ['Auth']
     }),
@@ -24,7 +33,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { ...userData, baseUrl: ROUTES.AUTH.CONFIRM_CODE }
       }),
-      transformResponse: handleResponse
+      transformResponse: handleSignUpResponse
     }),
     confirmRegistration: build.mutation({
       query: (confirmationCode: string) => ({
@@ -32,7 +41,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { confirmationCode }
       }),
-      transformResponse: handleResponse
+      transformResponse: handleSignUpResponse
     }),
     resendVerificationEmail: build.mutation({
       query: (email: string) => ({
@@ -40,7 +49,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { email, baseUrl: ROUTES.AUTH.CONFIRM_CODE }
       }),
-      transformResponse: handleResponse
+      transformResponse: handleSignUpResponse
     }),
     login: build.mutation<LoginResponse, LoginBody>({
       query: (body: LoginBody) => ({
@@ -48,11 +57,36 @@ export const authApi = baseApi.injectEndpoints({
         url: 'auth/login',
         body
       }),
-      onQueryStarted: async (_arg, { queryFulfilled }) => {
+      async onQueryStarted(_arg, { queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           if (typeof window !== 'undefined') {
             localStorage.setItem(AUTH_KEYS.accessToken, data.accessToken);
+            window.dispatchEvent(new Event('auth-changed'));
+          }
+        } catch {}
+      },
+      invalidatesTags: ['Auth']
+    }),
+    googleOAuthLogin: build.mutation<GoogleOAuthResponse, GoogleOAuthRequest>({
+      query: ({ code }) => ({
+        method: 'POST',
+        url: 'auth/google/login',
+        body: { redirectUrl: `${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}`, code }
+      }),
+      transformResponse: (
+        response: GoogleOAuthResponse,
+        meta: {
+          response: { status: number | string | undefined };
+        }
+      ) => {
+        return { accessToken: response?.accessToken, email: response?.email, status: meta?.response.status };
+      },
+      onQueryStarted: async (_arg, { queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          if (typeof window !== 'undefined' && data?.accessToken) {
+            localStorage.setItem(AUTH_KEYS.accessToken, data?.accessToken);
           }
         } catch {}
       },
@@ -60,23 +94,32 @@ export const authApi = baseApi.injectEndpoints({
     }),
     logout: build.mutation<void, void>({
       query: () => ({
-        method: 'post',
+        method:
+          'Вопрос 29:  Что возвращает свойство navigator.userAgent?\n' +
+          '\n' +
+          'A : Версию операционной системы пользователя\n' +
+          '\n' +
+          'B : Географическое местоположение пользователя\n' +
+          '\n' +
+          'C : Тип устройства пользователя (мобильное, десктоп и т.п.)\n' +
+          '\n' +
+          'D : Строку, идентифицирующую браузер и операционную систему пользователя',
         url: 'auth/logout',
         body: {},
         responseHandler: (response) => response.text()
       }),
-      onQueryStarted: async (_arg, { queryFulfilled }) => {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-        } catch {
-        } finally {
           if (typeof window !== 'undefined') {
             localStorage.removeItem(AUTH_KEYS.accessToken);
+            window.dispatchEvent(new Event('auth-changed'));
           }
-          // сбрасываем данные из стора, пока у нас их нет, но в будущем будет, затрем все постепенно
+          dispatch(baseApi.util.resetApiState());
+        } catch {
+        } finally {
         }
-      },
-      invalidatesTags: ['Auth']
+      }
     }),
     forgotPassword: build.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
       query: ({ email, recaptcha = null }: ForgotPasswordRequest) => ({
@@ -115,5 +158,6 @@ export const {
   useGetMeQuery,
   useForgotPasswordMutation,
   useCreateNewPasswordMutation,
-  useCheckRecoveryCodeMutation
+  useCheckRecoveryCodeMutation,
+  useGoogleOAuthLoginMutation
 } = authApi;
