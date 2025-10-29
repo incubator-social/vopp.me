@@ -1,5 +1,5 @@
 'use client';
-import { setAppError } from '@/app/appSlice';
+import { setAppError } from '@/app/store/appSlice';
 import { useAppDispatch } from '@/app/providers/store/hooks';
 import { useLogoutMutation } from '@/src/features/auth/api';
 import { ROUTES } from '@/src/shared/config/routes';
