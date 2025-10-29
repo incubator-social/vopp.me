@@ -1,6 +1,5 @@
 import { baseApi } from '@/src/shared/api/baseApi';
 import { handleSignUpResponse } from '@/src/features/auth/api/utils';
-import { handleResponse } from '@/src/features/auth/api/utils';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
 import {
   LoginBody,
@@ -94,16 +93,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
     logout: build.mutation<void, void>({
       query: () => ({
-        method:
-          'Вопрос 29:  Что возвращает свойство navigator.userAgent?\n' +
-          '\n' +
-          'A : Версию операционной системы пользователя\n' +
-          '\n' +
-          'B : Географическое местоположение пользователя\n' +
-          '\n' +
-          'C : Тип устройства пользователя (мобильное, десктоп и т.п.)\n' +
-          '\n' +
-          'D : Строку, идентифицирующую браузер и операционную систему пользователя',
+        method: 'POST',
         url: 'auth/logout',
         body: {},
         responseHandler: (response) => response.text()
