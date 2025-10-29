@@ -1,6 +1,6 @@
 'use client';
 import { EmailSentModal } from '@/src/features/auth/ui/EmailSentModal';
-import { OAuthButtons } from '@/src/features/auth/ui/SignUp/OAuthButtons';
+import { OAuthButtons } from '@/src/features/auth/ui/OAuthButtons';
 import { SignInPrompt } from '@/src/features/auth/ui/SignUp/SignInPrompt';
 import { SignUpForm } from '@/src/features/auth/ui/SignUp/SignUpForm';
 import { useState } from 'react';

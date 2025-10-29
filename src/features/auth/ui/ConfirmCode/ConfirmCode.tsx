@@ -23,6 +23,7 @@ export type ModalData = {
 
 export const ConfirmCode = ({ searchParams }: SearchParams) => {
   const [confirmRegistration] = useConfirmRegistrationMutation();
+
   const [params, setParams] = useState<{ [key: string]: string | string[] | undefined } | null>(null);
 
   const [status, setStatus] = useState<Status | null>(null);

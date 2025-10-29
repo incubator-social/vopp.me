@@ -1,7 +1,16 @@
 import { baseApi } from '@/src/shared/api/baseApi';
+import { handleSignUpResponse } from '@/src/features/auth/api/utils';
 import { handleResponse } from '@/src/features/auth/api/utils';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
-import { LoginBody, LoginResponse, SignUpRequest, SignUpResponse, MeResponse } from './types';
+import {
+  LoginBody,
+  LoginResponse,
+  SignUpRequest,
+  SignUpResponse,
+  MeResponse,
+  GoogleOAuthResponse,
+  GoogleOAuthRequest
+} from './types';
 import {
   CheckRecoveryCodeRequest,
   CheckRecoveryCodeResponse,
@@ -17,6 +26,30 @@ export const authApi = baseApi.injectEndpoints({
     getMe: build.query<MeResponse | null, void>({
       query: () => ({ url: 'auth/me', method: 'GET' }),
       providesTags: ['Auth']
+    }),
+    registerUser: build.mutation<SignUpResponse, SignUpRequest>({
+      query: (userData) => ({
+        url: 'auth/registration',
+        method: 'POST',
+        body: { ...userData, baseUrl: ROUTES.AUTH.CONFIRM_CODE }
+      }),
+      transformResponse: handleSignUpResponse
+    }),
+    confirmRegistration: build.mutation({
+      query: (confirmationCode: string) => ({
+        url: 'auth/registration-confirmation',
+        method: 'POST',
+        body: { confirmationCode }
+      }),
+      transformResponse: handleSignUpResponse
+    }),
+    resendVerificationEmail: build.mutation({
+      query: (email: string) => ({
+        url: 'auth/registration-email-resending',
+        method: 'POST',
+        body: { email, baseUrl: ROUTES.AUTH.CONFIRM_CODE }
+      }),
+      transformResponse: handleSignUpResponse
     }),
     login: build.mutation<LoginResponse, LoginBody>({
       query: (body: LoginBody) => ({
@@ -35,9 +68,42 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ['Auth']
     }),
+    googleOAuthLogin: build.mutation<GoogleOAuthResponse, GoogleOAuthRequest>({
+      query: ({ code }) => ({
+        method: 'POST',
+        url: 'auth/google/login',
+        body: { redirectUrl: `${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}`, code }
+      }),
+      transformResponse: (
+        response: GoogleOAuthResponse,
+        meta: {
+          response: { status: number | string | undefined };
+        }
+      ) => {
+        return { accessToken: response?.accessToken, email: response?.email, status: meta?.response.status };
+      },
+      onQueryStarted: async (_arg, { queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          if (typeof window !== 'undefined' && data?.accessToken) {
+            localStorage.setItem(AUTH_KEYS.accessToken, data?.accessToken);
+          }
+        } catch {}
+      },
+      invalidatesTags: ['Auth']
+    }),
     logout: build.mutation<void, void>({
       query: () => ({
-        method: 'POST',
+        method:
+          'Вопрос 29:  Что возвращает свойство navigator.userAgent?\n' +
+          '\n' +
+          'A : Версию операционной системы пользователя\n' +
+          '\n' +
+          'B : Географическое местоположение пользователя\n' +
+          '\n' +
+          'C : Тип устройства пользователя (мобильное, десктоп и т.п.)\n' +
+          '\n' +
+          'D : Строку, идентифицирующую браузер и операционную систему пользователя',
         url: 'auth/logout',
         body: {},
         responseHandler: (response) => response.text()
@@ -54,30 +120,6 @@ export const authApi = baseApi.injectEndpoints({
         } finally {
         }
       }
-    }),
-    registerUser: build.mutation<SignUpResponse, SignUpRequest>({
-      query: (userData) => ({
-        url: 'auth/registration',
-        method: 'POST',
-        body: { ...userData, baseUrl: ROUTES.AUTH.CONFIRM_CODE }
-      }),
-      transformResponse: handleResponse
-    }),
-    confirmRegistration: build.mutation({
-      query: (confirmationCode: string) => ({
-        url: 'auth/registration-confirmation',
-        method: 'POST',
-        body: { confirmationCode }
-      }),
-      transformResponse: handleResponse
-    }),
-    resendVerificationEmail: build.mutation({
-      query: (email: string) => ({
-        url: 'auth/registration-email-resending',
-        method: 'POST',
-        body: { email, baseUrl: ROUTES.AUTH.CONFIRM_CODE }
-      }),
-      transformResponse: handleResponse
     }),
     forgotPassword: build.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
       query: ({ email, recaptcha = null }: ForgotPasswordRequest) => ({
@@ -116,5 +158,6 @@ export const {
   useGetMeQuery,
   useForgotPasswordMutation,
   useCreateNewPasswordMutation,
-  useCheckRecoveryCodeMutation
+  useCheckRecoveryCodeMutation,
+  useGoogleOAuthLoginMutation
 } = authApi;
