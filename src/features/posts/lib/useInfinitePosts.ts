@@ -1,23 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGetUserPostsQuery } from '../api/postsApi';
 
 export const useInfinitePosts = (userId: number) => {
   const [currentCursor, setCurrentCursor] = useState<number | undefined>();
+  const initialLoadRef = useRef(false);
 
   const {
     data: postsData,
     isLoading,
     isFetching,
     error
-  } = useGetUserPostsQuery({
-    userId,
-    endCursorPostId: currentCursor,
-    pageSize: 8
-  });
+  } = useGetUserPostsQuery(
+    {
+      userId,
+      endCursorPostId: currentCursor,
+      pageSize: 8
+    },
+    {
+      skip: currentCursor === undefined && initialLoadRef.current
+    }
+  );
 
   useEffect(() => {
     setCurrentCursor(undefined);
+    initialLoadRef.current = false;
   }, [userId]);
+
+  useEffect(() => {
+    if (postsData?.items && currentCursor === undefined) {
+      initialLoadRef.current = true;
+    }
+  }, [postsData, currentCursor]);
 
   const loadMore = () => {
     if (postsData?.items.length && !isFetching && hasMore) {
