@@ -12,7 +12,7 @@ export const useInfinitePosts = (userId: number) => {
   } = useGetUserPostsQuery({
     userId,
     endCursorPostId: currentCursor,
-    pageSize: 3
+    pageSize: 8
   });
 
   useEffect(() => {

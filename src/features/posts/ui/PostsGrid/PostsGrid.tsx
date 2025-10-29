@@ -10,7 +10,7 @@ export default function PostsGrid({ posts, isLoading }: PostsGridProps) {
   if (isLoading && posts.length === 0) {
     return (
       <div className={styles.grid}>
-        {Array.from({ length: 3 }).map((_, index) => (
+        {Array.from({ length: 8 }).map((_, index) => (
           <div key={index} className={styles.skeleton} />
         ))}
       </div>

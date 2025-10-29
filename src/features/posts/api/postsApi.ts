@@ -4,7 +4,7 @@ import { baseApi } from '@/src/shared/api/baseApi';
 export const postsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getUserPosts: build.query<PostsResponse, PostsQueryParams>({
-      query: ({ userId, endCursorPostId, pageSize = 3, sortDirection = 'desc' }) => {
+      query: ({ userId, endCursorPostId, pageSize = 8, sortDirection = 'desc' }) => {
         const url = endCursorPostId ? `posts/user/${userId}/${endCursorPostId}` : `posts/user/${userId}`;
 
         return {
