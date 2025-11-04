@@ -1,17 +1,16 @@
-import { OptionId } from '@/src/shared/ui/Sidebar/data';
+import { OptionId } from '@/src/widgets/Sidebar/data';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type SidebarState = {
   activeButton: OptionId;
-  previousActiveButton: OptionId | null;
   isOpenAddPost: boolean;
-  image: null | string;
+  previousActiveButton: OptionId;
 };
 
 const initialState: SidebarState = {
   activeButton: OptionId.Feed,
   isOpenAddPost: false,
-  image: null
+  previousActiveButton: OptionId.Feed
 };
 
 const sidebarSlice = createSlice({

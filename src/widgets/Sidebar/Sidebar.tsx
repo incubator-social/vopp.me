@@ -1,9 +1,9 @@
 'use client';
 
+import { OptionId, options } from '@/src/widgets/Sidebar/data';
 import * as Nav from '@radix-ui/react-navigation-menu';
 import clsx from 'clsx';
 import styles from './Sidebar.module.scss';
-import { OptionId, options } from './data';
 
 export type SidebarProps = {
   value: string;

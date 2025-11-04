@@ -4,7 +4,7 @@ import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
 import '@/src/shared/styles/index.scss';
 import styles from './layout.module.scss';
 import { Header } from '@/src/widgets/Header/Header';
-import { SidebarWrapper } from '@/src/widgets/SidebarWrapper/SidebarWrapper';
+import { SidebarWrapper } from '@/src/features/sidebar-wrapper/ui/SidebarWrapper';
 
 export const metadata: Metadata = {
   title: 'Connect with friends and join communities with Vopp.me',

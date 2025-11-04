@@ -1,7 +1,7 @@
+import { options } from '@/src/widgets/Sidebar/data';
+import Sidebar, { SidebarProps } from '@/src/widgets/Sidebar/Sidebar';
 import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/nextjs';
-import Sidebar, { SidebarProps } from './Sidebar';
-import { options } from './data';
 
 const meta = {
   title: 'UI/Sidebar',

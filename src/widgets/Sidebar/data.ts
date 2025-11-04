@@ -1,18 +1,18 @@
 import { ElementType } from 'react';
-import Home from '../../assets/icons/home-outline.svg';
-import Plus from '../../assets/icons/plus-square-outline.svg';
-import Person from '../../assets/icons/person-outline.svg';
-import Message from '../../assets/icons/message-circle-outline.svg';
-import Search from '../../assets/icons/search-outline.svg';
-import Statistics from '../../assets/icons/trending-up-outline.svg';
-import Favorites from '../../assets/icons/bookmark-outline.svg';
-import Logout from '../../assets/icons/log-out-outline.svg';
+import Home from '@/src/shared/assets/icons/home-outline.svg';
+import Plus from '@/src/shared/assets/icons/plus-square-outline.svg';
+import Person from '@/src/shared/assets/icons/person-outline.svg';
+import Message from '@/src/shared/assets/icons/message-circle-outline.svg';
+import Search from '@/src/shared/assets/icons/search-outline.svg';
+import Statistics from '@/src/shared/assets/icons/trending-up-outline.svg';
+import Favorites from '@/src/shared/assets/icons/bookmark-outline.svg';
+import Logout from '@/src/shared/assets/icons/log-out-outline.svg';
 //active icons
-import HomeActive from '../../assets/icons/home.svg';
-import PlusActive from '../../assets/icons/plus-square.svg';
-import PersonActive from '../../assets/icons/person.svg';
-import MessageActive from '../../assets/icons/message-circle.svg';
-import FavoritesActive from '../../assets/icons/bookmark.svg';
+import HomeActive from '@/src/shared/assets/icons/home.svg';
+import PlusActive from '@/src/shared/assets/icons/plus-square.svg';
+import PersonActive from '@/src/shared/assets/icons/person.svg';
+import MessageActive from '@/src/shared/assets/icons/message-circle.svg';
+import FavoritesActive from '@/src/shared/assets/icons/bookmark.svg';
 
 export type Option = {
   id: OptionId;
