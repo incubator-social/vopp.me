@@ -1,0 +1,30 @@
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  gap: 24px;
+}
+
+.right {
+  display: flex;
+}
+
+.iconBtn {
+  border: none;
+  cursor: pointer;
+  line-height: 0;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    transition: color 0.2s ease;
+  }
+
+  &:hover {
+    color: var(--color-light-100);
+  }
+}

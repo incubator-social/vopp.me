@@ -21,6 +21,7 @@ export type ModalProps = {
   closeOnOverlayClick?: boolean;
   closeOnEsc?: boolean;
   classOverlay?: string;
+  noPadding?: boolean;
 } & ComponentPropsWithoutRef<'div'>;
 
 export const Modal = (props: ModalProps) => {
@@ -39,6 +40,7 @@ export const Modal = (props: ModalProps) => {
     closeOnOverlayClick = false,
     closeOnEsc = false,
     classOverlay,
+    noPadding = false,
     ...restProps
   } = props;
 
@@ -50,7 +52,7 @@ export const Modal = (props: ModalProps) => {
           <Dialog.Overlay className={clsx(styles.overlay, classOverlay)} />
           <Dialog.Content
             aria-label={title ?? 'Dialog window'}
-            className={clsx(styles.content, styles[size], contentClassName)}
+            className={clsx(styles.content, styles[size], contentClassName, noPadding && styles.noPadding)}
             onInteractOutside={(e) => {
               if (!closeOnOverlayClick) e.preventDefault();
             }}

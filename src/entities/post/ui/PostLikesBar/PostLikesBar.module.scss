@@ -1,0 +1,36 @@
+.likesBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatars {
+  display: flex;
+  align-items: center;
+}
+
+.avatarWrapper {
+  border-radius: 50%;
+  overflow: hidden;
+  margin-left: -9px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:nth-child(1) {
+    z-index: 3;
+  }
+  &:nth-child(2) {
+    z-index: 2;
+  }
+  &:nth-child(3) {
+    z-index: 1;
+  }
+}
+
+.total {
+  font-size: 14px;
+  font-weight: 400;
+  font-family: Inter, sans-serif;
+}
