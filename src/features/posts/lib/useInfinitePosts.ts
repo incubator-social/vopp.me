@@ -1,8 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
-import { useGetUserPostsQuery } from '../api/postsApi';
+import { useGetUserPostsQuery, postsApi } from '../api/postsApi';
+import { useAppSelector } from '@/app/providers/store/hooks'; // правильный путь!
 
 export const useInfinitePosts = (userId: number) => {
-  const [currentCursor, setCurrentCursor] = useState<number | undefined>();
+  const cachedCursor = useAppSelector(
+    (state) =>
+      postsApi.endpoints.getUserPosts
+        .select({
+          userId,
+          endCursorPostId: undefined
+        })(state)
+        .data?.items?.slice(-1)[0]?.id
+  );
+
+  const [currentCursor, setCurrentCursor] = useState<number | undefined>(cachedCursor);
   const initialLoadRef = useRef(false);
 
   const {
@@ -20,11 +31,6 @@ export const useInfinitePosts = (userId: number) => {
       skip: currentCursor === undefined && initialLoadRef.current
     }
   );
-
-  useEffect(() => {
-    setCurrentCursor(undefined);
-    initialLoadRef.current = false;
-  }, [userId]);
 
   useEffect(() => {
     if (postsData?.items && currentCursor === undefined) {

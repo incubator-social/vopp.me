@@ -2,30 +2,54 @@
 
 import { useParams } from 'next/navigation';
 import InfinitePosts from '@/src/features/posts/ui/InfinityPosts';
-import Link from 'next/link';
-import { Button } from '@/src/shared/ui/Button/Button';
-import { ROUTES } from '@/src/shared/config/routes';
+import styles from './page.module.scss';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
+import { ProfileHeader } from '@/src/features/profile/ui/ProfileHeader/ProfileHeader';
+import { usePublicProfile } from '@/src/features/profile/lib/usePublicProfile';
 
 export default function UserProfilePage() {
   const params = useParams<{ id: string }>();
   const userId = parseInt(params.id);
   const { user } = useAuth();
+
+  const { profile, isLoading: profileLoading, error: profileError } = usePublicProfile(userId);
   const isMyProfile = user?.userId === Number(params.id);
 
   if (isNaN(userId)) {
     return <div>Неверный ID пользователя</div>;
   }
 
-  return (
-    <div style={{ padding: 20, maxWidth: 1200, margin: '0 auto' }}>
-      <h1>Профиль пользователя {userId}</h1>
+  if (profileError) {
+    return <div>Ошибка загрузки профиля</div>;
+  }
 
-      {isMyProfile && (
-        <Button variant={'buttonSecondary'} asChild={true}>
-          <Link href={ROUTES.SETTINGS}>Profile Settings</Link>
-        </Button>
-      )}
+  if (profileLoading || !profile) {
+    return (
+      <div className={styles.container}>
+        <div>Загрузка профиля...</div>
+        <InfinitePosts userId={userId} />
+      </div>
+    );
+  }
+
+  const handleFollowClick = () => {
+    // Логика подписки/отписки
+    console.log('Follow/Unfollow clicked');
+  };
+
+  const handleMessageClick = () => {
+    // Логика сообщения
+    console.log('Message clicked');
+  };
+
+  return (
+    <div className={styles.container}>
+      <ProfileHeader
+        profile={profile}
+        isMyProfile={isMyProfile}
+        onFollowClick={handleFollowClick}
+        onMessageClick={handleMessageClick}
+      />
       <InfinitePosts userId={userId} />
     </div>
   );

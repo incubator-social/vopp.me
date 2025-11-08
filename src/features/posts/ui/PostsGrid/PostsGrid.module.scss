@@ -1,16 +1,16 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 234px);
+  grid-template-columns: repeat(auto-fit, minmax(234px, 1fr));
   gap: 12px;
-  justify-content: start;
+  width: 100%;
+  max-width: 972px;
 }
 
 .gridItem {
-  width: 234px;
-  height: 228px;
+  aspect-ratio: 1;
   background-color: #fafafa;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 1px;
   overflow: hidden;
 
   &:hover {
