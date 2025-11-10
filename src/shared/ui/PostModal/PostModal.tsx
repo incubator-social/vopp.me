@@ -4,11 +4,13 @@ import { Modal } from '../Modal';
 import { Carousel } from '../Carousel';
 import styles from './PostModal.module.scss';
 import { Avatar } from '../Avatar';
-import MoreHorizontalOutline from '@/src/shared/assets/icons/more-horizontal-outline.svg';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
 import { PostTime } from '../PostTime/PostTime';
 import { PostActions, PostLikesBar } from '@/src/entities/post/ui';
+import Edit from '@/src/shared/assets/icons/edit-2-outline.svg';
+import Delete from '@/src/shared/assets/icons/trash-outline.svg';
+import { DropdownMenu } from '../DropdownMenu';
 
 type Props = {
   open: boolean;
@@ -40,11 +42,13 @@ export const PostModal = ({ open, setOpen, postId }: Props) => {
               <Avatar src={post?.avatarOwner} name={post?.userName} size={36} />
               <span className={styles.username}>{post?.userName}</span>
             </div>
-
             {isAuth && (
-              <button className={styles.menuButton} aria-label="Открыть меню" onClick={() => {}}>
-                <MoreHorizontalOutline />
-              </button>
+              <DropdownMenu
+                items={[
+                  { label: 'Edit Post', onSelect: () => console.log('Редактировать'), icon: <Edit /> },
+                  { label: 'Delete Post', onSelect: () => console.log('Удалить'), icon: <Delete /> }
+                ]}
+              />
             )}
           </div>
           {/* Нужно продумывать реализацию комментариев  */}
