@@ -21,7 +21,10 @@ export const PostModal = ({ open, setOpen, postId }: Props) => {
   const { isAuth } = useAuth();
 
   const { data: post } = useGetPostByIdQuery(postId);
-
+  const dropdownMenuItems = [
+    { label: 'Edit Post', onSelect: () => console.log('Редактировать'), icon: <Edit /> },
+    { label: 'Delete Post', onSelect: () => console.log('Удалить'), icon: <Delete /> }
+  ];
   return (
     <Modal
       open={open}
@@ -42,14 +45,7 @@ export const PostModal = ({ open, setOpen, postId }: Props) => {
               <Avatar src={post?.avatarOwner} name={post?.userName} size={36} />
               <span className={styles.username}>{post?.userName}</span>
             </div>
-            {isAuth && (
-              <DropdownMenu
-                items={[
-                  { label: 'Edit Post', onSelect: () => console.log('Редактировать'), icon: <Edit /> },
-                  { label: 'Delete Post', onSelect: () => console.log('Удалить'), icon: <Delete /> }
-                ]}
-              />
-            )}
+            {isAuth && <DropdownMenu items={dropdownMenuItems} />}
           </div>
           {/* Нужно продумывать реализацию комментариев  */}
           <div className={styles.content}>Description and Comments go here</div>
