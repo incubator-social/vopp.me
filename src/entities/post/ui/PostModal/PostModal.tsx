@@ -1,16 +1,15 @@
 'use client';
 
-import { Modal } from '../Modal';
-import { Carousel } from '../Carousel';
+import { Modal } from '../../../../shared/ui/Modal';
+import { Carousel } from '../../../../shared/ui/Carousel';
 import styles from './PostModal.module.scss';
-import { Avatar } from '../Avatar';
+import { Avatar } from '../../../../shared/ui/Avatar';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
-import { PostTime } from '../PostTime/PostTime';
+import { PostTime } from '../../../../shared/ui/PostTime/PostTime';
 import { PostActions, PostLikesBar } from '@/src/entities/post/ui';
-import Edit from '@/src/shared/assets/icons/edit-2-outline.svg';
-import Delete from '@/src/shared/assets/icons/trash-outline.svg';
-import { DropdownMenu } from '../DropdownMenu';
+import { DropdownMenu } from '../../../../shared/ui/DropdownMenu';
+import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from './postMenuItems';
 
 type Props = {
   open: boolean;
@@ -18,13 +17,36 @@ type Props = {
   postId: number;
 };
 export const PostModal = ({ open, setOpen, postId }: Props) => {
-  const { isAuth } = useAuth();
-
+  const { isAuth, user } = useAuth();
   const { data: post } = useGetPostByIdQuery(postId);
-  const dropdownMenuItems = [
-    { label: 'Edit Post', onSelect: () => console.log('Редактировать'), icon: <Edit /> },
-    { label: 'Delete Post', onSelect: () => console.log('Удалить'), icon: <Delete /> }
-  ];
+
+  const handleEdit = () => {
+    console.log('Редактировать пост', postId);
+  };
+
+  const handleDelete = () => {
+    console.log('Удалить пост', postId);
+  };
+
+  const handleUnfollow = async () => {
+    console.log('Отписаться от пользователя', post?.ownerId);
+  };
+
+  const handleCopyLink = () => {
+    const url = `${window.location.origin}/post/${postId}`;
+    navigator.clipboard.writeText(url);
+  };
+
+  const menuItems =
+    post?.ownerId === user?.userId
+      ? getOwnPostMenuItems({
+          onEdit: handleEdit,
+          onDelete: handleDelete
+        })
+      : getFollowedUserPostMenuItems({
+          onUnfollow: handleUnfollow,
+          onCopyLink: handleCopyLink
+        });
   return (
     <Modal
       open={open}
@@ -45,7 +67,7 @@ export const PostModal = ({ open, setOpen, postId }: Props) => {
               <Avatar src={post?.avatarOwner} name={post?.userName} size={36} />
               <span className={styles.username}>{post?.userName}</span>
             </div>
-            {isAuth && <DropdownMenu items={dropdownMenuItems} />}
+            {isAuth && <DropdownMenu items={menuItems} />}
           </div>
           {/* Нужно продумывать реализацию комментариев  */}
           <div className={styles.content}>Description and Comments go here</div>
