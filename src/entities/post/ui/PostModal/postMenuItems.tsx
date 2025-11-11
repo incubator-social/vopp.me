@@ -10,7 +10,6 @@ export type DropdownMenuItem = {
   icon?: ReactNode;
 };
 
-// меню для своего поста
 export const getOwnPostMenuItems = ({
   onEdit,
   onDelete
@@ -22,7 +21,6 @@ export const getOwnPostMenuItems = ({
   { label: 'Delete Post', onSelect: onDelete, icon: <Delete /> }
 ];
 
-// меню для поста подписанного юзера
 export const getFollowedUserPostMenuItems = ({
   onUnfollow,
   onCopyLink
