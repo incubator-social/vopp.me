@@ -20,7 +20,6 @@ export default function PostsGrid({ posts, isLoading }: PostsGridProps) {
   if (!posts.length && !isLoading) {
     return <div className={styles.empty}>No posts yet</div>;
   }
-  //авав
   return (
     <div className={styles.grid}>
       {posts.map((post) => (

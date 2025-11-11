@@ -12,7 +12,7 @@ export default function InfinitePosts({ userId }: InfinitePostsProps) {
   const { posts, isLoading, isFetching, error, hasMore, loadMore } = useInfinitePosts(userId);
 
   if (error) {
-    return <div>Ошибка загрузки постов</div>;
+    return <div>Error loading posts</div>;
   }
 
   return (
@@ -21,10 +21,10 @@ export default function InfinitePosts({ userId }: InfinitePostsProps) {
 
       <InfiniteScrollTrigger onIntersect={loadMore} isFetching={isFetching} hasMore={hasMore} />
 
-      {isFetching && <div style={{ textAlign: 'center', padding: '20px' }}>Загрузка...</div>}
+      {isFetching && <div style={{ textAlign: 'center', padding: '20px' }}>Loading...</div>}
 
       {!hasMore && posts.length > 0 && (
-        <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>Все посты загружены</div>
+        <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>All posts have been loaded</div>
       )}
     </div>
   );

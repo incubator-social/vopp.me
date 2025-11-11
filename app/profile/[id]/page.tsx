@@ -16,17 +16,17 @@ export default function UserProfilePage() {
   const isMyProfile = user?.userId === Number(params.id);
 
   if (isNaN(userId)) {
-    return <div>Неверный ID пользователя</div>;
+    return <div>Invalid user ID</div>;
   }
 
   if (profileError) {
-    return <div>Ошибка загрузки профиля</div>;
+    return <div>Error loading profile</div>;
   }
 
   if (profileLoading || !profile) {
     return (
       <div className={styles.container}>
-        <div>Загрузка профиля...</div>
+        <div>Loading profile...</div>
         <InfinitePosts userId={userId} />
       </div>
     );

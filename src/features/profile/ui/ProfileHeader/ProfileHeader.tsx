@@ -3,8 +3,9 @@ import { Button } from '@/src/shared/ui/Button/Button';
 import styles from './ProfileHeader.module.scss';
 import Link from 'next/link';
 import { ROUTES } from '@/src/shared/config/routes';
+import { useAuth } from '@/src/features/auth/lib/useAuth';
 
-interface ProfileHeaderProps {
+type ProfileHeaderProps = {
   profile: {
     id: number;
     userName: string;
@@ -20,9 +21,11 @@ interface ProfileHeaderProps {
   isMyProfile: boolean;
   onFollowClick?: () => void;
   onMessageClick?: () => void;
-}
+};
 
 export const ProfileHeader = ({ profile, isMyProfile, onFollowClick, onMessageClick }: ProfileHeaderProps) => {
+  const { isAuth } = useAuth();
+
   return (
     <div className={styles.header}>
       {/* Аватар */}
@@ -37,20 +40,21 @@ export const ProfileHeader = ({ profile, isMyProfile, onFollowClick, onMessageCl
 
           {/* Кнопки действий */}
           <div className={styles.actions}>
-            {isMyProfile ? (
-              <Button variant="buttonSecondary" asChild>
-                <Link href={ROUTES.SETTINGS}>Profile Settings</Link>
-              </Button>
-            ) : (
-              <>
-                <Button variant="buttonPrimary" onClick={onFollowClick}>
-                  {profile.isFollowing ? 'Unfollow' : 'Follow'}
+            {isAuth &&
+              (isMyProfile ? (
+                <Button variant="buttonSecondary" asChild>
+                  <Link href={ROUTES.SETTINGS}>Profile Settings</Link>
                 </Button>
-                <Button variant="buttonOutline" onClick={onMessageClick}>
-                  Message
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button variant="buttonPrimary" onClick={onFollowClick}>
+                    {profile.isFollowing ? 'Unfollow' : 'Follow'}
+                  </Button>
+                  <Button variant="buttonOutline" onClick={onMessageClick}>
+                    Message
+                  </Button>
+                </>
+              ))}
           </div>
         </div>
 
