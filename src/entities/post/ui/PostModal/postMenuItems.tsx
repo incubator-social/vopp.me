@@ -2,13 +2,7 @@ import Edit from '@/src/shared/assets/icons/edit-2-outline.svg';
 import Delete from '@/src/shared/assets/icons/trash-outline.svg';
 import PersonRemove from '@/src/shared/assets/icons/person-remove-outline.svg';
 import CopyLink from '@/src/shared/assets/icons/copy-outline.svg';
-import type { ReactNode } from 'react';
-
-export type DropdownMenuItem = {
-  label: string;
-  onSelect: () => void | Promise<void>;
-  icon?: ReactNode;
-};
+import { DropdownMenuItem } from '@/src/shared/ui/DropdownMenu/DropdownMenu';
 
 export const getOwnPostMenuItems = ({
   onEdit,
