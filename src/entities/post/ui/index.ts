@@ -1,2 +1,2 @@
-export { PostActions } from './PostActions/PostActions';
-export { PostLikesBar } from './PostLikesBar/PostLikesBar';
+export { PostActions } from './PostModal/PostActions/PostActions';
+export { PostLikesBar } from './PostModal/PostLikesBar/PostLikesBar';

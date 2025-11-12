@@ -44,16 +44,6 @@
   font-size: 16px;
 }
 
-.menuButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    color: var(--color-accent-500);
-  }
-}
-
 .content {
   flex: 1;
   overflow-y: auto;
