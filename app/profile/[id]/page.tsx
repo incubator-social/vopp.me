@@ -26,7 +26,7 @@ export default function UserProfilePage() {
       )}
       {/* Уберем эту кнопку, нужна для демонстрации, так же передаю id хардкодом */}
       <button onClick={() => setOpen(true)}>Open post</button>
-      <PostModal open={open} setOpen={setOpen} postId={516} />
+      <PostModal open={open} setOpen={setOpen} postId={522} />
     </div>
   );
 }

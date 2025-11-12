@@ -1,14 +1,14 @@
 'use client';
 
-import { Modal } from '../../../../shared/ui/Modal';
-import { Carousel } from '../../../../shared/ui/Carousel';
+import { Modal } from '@/src/shared/ui/Modal';
+import { Carousel } from '@/src/shared/ui/Carousel';
 import styles from './PostModal.module.scss';
-import { Avatar } from '../../../../shared/ui/Avatar';
+import { Avatar } from '@/src/shared/ui/Avatar';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
-import { PostTime } from '../../../../shared/ui/PostTime/PostTime';
+import { useGetPostByIdQuery, useUpdatePostByIdMutation } from '@/src/entities/post/api/postsApi';
+import { PostTime } from '@/src/shared/ui/PostTime/PostTime';
 import { PostActions, PostLikesBar } from '@/src/entities/post/ui';
-import { DropdownMenu } from '../../../../shared/ui/DropdownMenu';
+import { DropdownMenu } from '@/src/shared/ui/DropdownMenu';
 import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from './postMenuItems';
 
 type Props = {
@@ -16,12 +16,18 @@ type Props = {
   setOpen: (open: boolean) => void;
   postId: number;
 };
+
 export const PostModal = ({ open, setOpen, postId }: Props) => {
   const { isAuth, user } = useAuth();
   const { data: post } = useGetPostByIdQuery(postId);
+  const [updatePost] = useUpdatePostByIdMutation();
 
-  const handleEdit = () => {
-    console.log('Редактировать пост', postId);
+  const handleEdit = async () => {
+    try {
+      await updatePost({ postId, data: { description: 'newDescription' } }).unwrap();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleDelete = () => {
@@ -70,7 +76,11 @@ export const PostModal = ({ open, setOpen, postId }: Props) => {
             {isAuth && <DropdownMenu items={menuItems} />}
           </div>
           {/* Нужно продумывать реализацию комментариев  */}
-          <div className={styles.content}>Description and Comments go here</div>
+          <div className={styles.content}>
+            {post?.description}
+            <br />
+            Comments will be here
+          </div>
           <div className={styles.interactions}>
             {isAuth && (
               // Нужно продумывать реализацию лайков и сохранения, доделать отображение,

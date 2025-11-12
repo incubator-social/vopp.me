@@ -22,8 +22,16 @@ export const postsApi = baseApi.injectEndpoints({
       }),
       transformResponse: (response: unknown) => PostSchema.parse(response),
       providesTags: ['Posts']
+    }),
+    updatePostById: build.mutation<void, { postId: number; data: { description: string } }>({
+      query: ({ postId, data }) => ({
+        url: `/posts/${postId}`,
+        method: 'PUT',
+        body: data
+      }),
+      invalidatesTags: ['Posts']
     })
   })
 });
 
-export const { useGetPublicPostsQuery, useGetPostByIdQuery } = postsApi;
+export const { useGetPublicPostsQuery, useGetPostByIdQuery, useUpdatePostByIdMutation } = postsApi;
