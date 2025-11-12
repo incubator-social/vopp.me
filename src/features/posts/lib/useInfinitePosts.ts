@@ -3,6 +3,8 @@ import { useGetUserPostsQuery, postsApi } from '../api/postsApi';
 import { useAppSelector } from '@/app/providers/store/hooks'; // правильный путь!
 
 export const useInfinitePosts = (userId: number) => {
+  const PAGE_SIZE = 8;
+
   const cachedCursor = useAppSelector(
     (state) =>
       postsApi.endpoints.getUserPosts
@@ -25,12 +27,17 @@ export const useInfinitePosts = (userId: number) => {
     {
       userId,
       endCursorPostId: currentCursor,
-      pageSize: 8
+      pageSize: currentCursor ? PAGE_SIZE + 1 : PAGE_SIZE
     },
     {
       skip: currentCursor === undefined && initialLoadRef.current
     }
   );
+
+  useEffect(() => {
+    setCurrentCursor(undefined);
+    initialLoadRef.current = false;
+  }, [userId]);
 
   useEffect(() => {
     if (postsData?.items && currentCursor === undefined) {
@@ -40,12 +47,13 @@ export const useInfinitePosts = (userId: number) => {
 
   const loadMore = () => {
     if (postsData?.items.length && !isFetching && hasMore) {
-      const lastPostId = postsData.items[postsData.items.length - 1].id;
-      setCurrentCursor(lastPostId);
+      const posts = postsData.items;
+      const newCursorPost = posts[posts.length - 1]?.id;
+      setCurrentCursor(newCursorPost);
     }
   };
 
-  const hasMore = postsData ? postsData.items.length < postsData.totalCount : true;
+  const hasMore = postsData ? postsData.items.length >= (currentCursor ? PAGE_SIZE + 1 : PAGE_SIZE) : true;
 
   return {
     posts: postsData?.items || [],

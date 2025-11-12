@@ -1,5 +1,6 @@
 import styles from './PostsGrid.module.scss';
 import { Post } from '@/src/features/posts/lib/types/api.types';
+import { useState } from 'react';
 
 interface PostsGridProps {
   posts: Post[];
@@ -20,13 +21,23 @@ export default function PostsGrid({ posts, isLoading }: PostsGridProps) {
   if (!posts.length && !isLoading) {
     return <div className={styles.empty}>No posts yet</div>;
   }
+
   return (
-    <div className={styles.grid}>
-      {posts.map((post) => (
-        <div key={post.id} className={styles.gridItem}>
-          <img src={post.images[0]?.url} alt={post.description || 'Post image'} className={styles.image} />
-        </div>
-      ))}
-    </div>
+    <>
+      <div className={styles.grid}>
+        {posts.map((post) => (
+          <div key={post.id} className={styles.gridItem}>
+            <img src={post.images[0]?.url} alt={post.description || 'Post image'} className={styles.image} />
+          </div>
+        ))}
+      </div>
+
+      {/*/!* Модалка открывается когда выбран пост *!/*/}
+      {/*<PostModal*/}
+      {/*  open={selectedPostId !== null}*/}
+      {/*  setOpen={(open) => !open && setSelectedPostId(null)}*/}
+      {/*  postId={selectedPostId || -1}*/}
+      {/*/>*/}
+    </>
   );
 }
