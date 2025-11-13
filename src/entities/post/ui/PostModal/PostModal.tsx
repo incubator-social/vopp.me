@@ -5,62 +5,26 @@ import { Carousel } from '../../../../shared/ui/Carousel';
 import styles from './PostModal.module.scss';
 import { Avatar } from '../../../../shared/ui/Avatar';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { useDeletePostMutation, useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
+import { useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
 import { PostTime } from '../../../../shared/ui/PostTime/PostTime';
 import { PostActions, PostLikesBar } from '@/src/entities/post/ui';
 import { DropdownMenu } from '../../../../shared/ui/DropdownMenu';
 import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from './postMenuItems';
-import { useState } from 'react';
-import { ConfirmModal } from '@/src/shared/ui/ConfirmModal';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch } from '@/app/providers/store/hooks';
-import { setAppError } from '@/app/store/appSlice';
+import { useDeletePost } from '@/src/features/post/deletePost/lib/useDeletePost';
 
 type Props = {
   open: boolean;
-  setOpen: (open: boolean) => void;
+  setOpenPostModal: (open: boolean) => void;
   postId: number;
 };
-export const PostModal = ({ open, setOpen, postId }: Props) => {
+export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
   const { isAuth, user } = useAuth();
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const [deletePost, { isLoading: isDeleting }] = useDeletePostMutation();
   const { data: post } = useGetPostByIdQuery(postId);
+  const { handleDeleteClick, ConfirmModalComponent } = useDeletePost(postId, setOpenPostModal);
 
   const handleEdit = () => {
     console.log('Редактировать пост', postId);
   };
-
-  const handleDelete = () => {
-    setConfirmOpen(true);
-  };
-  const onConfirmDelete = async () => {
-    try {
-      await deletePost(postId).unwrap();
-      dispatch(
-        setAppError({
-          // нужно доработать Alert, не правильные имена, запутанность
-          type: 'success',
-          message: 'The post has been successfully deleted.'
-        })
-      );
-      setConfirmOpen(false);
-      setOpen(false);
-      router.push(`/profile/${user?.userId}`);
-    } catch {
-      dispatch(
-        setAppError({
-          type: 'error',
-          message: 'Failed to delete post'
-        })
-      );
-      setConfirmOpen(false);
-    }
-  };
-
-  const onCancelDelete = () => setConfirmOpen(false);
 
   const handleUnfollow = async () => {
     console.log('Отписаться от пользователя', post?.ownerId);
@@ -75,7 +39,7 @@ export const PostModal = ({ open, setOpen, postId }: Props) => {
     post?.ownerId === user?.userId
       ? getOwnPostMenuItems({
           onEdit: handleEdit,
-          onDelete: handleDelete
+          onDelete: handleDeleteClick
         })
       : getFollowedUserPostMenuItems({
           onUnfollow: handleUnfollow,
@@ -85,7 +49,7 @@ export const PostModal = ({ open, setOpen, postId }: Props) => {
     <>
       <Modal
         open={open}
-        onOpenChange={setOpen}
+        onOpenChange={setOpenPostModal}
         size="xl"
         closeButtonPosition="outside"
         noPadding
@@ -125,17 +89,7 @@ export const PostModal = ({ open, setOpen, postId }: Props) => {
           {/* Нужно продумывать реализацию добавления комментариев и разграничения доступа */}
         </div>
       </Modal>
-      <ConfirmModal
-        open={confirmOpen}
-        title="Delete post?"
-        message="Are you sure you want to delete this post?
-        "
-        confirmText="Yes"
-        cancelText="No"
-        onConfirm={onConfirmDelete}
-        onCancel={onCancelDelete}
-        loading={isDeleting}
-      />
+      <ConfirmModalComponent />
     </>
   );
 };
