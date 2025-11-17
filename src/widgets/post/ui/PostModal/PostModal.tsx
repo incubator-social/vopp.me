@@ -11,6 +11,7 @@ import { PostActions, PostLikesBar } from '@/src/entities/post/ui';
 import { DropdownMenu } from '../../../../shared/ui/DropdownMenu';
 import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from '../../lib/postMenuItems';
 import { useDeletePost } from '@/src/features/post/deletePost/lib/useDeletePost';
+import { useEditPost } from '@/src/features/post/editPost/lib/useEditPost';
 
 type Props = {
   open: boolean;
@@ -20,11 +21,17 @@ type Props = {
 export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
   const { isAuth, user } = useAuth();
   const { data: post } = useGetPostByIdQuery(postId);
-  const { handleDeleteClick, ConfirmModalComponent } = useDeletePost(postId, setOpenPostModal);
-
-  const handleEdit = () => {
-    console.log('Редактировать пост', postId);
-  };
+  const { handleDeleteClick, ConfirmModalComponent: DeleteConfirmModal } = useDeletePost(postId, setOpenPostModal);
+  const {
+    isEditing,
+    editedDescription,
+    isUpdating,
+    setEditedDescription,
+    handleEditClick,
+    handleCancelEdit,
+    handleSaveChanges,
+    ConfirmModalComponent: EditConfirmModal
+  } = useEditPost(post, postId);
 
   const handleUnfollow = async () => {
     console.log('Отписаться от пользователя', post?.ownerId);
@@ -38,7 +45,7 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
   const menuItems =
     post?.ownerId === user?.userId
       ? getOwnPostMenuItems({
-          onEdit: handleEdit,
+          onEdit: handleEditClick,
           onDelete: handleDeleteClick
         })
       : getFollowedUserPostMenuItems({
@@ -89,7 +96,8 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
           {/* Нужно продумывать реализацию добавления комментариев и разграничения доступа */}
         </div>
       </Modal>
-      <ConfirmModalComponent />
+      <DeleteConfirmModal />
+      <EditConfirmModal />
     </>
   );
 };

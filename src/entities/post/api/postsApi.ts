@@ -42,4 +42,5 @@ export const postsApi = baseApi.injectEndpoints({
   overrideExisting: true
 });
 
-export const { useGetPublicPostsQuery, useGetPostByIdQuery, useDeletePostMutation } = postsApi;
+export const { useGetPublicPostsQuery, useGetPostByIdQuery, useDeletePostMutation, useUpdatePostByIdMutation } =
+  postsApi;
