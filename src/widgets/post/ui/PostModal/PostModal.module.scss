@@ -66,3 +66,12 @@
   flex-direction: column;
   gap: 5px;
 }
+
+.wrapperEditing {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  height: 100%;
+  padding: 24px;
+}

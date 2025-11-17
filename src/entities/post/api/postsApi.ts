@@ -36,7 +36,7 @@ export const postsApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: data
       }),
-      invalidatesTags: ['PublicPosts'] // работает, но лучше доработать и использовать id конкретного поста
+      invalidatesTags: ['Post'] // работает, но лучше доработать и использовать id конкретного поста
     })
   }),
   overrideExisting: true

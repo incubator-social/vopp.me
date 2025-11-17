@@ -1,17 +1,18 @@
 'use client';
 
-import { Modal } from '../../../../shared/ui/Modal';
-import { Carousel } from '../../../../shared/ui/Carousel';
+import { Modal } from '@/src/shared/ui/Modal';
+import { Carousel } from '@/src/shared/ui/Carousel';
 import styles from './PostModal.module.scss';
-import { Avatar } from '../../../../shared/ui/Avatar';
+import { Avatar } from '@/src/shared/ui/Avatar';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
-import { PostTime } from '../../../../shared/ui/PostTime/PostTime';
+import { PostTime } from '@/src/shared/ui/PostTime/PostTime';
 import { PostActions, PostLikesBar } from '@/src/entities/post/ui';
-import { DropdownMenu } from '../../../../shared/ui/DropdownMenu';
+import { DropdownMenu } from '@/src/shared/ui/DropdownMenu';
 import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from '../../lib/postMenuItems';
 import { useDeletePost } from '@/src/features/post/deletePost/lib/useDeletePost';
 import { useEditPost } from '@/src/features/post/editPost/lib/useEditPost';
+import { EditContent } from '@/src/features/post/editPost/ui/EditContent';
 
 type Props = {
   open: boolean;
@@ -52,11 +53,27 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
           onUnfollow: handleUnfollow,
           onCopyLink: handleCopyLink
         });
+
+  const handleModalOpenChange = (nextOpen: boolean) => {
+    if (nextOpen) {
+      setOpenPostModal(true);
+      return;
+    }
+
+    // пытались закрыть
+    if (isEditing) {
+      handleCancelEdit(() => {
+        setOpenPostModal(false);
+      });
+    } else {
+      setOpenPostModal(false);
+    }
+  };
   return (
     <>
       <Modal
         open={open}
-        onOpenChange={setOpenPostModal}
+        onOpenChange={handleModalOpenChange}
         size="xl"
         closeButtonPosition="outside"
         noPadding
@@ -73,25 +90,43 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
                 <Avatar src={post?.avatarOwner} name={post?.userName} size={36} />
                 <span className={styles.username}>{post?.userName}</span>
               </div>
-              {isAuth && <DropdownMenu items={menuItems} />}
+              {isAuth && !isEditing && <DropdownMenu items={menuItems} />}
             </div>
-            {/* Нужно продумывать реализацию комментариев  */}
-            <div className={styles.content}>Description and Comments go here</div>
-            <div className={styles.interactions}>
-              {isAuth && (
-                // Нужно продумывать реализацию лайков и сохранения, доделать отображение,
-                // правильное наведение на иконку, дкмаю дальше будет такая задача
-                <PostActions
-                  onLike={() => console.log('Лайк')}
-                  onSend={() => console.log('Поделиться')}
-                  onSave={() => console.log('Сохранить')}
+            {isEditing ? (
+              <div className={styles.wrapperEditing}>
+                <EditContent
+                  editedDescription={editedDescription}
+                  setEditedDescription={setEditedDescription}
+                  isUpdating={isUpdating}
+                  onCancel={() => handleCancelEdit()}
+                  onSave={handleSaveChanges}
                 />
-              )}
-              <div className={styles.meta}>
-                <PostLikesBar postId={postId} />
-                <PostTime date={post?.createdAt} />
               </div>
-            </div>
+            ) : (
+              <>
+                <div className={styles.content}>
+                  {post?.description}
+                  <br />
+                  {/* Нужно продумывать реализацию комментариев  */}
+                  Comments will be here
+                </div>
+                <div className={styles.interactions}>
+                  {isAuth && (
+                    // Нужно продумывать реализацию лайков и сохранения, доделать отображение,
+                    // правильное наведение на иконку, дкмаю дальше будет такая задача
+                    <PostActions
+                      onLike={() => console.log('Лайк')}
+                      onSend={() => console.log('Поделиться')}
+                      onSave={() => console.log('Сохранить')}
+                    />
+                  )}
+                  <div className={styles.meta}>
+                    <PostLikesBar postId={postId} />
+                    <PostTime date={post?.createdAt} />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
           {/* Нужно продумывать реализацию добавления комментариев и разграничения доступа */}
         </div>
