@@ -29,6 +29,14 @@ export const postsApi = baseApi.injectEndpoints({
         method: 'DELETE'
       })
       // invalidatesTags: ['Posts'] нужно раскомментировать и проверить актуальность тега
+    }),
+    updatePostById: build.mutation<void, { postId: number; data: { description: string } }>({
+      query: ({ postId, data }) => ({
+        url: `/posts/${postId}`,
+        method: 'PUT',
+        body: data
+      }),
+      invalidatesTags: ['PublicPosts'] // работает, но лучше доработать и использовать id конкретного поста
     })
   }),
   overrideExisting: true
