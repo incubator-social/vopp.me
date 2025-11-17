@@ -9,7 +9,7 @@ export const useDeletePost = (postId: number, setOpenPostModal: (v: boolean) => 
   const { user } = useAuth();
   const router = useRouter();
   const { openConfirm, ConfirmModalComponent } = useConfirmModal();
-  const alet = useAlert();
+  const alert = useAlert();
 
   const handleDeleteClick = () => {
     openConfirm({
@@ -19,7 +19,7 @@ export const useDeletePost = (postId: number, setOpenPostModal: (v: boolean) => 
       cancelText: 'Cancel',
       onConfirm: async () => {
         await deletePost(postId).unwrap();
-        alet.success('The post has been successfully deleted.');
+        alert.success('The post has been successfully deleted.');
         setOpenPostModal(false);
         router.push(`/profile/${user?.userId}`);
       }
