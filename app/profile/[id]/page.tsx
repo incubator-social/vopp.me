@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { ROUTES } from '@/src/shared/config/routes';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { PostModal } from '@/src/entities/post/ui/PostModal/PostModal';
+import { PostModal } from '@/src/widgets/post/ui/PostModal/PostModal';
 import { useState } from 'react';
 
 export default function UserProfilePage() {
@@ -26,7 +26,7 @@ export default function UserProfilePage() {
       )}
       {/* Уберем эту кнопку, нужна для демонстрации, так же передаю id хардкодом */}
       <button onClick={() => setOpen(true)}>Open post</button>
-      <PostModal open={open} setOpen={setOpen} postId={516} />
+      <PostModal open={open} setOpenPostModal={setOpen} postId={536} />
     </div>
   );
 }
