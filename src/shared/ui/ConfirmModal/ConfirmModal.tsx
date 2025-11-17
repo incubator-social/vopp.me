@@ -12,6 +12,7 @@ type ConfirmModalProps = {
   cancelText?: string;
   onConfirm: () => void;
   onCancel: () => void;
+  loading?: boolean;
 };
 
 export const ConfirmModal = ({
@@ -21,17 +22,18 @@ export const ConfirmModal = ({
   confirmText = 'Yes',
   cancelText = 'No',
   onConfirm,
-  onCancel
+  onCancel,
+  loading
 }: ConfirmModalProps) => {
   const sizeButton = { minWidth: 96, height: 36 };
   return (
     <Modal
       open={open}
-      onOpenChange={onCancel}
+      onOpenChange={loading ? undefined : onCancel}
       title={title}
       size="md"
       closeButtonPosition="inside"
-      bodyClassName={styles.body}
+      bodyClassName={`${styles.body}`}
     >
       <div className={styles.message}>{message}</div>
       <div className={styles.footer}>
@@ -42,6 +44,11 @@ export const ConfirmModal = ({
           {cancelText}
         </Button>
       </div>
+      {loading && (
+        <div className={styles.overlay}>
+          <div className={styles.loader} />
+        </div>
+      )}
     </Modal>
   );
 };

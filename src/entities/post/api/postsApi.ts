@@ -13,7 +13,7 @@ export const postsApi = baseApi.injectEndpoints({
       }),
       // валидируем через Zod
       transformResponse: (response: unknown) => PostsResponseSchema.parse(response),
-      providesTags: ['Posts']
+      providesTags: ['PublicPosts']
     }),
     getPostById: build.query<Post, number>({
       query: (postId) => ({
@@ -21,9 +21,17 @@ export const postsApi = baseApi.injectEndpoints({
         method: 'GET'
       }),
       transformResponse: (response: unknown) => PostSchema.parse(response),
-      providesTags: ['Posts']
+      providesTags: ['Post']
+    }),
+    deletePost: build.mutation<void, number>({
+      query: (id) => ({
+        url: `/posts/${id}`,
+        method: 'DELETE'
+      })
+      // invalidatesTags: ['Posts'] нужно раскомментировать и проверить актуальность тега
     })
-  })
+  }),
+  overrideExisting: true
 });
 
-export const { useGetPublicPostsQuery, useGetPostByIdQuery } = postsApi;
+export const { useGetPublicPostsQuery, useGetPostByIdQuery, useDeletePostMutation } = postsApi;
