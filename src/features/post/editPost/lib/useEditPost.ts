@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import type { Post } from '@/src/entities/post/model/posts.schemas';
 import { useConfirmModal } from '@/src/shared/hooks/useConfirmModal';
 import { useAppDispatch } from '@/app/providers/store/hooks';
-import { setAppError } from '@/app/store/appSlice';
 import { useUpdatePostByIdMutation } from '@/src/entities/post/api/postsApi';
 
 export const useEditPost = (post: Post | undefined, postId: number) => {
@@ -36,12 +35,14 @@ export const useEditPost = (post: Post | undefined, postId: number) => {
         data: { description: trimmed }
       }).unwrap();
 
-      dispatch(
-        setAppError({
-          type: 'success',
-          message: 'The post has been edited'
-        })
-      );
+      // dispatch(
+      //   setAppError({
+      //     type: 'success',
+      //     message: 'The post has been edited'
+      //   })
+      // );
+      // заменить на
+      // alert.success('The post has been edited');
 
       setIsEditing(false);
     } catch (e) {
