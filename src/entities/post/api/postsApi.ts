@@ -29,7 +29,7 @@ export const postsApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: data
       }),
-      invalidatesTags: ['Posts']
+      invalidatesTags: ['Posts'] // работает, но лучше доработать и использовать id конкретного поста
     })
   })
 });
