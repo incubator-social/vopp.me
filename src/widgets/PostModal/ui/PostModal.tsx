@@ -1,15 +1,15 @@
 'use client';
 
-import { Modal } from '../../../../shared/ui/Modal';
-import { Carousel } from '../../../../shared/ui/Carousel';
+import { Modal } from '../../../shared/ui/Modal';
+import { Carousel } from '../../../shared/ui/Carousel';
 import styles from './PostModal.module.scss';
-import { Avatar } from '../../../../shared/ui/Avatar';
+import { Avatar } from '../../../shared/ui/Avatar';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
-import { PostTime } from '../../../../shared/ui/PostTime/PostTime';
+import { PostTime } from '../../../shared/ui/PostTime/PostTime';
 import { PostActions, PostLikesBar } from '@/src/entities/post/ui';
-import { DropdownMenu } from '../../../../shared/ui/DropdownMenu';
-import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from './postMenuItems';
+import { DropdownMenu } from '../../../shared/ui/DropdownMenu';
+import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from '../lib/postMenuItems';
 import { useDeletePost } from '@/src/features/post/deletePost/lib/useDeletePost';
 
 type Props = {

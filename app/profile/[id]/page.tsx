@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { ROUTES } from '@/src/shared/config/routes';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { PostModal } from '@/src/entities/post/ui/PostModal/PostModal';
+import { PostModal } from '@/src/widgets/PostModal/ui/PostModal';
 import { useState } from 'react';
 
 export default function UserProfilePage() {
