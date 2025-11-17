@@ -1,4 +1,3 @@
-// src/shared/hooks/useAlert.ts
 import { useAppDispatch } from '@/app/providers/store/hooks';
 import { setAppAlert } from '@/app/store/appSlice';
 import { AlertType } from '../types/common';
