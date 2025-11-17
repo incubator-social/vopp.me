@@ -1,12 +1,11 @@
-import { useAppDispatch } from '@/app/providers/store/hooks';
-import { setAppError } from '@/app/store/appSlice';
 import { ROUTES } from '@/src/shared/config/routes';
 import { AUTH_KEYS } from '@/src/shared/config/storage';
+import { useAlert } from '@/src/shared/hooks/useAlert';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 const GetTokenGithubOAuth = () => {
-  const dispatch = useAppDispatch();
+  const alert = useAlert();
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -19,10 +18,10 @@ const GetTokenGithubOAuth = () => {
     }
 
     if (!token) {
-      dispatch(setAppError({ type: 'error', message: 'Error during authentication via GitHub' }));
+      alert.error('Error during authentication via GitHub');
       router.replace(ROUTES.AUTH.SIGN_UP);
     }
-  }, [searchParams, router, token, dispatch]);
+  }, [searchParams, router, token, alert]);
 
   return null;
 };

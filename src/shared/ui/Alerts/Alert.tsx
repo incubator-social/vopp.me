@@ -3,15 +3,16 @@ import { useState } from 'react';
 import styles from '@/src/shared/ui/Alerts/alert.module.scss';
 import CloseIcon from '@/src/shared/assets/icons/close.svg';
 import clsx from 'clsx';
+import { AlertType } from '../../types/common';
 
-type ToastItemProps = {
-  type: 'success' | 'error';
+type AlertProps = {
+  type: AlertType;
   message: string;
   duration?: number; // в миллисекундах, можно Infinity
   onClose?: () => void;
 };
 
-export const Alert = ({ type, message, duration = 10000, onClose }: ToastItemProps) => {
+export const Alert = ({ type, message, duration = 10000, onClose }: AlertProps) => {
   const [open, setOpen] = useState(true);
 
   return (
