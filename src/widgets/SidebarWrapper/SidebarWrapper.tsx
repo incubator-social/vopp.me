@@ -52,7 +52,7 @@ export const SidebarWrapper = () => {
         onConfirm={handleConfirmLogout}
         onCancel={() => {
           setConfirmOpen(false);
-          alert.success('The user is logged out');
+          alert.info('The user is logged out');
         }}
       />
     </>

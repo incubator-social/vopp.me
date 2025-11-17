@@ -1,17 +1,15 @@
 import { useDeletePostMutation } from '@/src/entities/post/api/postsApi';
-import { useAppDispatch } from '@/app/providers/store/hooks';
-
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { useRouter } from 'next/navigation';
 import { useConfirmModal } from '@/src/shared/hooks/useConfirmModal';
-import { setAppError } from '@/app/store/appSlice';
+import { useAlert } from '@/src/shared/hooks/useAlert';
 
 export const useDeletePost = (postId: number, setOpenPostModal: (v: boolean) => void) => {
   const [deletePost] = useDeletePostMutation();
-  const dispatch = useAppDispatch();
   const { user } = useAuth();
   const router = useRouter();
   const { openConfirm, ConfirmModalComponent } = useConfirmModal();
+  const alet = useAlert();
 
   const handleDeleteClick = () => {
     openConfirm({
@@ -21,13 +19,7 @@ export const useDeletePost = (postId: number, setOpenPostModal: (v: boolean) => 
       cancelText: 'Cancel',
       onConfirm: async () => {
         await deletePost(postId).unwrap();
-        dispatch(
-          setAppError({
-            // нужно доработать Alert, не правильные имена, запутанность
-            type: 'success',
-            message: 'The post has been successfully deleted.'
-          })
-        );
+        alet.success('The post has been successfully deleted.');
         setOpenPostModal(false);
         router.push(`/profile/${user?.userId}`);
       }

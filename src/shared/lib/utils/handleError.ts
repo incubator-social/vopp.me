@@ -1,7 +1,6 @@
 import { BaseQueryApi, FetchBaseQueryError, FetchBaseQueryMeta, QueryReturnValue } from '@reduxjs/toolkit/query';
 import { isErrorWithMessage } from './isErrorWithMessage';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
-import { set } from 'zod';
 import { setAppAlert } from '@/app/store/appSlice';
 
 export const handleError = (

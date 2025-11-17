@@ -35,14 +35,14 @@
   }
 
   &--warning {
-    background-color: var(--color-warning-900, #fef3c7);
-    border: 1px solid var(--color-warning-500, #f59e0b);
+    background-color: var(--color-warning-300);
+    border: 1px solid var(--color-warning-500);
     color: #fff;
   }
 
   &--info {
-    background-color: var(--color-info-900, #e0f2fe);
-    border: 1px solid var(--color-info-500, #3b82f6);
+    background-color: var(--color-accent-300);
+    border: 1px solid var(--color-accent-700);
     color: #fff;
   }
 }
