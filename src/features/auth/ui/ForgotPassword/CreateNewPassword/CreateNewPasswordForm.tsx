@@ -8,8 +8,6 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ROUTES } from '@/src/shared/config/routes';
-import { useAppDispatch } from '@/app/providers/store/hooks';
-import { setAppError } from '@/app/store/appSlice';
 import clsx from 'clsx';
 import {
   CreateNewPasswordFormValues,
@@ -17,14 +15,15 @@ import {
 } from '@/src/features/auth/ui/ForgotPassword/CreateNewPassword/createNewPasswordFormSchema';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 import { use, useEffect } from 'react';
+import { useAlert } from '@/src/shared/hooks/useAlert';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
 export const CreateNewPasswordForm = ({ searchParams }: Props) => {
-  const dispatch = useAppDispatch();
   const router = useRouter();
+  const alert = useAlert();
 
   const code = use(searchParams).code;
 
@@ -33,7 +32,7 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
 
   useEffect(() => {
     if (!code) {
-      dispatch(setAppError({ type: 'error', message: 'Recovery code is missing' }));
+      alert.error('Recovery code is missing');
       return;
     }
 
@@ -45,18 +44,13 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
         if (error.data.messages?.[0]?.message === 'Code is not valid') {
           router.replace(ROUTES.AUTH.RECOVERY_LINK_EXPIRED);
         } else {
-          dispatch(
-            setAppError({
-              type: 'error',
-              message: error?.data?.messages?.[0]?.message || 'Something went wrong'
-            })
-          );
+          alert.error(error?.data?.messages?.[0]?.message || 'Something went wrong');
         }
       }
     };
 
     validateCode();
-  }, [code, checkRecoveryCode, router, dispatch]);
+  }, [code, checkRecoveryCode, router, alert]);
 
   const {
     register,
@@ -84,7 +78,7 @@ export const CreateNewPasswordForm = ({ searchParams }: Props) => {
 
   const onSubmit = async (data: CreateNewPasswordFormValues) => {
     if (!code) {
-      dispatch(setAppError({ type: 'error', message: 'Recovery code is missing' }));
+      alert.error('Recovery code is missing');
       return;
     }
     try {

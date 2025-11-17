@@ -1,6 +1,5 @@
 'use client';
-import { setAppError } from '@/app/store/appSlice';
-import { useAppDispatch } from '@/app/providers/store/hooks';
+
 import { useLogoutMutation } from '@/src/features/auth/api';
 import { ROUTES } from '@/src/shared/config/routes';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
@@ -9,14 +8,15 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import styles from './SidebarWrapper.module.scss';
+import { useAlert } from '@/src/shared/hooks/useAlert';
 
 export const SidebarWrapper = () => {
-  const dispatch = useAppDispatch();
   const [active, setActive] = useState('profile');
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
   const [logout] = useLogoutMutation();
   const { user, isAuth, uiReady } = useAuth();
+  const alert = useAlert();
 
   if (!uiReady) return <div className={styles.skeleton}></div>;
 
@@ -52,7 +52,7 @@ export const SidebarWrapper = () => {
         onConfirm={handleConfirmLogout}
         onCancel={() => {
           setConfirmOpen(false);
-          dispatch(setAppError({ type: 'success', message: 'The user is logged in' })); // нужно доработать Alert, не только на ошибки
+          alert.info('The user is logged out');
         }}
       />
     </>
