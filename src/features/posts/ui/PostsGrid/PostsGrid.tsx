@@ -1,6 +1,5 @@
 import styles from './PostsGrid.module.scss';
 import { Post } from '@/src/features/posts/lib/types/api.types';
-import { useState } from 'react';
 
 interface PostsGridProps {
   posts: Post[];
@@ -31,13 +30,6 @@ export default function PostsGrid({ posts, isLoading }: PostsGridProps) {
           </div>
         ))}
       </div>
-
-      {/*/!* Модалка открывается когда выбран пост *!/*/}
-      {/*<PostModal*/}
-      {/*  open={selectedPostId !== null}*/}
-      {/*  setOpen={(open) => !open && setSelectedPostId(null)}*/}
-      {/*  postId={selectedPostId || -1}*/}
-      {/*/>*/}
     </>
   );
 }

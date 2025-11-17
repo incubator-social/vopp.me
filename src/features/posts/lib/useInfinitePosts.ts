@@ -53,7 +53,11 @@ export const useInfinitePosts = (userId: number) => {
     }
   };
 
-  const hasMore = postsData ? postsData.items.length >= (currentCursor ? PAGE_SIZE + 1 : PAGE_SIZE) : true;
+  const hasMore = postsData
+    ? currentCursor
+      ? postsData.items.length === PAGE_SIZE + 1
+      : postsData.items.length === PAGE_SIZE
+    : true;
 
   return {
     posts: postsData?.items || [],
