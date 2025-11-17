@@ -12,7 +12,7 @@ type Props = {
   onSave: () => void;
 };
 
-export const EditContent = ({ editedDescription, setEditedDescription, isUpdating, onCancel, onSave }: Props) => {
+export const EditPostContent = ({ editedDescription, setEditedDescription, isUpdating, onCancel, onSave }: Props) => {
   return (
     <>
       <Textarea value={editedDescription} onChange={(e) => setEditedDescription(e.target.value)} />

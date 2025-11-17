@@ -12,7 +12,7 @@ import { DropdownMenu } from '@/src/shared/ui/DropdownMenu';
 import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from '../../lib/postMenuItems';
 import { useDeletePost } from '@/src/features/post/deletePost/lib/useDeletePost';
 import { useEditPost } from '@/src/features/post/editPost/lib/useEditPost';
-import { EditContent } from '@/src/features/post/editPost/ui/EditContent';
+import { EditPostContent } from '@/src/features/post/editPost/ui/EditPostContent';
 
 type Props = {
   open: boolean;
@@ -94,7 +94,7 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
             </div>
             {isEditing ? (
               <div className={styles.wrapperEditing}>
-                <EditContent
+                <EditPostContent
                   editedDescription={editedDescription}
                   setEditedDescription={setEditedDescription}
                   isUpdating={isUpdating}
