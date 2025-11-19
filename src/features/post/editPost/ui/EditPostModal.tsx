@@ -10,12 +10,13 @@ import { Textarea } from '@/src/shared/ui/Textarea/Textarea';
 import { Button } from '@/src/shared/ui/Button';
 
 type Props = {
-  open: boolean;
-  setIsEditModalOpen: (open: boolean) => void;
   post: Post | undefined;
+  open: boolean;
+  setOpen: (v: boolean) => void;
+  setOpenPostModal: (v: boolean) => void;
 };
 
-export const EditPostModal = ({ open, setIsEditModalOpen, post }: Props) => {
+export const EditPostModal = ({ post, open, setOpen, setOpenPostModal }: Props) => {
   const {
     editedDescription,
     isUpdating,
@@ -23,11 +24,11 @@ export const EditPostModal = ({ open, setIsEditModalOpen, post }: Props) => {
     handleCancelEdit,
     handleSaveChanges,
     ConfirmModalComponent: EditConfirmModal
-  } = useEditPost(post, setIsEditModalOpen);
+  } = useEditPost(post, setOpen, setOpenPostModal);
 
   const handleModalOpenChange = (nextOpen: boolean) => {
     if (nextOpen) {
-      setIsEditModalOpen(true);
+      setOpen(true);
       return;
     }
     handleCancelEdit();

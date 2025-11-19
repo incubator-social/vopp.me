@@ -4,7 +4,11 @@ import { useConfirmModal } from '@/src/shared/hooks/useConfirmModal';
 import { useAppDispatch } from '@/app/providers/store/hooks';
 import { useUpdatePostByIdMutation } from '@/src/entities/post/api/postsApi';
 
-export const useEditPost = (post: Post | undefined, setIsEditModalOpen: (v: boolean) => void) => {
+export const useEditPost = (
+  post: Post | undefined,
+  setIsEditModalOpen: (v: boolean) => void,
+  setOpenPostModal: (v: boolean) => void
+) => {
   const dispatch = useAppDispatch();
   const [editedDescription, setEditedDescription] = useState('');
 
@@ -37,10 +41,11 @@ export const useEditPost = (post: Post | undefined, setIsEditModalOpen: (v: bool
       // alert.success('The post has been edited');
 
       setIsEditModalOpen(false);
+      setOpenPostModal(true);
     } catch (e) {
       // доп. обработка если необходимо будет
     }
-  }, [editedDescription, post, updatePost, dispatch]);
+  }, [editedDescription, post, updatePost, setIsEditModalOpen, dispatch]);
 
   const handleCancelEdit = useCallback(
     (onDiscard?: () => void) => {
@@ -50,6 +55,7 @@ export const useEditPost = (post: Post | undefined, setIsEditModalOpen: (v: bool
       // если ничего не меняли — просто выходим
       if (!hasChanges) {
         setIsEditModalOpen(false);
+        setOpenPostModal(true);
         setEditedDescription(original);
         onDiscard?.();
         return;
@@ -63,6 +69,7 @@ export const useEditPost = (post: Post | undefined, setIsEditModalOpen: (v: bool
         cancelText: 'No',
         onConfirm: () => {
           setIsEditModalOpen(false);
+          setOpenPostModal(true);
           setEditedDescription(original);
           onDiscard?.();
         }

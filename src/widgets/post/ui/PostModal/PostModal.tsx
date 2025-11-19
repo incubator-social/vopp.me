@@ -38,6 +38,7 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
 
   const handleEditClick = () => {
     setIsEditModalOpen(true);
+    setOpenPostModal(false);
   };
 
   const menuItems =
@@ -100,8 +101,14 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
           {/* Нужно продумывать реализацию добавления комментариев и разграничения доступа */}
         </div>
       </Modal>
-      <EditPostModal open={isEditModalOpen} setIsEditModalOpen={setIsEditModalOpen} post={post} />
-      {!isEditModalOpen && <DeleteConfirmModal />}
+      <EditPostModal
+        post={post}
+        open={isEditModalOpen}
+        setOpen={setIsEditModalOpen}
+        setOpenPostModal={setOpenPostModal}
+      />
+
+      <DeleteConfirmModal />
     </>
   );
 };
