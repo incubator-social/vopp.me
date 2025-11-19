@@ -77,7 +77,7 @@
   }
 
   &:not(:placeholder-shown) {
-    border-color: var(--color-light-100);
+    border-color: var(--color-dark-100);
     background: var(--color-dark-500);
     color: var(--color-light-100);
   }

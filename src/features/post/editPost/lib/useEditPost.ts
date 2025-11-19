@@ -4,34 +4,26 @@ import { useConfirmModal } from '@/src/shared/hooks/useConfirmModal';
 import { useAppDispatch } from '@/app/providers/store/hooks';
 import { useUpdatePostByIdMutation } from '@/src/entities/post/api/postsApi';
 
-export const useEditPost = (post: Post | undefined, postId: number) => {
+export const useEditPost = (post: Post | undefined, setIsEditModalOpen: (v: boolean) => void) => {
   const dispatch = useAppDispatch();
-  const [isEditing, setIsEditing] = useState(false);
   const [editedDescription, setEditedDescription] = useState('');
 
   const [updatePost, { isLoading: isUpdating }] = useUpdatePostByIdMutation();
   const { openConfirm, ConfirmModalComponent } = useConfirmModal();
 
   useEffect(() => {
-    if (!post || isEditing) return;
-    setEditedDescription(post.description ?? '');
-  }, [post, isEditing]);
-
-  const handleEditClick = useCallback(() => {
     if (!post) return;
     setEditedDescription(post.description ?? '');
-    setIsEditing(true);
   }, [post]);
 
   const handleSaveChanges = useCallback(async () => {
     if (!post) return;
-
     const trimmed = editedDescription.trim();
     if (!trimmed) return;
 
     try {
       await updatePost({
-        postId,
+        postId: post.id,
         data: { description: trimmed }
       }).unwrap();
 
@@ -44,22 +36,20 @@ export const useEditPost = (post: Post | undefined, postId: number) => {
       // заменить на
       // alert.success('The post has been edited');
 
-      setIsEditing(false);
+      setIsEditModalOpen(false);
     } catch (e) {
       // доп. обработка если необходимо будет
     }
-  }, [editedDescription, postId, post, updatePost, dispatch]);
+  }, [editedDescription, post, updatePost, dispatch]);
 
   const handleCancelEdit = useCallback(
     (onDiscard?: () => void) => {
-      if (!isEditing) return;
-
       const original = post?.description ?? '';
       const hasChanges = original !== editedDescription.trim();
 
       // если ничего не меняли — просто выходим
       if (!hasChanges) {
-        setIsEditing(false);
+        setIsEditModalOpen(false);
         setEditedDescription(original);
         onDiscard?.();
         return;
@@ -72,21 +62,19 @@ export const useEditPost = (post: Post | undefined, postId: number) => {
         confirmText: 'Yes',
         cancelText: 'No',
         onConfirm: () => {
-          setIsEditing(false);
+          setIsEditModalOpen(false);
           setEditedDescription(original);
           onDiscard?.();
         }
       });
     },
-    [isEditing, editedDescription, post, openConfirm]
+    [setIsEditModalOpen, editedDescription, post, openConfirm]
   );
 
   return {
-    isEditing,
     editedDescription,
     isUpdating,
     setEditedDescription,
-    handleEditClick,
     handleCancelEdit,
     handleSaveChanges,
     ConfirmModalComponent

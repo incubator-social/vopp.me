@@ -11,8 +11,8 @@ import { PostActions, PostLikesBar } from '@/src/entities/post/ui';
 import { DropdownMenu } from '@/src/shared/ui/DropdownMenu';
 import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from '../../lib/postMenuItems';
 import { useDeletePost } from '@/src/features/post/deletePost/lib/useDeletePost';
-import { useEditPost } from '@/src/features/post/editPost/lib/useEditPost';
-import { EditPostContent } from '@/src/features/post/editPost/ui/EditPostContent';
+import { useState } from 'react';
+import { EditPostModal } from '@/src/features/post/editPost/ui/EditPostModal';
 
 type Props = {
   open: boolean;
@@ -20,19 +20,12 @@ type Props = {
   postId: number;
 };
 export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
-  const { isAuth, user } = useAuth();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const { data: post } = useGetPostByIdQuery(postId);
+
+  const { isAuth, user } = useAuth();
   const { handleDeleteClick, ConfirmModalComponent: DeleteConfirmModal } = useDeletePost(postId, setOpenPostModal);
-  const {
-    isEditing,
-    editedDescription,
-    isUpdating,
-    setEditedDescription,
-    handleEditClick,
-    handleCancelEdit,
-    handleSaveChanges,
-    ConfirmModalComponent: EditConfirmModal
-  } = useEditPost(post, postId);
 
   const handleUnfollow = async () => {
     console.log('Отписаться от пользователя', post?.ownerId);
@@ -41,6 +34,10 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
   const handleCopyLink = () => {
     const url = `${window.location.origin}/post/${postId}`;
     navigator.clipboard.writeText(url);
+  };
+
+  const handleEditClick = () => {
+    setIsEditModalOpen(true);
   };
 
   const menuItems =
@@ -54,26 +51,11 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
           onCopyLink: handleCopyLink
         });
 
-  const handleModalOpenChange = (nextOpen: boolean) => {
-    if (nextOpen) {
-      setOpenPostModal(true);
-      return;
-    }
-
-    // пытались закрыть
-    if (isEditing) {
-      handleCancelEdit(() => {
-        setOpenPostModal(false);
-      });
-    } else {
-      setOpenPostModal(false);
-    }
-  };
   return (
     <>
       <Modal
         open={open}
-        onOpenChange={handleModalOpenChange}
+        onOpenChange={setOpenPostModal}
         size="xl"
         closeButtonPosition="outside"
         noPadding
@@ -90,49 +72,36 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
                 <Avatar src={post?.avatarOwner} name={post?.userName} size={36} />
                 <span className={styles.username}>{post?.userName}</span>
               </div>
-              {isAuth && !isEditing && <DropdownMenu items={menuItems} />}
+              {isAuth && <DropdownMenu items={menuItems} />}
             </div>
-            {isEditing ? (
-              <div className={styles.wrapperEditing}>
-                <EditPostContent
-                  editedDescription={editedDescription}
-                  setEditedDescription={setEditedDescription}
-                  isUpdating={isUpdating}
-                  onCancel={() => handleCancelEdit()}
-                  onSave={handleSaveChanges}
+
+            <div className={styles.content}>
+              {post?.description}
+              <br />
+              {/* Нужно продумывать реализацию комментариев  */}
+              Comments will be here
+            </div>
+            <div className={styles.interactions}>
+              {isAuth && (
+                // Нужно продумывать реализацию лайков и сохранения, доделать отображение,
+                // правильное наведение на иконку, дкмаю дальше будет такая задача
+                <PostActions
+                  onLike={() => console.log('Лайк')}
+                  onSend={() => console.log('Поделиться')}
+                  onSave={() => console.log('Сохранить')}
                 />
+              )}
+              <div className={styles.meta}>
+                <PostLikesBar postId={postId} />
+                <PostTime date={post?.createdAt} />
               </div>
-            ) : (
-              <>
-                <div className={styles.content}>
-                  {post?.description}
-                  <br />
-                  {/* Нужно продумывать реализацию комментариев  */}
-                  Comments will be here
-                </div>
-                <div className={styles.interactions}>
-                  {isAuth && (
-                    // Нужно продумывать реализацию лайков и сохранения, доделать отображение,
-                    // правильное наведение на иконку, дкмаю дальше будет такая задача
-                    <PostActions
-                      onLike={() => console.log('Лайк')}
-                      onSend={() => console.log('Поделиться')}
-                      onSave={() => console.log('Сохранить')}
-                    />
-                  )}
-                  <div className={styles.meta}>
-                    <PostLikesBar postId={postId} />
-                    <PostTime date={post?.createdAt} />
-                  </div>
-                </div>
-              </>
-            )}
+            </div>
           </div>
           {/* Нужно продумывать реализацию добавления комментариев и разграничения доступа */}
         </div>
       </Modal>
-      <DeleteConfirmModal />
-      <EditConfirmModal />
+      <EditPostModal open={isEditModalOpen} setIsEditModalOpen={setIsEditModalOpen} post={post} />
+      {!isEditModalOpen && <DeleteConfirmModal />}
     </>
   );
 };

@@ -91,7 +91,8 @@
   align-items: center;
   padding: 18px 24px;
   position: relative;
-  margin: 0 -24px; // компенсируем padding контента
+
+  // margin: 0 -24px; // компенсируем padding контента
 
   &::after {
     content: '';
