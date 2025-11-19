@@ -52,7 +52,7 @@ export const Modal = (props: ModalProps) => {
           <Dialog.Overlay className={clsx(styles.overlay, classOverlay)} />
           <Dialog.Content
             aria-label={title ?? 'Dialog window'}
-            className={clsx(styles.content, styles[size], contentClassName, noPadding && styles.noPadding)}
+            className={clsx(styles.content, styles[size], contentClassName)}
             onInteractOutside={(e) => {
               if (!closeOnOverlayClick) e.preventDefault();
             }}
@@ -85,7 +85,7 @@ export const Modal = (props: ModalProps) => {
               )
             )}
             <Dialog.Description asChild>
-              <div className={clsx(styles.body, bodyClassName)}>{children}</div>
+              <div className={clsx(styles.body, bodyClassName, noPadding && styles.noPaddingBody)}>{children}</div>
             </Dialog.Description>
             {closeButtonPosition === 'outside' && (
               <Dialog.Close asChild>
