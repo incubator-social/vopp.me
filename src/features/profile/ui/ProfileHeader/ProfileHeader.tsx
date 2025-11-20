@@ -4,20 +4,10 @@ import styles from './ProfileHeader.module.scss';
 import Link from 'next/link';
 import { ROUTES } from '@/src/shared/config/routes';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
+import { PublicProfileResponse } from '@/src/features/profile/lib/api.types';
 
 type ProfileHeaderProps = {
-  profile: {
-    id: number;
-    userName: string;
-    aboutMe: string;
-    avatars: Array<{ url: string }>;
-    userMetadata: {
-      following: number;
-      followers: number;
-      publications: number;
-    };
-    isFollowing?: boolean;
-  };
+  profile: PublicProfileResponse;
   isMyProfile: boolean;
   onFollowClick?: () => void;
   onMessageClick?: () => void;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import InfinitePosts from '@/src/features/posts/ui/InfinityPosts';
+import InfinitePosts from '@/src/features/posts/ui/InfinityPosts/InfinityPosts';
 import styles from './page.module.scss';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { ProfileHeader } from '@/src/features/profile/ui/ProfileHeader/ProfileHeader';
@@ -13,7 +13,7 @@ export default function UserProfilePage() {
   const { user } = useAuth();
 
   const { profile, isLoading: profileLoading, error: profileError } = usePublicProfile(userId);
-  const isMyProfile = user?.userId === Number(params.id);
+  const isMyProfile = user?.userId === userId;
 
   if (isNaN(userId)) {
     return <div>Invalid user ID</div>;
@@ -27,7 +27,11 @@ export default function UserProfilePage() {
     return (
       <div className={styles.container}>
         <div>Loading profile...</div>
-        <InfinitePosts userId={userId} />
+        <div className={styles.postsSkeleton}>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className={styles.postSkeleton} />
+          ))}
+        </div>
       </div>
     );
   }

@@ -1,8 +1,9 @@
 'use client';
 
-import InfiniteScrollTrigger from '@/src/features/posts/InfiniteScrollTrigger';
+import InfiniteScrollTrigger from '@/src/features/posts/ui/InfiniteScrollTrigger/InfiniteScrollTrigger';
 import { useInfinitePosts } from '@/src/features/posts/lib/useInfinitePosts';
 import PostsGrid from '@/src/features/posts/ui/PostsGrid/PostsGrid';
+import styles from './InfinityPosts.module.scss';
 
 interface InfinitePostsProps {
   userId: number;
@@ -21,11 +22,9 @@ export default function InfinitePosts({ userId }: InfinitePostsProps) {
 
       <InfiniteScrollTrigger onIntersect={loadMore} isFetching={isFetching} hasMore={hasMore} />
 
-      {isFetching && <div style={{ textAlign: 'center', padding: '20px' }}>Loading...</div>}
+      {isFetching && <div className={styles.loading}>Loading...</div>}
 
-      {!hasMore && posts.length > 0 && (
-        <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>All posts have been loaded</div>
-      )}
+      {!hasMore && !isFetching && posts.length > 0 && <div className={styles.footer}>All posts have been loaded</div>}
     </div>
   );
 }

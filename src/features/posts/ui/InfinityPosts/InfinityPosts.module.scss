@@ -1,0 +1,13 @@
+.message {
+  text-align: center;
+  padding: 20px;
+}
+
+.loading {
+  composes: message;
+}
+
+.footer {
+  composes: message;
+  color: #666;
+}

@@ -23,10 +23,8 @@ export const postsApi = baseApi.injectEndpoints({
           return currentCache;
         }
 
-        return {
-          ...newItems,
-          items: [...(currentCache?.items || []), ...newItems.items]
-        };
+        currentCache.items.push(...newItems.items);
+        return currentCache;
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg?.endCursorPostId !== previousArg?.endCursorPostId;

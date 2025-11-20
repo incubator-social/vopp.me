@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useGetUserPostsQuery, postsApi } from '../api/postsApi';
 import { useAppSelector } from '@/app/providers/store/hooks'; // правильный путь!
 
@@ -34,10 +34,10 @@ export const useInfinitePosts = (userId: number) => {
     }
   );
 
-  useEffect(() => {
-    setCurrentCursor(undefined);
-    initialLoadRef.current = false;
-  }, [userId]);
+  // useEffect(() => {
+  //   setCurrentCursor(undefined);
+  //   initialLoadRef.current = false;
+  // }, [userId]);
 
   useEffect(() => {
     if (postsData?.items && currentCursor === undefined) {
@@ -45,19 +45,18 @@ export const useInfinitePosts = (userId: number) => {
     }
   }, [postsData, currentCursor]);
 
-  const loadMore = () => {
-    if (postsData?.items.length && !isFetching && hasMore) {
-      const posts = postsData.items;
-      const newCursorPost = posts[posts.length - 1]?.id;
-      setCurrentCursor(newCursorPost);
-    }
-  };
-
   const hasMore = postsData
     ? currentCursor
       ? postsData.items.length === PAGE_SIZE + 1
       : postsData.items.length === PAGE_SIZE
     : true;
+
+  const loadMore = useCallback(() => {
+    if (postsData?.items.length && !isFetching && hasMore) {
+      const newCursorPost = postsData.items[postsData.items.length - 1].id;
+      setCurrentCursor(newCursorPost);
+    }
+  }, [postsData, isFetching, hasMore]);
 
   return {
     posts: postsData?.items || [],
