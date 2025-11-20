@@ -3,57 +3,56 @@
 import { useLogoutMutation } from '@/src/features/auth/api';
 import { ROUTES } from '@/src/shared/config/routes';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
-import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import styles from './SidebarWrapper.module.scss';
 import { useAlert } from '@/src/shared/hooks/useAlert';
+import { Sidebar } from '@/src/shared/ui/Sidebar/Sidebar copy';
 
 export const SidebarWrapper = () => {
-  const [active, setActive] = useState('profile');
-  const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
-  const [logout] = useLogoutMutation();
-  const { user, isAuth, uiReady } = useAuth();
+  const pathname = usePathname();
   const alert = useAlert();
 
-  if (!uiReady) return <div className={styles.skeleton}></div>;
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [logout] = useLogoutMutation();
+  const { user, isAuth, uiReady } = useAuth();
 
-  const handleValueChange = (value: string) => {
+  if (!uiReady) return <div className={styles.skeleton} />;
+
+  const firstSegment = pathname.split('/')[1] || '';
+  const activeValue = firstSegment; // пустая строка = ничего не выбрано
+
+  const handleChange = (value: string) => {
     if (value === 'logout') {
       setConfirmOpen(true);
       return;
     }
-    setActive(value);
     router.push(`/${value}`);
   };
 
-  const handleConfirmLogout = async () => {
+  const handleLogout = async () => {
     try {
       await logout().unwrap();
-    } catch {
     } finally {
-      setConfirmOpen(false);
       router.replace(ROUTES.AUTH.SIGN_IN);
+      setConfirmOpen(false);
     }
   };
-
+  console.log('PATH:', pathname);
   return (
     <>
-      {uiReady && isAuth && <Sidebar value={active} onValueChange={handleValueChange} />}
+      {isAuth && <Sidebar value={activeValue} onChange={handleChange} disabledValue={null} />}
 
       <ConfirmModal
         open={confirmOpen}
         title="Log Out"
-        message={`Are you really want to log out of your account ${user?.email}?`}
+        message={`Do you really want to log out, ${user?.email}?`}
         confirmText="Yes"
         cancelText="No"
-        onConfirm={handleConfirmLogout}
-        onCancel={() => {
-          setConfirmOpen(false);
-          alert.info('The user is logged out');
-        }}
+        onConfirm={handleLogout}
+        onCancel={() => setConfirmOpen(false)}
       />
     </>
   );

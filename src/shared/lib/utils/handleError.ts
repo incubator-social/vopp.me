@@ -3,6 +3,8 @@ import { isErrorWithMessage } from './isErrorWithMessage';
 import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
 import { setAppAlert } from '@/app/store/appSlice';
 
+let lastErrorMessage = '';
+
 export const handleError = (
   api: BaseQueryApi,
   result: QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>
@@ -37,5 +39,13 @@ export const handleError = (
       error = JSON.stringify(result.error);
       break;
   }
+
+  // 🔥 защита от бесконечного цикла
+  if (lastErrorMessage === error) {
+    return;
+  }
+
+  lastErrorMessage = error;
+
   api.dispatch(setAppAlert({ type: 'error', message: error }));
 };

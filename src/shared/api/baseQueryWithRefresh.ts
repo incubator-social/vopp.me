@@ -54,7 +54,7 @@ export const baseQueryWithRefresh: BaseQueryFn<string | FetchArgs, unknown, Fetc
             result = await baseQuery(args, api, extraOptions);
           } else {
             localStorage.removeItem(AUTH_KEYS.accessToken);
-            api.dispatch(baseApi.util.resetApiState());
+            //  api.dispatch(baseApi.util.resetApiState());
             return refreshResult;
           }
         } finally {
