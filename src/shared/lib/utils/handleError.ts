@@ -19,12 +19,15 @@ export const handleError = (
     case 'CUSTOM_ERROR':
       error = result.error.error;
       break;
+
     case 'FETCH_ERROR':
       error = 'Network error. Please check your connection.';
       break;
+
     case 429:
       error = 'More than 5 attempts from one IP-address during 10 seconds';
       break;
+
     case 400:
     case 403:
     case 404:
@@ -35,12 +38,12 @@ export const handleError = (
         error = data?.error || 'Server error occurred';
       }
       break;
+
     default:
       error = JSON.stringify(result.error);
       break;
   }
 
-  // 🔥 защита от бесконечного цикла
   if (lastErrorMessage === error) {
     return;
   }

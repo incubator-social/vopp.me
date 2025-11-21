@@ -8,8 +8,6 @@
   box-sizing: border-box;
   padding-top: 72px;
   border-right: 1px solid var(--color-dark-300);
-
-  // margin-top: 60px;
 }
 
 .nav-list {
@@ -27,12 +25,10 @@
   }
 }
 
-/* ---------- ВАЖНО: невидимый отступ ---------- */
 .spacer {
-  height: 180px; /* ровно то расстояние, что было до этого */
+  height: 180px;
 }
 
-/* ToggleGroup.Item */
 .nav-link {
   display: inline-flex;
   align-items: center;

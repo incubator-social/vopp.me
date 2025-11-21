@@ -86,6 +86,9 @@ export const authApi = baseApi.injectEndpoints({
           const { data } = await queryFulfilled;
           if (typeof window !== 'undefined' && data?.accessToken) {
             localStorage.setItem(AUTH_KEYS.accessToken, data?.accessToken);
+
+            // Чтобы отображался Sidebar
+            window.dispatchEvent(new Event('auth-changed'));
           }
         } catch {}
       },

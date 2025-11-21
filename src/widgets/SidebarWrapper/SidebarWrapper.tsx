@@ -4,11 +4,11 @@ import { useLogoutMutation } from '@/src/features/auth/api';
 import { ROUTES } from '@/src/shared/config/routes';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
 import { useRouter, usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import styles from './SidebarWrapper.module.scss';
 import { useAlert } from '@/src/shared/hooks/useAlert';
-import { Sidebar } from '@/src/shared/ui/Sidebar/Sidebar copy';
+import { SidebarSkeleton } from '@/src/shared/ui/Sidebar/SidebarSkeleton/SidebarSkeleton';
+import { Sidebar } from '@/src/shared/ui/Sidebar/Sidebar';
 
 export const SidebarWrapper = () => {
   const router = useRouter();
@@ -19,10 +19,17 @@ export const SidebarWrapper = () => {
   const [logout] = useLogoutMutation();
   const { user, isAuth, uiReady } = useAuth();
 
-  if (!uiReady) return <div className={styles.skeleton} />;
+  useLayoutEffect(() => {
+    const html = document.documentElement;
+    html.classList.toggle('sidebar-visible', isAuth);
+  }, [isAuth]);
+
+  if (!uiReady) {
+    return <SidebarSkeleton />;
+  }
 
   const firstSegment = pathname.split('/')[1] || '';
-  const activeValue = firstSegment; // пустая строка = ничего не выбрано
+  const activeValue = firstSegment;
 
   const handleChange = (value: string) => {
     if (value === 'logout') {
@@ -40,7 +47,7 @@ export const SidebarWrapper = () => {
       setConfirmOpen(false);
     }
   };
-  console.log('PATH:', pathname);
+
   return (
     <>
       {isAuth && <Sidebar value={activeValue} onChange={handleChange} disabledValue={null} />}
@@ -48,11 +55,14 @@ export const SidebarWrapper = () => {
       <ConfirmModal
         open={confirmOpen}
         title="Log Out"
-        message={`Do you really want to log out, ${user?.email}?`}
+        message={`Are you really want to log out of your account ${user?.email}?`}
         confirmText="Yes"
         cancelText="No"
         onConfirm={handleLogout}
-        onCancel={() => setConfirmOpen(false)}
+        onCancel={() => {
+          setConfirmOpen(false);
+          alert.info('The user is not logged out');
+        }}
       />
     </>
   );
