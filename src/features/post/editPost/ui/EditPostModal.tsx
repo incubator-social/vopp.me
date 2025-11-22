@@ -24,7 +24,11 @@ export const EditPostModal = ({ post, open, setOpen, setOpenPostModal }: Props) 
     handleCancelEdit,
     handleSaveChanges,
     ConfirmModalComponent: EditConfirmModal
-  } = useEditPost(post, setOpen, setOpenPostModal);
+  } = useEditPost({
+    post,
+    setIsEditModalOpen: setOpen,
+    setOpenPostModal
+  });
 
   const handleModalOpenChange = (nextOpen: boolean) => {
     if (nextOpen) {
