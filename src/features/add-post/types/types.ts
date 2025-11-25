@@ -5,7 +5,14 @@ export enum Steps {
   Description = 'Description'
 }
 
+export type ImageData = {
+  id: number;
+  file: File;
+  previewURL: string;
+  filters?: object;
+};
+
 export type AddPostState = {
-  previewURL: string | null;
+  images: ImageData[];
   currentStep: Steps | null;
 };

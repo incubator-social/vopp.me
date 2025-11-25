@@ -23,13 +23,14 @@ export const SidebarWrapper = () => {
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
+
   const [logout] = useLogoutMutation();
   const { user, isAuth, uiReady } = useAuth();
 
   if (!uiReady) return <div className={styles.skeleton}></div>;
 
   const handleValueChange = (value: OptionId) => {
-    //сохраняем историю активных кнопок, чтобы вернуть прошлую при закрытии AddPost (такой страницы нет)
+    //сохраняем историю активных кнопок, чтобы вернуть прошлую при закрытии AddPost (страницы такой нет)
     if (value !== OptionId.Create) {
       dispatch(setPreviousActiveButton(value));
     }

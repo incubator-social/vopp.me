@@ -12,7 +12,14 @@ export const makeStore = () => {
       sidebar: sidebarReducer,
       addPost: addPostReducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware)
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        // без этих настроек в Redux файлы не сохранить
+        serializableCheck: {
+          ignoreActions: true,
+          ignoredPaths: ['addPost.images']
+        }
+      }).concat(baseApi.middleware)
   });
 };
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
-import { setCurrentStep, setPreviewURL } from '@/src/features/add-post/slice';
+import { setCurrentStep } from '@/src/features/add-post/slice';
 import { Steps } from '@/src/features/add-post/types';
 import ArrowBack from '@/src/shared/assets/icons/arrow-ios-back.svg';
 import { Button } from '@/src/shared/ui/Button';
@@ -16,17 +16,16 @@ type CroppingModal = {
 const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
   const dispatch = useAppDispatch();
   const isOpenAddPost = useAppSelector((state) => state.sidebar.isOpenAddPost);
-  const previewURL = useAppSelector((state) => state.addPost.previewURL);
-  const imageSrc = previewURL ? previewURL : '';
+  const images = useAppSelector((state) => state.addPost.images);
+
+  let previewURL;
+  if (images) {
+    previewURL = images[0].previewURL;
+  }
 
   const handleBack = () => {
-    if (previewURL) {
-      URL.revokeObjectURL(previewURL);
-      dispatch(setPreviewURL(null));
-    }
     dispatch(setCurrentStep(Steps.UploadImage));
   };
-
   const handleNext = () => {
     dispatch(setCurrentStep(Steps.Description));
   };
@@ -64,7 +63,9 @@ const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
       contentClassName={styles.container}
     >
       <div className={styles.containerImage}>
-        <Image src={imageSrc} alt="preview uploaded image" className={styles.image} />
+        {previewURL && (
+          <Image src={previewURL} alt="preview uploaded image" className={styles.image} width={490} height={504} />
+        )}
       </div>
     </Modal>
   );

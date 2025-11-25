@@ -70,8 +70,6 @@ export const Textarea = ({
         {...props}
       />
 
-      <span className={styles.captionLength}>0 / 500</span>
-
       {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}
     </div>
   );

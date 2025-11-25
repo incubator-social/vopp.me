@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './Button.module.scss';
-import { CSSProperties, ReactNode } from 'react';
+import { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react';
 import clsx from 'clsx';
 import { Slot } from '@radix-ui/react-slot';
 
@@ -25,7 +25,7 @@ type Props = {
   type?: 'button' | 'submit' | 'reset';
   asChild?: boolean;
   className?: string;
-};
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({
   children,
