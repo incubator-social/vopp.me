@@ -1,29 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RequestStatus } from '@/src/shared/types/common';
+import { AlertType, RequestStatus } from '@/src/shared/types/common';
+
+type AlertState = {
+  type: AlertType;
+  message: string;
+  duration?: number;
+} | null;
 
 const appSlice = createSlice({
   name: 'app',
   initialState: {
     status: 'idle' as RequestStatus,
-    error: null as { type: 'error' | 'success'; message: string } | null
+    alert: null as AlertState
   },
   selectors: {
     selectAppStatus: (state) => state.status,
-    selectAppError: (state) => state.error
+    selectAppAlert: (state) => state.alert
   },
   reducers: (create) => ({
     setAppStatus: create.reducer<{ status: RequestStatus }>((state, action) => {
       state.status = action.payload.status;
     }),
-    setAppError: create.reducer<{ type: 'error' | 'success'; message: string } | null>((state, action) => {
-      state.error = action.payload;
+    setAppAlert: create.reducer<AlertState>((state, action) => {
+      state.alert = action.payload;
     }),
-    clearAppError: create.reducer((state) => {
-      state.error = null;
+    clearAppAlert: create.reducer((state) => {
+      state.alert = null;
     })
   })
 });
 
-export const { selectAppStatus, selectAppError } = appSlice.selectors;
-export const { setAppStatus, setAppError, clearAppError } = appSlice.actions;
+export const { selectAppStatus, selectAppAlert } = appSlice.selectors;
+export const { setAppStatus, setAppAlert, clearAppAlert } = appSlice.actions;
 export const appReducer = appSlice.reducer;

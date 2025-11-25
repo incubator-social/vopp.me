@@ -1,38 +1,42 @@
-import { useAppDispatch } from '@/app/providers/store/hooks';
-import { setAppError } from '@/app/store/appSlice';
 import { useGoogleOAuthLoginMutation } from '@/src/features/auth/api';
 import { ROUTES } from '@/src/shared/config/routes';
+import { useAlert } from '@/src/shared/hooks/useAlert';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 const GetCodeGoogleOAuth = () => {
-  const dispatch = useAppDispatch();
+  const alert = useAlert();
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
 
-  const [googleLogin] = useGoogleOAuthLoginMutation();
+  const [googleLogin, { isSuccess, isError, data }] = useGoogleOAuthLoginMutation();
 
+  // запускаем запрос ОДИН раз
   useEffect(() => {
     if (!code) {
-      dispatch(setAppError({ type: 'error', message: 'Error during authentication via Google' }));
+      alert.error('Error during authentication via Google');
       router.replace(ROUTES.AUTH.SIGN_UP);
       return;
     }
 
-    async function loginGoogleOAuth() {
-      try {
-        if (code) {
-          const { data } = await googleLogin({ code });
-          if (data?.status === 201) {
-            router.replace(ROUTES.HOME);
-          }
-        }
-      } catch {}
-    }
+    googleLogin({ code });
+  }, [code]);
 
-    loginGoogleOAuth();
-  }, [code, googleLogin, router, dispatch]);
+  // 2успешный login
+  useEffect(() => {
+    if (isSuccess && data?.status === 201) {
+      router.replace(ROUTES.HOME);
+    }
+  }, [isSuccess, data, router]);
+
+  // 3ошибка login
+  useEffect(() => {
+    if (isError) {
+      alert.error('Google login failed');
+      router.replace(ROUTES.AUTH.SIGN_UP);
+    }
+  }, [isError, router, alert]);
 
   return null;
 };

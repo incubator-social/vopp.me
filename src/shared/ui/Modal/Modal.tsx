@@ -21,6 +21,7 @@ export type ModalProps = {
   closeOnOverlayClick?: boolean;
   closeOnEsc?: boolean;
   classOverlay?: string;
+  noPadding?: boolean;
 } & ComponentPropsWithoutRef<'div'>;
 
 export const Modal = (props: ModalProps) => {
@@ -38,6 +39,7 @@ export const Modal = (props: ModalProps) => {
     closeOnOverlayClick = false,
     closeOnEsc = false,
     classOverlay,
+    noPadding = false,
     ...restProps
   } = props;
 
@@ -82,7 +84,7 @@ export const Modal = (props: ModalProps) => {
               )
             )}
             <Dialog.Description asChild>
-              <div className={clsx(styles.body, bodyClassName)}>{children}</div>
+              <div className={clsx(styles.body, bodyClassName, noPadding && styles.noPaddingBody)}>{children}</div>
             </Dialog.Description>
             {closeButtonPosition === 'outside' && (
               <Dialog.Close asChild>

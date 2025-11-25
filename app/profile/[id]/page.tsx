@@ -5,9 +5,12 @@ import Link from 'next/link';
 import { Button } from '@/src/shared/ui/Button/Button';
 import { ROUTES } from '@/src/shared/config/routes';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
+import { PostModal } from '@/src/widgets/post/ui/PostModal/PostModal';
+import { useState } from 'react';
 
 export default function UserProfilePage() {
   const params = useParams<{ id: string }>();
+  const [open, setOpen] = useState(false);
   const userId = params.id;
   const { user } = useAuth();
   const isMyProfile = user?.userId === Number(params.id);
@@ -21,6 +24,9 @@ export default function UserProfilePage() {
           <Link href={ROUTES.SETTINGS}>Profile Settings</Link>
         </Button>
       )}
+      {/* Уберем эту кнопку, нужна для демонстрации, так же передаю id хардкодом */}
+      <button onClick={() => setOpen(true)}>Open post</button>
+      <PostModal open={open} setOpenPostModal={setOpen} postId={562} />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { baseQueryWithRefresh } from './baseQueryWithRefresh';
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',
-  tagTypes: ['Auth'],
+  tagTypes: ['Auth', 'Post', 'PublicPosts'],
   baseQuery: baseQueryWithRefresh,
   endpoints: () => ({})
 });
