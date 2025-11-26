@@ -14,6 +14,8 @@ const GetTokenGithubOAuth = () => {
   useEffect(() => {
     if (token && typeof window !== 'undefined') {
       localStorage.setItem(AUTH_KEYS.accessToken, token);
+      // Добавила чтобы правильно происходило обновление Header
+      window.dispatchEvent(new Event('auth-changed'));
       router.replace(ROUTES.HOME);
     }
 

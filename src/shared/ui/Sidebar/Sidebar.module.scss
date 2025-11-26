@@ -11,40 +11,43 @@
 }
 
 .nav-list {
-  list-style: none;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding-left: 60px;
 }
 
 .nav-item {
-  display: flex;
   margin-bottom: 24px;
-
-  &:nth-child(5) {
-    margin-bottom: 60px;
-  }
-
-  &:nth-child(7) {
-    margin-bottom: 180px;
-  }
 
   &:last-child {
     margin-bottom: 0;
   }
 }
 
+.spacer {
+  height: 180px;
+}
+
 .nav-link {
   display: inline-flex;
+  align-items: center;
   gap: 12px;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
   text-decoration: none;
   color: var(--color-light-100);
   position: relative;
+  font: inherit;
 
-  &[data-active] {
+  &[data-state='on'] {
     color: var(--color-accent-500);
   }
 
-  &:not([data-active], [data-disabled]):hover {
+  &:not([data-state='on'], [aria-disabled='true']):hover {
     color: var(--color-accent-100);
   }
 

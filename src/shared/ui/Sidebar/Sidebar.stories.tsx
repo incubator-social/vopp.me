@@ -1,66 +1,69 @@
 import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/nextjs';
-import Sidebar, { SidebarProps } from './Sidebar';
 import { options } from './data';
+import { Sidebar, SidebarProps } from './Sidebar';
 
-const meta = {
+const meta: Meta<typeof Sidebar> = {
   title: 'UI/Sidebar',
   component: Sidebar,
   parameters: {
     backgrounds: {
-      options: {
-        light: { name: 'light', value: '#fff' },
-        gray: { name: 'gray', value: '#373737' },
-        dark: { name: 'dark', value: '#191919' }
-      }
+      default: 'dark',
+      values: [
+        { name: 'light', value: '#fff' },
+        { name: 'gray', value: '#373737' },
+        { name: 'dark', value: '#191919' }
+      ]
     }
   },
   args: {
-    value: 'feed'
+    value: 'feed',
+    disabledValue: null
   }
-} satisfies Meta<typeof Sidebar>;
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+
+type Story = StoryObj<typeof Sidebar>;
 
 const Template: Story['render'] = (args: SidebarProps) => {
   const [value, setValue] = useState<string>(args.value);
 
-  return <Sidebar {...args} value={value} onValueChange={setValue} />;
+  return (
+    <div style={{ padding: 20 }}>
+      <Sidebar
+        {...args}
+        value={value}
+        onChange={setValue} // ← ИСПРАВЛЕНО
+      />
+    </div>
+  );
 };
 
 export const Default: Story = {
+  render: Template
+};
+
+export const WithDisabled: Story = {
   render: Template,
   args: {
-    onValueChange: () => {}
+    disabledValue: options[2].id
   }
 };
 
-export const Active: Story = {
+export const ActiveItem: Story = {
   render: Template,
   args: {
-    onValueChange: () => {}
+    value: options[1].id
   }
 };
 
-export const Hover: Story = {
+export const Focused: Story = {
   render: Template,
-  args: {
-    onValueChange: () => {}
-  }
+  args: {}
 };
 
-export const Focus: Story = {
+export const Hovered: Story = {
   render: Template,
-  args: {
-    onValueChange: () => {}
-  }
-};
-
-export const Disabled: Story = {
-  render: Template,
-  args: {
-    onValueChange: () => {},
-    isDisabledValue: options[2].id
-  }
+  args: {}
 };

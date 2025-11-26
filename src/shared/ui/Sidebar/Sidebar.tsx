@@ -1,65 +1,48 @@
 'use client';
 
-import * as Nav from '@radix-ui/react-navigation-menu';
-import clsx from 'clsx';
+import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import styles from './Sidebar.module.scss';
 import { options } from './data';
 
-const Sidebar = ({ value, onValueChange, defaultValue, isDisabledValue }: SidebarProps) => {
-  const selectedValue = value || options[0].id;
-
-  const handleChangeValue = (newValue: string) => {
-    if (newValue !== isDisabledValue) {
-      onValueChange(newValue);
-    }
-  };
+export const Sidebar = ({ value, onChange, disabledValue }: SidebarProps) => {
+  const mainOptions = options.filter((o) => o.group === 'main');
+  const actionOptions = options.filter((o) => o.group === 'actions');
 
   return (
-    <Nav.Root
-      value={selectedValue}
-      defaultValue={defaultValue}
-      onValueChange={handleChangeValue}
-      orientation={'vertical'}
-      className={styles.container}
-    >
-      <div className={styles['nav-links-container']}>
-        <Nav.List className={styles['nav-list']}>
-          {options.map(({ id, label, icon: Icon, activeIcon: ActiveIcon }) => (
-            <Nav.Item key={id} value={id} className={styles['nav-item']}>
-              {id === 'logout' ? (
-                <button
-                  type="button"
-                  className={clsx(styles['nav-link'], 'regular-text-14')}
-                  onClick={() => handleChangeValue(id)}
-                >
-                  {selectedValue === id ? <ActiveIcon /> : <Icon />}
-                  <span>{label}</span>
-                </button>
-              ) : (
-                <Nav.Link
-                  className={clsx(styles['nav-link'], 'regular-text-14')}
-                  active={selectedValue === id}
-                  onSelect={() => handleChangeValue(id)}
-                  tabIndex={0}
-                >
-                  {selectedValue === id ? <ActiveIcon /> : <Icon />}
-                  <span>{label}</span>
-                </Nav.Link>
-              )}
-            </Nav.Item>
-          ))}
-        </Nav.List>
-      </div>
-    </Nav.Root>
+    <div className={styles.container}>
+      <ToggleGroup.Root
+        type="single"
+        value={value}
+        onValueChange={(v) => v && v !== disabledValue && onChange(v)}
+        className={styles['nav-list']}
+      >
+        {mainOptions.map(({ id, label, icon: Icon, activeIcon: ActiveIcon }) => (
+          <div key={id} className={styles['nav-item']}>
+            <ToggleGroup.Item value={id} className={styles['nav-link']}>
+              {value === id ? <ActiveIcon /> : <Icon />}
+              <span>{label}</span>
+            </ToggleGroup.Item>
+          </div>
+        ))}
+
+        {/* невидимый отступ вместо полоски */}
+        <div className={styles.spacer} />
+
+        {actionOptions.map(({ id, label, icon: Icon, activeIcon: ActiveIcon }) => (
+          <div key={id} className={styles['nav-item']}>
+            <ToggleGroup.Item value={id} className={styles['nav-link']}>
+              {value === id ? <ActiveIcon /> : <Icon />}
+              <span>{label}</span>
+            </ToggleGroup.Item>
+          </div>
+        ))}
+      </ToggleGroup.Root>
+    </div>
   );
 };
 
-export default Sidebar;
-
-//types
 export type SidebarProps = {
-  value: string;
-  onValueChange: (value: string) => void;
-  isDisabledValue?: string;
-  defaultValue?: string;
+  value: string; // было: string
+  onChange: (value: string) => void;
+  disabledValue?: string | null;
 };

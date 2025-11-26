@@ -1,42 +1,51 @@
+'use client';
+
 import { useGoogleOAuthLoginMutation } from '@/src/features/auth/api';
 import { ROUTES } from '@/src/shared/config/routes';
 import { useAlert } from '@/src/shared/hooks/useAlert';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const GetCodeGoogleOAuth = () => {
   const alert = useAlert();
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const code = searchParams.get('code');
+  const [googleLogin] = useGoogleOAuthLoginMutation();
 
-  const [googleLogin, { isSuccess, isError, data }] = useGoogleOAuthLoginMutation();
+  // --- стабилизация зависимостей ---
+  const alertRef = useRef(alert);
+  const routerRef = useRef(router);
+  const loginRef = useRef(googleLogin);
 
-  // запускаем запрос ОДИН раз
+  useEffect(() => {
+    alertRef.current = alert;
+    routerRef.current = router;
+    loginRef.current = googleLogin;
+  }, [alert, router, googleLogin]);
+
   useEffect(() => {
     if (!code) {
-      alert.error('Error during authentication via Google');
-      router.replace(ROUTES.AUTH.SIGN_UP);
+      alertRef.current.error('Error during authentication via Google');
+      routerRef.current.replace(ROUTES.AUTH.SIGN_UP);
       return;
     }
 
-    googleLogin({ code });
+    const run = async (confirmedCode: string) => {
+      try {
+        const { data } = await loginRef.current({ code: confirmedCode });
+        if (data?.status === 201) {
+          routerRef.current.replace(ROUTES.HOME);
+        }
+      } catch {
+        alertRef.current.error('Google login failed');
+        routerRef.current.replace(ROUTES.AUTH.SIGN_UP);
+      }
+    };
+
+    run(code);
   }, [code]);
-
-  // 2успешный login
-  useEffect(() => {
-    if (isSuccess && data?.status === 201) {
-      router.replace(ROUTES.HOME);
-    }
-  }, [isSuccess, data, router]);
-
-  // 3ошибка login
-  useEffect(() => {
-    if (isError) {
-      alert.error('Google login failed');
-      router.replace(ROUTES.AUTH.SIGN_UP);
-    }
-  }, [isError, router, alert]);
 
   return null;
 };
