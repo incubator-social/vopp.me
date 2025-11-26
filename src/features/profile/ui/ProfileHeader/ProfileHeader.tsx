@@ -16,6 +16,12 @@ type ProfileHeaderProps = {
 export const ProfileHeader = ({ profile, isMyProfile, onFollowClick, onMessageClick }: ProfileHeaderProps) => {
   const { isAuth } = useAuth();
 
+  const stats = [
+    { label: 'Following', value: profile.userMetadata.following },
+    { label: 'Followers', value: profile.userMetadata.followers },
+    { label: 'Publications', value: profile.userMetadata.publications }
+  ];
+
   return (
     <div className={styles.header}>
       {/* Аватар */}
@@ -37,11 +43,11 @@ export const ProfileHeader = ({ profile, isMyProfile, onFollowClick, onMessageCl
                 </Button>
               ) : (
                 <>
-                  <Button variant="buttonPrimary" onClick={onFollowClick}>
+                  <Button variant="buttonPrimary" onClick={onFollowClick} className={styles.followButton}>
                     {profile.isFollowing ? 'Unfollow' : 'Follow'}
                   </Button>
-                  <Button variant="buttonOutline" onClick={onMessageClick}>
-                    Message
+                  <Button variant="buttonSecondary" onClick={onMessageClick} className={styles.messageButton}>
+                    Send Message
                   </Button>
                 </>
               ))}
@@ -50,18 +56,12 @@ export const ProfileHeader = ({ profile, isMyProfile, onFollowClick, onMessageCl
 
         {/* Статистика */}
         <div className={styles.stats}>
-          <div className={styles.stat}>
-            <span className={styles.statNumber}>{profile.userMetadata.publications}</span>
-            <span className={styles.statLabel}>posts</span>
-          </div>
-          <div className={styles.stat}>
-            <span className={styles.statNumber}>{profile.userMetadata.followers}</span>
-            <span className={styles.statLabel}>followers</span>
-          </div>
-          <div className={styles.stat}>
-            <span className={styles.statNumber}>{profile.userMetadata.following}</span>
-            <span className={styles.statLabel}>following</span>
-          </div>
+          {stats.map((stat, index) => (
+            <div key={index} className={styles.stat}>
+              <span className={styles.statNumber}>{stat.value}</span>
+              <span className={styles.statLabel}>{stat.label}</span>
+            </div>
+          ))}
         </div>
 
         {/* Био */}
