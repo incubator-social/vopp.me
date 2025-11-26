@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useGetUserPostsQuery, postsApi } from '../api/postsApi';
-import { useAppSelector } from '@/app/providers/store/hooks'; // правильный путь!
+import { useAppSelector } from '@/app/providers/store/hooks';
 
 export const useInfinitePosts = (userId: number) => {
   const PAGE_SIZE = 8;

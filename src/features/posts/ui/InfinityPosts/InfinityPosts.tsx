@@ -5,9 +5,9 @@ import { useInfinitePosts } from '@/src/features/posts/lib/useInfinitePosts';
 import PostsGrid from '@/src/features/posts/ui/PostsGrid/PostsGrid';
 import styles from './InfinityPosts.module.scss';
 
-interface InfinitePostsProps {
+type InfinitePostsProps = {
   userId: number;
-}
+};
 
 export default function InfinitePosts({ userId }: InfinitePostsProps) {
   const { posts, isLoading, isFetching, error, hasMore, loadMore } = useInfinitePosts(userId);
