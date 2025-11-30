@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ROUTES } from '@/src/shared/config/routes';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { useMounted } from '@/src/shared/hooks/useMounted';
 
 type WithAuthOptions = { requireAuth?: boolean; redirectTo?: string };
 

@@ -1,38 +1,51 @@
-import { useAppDispatch } from '@/app/providers/store/hooks';
-import { setAppError } from '@/app/store/appSlice';
+'use client';
+
 import { useGoogleOAuthLoginMutation } from '@/src/features/auth/api';
 import { ROUTES } from '@/src/shared/config/routes';
+import { useAlert } from '@/src/shared/hooks/useAlert';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const GetCodeGoogleOAuth = () => {
-  const dispatch = useAppDispatch();
+  const alert = useAlert();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const code = searchParams.get('code');
 
+  const code = searchParams.get('code');
   const [googleLogin] = useGoogleOAuthLoginMutation();
+
+  // --- стабилизация зависимостей ---
+  const alertRef = useRef(alert);
+  const routerRef = useRef(router);
+  const loginRef = useRef(googleLogin);
+
+  useEffect(() => {
+    alertRef.current = alert;
+    routerRef.current = router;
+    loginRef.current = googleLogin;
+  }, [alert, router, googleLogin]);
 
   useEffect(() => {
     if (!code) {
-      dispatch(setAppError({ type: 'error', message: 'Error during authentication via Google' }));
-      router.replace(ROUTES.AUTH.SIGN_UP);
+      alertRef.current.error('Error during authentication via Google');
+      routerRef.current.replace(ROUTES.AUTH.SIGN_UP);
       return;
     }
 
-    async function loginGoogleOAuth() {
+    const run = async (confirmedCode: string) => {
       try {
-        if (code) {
-          const { data } = await googleLogin({ code });
-          if (data?.status === 201) {
-            router.replace(ROUTES.HOME);
-          }
+        const { data } = await loginRef.current({ code: confirmedCode });
+        if (data?.status === 201) {
+          routerRef.current.replace(ROUTES.HOME);
         }
-      } catch {}
-    }
+      } catch {
+        alertRef.current.error('Google login failed');
+        routerRef.current.replace(ROUTES.AUTH.SIGN_UP);
+      }
+    };
 
-    loginGoogleOAuth();
-  }, [code, googleLogin, router, dispatch]);
+    run(code);
+  }, [code]);
 
   return null;
 };

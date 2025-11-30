@@ -45,6 +45,7 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "1.1.13",
     "@radix-ui/react-toast": "^1.2.15",
+    "@radix-ui/react-toggle-group": "^1.1.11",
     "@reduxjs/toolkit": "^2.9.0",
     "async-mutex": "^0.5.0",
     "clsx": "2.1.1",

@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  width: 100%;
+  max-width: 972px;
+  height: 504px;
+}
+
+.carouselWrapper {
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  .carousel {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.infoSection {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.userBlock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+}
+
+.wrapperEditing {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  height: 100%;
+  padding: 0 24px 24px;
+}
+
+.buttonsEditing {
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+  justify-content: flex-end;
+}
