@@ -6,23 +6,10 @@
   max-width: 972px;
 }
 
-.gridItem {
-  aspect-ratio: 228 / 234;
-  background-color: #fafafa;
-  cursor: pointer;
-  border-radius: 1px;
-  overflow: hidden;
-
-  // position: relative;
-
-  &:hover {
-    opacity: 0.9;
-  }
-}
-
 .skeleton {
-  width: 234px;
-  height: 228px;
+  width: 100%;
+  aspect-ratio: 228 / 234;
+  min-height: 228px;
   background-color: #e5e5e5;
   border-radius: 4px;
   animation: pulse 2s infinite;
@@ -40,9 +27,4 @@
   100% {
     opacity: 1;
   }
-}
-
-.empty {
-  text-align: center;
-  padding: 2rem 0;
 }

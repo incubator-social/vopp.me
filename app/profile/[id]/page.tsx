@@ -10,11 +10,10 @@ import { ProfileHeader } from '@/src/features/profile/ui/ProfileHeader/ProfileHe
 import { usePublicProfile } from '@/src/features/profile/lib/usePublicProfile';
 
 export default function UserProfilePage() {
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
   const params = useParams<{ id: string }>();
-  const [open, setOpen] = useState(false);
   const userId = parseInt(params.id);
   const { user } = useAuth();
-
   const { profile, isLoading: profileLoading, error: profileError } = usePublicProfile(userId);
   const isMyProfile = user?.userId === userId;
 
@@ -30,11 +29,6 @@ export default function UserProfilePage() {
     return (
       <div className={styles.container}>
         <div>Loading profile...</div>
-        <div className={styles.postsSkeleton}>
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className={styles.postSkeleton} />
-          ))}
-        </div>
       </div>
     );
   }
@@ -42,6 +36,10 @@ export default function UserProfilePage() {
   const handleFollowClick = () => {
     // Логика подписки/отписки
     console.log('Follow/Unfollow clicked');
+  };
+  const handleMessageClick = () => {
+    // Логика сообщения
+    console.log('Message clicked');
   };
 
   // {isMyProfile && (
@@ -52,10 +50,6 @@ export default function UserProfilePage() {
   // {/* Уберем эту кнопку, нужна для демонстрации, так же передаю id хардкодом */}
   // <button onClick={() => setOpen(true)}>Open post</button>
   // <PostModal open={open} setOpenPostModal={setOpen} postId={562} />
-  const handleMessageClick = () => {
-    // Логика сообщения
-    console.log('Message clicked');
-  };
 
   return (
     <div className={styles.container}>
@@ -65,7 +59,10 @@ export default function UserProfilePage() {
         onFollowClick={handleFollowClick}
         onMessageClick={handleMessageClick}
       />
-      <InfinitePosts userId={userId} />
+      <InfinitePosts userId={userId} onPostClick={setSelectedPostId} />
+      {selectedPostId && (
+        <PostModal open={true} setOpenPostModal={(open) => !open && setSelectedPostId(null)} postId={selectedPostId} />
+      )}
     </div>
   );
 }

@@ -7,9 +7,10 @@ import styles from './InfinityPosts.module.scss';
 
 type InfinitePostsProps = {
   userId: number;
+  onPostClick?: (postId: number) => void;
 };
 
-export default function InfinitePosts({ userId }: InfinitePostsProps) {
+export default function InfinitePosts({ userId, onPostClick }: InfinitePostsProps) {
   const { posts, isLoading, isFetching, error, hasMore, loadMore } = useInfinitePosts(userId);
 
   if (error) {
@@ -18,7 +19,7 @@ export default function InfinitePosts({ userId }: InfinitePostsProps) {
 
   return (
     <div>
-      <PostsGrid posts={posts} isLoading={isLoading} />
+      <PostsGrid posts={posts} isLoading={isLoading} onPostClick={onPostClick} />
 
       <InfiniteScrollTrigger onIntersect={loadMore} isFetching={isFetching} hasMore={hasMore} />
 

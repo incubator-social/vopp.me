@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useGetUserPostsQuery, postsApi } from '../api/postsApi';
 import { useAppSelector } from '@/app/providers/store/hooks';
+import { postsApi, useGetUserPostsQuery } from '@/src/entities/post/api/postsApi';
 
 export const useInfinitePosts = (userId: number) => {
   const PAGE_SIZE = 8;
@@ -34,10 +34,10 @@ export const useInfinitePosts = (userId: number) => {
     }
   );
 
-  // useEffect(() => {
-  //   setCurrentCursor(undefined);
-  //   initialLoadRef.current = false;
-  // }, [userId]);
+  useEffect(() => {
+    setCurrentCursor(undefined);
+    initialLoadRef.current = false;
+  }, [userId]);
 
   useEffect(() => {
     if (postsData?.items && currentCursor === undefined) {

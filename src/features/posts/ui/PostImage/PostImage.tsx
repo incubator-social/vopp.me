@@ -1,24 +1,15 @@
-import { useState } from 'react';
 import Image from 'next/image';
 import styles from './PostImage.module.scss';
 
 type PostImageProps = {
-  postId: number;
   imageUrl: string;
   alt: string;
   className?: string;
 };
 
-export const PostImage = ({ postId, imageUrl, alt, className = '' }: PostImageProps) => {
-  const [isBroken, setIsBroken] = useState(false);
-
-  const handleImageError = () => {
-    console.log(`Image failed to load for post ${postId}`);
-    setIsBroken(true);
-  };
-
-  if (isBroken) {
-    return <div className={`${styles.brokenImage} ${className}`}>📷</div>;
+export const PostImage = ({ imageUrl, alt, className = '' }: PostImageProps) => {
+  if (!imageUrl) {
+    return <div className={`${styles.fallback} ${className}`}>📷</div>;
   }
 
   return (
@@ -26,12 +17,10 @@ export const PostImage = ({ postId, imageUrl, alt, className = '' }: PostImagePr
       src={imageUrl}
       alt={alt}
       className={`${styles.image} ${className}`}
-      width={0}
-      height={0}
-      sizes="100vw"
-      style={{ width: '100%', height: 'auto' }}
-      onError={handleImageError}
-      unoptimized
+      width={234}
+      height={228}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      quality={85}
     />
   );
 };
