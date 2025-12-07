@@ -19,7 +19,7 @@ export const Alert = ({ type, message, duration = 10000, onClose }: AlertProps) 
     if (!open) {
       onClose?.();
     }
-  }, [open]);
+  }, [open, onClose]);
 
   return (
     <Toast.Root

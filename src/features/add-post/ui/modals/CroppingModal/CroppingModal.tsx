@@ -1,12 +1,15 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
-import { setCurrentStep } from '@/src/features/add-post/slice';
+import { removeImages, setCurrentStep } from '@/src/features/add-post/slice';
 import { Steps } from '@/src/features/add-post/types';
-import ArrowBack from '@/src/shared/assets/icons/arrow-ios-back.svg';
+import { closeAddPost, setActiveButton } from '@/src/features/sidebar-wrapper/store';
+import ArrowBack from '@/src/shared/assets/icons/arrow-ios-back-outline.svg';
 import { Button } from '@/src/shared/ui/Button';
+import { ConfirmModal } from '@/src/shared/ui/ConfirmModal';
 import { Modal } from '@/src/shared/ui/Modal';
 import Image from 'next/image';
+import { useRef, useState } from 'react';
 import styles from './CroppingModal.module.scss';
 
 type CroppingModal = {
@@ -16,18 +19,41 @@ type CroppingModal = {
 const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
   const dispatch = useAppDispatch();
   const isOpenAddPost = useAppSelector((state) => state.sidebar.isOpenAddPost);
+  const previousActiveButton = useAppSelector((state) => state.sidebar.previousActiveButton);
   const images = useAppSelector((state) => state.addPost.images);
+  const [toConfirm, setToConfirm] = useState<boolean>(false);
 
-  let previewURL;
-  if (images) {
-    previewURL = images[0].previewURL;
+  const previewURL = useRef<string>('');
+  if (images.length) {
+    previewURL.current = images[0].previewURL;
+  } else {
+    previewURL.current = '';
   }
 
   const handleBack = () => {
-    dispatch(setCurrentStep(Steps.UploadImage));
+    setToConfirm(true);
   };
+
   const handleNext = () => {
     dispatch(setCurrentStep(Steps.Description));
+  };
+
+  const onConfirmDiscard = () => {
+    if (images) {
+      for (const image of images) {
+        URL.revokeObjectURL(image.previewURL);
+      }
+      dispatch(removeImages());
+    }
+    setToConfirm(false);
+    dispatch(closeAddPost());
+    dispatch(setActiveButton(previousActiveButton));
+  };
+
+  const onSaveDraft = () => {
+    setToConfirm(false);
+    dispatch(closeAddPost());
+    dispatch(setActiveButton(previousActiveButton));
   };
 
   const headerContent = (
@@ -52,22 +78,53 @@ const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
     </div>
   );
 
+  const confirmMessage = (
+    <p>
+      Do you really want to close the creation of a publication? <br />
+      If you close everything will be deleted
+    </p>
+  );
+
   return (
-    <Modal
-      open={isOpenAddPost}
-      onOpenChange={handleOpenClose}
-      closeOnEsc={true}
-      closeOnOverlayClick={true}
-      size={'md'}
-      headerContent={headerContent}
-      contentClassName={styles.container}
-    >
-      <div className={styles.containerImage}>
-        {previewURL && (
-          <Image src={previewURL} alt="preview uploaded image" className={styles.image} width={490} height={504} />
-        )}
-      </div>
-    </Modal>
+    <>
+      <Modal
+        open={isOpenAddPost}
+        onOpenChange={handleOpenClose}
+        size={'md'}
+        headerContent={headerContent}
+        contentClassName={styles.container}
+        noPadding={true}
+        setToConfirm={setToConfirm}
+      >
+        <div className={styles.containerImage}>
+          {images && (
+            <Image
+              src={previewURL.current}
+              alt="preview uploaded image"
+              className={styles.image}
+              width={490}
+              height={504}
+            />
+          )}
+        </div>
+      </Modal>
+      {toConfirm && (
+        <ConfirmModal
+          open={toConfirm}
+          title={'Close'}
+          message={confirmMessage}
+          confirmText={'Discard'}
+          cancelText={'Save Draft'}
+          classFooter={styles.confirmModalButtons}
+          onConfirm={onConfirmDiscard}
+          onCancel={() => setToConfirm(false)}
+          onCancelCustom={onSaveDraft}
+          modalSize={'sm'}
+          closeOnOverlayClick={true}
+          closeOnEsc={true}
+        />
+      )}
+    </>
   );
 };
 

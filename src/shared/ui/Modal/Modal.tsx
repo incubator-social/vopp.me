@@ -12,6 +12,7 @@ export type ModalProps = {
   trigger?: ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   title?: string;
+  setToConfirm?: (confirm: boolean) => void;
   /* Полностью кастомный header */
   headerContent?: ReactNode;
   closeButtonPosition?: 'inside' | 'outside' | 'none';
@@ -31,6 +32,7 @@ export const Modal = (props: ModalProps) => {
     trigger,
     size = 'sm',
     title,
+    setToConfirm,
     children,
     headerContent,
     contentClassName,
@@ -43,12 +45,18 @@ export const Modal = (props: ModalProps) => {
     ...restProps
   } = props;
 
+  const onClickOnOverlayOpenConfirm = setToConfirm
+    ? () => {
+        setToConfirm(true);
+      }
+    : undefined;
+
   return (
     <div {...restProps}>
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
         <Dialog.Portal>
-          <Dialog.Overlay className={clsx(styles.overlay, classOverlay)} />
+          <Dialog.Overlay className={clsx(styles.overlay, classOverlay)} onClick={onClickOnOverlayOpenConfirm} />
           <Dialog.Content
             aria-label={title ?? 'Dialog window'}
             className={clsx(styles.content, styles[size], contentClassName)}

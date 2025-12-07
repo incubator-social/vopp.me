@@ -2,17 +2,24 @@
 
 import { Modal } from '@/src/shared/ui/Modal/Modal';
 import { Button } from '@/src/shared/ui/Button/Button';
+import { clsx } from 'clsx';
+import { ReactNode } from 'react';
 import styles from './ConfirmModal.module.scss';
 
 type ConfirmModalProps = {
   open: boolean;
   title?: string;
-  message: string;
+  message: string | ReactNode;
   confirmText?: string;
   cancelText?: string;
   onConfirm: () => void;
   onCancel: () => void;
   loading?: boolean;
+  modalSize?: 'sm' | 'md' | 'lg' | 'xl';
+  classFooter?: string;
+  closeOnOverlayClick?: boolean;
+  closeOnEsc?: boolean;
+  onCancelCustom?: () => void;
 };
 
 export const ConfirmModal = ({
@@ -23,24 +30,31 @@ export const ConfirmModal = ({
   cancelText = 'No',
   onConfirm,
   onCancel,
-  loading
+  loading,
+  modalSize = 'md',
+  classFooter,
+  closeOnOverlayClick,
+  closeOnEsc,
+  onCancelCustom
 }: ConfirmModalProps) => {
   const sizeButton = { minWidth: 96, height: 36 };
   return (
     <Modal
       open={open}
       onOpenChange={loading ? undefined : onCancel}
+      closeOnOverlayClick={closeOnOverlayClick}
+      closeOnEsc={closeOnEsc}
       title={title}
-      size="md"
+      size={modalSize}
       closeButtonPosition="inside"
-      bodyClassName={`${styles.body}`}
+      bodyClassName={styles.body}
     >
       <div className={styles.message}>{message}</div>
-      <div className={styles.footer}>
+      <div className={clsx(styles.footer, classFooter)}>
         <Button variant="buttonOutline" onClick={onConfirm} size={sizeButton}>
           {confirmText}
         </Button>
-        <Button variant="buttonPrimary" onClick={onCancel} size={sizeButton}>
+        <Button variant="buttonPrimary" onClick={onCancelCustom ? onCancelCustom : onCancel} size={sizeButton}>
           {cancelText}
         </Button>
       </div>

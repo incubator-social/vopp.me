@@ -1,8 +1,8 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
 import { postsApi, useGetPublicPostsQuery } from '@/src/entities/post/api/postsApi';
-import { PostsResponse } from '@/src/entities/post/model/posts.schemas';
-import { HomePostCard } from '@/src/features/MainPage/HomePostCard/ui/HomePostCard';
+import { Post, PostsResponse } from '@/src/entities/post/model/posts.schemas';
+import { HomePostCard } from '@/src/features/main-page/ui/HomePostCard';
 import { useEffect, useRef } from 'react';
 import styles from './HomePublicPosts.module.scss';
 
@@ -51,7 +51,7 @@ export const HomePublicPosts = ({ initialPosts }: Props) => {
   return (
     <div>
       <ul className={styles.container}>
-        {dataForRender.map((post) => (
+        {dataForRender.map((post: Post) => (
           <li key={post.id}>
             <HomePostCard post={post} />
           </li>

@@ -21,7 +21,7 @@ const GetCodeGoogleOAuth = () => {
     }
 
     googleLogin({ code });
-  }, [code]);
+  }, [code, alert, googleLogin, router]);
 
   // 2успешный login
   useEffect(() => {

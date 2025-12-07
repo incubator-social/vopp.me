@@ -1,29 +1,27 @@
 'use client';
 
-import { OptionId, options } from '@/src/widgets/Sidebar/data';
+import { options } from '@/src/widgets/Sidebar/data';
 import * as Nav from '@radix-ui/react-navigation-menu';
 import clsx from 'clsx';
 import styles from './Sidebar.module.scss';
 
 export type SidebarProps = {
-  value: string;
-  onValueChange: (value: OptionId) => void;
+  value: string | undefined;
+  onValueChange: (value: string) => void;
   isDisabledValue?: string;
   defaultValue?: string;
 };
 
 const Sidebar = ({ value, onValueChange, defaultValue, isDisabledValue }: SidebarProps) => {
-  const selectedValue = value || options[0].id;
-
   const handleChangeValue = (newValue: string) => {
     if (newValue !== isDisabledValue) {
-      onValueChange(newValue as OptionId);
+      onValueChange(newValue);
     }
   };
 
   return (
     <Nav.Root
-      value={selectedValue}
+      value={value}
       defaultValue={defaultValue}
       onValueChange={handleChangeValue}
       orientation={'vertical'}
@@ -39,17 +37,17 @@ const Sidebar = ({ value, onValueChange, defaultValue, isDisabledValue }: Sideba
                   className={clsx(styles['nav-link'], 'regular-text-14')}
                   onClick={() => handleChangeValue(id)}
                 >
-                  {selectedValue === id ? <ActiveIcon /> : <Icon />}
+                  {value === id ? <ActiveIcon /> : <Icon />}
                   <span>{label}</span>
                 </button>
               ) : (
                 <Nav.Link
                   className={clsx(styles['nav-link'], 'regular-text-14')}
-                  active={selectedValue === id}
+                  active={value === id}
                   onSelect={() => handleChangeValue(id)}
                   tabIndex={0}
                 >
-                  {selectedValue === id ? <ActiveIcon /> : <Icon />}
+                  {value === id ? <ActiveIcon /> : <Icon />}
                   <span>{label}</span>
                 </Nav.Link>
               )}

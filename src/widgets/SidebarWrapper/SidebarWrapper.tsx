@@ -1,18 +1,16 @@
 'use client';
-import { setAppError } from '@/app/appSlice';
-import { useAppDispatch } from '@/app/providers/store/hooks';
 import { useLogoutMutation } from '@/src/features/auth/api';
+import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { ROUTES } from '@/src/shared/config/routes';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal/ConfirmModal';
-import Sidebar from '@/src/shared/ui/Sidebar/Sidebar';
+import { OptionId } from '@/src/widgets/Sidebar/data';
+import Sidebar from '@/src/widgets/Sidebar/Sidebar';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useAuth } from '@/src/features/auth/lib/useAuth';
 import styles from './SidebarWrapper.module.scss';
 
 export const SidebarWrapper = () => {
-  const dispatch = useAppDispatch();
-  const [active, setActive] = useState('profile');
+  const [active, setActive] = useState<string | undefined>();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router = useRouter();
   const [logout] = useLogoutMutation();
@@ -21,7 +19,7 @@ export const SidebarWrapper = () => {
   if (!uiReady) return <div className={styles.skeleton}></div>;
 
   const handleValueChange = (value: string) => {
-    if (value === 'logout') {
+    if (value === OptionId.Logout) {
       setConfirmOpen(true);
       return;
     }
@@ -52,7 +50,7 @@ export const SidebarWrapper = () => {
         onConfirm={handleConfirmLogout}
         onCancel={() => {
           setConfirmOpen(false);
-          dispatch(setAppError({ type: 'success', message: 'The user is logged in' })); // нужно доработать Alert, не только на ошибки
+          // нужно доработать Alert, не только на ошибки
         }}
       />
     </>

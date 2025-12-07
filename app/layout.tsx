@@ -8,7 +8,8 @@ import { SidebarWrapper } from '@/src/features/sidebar-wrapper/ui/SidebarWrapper
 
 export const metadata: Metadata = {
   title: 'Connect with friends and join communities with Vopp.me',
-  description: 'Connect with friends and join communities with Vopp.me'
+  description: 'Connect with friends and join communities with Vopp.me',
+  icons: { icon: '/favicon/favicon.svg' }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

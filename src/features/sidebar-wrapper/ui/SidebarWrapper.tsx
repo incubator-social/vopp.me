@@ -1,7 +1,6 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
-import { setAppError } from '@/app/store';
 import { setCurrentStep } from '@/src/features/add-post/slice';
 import { Steps } from '@/src/features/add-post/types';
 import AddPost from '@/src/features/add-post/ui/AddPost';
@@ -29,12 +28,12 @@ export const SidebarWrapper = () => {
 
   if (!uiReady) return <div className={styles.skeleton}></div>;
 
-  const handleValueChange = (value: OptionId) => {
+  const handleValueChange = (value: string) => {
     //сохраняем историю активных кнопок, чтобы вернуть прошлую при закрытии AddPost (страницы такой нет)
     if (value !== OptionId.Create) {
-      dispatch(setPreviousActiveButton(value));
+      dispatch(setPreviousActiveButton(OptionId.Create));
     }
-    dispatch(setActiveButton(value));
+    dispatch(setActiveButton(OptionId.Create));
 
     if (value === OptionId.Logout) {
       setConfirmOpen(true);
@@ -63,7 +62,7 @@ export const SidebarWrapper = () => {
   return (
     <>
       {isOpenAddPost && <AddPost />}
-      {uiReady && isAuth && <Sidebar value={activeButton} onValueChange={handleValueChange} />}
+      {uiReady && isAuth && <Sidebar value={`${activeButton}`} onValueChange={handleValueChange} />}
 
       <ConfirmModal
         open={confirmOpen}
@@ -74,7 +73,7 @@ export const SidebarWrapper = () => {
         onConfirm={handleConfirmLogout}
         onCancel={() => {
           setConfirmOpen(false);
-          dispatch(setAppError({ type: 'success', message: 'The user is logged in' })); // нужно доработать Alert, не только на ошибки
+          // добавить Alert, пользователь залогинен
         }}
       />
     </>

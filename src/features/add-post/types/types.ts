@@ -6,7 +6,7 @@ export enum Steps {
 }
 
 export type ImageData = {
-  id: number;
+  id: string;
   file: File;
   previewURL: string;
   filters?: object;

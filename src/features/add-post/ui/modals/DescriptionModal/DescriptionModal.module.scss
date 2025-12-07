@@ -36,6 +36,8 @@
 }
 
 .descriptionContainer {
+  display: flex;
+  flex-direction: column;
   padding: 24px 24px 0;
 }
 
@@ -46,11 +48,19 @@
   margin-bottom: 24px;
 }
 
-.textariaContainer {
+.textarea {
   width: 433px;
-  gap: 0;
+  height: 120px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  cursor: text;
 }
 
-.labelTextaria {
+.labelTextAria {
   margin-bottom: 0;
+}
+
+.captionLength {
+  margin-left: auto;
+  color: var(--color-light-900);
 }

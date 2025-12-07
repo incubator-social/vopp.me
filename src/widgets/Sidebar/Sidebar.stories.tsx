@@ -1,7 +1,7 @@
-import { options } from '@/src/widgets/Sidebar/data';
+import { OptionId, options } from '@/src/widgets/Sidebar/data';
 import Sidebar, { SidebarProps } from '@/src/widgets/Sidebar/Sidebar';
-import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/nextjs';
+import { useState } from 'react';
 
 const meta = {
   title: 'UI/Sidebar',
@@ -16,7 +16,7 @@ const meta = {
     }
   },
   args: {
-    value: 'feed'
+    value: OptionId.Feed
   }
 } satisfies Meta<typeof Sidebar>;
 
@@ -24,7 +24,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template: Story['render'] = (args: SidebarProps) => {
-  const [value, setValue] = useState<string>(args.value);
+  const [value, setValue] = useState<string | undefined>(`${args.value}`);
 
   return <Sidebar {...args} value={value} onValueChange={setValue} />;
 };

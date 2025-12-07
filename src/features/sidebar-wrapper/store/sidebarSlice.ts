@@ -2,25 +2,25 @@ import { OptionId } from '@/src/widgets/Sidebar/data';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type SidebarState = {
-  activeButton: OptionId;
+  activeButton: OptionId | null;
   isOpenAddPost: boolean;
-  previousActiveButton: OptionId;
+  previousActiveButton: OptionId | null;
 };
 
 const initialState: SidebarState = {
-  activeButton: OptionId.Feed,
+  activeButton: null,
   isOpenAddPost: false,
-  previousActiveButton: OptionId.Feed
+  previousActiveButton: null
 };
 
 const sidebarSlice = createSlice({
   name: 'sidebar',
   initialState,
   reducers: {
-    setActiveButton: (state, action: PayloadAction<OptionId>) => {
+    setActiveButton: (state, action: PayloadAction<OptionId | null>) => {
       state.activeButton = action.payload;
     },
-    setPreviousActiveButton: (state, action: PayloadAction<OptionId>) => {
+    setPreviousActiveButton: (state, action: PayloadAction<OptionId | null>) => {
       state.previousActiveButton = action.payload;
     },
     openAddPost: (state) => {
