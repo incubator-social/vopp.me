@@ -16,7 +16,6 @@ export type ModalProps = {
   /* Полностью кастомный header */
   headerContent?: ReactNode;
   closeButtonPosition?: 'inside' | 'outside' | 'none';
-  containerClassName?: string;
   contentClassName?: string;
   bodyClassName?: string;
   closeOnOverlayClick?: boolean;
