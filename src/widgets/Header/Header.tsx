@@ -8,6 +8,7 @@ import { BellIcon } from '@/src/widgets/Header/BellIcon/BellIcon';
 import { AuthButtons } from '@/src/widgets/Header/AuthButtons/AuthButtons';
 import styles from './Header.module.scss';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
+import { HeaderSkeleton } from './HeaderSkeleton/HeaderSkeleton';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -18,6 +19,8 @@ export const Header = () => {
     dispatch(setActiveButton(null));
     dispatch(setPreviousActiveButton(null));
   };
+
+  if (!uiReady) return <HeaderSkeleton />;
 
   return (
     <header className={styles.header}>

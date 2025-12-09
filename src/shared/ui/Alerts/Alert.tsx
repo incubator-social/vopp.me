@@ -1,5 +1,5 @@
 import * as Toast from '@radix-ui/react-toast';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from '@/src/shared/ui/Alerts/alert.module.scss';
 import CloseIcon from '@/src/shared/assets/icons/close.svg';
 import clsx from 'clsx';
@@ -14,10 +14,15 @@ type AlertProps = {
 
 export const Alert = ({ type, message, duration = 10000, onClose }: AlertProps) => {
   const [open, setOpen] = useState(true);
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     if (!open) {
-      onClose?.();
+      onCloseRef.current?.();
     }
   }, [open, onClose]);
 

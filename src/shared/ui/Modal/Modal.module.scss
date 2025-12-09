@@ -123,3 +123,8 @@
 .noPaddingBody {
   padding: 0;
 }
+
+:global(html.sidebar-visible) .xlWithSidebar {
+  left: calc(var(--sidebar-width) * 2);
+  transform: translate(0, calc(-50% - 40px));
+}

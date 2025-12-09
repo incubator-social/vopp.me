@@ -26,8 +26,8 @@ export const useConfirmModal = () => {
     if (!options?.onConfirm) return;
     try {
       setLoading(true);
-      await options.onConfirm();
       setOpen(false);
+      await options.onConfirm();
     } finally {
       setLoading(false);
     }

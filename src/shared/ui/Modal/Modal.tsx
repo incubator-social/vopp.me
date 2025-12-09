@@ -58,7 +58,7 @@ export const Modal = (props: ModalProps) => {
           <Dialog.Overlay className={clsx(styles.overlay, classOverlay)} onClick={onClickOnOverlayOpenConfirm} />
           <Dialog.Content
             aria-label={title ?? 'Dialog window'}
-            className={clsx(styles.content, styles[size], contentClassName)}
+            className={clsx(styles.content, styles[size], contentClassName, size === 'xl' && styles.xlWithSidebar)}
             onInteractOutside={(e) => {
               if (!closeOnOverlayClick) e.preventDefault();
             }}

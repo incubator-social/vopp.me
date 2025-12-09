@@ -52,4 +52,9 @@ body {
 
 :root {
   --transition-duration: 0.3s;
+  --sidebar-width: 0px;
+}
+
+html.sidebar-visible {
+  --sidebar-width: 220px;
 }
