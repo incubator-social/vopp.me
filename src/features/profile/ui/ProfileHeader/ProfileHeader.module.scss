@@ -1,0 +1,92 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 38px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 972px;
+}
+
+.avatar {
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 204px;
+  height: 204px;
+  object-fit: cover;
+}
+
+.info {
+  flex: 1;
+  padding-top: 12px;
+  width: 100%;
+  max-width: 972px;
+}
+
+.usernameRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.username {
+  font-family: var(--font-family-primary), sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 36px;
+  color: var(--color-light-100);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.followButton {
+  min-width: 98px;
+}
+
+.messageButton {
+  min-width: 162px;
+}
+
+.stats {
+  display: flex;
+  gap: 100px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.statNumber {
+  font-family: var(--font-family-primary), sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--color-light-100);
+}
+
+.statLabel {
+  font-family: var(--font-family-primary), sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--color-light-100);
+}
+
+.bio {
+  font-family: var(--font-family-primary), sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--color-light-100);
+  margin: 0;
+}

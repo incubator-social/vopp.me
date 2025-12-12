@@ -1,0 +1,12 @@
+import { baseApi } from '@/src/shared/api/baseApi';
+import { PublicProfileResponse } from '@/src/features/profile/lib/api.types';
+
+export const profileApi = baseApi.injectEndpoints({
+  endpoints: (build) => ({
+    getPublicProfile: build.query<PublicProfileResponse, number>({
+      query: (profileId) => `public-user/profile/${profileId}`
+    })
+  })
+});
+
+export const { useGetPublicProfileQuery } = profileApi;
