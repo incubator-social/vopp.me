@@ -1,11 +1,13 @@
 'use client';
 
-import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
-import { Steps } from '@/src/features/add-post/types';
-import { closeAddPost, openAddPost, setActiveButton } from '@/src/features/sidebar-wrapper/store/sidebarSlice';
-import CroppingModal from '@/src/features/add-post/ui/modals/CroppingModal/CroppingModal';
-import DescriptionModal from '@/src/features/add-post/ui/modals/DescriptionModal/DescriptionModal';
-import UploadModal from '@/src/features/add-post/ui/modals/UploadModal/UploadModal';
+import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
+
+import { Steps } from '../model';
+import { UploadModal } from '../ui/modals/upload-modal';
+import { CroppingModal } from '../ui/modals/cropping-modal';
+import { DescriptionModal } from '../ui/modals/description-modal';
+
+import { openAddPost, closeAddPost, setActiveButton } from '@/src/widgets/sidebar-wrapper/model';
 
 const AddPost = () => {
   const dispatch = useAppDispatch();

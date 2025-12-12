@@ -1,4 +1,4 @@
-import StoreProvider from '@/app/providers/store/StoreProvider';
+import StoreProvider from '@/app/model/StoreProvider';
 import type { Meta } from '@storybook/nextjs';
 import { EmailVerification } from '@/src/features/auth/ui/EmailVerification/EmailVerification';
 

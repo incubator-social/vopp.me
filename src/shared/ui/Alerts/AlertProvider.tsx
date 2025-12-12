@@ -2,8 +2,8 @@
 
 import * as Toast from '@radix-ui/react-toast';
 import { ReactNode } from 'react';
-import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
-import { selectAppAlert, clearAppAlert } from '@/app/store/appSlice';
+import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
+import { selectAppAlert, clearAppAlert } from '@/app/model/appSlice';
 import { Alert } from '@/src/shared/ui/Alerts/Alert';
 import styles from '@/src/shared/ui/Alerts/alert.module.scss';
 

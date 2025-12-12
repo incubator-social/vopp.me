@@ -1,14 +1,17 @@
 'use client';
 
-import { useAppDispatch } from '@/app/providers/store/hooks';
-import { setActiveButton, setPreviousActiveButton } from '@/src/features/sidebar-wrapper/store';
+import { HeaderSkeleton } from './HeaderSkeleton';
 import Link from 'next/link';
+
+import { useAppDispatch } from '@/app/lib/hooks';
+import { setActiveButton, setPreviousActiveButton } from '@/src/widgets/sidebar-wrapper/model';
+
 import { LanguageSelect } from '@/src/widgets/Header/LanguageSelect/LanguageSelect';
 import { BellIcon } from '@/src/widgets/Header/BellIcon/BellIcon';
 import { AuthButtons } from '@/src/widgets/Header/AuthButtons/AuthButtons';
-import styles from './Header.module.scss';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { HeaderSkeleton } from './HeaderSkeleton/HeaderSkeleton';
+
+import styles from './Header.module.scss';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -16,8 +19,8 @@ export const Header = () => {
   const { isAuth, uiReady } = useAuth();
 
   const onClickVoppmeLink = () => {
-    dispatch(setActiveButton(null));
-    dispatch(setPreviousActiveButton(null));
+    dispatch(setActiveButton(undefined));
+    dispatch(setPreviousActiveButton(undefined));
   };
 
   if (!uiReady) return <HeaderSkeleton />;

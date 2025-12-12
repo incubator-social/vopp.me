@@ -1,9 +1,10 @@
 'use client';
 
-import styles from './Button.module.scss';
 import { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react';
-import clsx from 'clsx';
 import { Slot } from '@radix-ui/react-slot';
+import clsx from 'clsx';
+
+import styles from './Button.module.scss';
 
 type SizeProps = {
   minWidth?: number | string;

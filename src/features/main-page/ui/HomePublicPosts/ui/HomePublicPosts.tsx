@@ -1,5 +1,5 @@
 'use client';
-import { useAppDispatch, useAppSelector } from '@/app/providers/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 import { postsApi, useGetPublicPostsQuery } from '@/src/entities/post/api/postsApi';
 import { Post, PostsResponse } from '@/src/entities/post/model/posts.schemas';
 import { HomePostCard } from '@/src/features/main-page/ui/HomePostCard';
