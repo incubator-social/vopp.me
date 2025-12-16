@@ -1,32 +1,28 @@
 'use client';
 
-import Image from 'next/image';
+import { onConfirmDiscard } from '@/src/features/add-post/ui/modals/description-modal/lib/onConfirmDiscard';
+import { DescriptionForm } from '@/src/features/add-post/ui/modals/description-modal/ui/description-form';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 
-import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { useGetUserProfileQuery } from '@/src/features/auth/api';
-
 import { Modal } from '@/src/shared/ui/Modal';
-import { Avatar } from '@/src/shared/ui/Avatar';
 import { Button } from '@/src/shared/ui/Button';
 import { ROUTES } from '@/src/shared/config/routes';
 import { getUserFromToken } from '@/src/shared/lib/auth';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal';
-import { Textarea } from '@/src/shared/ui/Textarea/Textarea';
 import ArrowBack from '@/src/shared/assets/icons/arrow-ios-back-outline.svg';
 
 import { OptionId } from '@/src/widgets/sidebar/config';
 import { closeAddPost, setActiveButton, setPreviousActiveButton } from '@/src/widgets/sidebar-wrapper/model';
 
-import { AddPostDescriptionValue, addPostSchema, removeImages, setCurrentStep } from '../../../model';
-import { Steps } from '../../../model';
+import { AddPostDescriptionValue, addPostSchema, setCurrentStep } from '../../../../../model';
+import { Steps } from '../../../../../model';
 
-import { useOnSubmit } from './lib';
+import { useOnSubmit } from '../../lib';
 
 import styles from './DescriptionModal.module.scss';
 
@@ -36,35 +32,14 @@ type CroppingModal = {
 
 export const DescriptionModal = ({ handleOpenClose }: CroppingModal) => {
   const dispatch = useAppDispatch();
-  const isOpenAddPost = useAppSelector((state) => state.sidebar.isOpenAddPost);
+  const { isOpenAddPost, previousActiveButton } = useAppSelector((state) => state.sidebar);
   const imagesState = useAppSelector((state) => state.addPost.images);
-  const previousActiveButton = useAppSelector((state) => state.sidebar.previousActiveButton);
 
-  const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
-  const [nameUser, setNameUser] = useState<string | undefined>('User Name');
+  const [onPostSubmit, isLoadingPostImage, isLoadingCreatePost] = useOnSubmit();
 
   const router = useRouter();
-  const [onPostSubmit, isLoadingPostImage, isLoadingPostPost] = useOnSubmit();
+
   const [toConfirm, setToConfirm] = useState<boolean>(false);
-
-  const { user } = useAuth();
-  const { data, isSuccess } = useGetUserProfileQuery(user?.userId as number);
-
-  useEffect(() => {
-    if (isSuccess) {
-      setNameUser(data.userName);
-      if (data.avatars[0]?.url) {
-        setAvatarUrl(data.avatars[0]?.url);
-      }
-    }
-  }, [data, isSuccess]);
-
-  const previewURL = useRef<string>('');
-  if (imagesState) {
-    previewURL.current = imagesState[0].previewURL;
-  } else {
-    previewURL.current = '';
-  }
 
   const {
     register,
@@ -87,16 +62,8 @@ export const DescriptionModal = ({ handleOpenClose }: CroppingModal) => {
     dispatch(setCurrentStep(Steps.Cropping));
   };
 
-  const onConfirmDiscard = () => {
-    if (imagesState) {
-      for (const image of imagesState) {
-        URL.revokeObjectURL(image.previewURL);
-      }
-      dispatch(removeImages());
-    }
-    setToConfirm(false);
-    dispatch(closeAddPost());
-    dispatch(setActiveButton(previousActiveButton));
+  const onConfirmModal = () => {
+    return onConfirmDiscard({ dispatch, imagesState, setToConfirm, previousActiveButton });
   };
 
   const onSaveDraft = () => {
@@ -126,7 +93,7 @@ export const DescriptionModal = ({ handleOpenClose }: CroppingModal) => {
         className={styles.headerNext}
         size={{ padding: 0, minWidth: 'auto' }}
         type={'submit'}
-        disabled={isSubmitting || isLoadingPostImage || isLoadingPostPost}
+        disabled={isSubmitting || isLoadingPostImage || isLoadingCreatePost}
         form={'post-publication-form'}
       >
         Publish
@@ -152,42 +119,12 @@ export const DescriptionModal = ({ handleOpenClose }: CroppingModal) => {
         noPadding={true}
         setToConfirm={setToConfirm}
       >
-        <form id={'post-publication-form'} onSubmit={onSubmit}>
-          <div className={styles.content}>
-            <div className={styles.containerImage}>
-              {imagesState && (
-                <Image
-                  src={previewURL.current}
-                  width={490}
-                  height={504}
-                  alt="preview uploaded image"
-                  className={styles.image}
-                />
-              )}
-            </div>
-            <div className={styles.descriptionContainer}>
-              <div className={styles.userInfo}>
-                <Avatar src={avatarUrl} />
-                <p>{nameUser}</p>
-              </div>
-
-              <Textarea
-                label={'Add publication descriptions'}
-                resize={'none'}
-                className={styles.textarea}
-                labelClassName={styles.labelTextAria}
-                maxLength={500}
-                {...register('description')}
-              />
-
-              <span className={`${styles.captionLength} regular-text-14`}>
-                {descriptionText}/{500}
-              </span>
-
-              {errors.description && <span>{errors.description.message}</span>}
-            </div>
-          </div>
-        </form>
+        <DescriptionForm
+          register={register}
+          formHandleSubmit={onSubmit}
+          descriptionText={descriptionText}
+          errors={errors}
+        />
       </Modal>
       {toConfirm && (
         <ConfirmModal
@@ -197,7 +134,7 @@ export const DescriptionModal = ({ handleOpenClose }: CroppingModal) => {
           confirmText={'Discard'}
           cancelText={'Save Draft'}
           classFooter={styles.confirmModalButtons}
-          onConfirm={onConfirmDiscard}
+          onConfirm={onConfirmModal}
           onCancel={() => setToConfirm(false)}
           onCancelCustom={onSaveDraft}
           modalSize={'sm'}

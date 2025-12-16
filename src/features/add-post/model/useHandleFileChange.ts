@@ -13,18 +13,21 @@ type HandleFileChange = {
 export const useHandleFileChange = ({ setUploadError }: HandleFileChange) => {
   const dispatch = useAppDispatch();
   const id = useId();
+  let imageError = false;
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
+
     const MAX_SIZE_20MB = 20 * 1024 * 1024;
 
     Array.from(files).forEach((file, index) => {
       if (!['image/jpeg', 'image/png'].includes(file.type) || file.size > MAX_SIZE_20MB) {
         setUploadError(true);
-        throw new Error('The photo must be less than 20 Mb and have JPEG or PNG format');
+        e.target.value = '';
+        imageError = true;
       }
-
+      if (imageError) return;
       const previewURL = URL.createObjectURL(file);
       const newImage = {
         id: `${id}-${index}`,
@@ -35,8 +38,7 @@ export const useHandleFileChange = ({ setUploadError }: HandleFileChange) => {
       dispatch(addImage(newImage));
     });
 
-    dispatch(setCurrentStep(Steps.Cropping));
+    if (!imageError) dispatch(setCurrentStep(Steps.Cropping));
   };
-
   return handleFileChange;
 };

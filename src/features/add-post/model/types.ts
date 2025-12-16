@@ -1,7 +1,6 @@
 export enum Steps {
   UploadImage = 'UploadImage',
   Cropping = 'Cropping',
-  Filter = 'Filter',
   Description = 'Description'
 }
 

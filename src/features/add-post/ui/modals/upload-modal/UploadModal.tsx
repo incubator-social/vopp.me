@@ -16,10 +16,10 @@ import { useHandleFileChange } from '../../../model';
 import styles from './UploadModal.module.scss';
 
 type UploadModal = {
-  handleOpenCloseModal: (open: boolean) => void;
+  handleOpenClose: (open: boolean) => void;
 };
 
-export const UploadModal = ({ handleOpenCloseModal }: UploadModal) => {
+export const UploadModal = ({ handleOpenClose }: UploadModal) => {
   const dispatch = useAppDispatch();
   const isOpenAddPost = useAppSelector((state) => state.sidebar.isOpenAddPost);
   const images = useAppSelector((state) => state.addPost.images);
@@ -41,11 +41,10 @@ export const UploadModal = ({ handleOpenCloseModal }: UploadModal) => {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [images, dispatch]);
+  }, [images]);
 
-  const handleOpenClose = (open: boolean) => {
-    handleOpenCloseModal(open);
-    // dispatch(setCurrentStep(Steps.UploadImage));
+  const handleOpenCloseModal = (open: boolean) => {
+    handleOpenClose(open);
   };
 
   const openDraft = () => {
@@ -56,7 +55,7 @@ export const UploadModal = ({ handleOpenCloseModal }: UploadModal) => {
     <>
       <Modal
         open={isOpenAddPost}
-        onOpenChange={handleOpenClose}
+        onOpenChange={handleOpenCloseModal}
         closeOnEsc={true}
         closeOnOverlayClick={true}
         title={'Add Photo'}
@@ -80,7 +79,12 @@ export const UploadModal = ({ handleOpenCloseModal }: UploadModal) => {
                 onChange={handleFileChange}
               />
             </Button>
-            <Button variant={'buttonOutline'} size={{ width: '100%' }} onClick={openDraft}>
+            <Button
+              variant={'buttonOutline'}
+              size={{ width: '100%' }}
+              onClick={openDraft}
+              disabled={images.length === 0}
+            >
               Open Draft
             </Button>
           </div>
@@ -89,7 +93,7 @@ export const UploadModal = ({ handleOpenCloseModal }: UploadModal) => {
       {uploadError && (
         <AlertModal
           open={uploadError}
-          onOpenChange={() => setUploadError(false)}
+          onOpenChange={(close: boolean) => setUploadError(close)}
           message={'The photo must be less than 20 Mb and have JPEG or PNG format'}
         />
       )}

@@ -32,7 +32,7 @@ export const postsApi = baseApi.injectEndpoints({
         };
       }
     }),
-    postPost: build.mutation<Post, { description: string; uploadId: string }>({
+    createPost: build.mutation<Post, { description: string; uploadId: string }>({
       query: ({ description, uploadId }) => ({
         url: 'posts',
         method: 'POST',
@@ -65,7 +65,7 @@ export const {
   useGetPublicPostsQuery,
   useGetPostByIdQuery,
   usePostImageMutation,
-  usePostPostMutation,
+  useCreatePostMutation,
   useDeletePostMutation,
   useUpdatePostByIdMutation
 } = postsApi;

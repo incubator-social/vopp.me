@@ -1,4 +1,4 @@
-import { usePostImageMutation, usePostPostMutation } from '@/src/entities/post/api/postsApi';
+import { usePostImageMutation, useCreatePostMutation } from '@/src/entities/post/api/postsApi';
 
 import { ImageDataType } from '../../../../model';
 
@@ -10,7 +10,7 @@ type OnSubmitArgs = {
 
 export const useOnSubmit = (): [(args: OnSubmitArgs) => void, boolean, boolean] => {
   const [postImages, { isLoading: isLoadingPostImage }] = usePostImageMutation();
-  const [postPost, { isLoading: isLoadingPostPost }] = usePostPostMutation();
+  const [createPost, { isLoading: isLoadingCreatePost }] = useCreatePostMutation();
 
   const onPostSubmit = ({ description, imagesState, handleOpenClose }: OnSubmitArgs) => {
     const post = async () => {
@@ -25,7 +25,7 @@ export const useOnSubmit = (): [(args: OnSubmitArgs) => void, boolean, boolean] 
           const uploadId = resultPostImage.data?.images[0]?.uploadId;
 
           if (uploadId) {
-            postPost({ description, uploadId });
+            createPost({ description, uploadId });
             handleOpenClose(false);
           }
         }
@@ -34,5 +34,5 @@ export const useOnSubmit = (): [(args: OnSubmitArgs) => void, boolean, boolean] 
     post();
   };
 
-  return [onPostSubmit, isLoadingPostImage, isLoadingPostPost];
+  return [onPostSubmit, isLoadingPostImage, isLoadingCreatePost];
 };
