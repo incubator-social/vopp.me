@@ -1,5 +1,5 @@
+import { useAppSelector } from '@/app/lib/hooks';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useAppSelector } from '@/app/providers/store/hooks';
 import { postsApi, useGetUserPostsQuery } from '@/src/entities/post/api/postsApi';
 
 export const useInfinitePosts = (userId: number) => {

@@ -8,8 +8,7 @@ import {
   SignUpResponse,
   MeResponse,
   GoogleOAuthResponse,
-  GoogleOAuthRequest,
-  GetUserProfileResponse
+  GoogleOAuthRequest
 } from './types';
 import {
   CheckRecoveryCodeRequest,
@@ -139,9 +138,6 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { recoveryCode }
       })
-    }),
-    getUserProfile: build.query<GetUserProfileResponse, number>({
-      query: (id) => ({ url: `/public-user/profile/${id}` })
     })
   })
 });
@@ -156,6 +152,5 @@ export const {
   useForgotPasswordMutation,
   useCreateNewPasswordMutation,
   useCheckRecoveryCodeMutation,
-  useGoogleOAuthLoginMutation,
-  useGetUserProfileQuery
+  useGoogleOAuthLoginMutation
 } = authApi;

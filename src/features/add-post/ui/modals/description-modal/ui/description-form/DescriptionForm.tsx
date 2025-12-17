@@ -1,7 +1,7 @@
 import { useAppSelector } from '@/app/lib/hooks';
 import { AddPostDescriptionValue } from '@/src/features/add-post/model';
-import { useGetUserProfileQuery } from '@/src/features/auth/api';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
+import { useGetPublicProfileQuery } from '@/src/features/profile/api/profileApi';
 import { Avatar } from '@/src/shared/ui/Avatar';
 import { Textarea } from '@/src/shared/ui/Textarea/Textarea';
 import styles from './DescriptionForm.module.scss';
@@ -20,7 +20,8 @@ export const DescriptionForm = ({ errors, register, descriptionText, formHandleS
   const imagesState = useAppSelector((state) => state.addPost.images);
 
   const { user } = useAuth();
-  const { data } = useGetUserProfileQuery(user?.userId as number);
+
+  const { data } = useGetPublicProfileQuery(user?.userId as number);
   const userName = data?.userName;
 
   const previewURL = useRef<string>('');
