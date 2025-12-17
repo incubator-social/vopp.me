@@ -1,10 +1,38 @@
 import { Post, PostsResponse, PostImageResponse, PostsResponseSchema, PostSchema } from '../model/posts.schemas';
 
 import { baseApi } from '@/src/shared/api/baseApi';
-import { GetPublicPostsArgs } from '../model/posts.types';
+import { GetPublicPostsArgs, PostsQueryParams } from '../model/posts.types';
 
 export const postsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
+    getUserPosts: build.query<PostsResponse, PostsQueryParams>({
+      query: ({ userId, endCursorPostId, pageSize = 4, sortDirection = 'desc' }) => {
+        const url = endCursorPostId ? `posts/user/${userId}/${endCursorPostId}` : `posts/user/${userId}`;
+
+        return {
+          url,
+          params: {
+            pageSize,
+            sortDirection
+          }
+        };
+      },
+      serializeQueryArgs: ({ queryArgs }) => {
+        return `user-${queryArgs.userId}`;
+      },
+      merge: (currentCache, newItems) => {
+        if (newItems.items.length === 0) {
+          return currentCache;
+        }
+
+        currentCache.items.push(...newItems.items);
+        return currentCache;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg?.endCursorPostId !== previousArg?.endCursorPostId;
+      },
+      providesTags: ['Posts']
+    }),
     getPublicPosts: build.query<PostsResponse, GetPublicPostsArgs>({
       query: ({ endCursorPostId, pageSize, sortBy, sortDirection }) => ({
         url: `/public-posts/all/${endCursorPostId}`,
@@ -46,8 +74,8 @@ export const postsApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: `/posts/${id}`,
         method: 'DELETE'
-      })
-      // invalidatesTags: ['Posts'] нужно раскомментировать и проверить актуальность тега
+      }),
+      invalidatesTags: ['Posts']
     }),
     updatePostById: build.mutation<void, { postId: number; data: { description: string } }>({
       query: ({ postId, data }) => ({
@@ -62,6 +90,7 @@ export const postsApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useGetUserPostsQuery,
   useGetPublicPostsQuery,
   useGetPostByIdQuery,
   usePostImageMutation,
