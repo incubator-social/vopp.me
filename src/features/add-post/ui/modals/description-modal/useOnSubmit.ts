@@ -1,6 +1,6 @@
 import { usePostImageMutation, useCreatePostMutation } from '@/src/entities/post/api/postsApi';
 
-import { ImageDataType } from '../../../../model';
+import { ImageDataType } from '../../../model';
 
 type OnSubmitArgs = {
   description: string;
