@@ -1,0 +1,46 @@
+.orientationMenuContainer {
+  width: 156px;
+  height: 152px;
+  background-color: var(--color-dark-opacity-500);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    list-style: none;
+  }
+}
+
+.orientationMenuButton {
+  color: var(--color-light-900);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  justify-content: space-between;
+
+  &:hover {
+    color: var(--color-light-100);
+  }
+}
+
+.buttonIconContainer {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonRectangle11 {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 2px solid var(--color-light-900);
+}

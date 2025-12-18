@@ -1,5 +1,7 @@
 'use client';
 
+import { CroppingFooterMenu } from '../footer-menu/ui/footer-menu-main';
+import { ImageCropper } from '@/src/features/add-post/ui/modals/cropping-modal/ui/image-cropper';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
@@ -14,7 +16,7 @@ import ArrowBack from '@/src/shared/assets/icons/arrow-ios-back-outline.svg';
 
 import { closeAddPost, setActiveButton } from '@/src/widgets/sidebar-wrapper/model';
 
-import { Steps } from '../../../model';
+import { Steps } from '../../../../../model';
 
 import styles from './CroppingModal.module.scss';
 
@@ -27,6 +29,10 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
   const isOpenAddPost = useAppSelector((state) => state.sidebar.isOpenAddPost);
   const previousActiveButton = useAppSelector((state) => state.sidebar.previousActiveButton);
   const images = useAppSelector((state) => state.addPost.images);
+
+  // const [imageCropper, setImageCropper] = useState<boolean>(false);
+  const imageCropper = false;
+
   const [toConfirm, setToConfirm] = useState<boolean>(false);
 
   const previewURL = useRef<string>('');
@@ -52,7 +58,7 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
       dispatch(removeImages());
     }
     setToConfirm(false);
-    dispatch(closeAddPost());
+    dispatch(setCurrentStep(Steps.UploadImage));
     dispatch(setActiveButton(previousActiveButton));
   };
 
@@ -104,14 +110,23 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
       >
         <div className={styles.containerImage}>
           {images && (
-            <Image
-              src={previewURL.current}
-              alt="preview uploaded image"
-              className={styles.image}
-              width={490}
-              height={504}
-            />
+            <>
+              {imageCropper ? (
+                <ImageCropper imageUrl={previewURL.current} />
+              ) : (
+                <Image
+                  src={previewURL.current}
+                  alt="preview uploaded image"
+                  className={styles.image}
+                  width={490}
+                  height={504}
+                />
+              )}
+            </>
           )}
+          <CroppingFooterMenu
+          // setImageCropper={setImageCropper}
+          />
         </div>
       </Modal>
       {toConfirm && (
