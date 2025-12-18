@@ -4,10 +4,11 @@ import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { useGetPublicProfileQuery } from '@/src/features/profile/api/profileApi';
 import { Avatar } from '@/src/shared/ui/Avatar';
 import { Textarea } from '@/src/shared/ui/Textarea/Textarea';
-import styles from './DescriptionForm.module.scss';
 import Image from 'next/image';
 import { FormEventHandler, useRef } from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
+
+import styles from './DescriptionForm.module.scss';
 
 export type DescriptionFormPropsType = {
   descriptionText: number;

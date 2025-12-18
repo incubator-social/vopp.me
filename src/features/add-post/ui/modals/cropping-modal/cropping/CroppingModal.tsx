@@ -1,20 +1,17 @@
 'use client';
 
+import { CroppingConfirmModalHeader } from '../cropping-confirm-modal-header/CroppingConfirmModalHeader';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 
-import { removeImages, setCurrentStep } from '@/src/features/add-post/model';
+import { removeImages } from '@/src/features/add-post/model';
 
 import { Modal } from '@/src/shared/ui/Modal';
-import { Button } from '@/src/shared/ui/Button';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal';
-import ArrowBack from '@/src/shared/assets/icons/arrow-ios-back-outline.svg';
 
 import { closeAddPost, setActiveButton } from '@/src/widgets/sidebar-wrapper/model';
-
-import { Steps } from '../../../model';
 
 import styles from './CroppingModal.module.scss';
 
@@ -36,14 +33,6 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
     previewURL.current = '';
   }
 
-  const handleBack = () => {
-    setToConfirm(true);
-  };
-
-  const handleNext = () => {
-    dispatch(setCurrentStep(Steps.Description));
-  };
-
   const onConfirmDiscard = () => {
     if (images) {
       for (const image of images) {
@@ -62,29 +51,7 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
     dispatch(setActiveButton(previousActiveButton));
   };
 
-  const headerContent = (
-    <div className={styles.headerCropping}>
-      <Button
-        variant={'buttonText'}
-        className={styles.croppingArrowBack}
-        size={{ minWidth: 24, minHeight: 24, padding: 0 }}
-        onClick={handleBack}
-      >
-        <ArrowBack />
-      </Button>
-      <h1>Cropping</h1>
-      <Button
-        variant={'buttonText'}
-        className={styles.croppingNext}
-        size={{ padding: 0, minWidth: 'auto' }}
-        onClick={handleNext}
-      >
-        Next
-      </Button>
-    </div>
-  );
-
-  const confirmMessage = (
+  const croppingConfirmMessage = (
     <p>
       Do you really want to close the creation of a publication? <br />
       If you close everything will be deleted
@@ -97,7 +64,7 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
         open={isOpenAddPost}
         onOpenChange={handleOpenClose}
         size={'md'}
-        headerContent={headerContent}
+        headerContent={<CroppingConfirmModalHeader setToConfirm={setToConfirm} />}
         contentClassName={styles.container}
         noPadding={true}
         setToConfirm={setToConfirm}
@@ -118,7 +85,7 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
         <ConfirmModal
           open={toConfirm}
           title={'Close'}
-          message={confirmMessage}
+          message={croppingConfirmMessage}
           confirmText={'Discard'}
           cancelText={'Save Draft'}
           classFooter={styles.confirmModalButtons}

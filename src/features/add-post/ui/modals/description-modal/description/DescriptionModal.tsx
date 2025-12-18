@@ -1,7 +1,8 @@
 'use client';
 
-import { onConfirmDiscard } from '@/src/features/add-post/ui/modals/description-modal/lib/onConfirmDiscard';
-import { DescriptionForm } from '@/src/features/add-post/ui/modals/description-modal/ui/description-form';
+import { onConfirmDiscard } from '@/src/features/add-post/ui/modals/description-modal/onConfirmDiscard';
+import { DescriptionForm } from '../description-form/DescriptionForm';
+import { DescriptionConfirmModalHeader } from '@/src/features/add-post/ui/modals/description-modal/description-confirm-modal-header/DescriptionConfirmModalHeader';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -10,19 +11,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 
 import { Modal } from '@/src/shared/ui/Modal';
-import { Button } from '@/src/shared/ui/Button';
 import { ROUTES } from '@/src/shared/config/routes';
 import { getUserFromToken } from '@/src/shared/lib/auth';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal';
-import ArrowBack from '@/src/shared/assets/icons/arrow-ios-back-outline.svg';
 
 import { OptionId } from '@/src/widgets/sidebar/config';
 import { closeAddPost, setActiveButton, setPreviousActiveButton } from '@/src/widgets/sidebar-wrapper/model';
+import { AddPostDescriptionValue, addPostSchema } from '../../../../model';
 
-import { AddPostDescriptionValue, addPostSchema, setCurrentStep } from '../../../../../model';
-import { Steps } from '../../../../../model';
-
-import { useOnSubmit } from '../../lib';
+import { useOnSubmit } from '../useOnSubmit';
 
 import styles from './DescriptionModal.module.scss';
 
@@ -58,10 +55,6 @@ export const DescriptionModal = ({ handleOpenClose }: CroppingModal) => {
 
   const descriptionText = watch('description')?.length ? watch('description')?.length : 0;
 
-  const handleBack = () => {
-    dispatch(setCurrentStep(Steps.Cropping));
-  };
-
   const onConfirmModal = () => {
     return onConfirmDiscard({ dispatch, imagesState, setToConfirm, previousActiveButton });
   };
@@ -77,31 +70,7 @@ export const DescriptionModal = ({ handleOpenClose }: CroppingModal) => {
     dispatch(setPreviousActiveButton(OptionId.myProfile));
   };
 
-  const headerContent = (
-    <div className={styles.headerContainer}>
-      <Button
-        variant={'buttonText'}
-        className={styles.headerArrowBack}
-        size={{ minWidth: 24, minHeight: 24, padding: 0 }}
-        onClick={handleBack}
-      >
-        <ArrowBack />
-      </Button>
-      <h1>Publication</h1>
-      <Button
-        variant={'buttonText'}
-        className={styles.headerNext}
-        size={{ padding: 0, minWidth: 'auto' }}
-        type={'submit'}
-        disabled={isSubmitting || isLoadingPostImage || isLoadingCreatePost}
-        form={'post-publication-form'}
-      >
-        Publish
-      </Button>
-    </div>
-  );
-
-  const confirmMessage = (
+  const descriptionConfirmMessage = (
     <p>
       Do you really want to close the creation of a publication? <br />
       If you close everything will be deleted
@@ -114,7 +83,13 @@ export const DescriptionModal = ({ handleOpenClose }: CroppingModal) => {
         open={isOpenAddPost}
         onOpenChange={handleOpenClose}
         size={'xl'}
-        headerContent={headerContent}
+        headerContent={
+          <DescriptionConfirmModalHeader
+            isSubmitting={isSubmitting}
+            isLoadingPostImage={isLoadingPostImage}
+            isLoadingCreatePost={isLoadingCreatePost}
+          />
+        }
         contentClassName={styles.modalContent}
         noPadding={true}
         setToConfirm={setToConfirm}
@@ -130,7 +105,7 @@ export const DescriptionModal = ({ handleOpenClose }: CroppingModal) => {
         <ConfirmModal
           open={toConfirm}
           title={'Close'}
-          message={confirmMessage}
+          message={descriptionConfirmMessage}
           confirmText={'Discard'}
           cancelText={'Save Draft'}
           classFooter={styles.confirmModalButtons}

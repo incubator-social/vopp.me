@@ -1,14 +1,14 @@
 'use client';
 
+import { useLogoutMutation } from '@/src/features/auth/api';
 import { useRouter } from 'next/navigation';
 import { useLayoutEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 
-import AddPost from '@/src/features/add-post/ui/AddPost';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { useLogoutMutation } from '@/src/features/auth/api';
-import { setCurrentStep, Steps } from '@/src/features/add-post/model';
+import { AddPost } from '@/src/features/add-post/ui/AddPost';
+import { setCurrentStep, Steps } from '@/src/features/add-post';
 
 import { ROUTES } from '@/src/shared/config/routes';
 import { useAlert } from '@/src/shared/hooks/useAlert';

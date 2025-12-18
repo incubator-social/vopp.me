@@ -3,13 +3,13 @@
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 
 import { Steps } from '../model';
-import { UploadModal } from './modals/upload-modal';
-import { CroppingModal } from './modals/cropping-modal';
-import { DescriptionModal } from './modals/description-modal/ui/description';
+import { UploadModal } from './modals';
+import { CroppingModal } from './modals';
+import { DescriptionModal } from './modals/';
 
 import { openAddPost, closeAddPost, setActiveButton } from '@/src/widgets/sidebar-wrapper/model';
 
-const AddPost = () => {
+export const AddPost = () => {
   const dispatch = useAppDispatch();
   const { isOpenAddPost, previousActiveButton } = useAppSelector((state) => state.sidebar);
   const currentStep = useAppSelector((state) => state.addPost.currentStep);
@@ -33,5 +33,3 @@ const AddPost = () => {
 
   return modals[currentStep];
 };
-
-export default AddPost;
