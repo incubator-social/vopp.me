@@ -1,4 +1,4 @@
-import { PostSchema, Post, PostsResponse, PostsResponseSchema } from '../model/posts.schemas';
+import { Post, PostsResponse, PostImageResponse, PostsResponseSchema, PostSchema } from '../model/posts.schemas';
 
 import { baseApi } from '@/src/shared/api/baseApi';
 import { GetPublicPostsArgs, PostsQueryParams } from '../model/posts.types';
@@ -51,6 +51,25 @@ export const postsApi = baseApi.injectEndpoints({
       transformResponse: (response: unknown) => PostSchema.parse(response),
       providesTags: ['Post']
     }),
+    postImage: build.mutation<PostImageResponse, FormData>({
+      query: (images) => {
+        return {
+          url: 'posts/image',
+          method: 'POST',
+          body: images
+        };
+      }
+    }),
+    createPost: build.mutation<Post, { description: string; uploadId: string }>({
+      query: ({ description, uploadId }) => ({
+        url: 'posts',
+        method: 'POST',
+        body: {
+          description,
+          childrenMetadata: [{ uploadId }]
+        }
+      })
+    }),
     deletePost: build.mutation<void, number>({
       query: (id) => ({
         url: `/posts/${id}`,
@@ -74,6 +93,8 @@ export const {
   useGetUserPostsQuery,
   useGetPublicPostsQuery,
   useGetPostByIdQuery,
+  usePostImageMutation,
+  useCreatePostMutation,
   useDeletePostMutation,
   useUpdatePostByIdMutation
 } = postsApi;

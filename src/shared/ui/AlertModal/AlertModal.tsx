@@ -35,7 +35,7 @@ export const AlertModal = ({
   return (
     <Modal
       open={open}
-      onOpenChange={onOpenChange}
+      onOpenChange={() => onOpenChange(false)}
       size="sm"
       title={title}
       bodyClassName={styles.body}

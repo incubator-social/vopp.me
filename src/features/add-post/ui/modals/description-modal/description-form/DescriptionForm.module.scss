@@ -1,0 +1,44 @@
+.formContent {
+  display: flex;
+  height: 504px;
+}
+
+.containerImage {
+  width: 490px;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  width: 481px;
+  padding: 24px 24px 0;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.textarea {
+  width: 433px;
+  height: 120px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  cursor: text;
+}
+
+.labelTextAria {
+  margin-bottom: 0;
+}
+
+.captionLength {
+  margin-left: auto;
+  color: var(--color-light-900);
+}

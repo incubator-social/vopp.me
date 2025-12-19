@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// 📌 схема для изображения
 const PostImageSchema = z.object({
   url: z.string().url(),
   width: z.number(),
@@ -10,13 +9,11 @@ const PostImageSchema = z.object({
   uploadId: z.string()
 });
 
-// 📌 схема для владельца
 const PostOwnerSchema = z.object({
   firstName: z.string().nullable().optional(),
   lastName: z.string().nullable().optional()
 });
 
-// 📌 схема для поста
 export const PostSchema = z.object({
   id: z.number(),
   userName: z.string(),
@@ -33,7 +30,6 @@ export const PostSchema = z.object({
   avatarWhoLikes: z.array(z.unknown())
 });
 
-// 📌 схема ответа от API
 export const PostsResponseSchema = z.object({
   totalCount: z.number(),
   pageSize: z.number(),
@@ -41,6 +37,10 @@ export const PostsResponseSchema = z.object({
   totalUsers: z.number()
 });
 
-// 📌 типы на основе схем
+export const PostImageResponseSchema = z.object({
+  images: z.array(PostImageSchema)
+});
+
 export type Post = z.infer<typeof PostSchema>;
 export type PostsResponse = z.infer<typeof PostsResponseSchema>;
+export type PostImageResponse = z.infer<typeof PostImageResponseSchema>;

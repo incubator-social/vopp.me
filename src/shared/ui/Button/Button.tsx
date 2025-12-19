@@ -1,9 +1,10 @@
 'use client';
 
-import styles from './Button.module.scss';
-import { CSSProperties, ReactNode } from 'react';
-import clsx from 'clsx';
+import { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react';
 import { Slot } from '@radix-ui/react-slot';
+import clsx from 'clsx';
+
+import styles from './Button.module.scss';
 
 type SizeProps = {
   minWidth?: number | string;
@@ -25,7 +26,7 @@ type Props = {
   type?: 'button' | 'submit' | 'reset';
   asChild?: boolean;
   className?: string;
-};
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({
   children,

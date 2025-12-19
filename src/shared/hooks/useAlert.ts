@@ -1,5 +1,5 @@
-import { useAppDispatch } from '@/app/providers/store/hooks';
-import { setAppAlert } from '@/app/store/appSlice';
+import { useAppDispatch } from '@/app/lib/hooks';
+import { setAppAlert } from '@/app/model/appSlice';
 import { AlertType } from '../types/common';
 import { useCallback, useMemo } from 'react';
 

@@ -1,0 +1,40 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rectangle {
+  width: 222px;
+  height: 228px;
+  margin: 72px 0 60px;
+  background-color: var(--color-dark-500);
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonsGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 219px;
+  margin-bottom: 48px;
+}
+
+.buttonSelectImage {
+  border: none !important;
+  padding: 0 !important;
+}
+
+.inputImageLabel {
+  padding: 6px 0;
+  width: 219px;
+  cursor: pointer;
+}
+
+.inputImage {
+  display: none;
+}

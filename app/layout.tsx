@@ -1,14 +1,17 @@
 import type { Metadata } from 'next';
-import StoreProvider from '@/app/providers/store/StoreProvider';
+
+import { Header } from '@/src/widgets/Header';
+import { SidebarWrapper } from '@/src/widgets/sidebar-wrapper/ui';
+import StoreProvider from '@/app/model/StoreProvider';
 import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
 import '@/src/shared/styles/index.scss';
+
 import styles from './layout.module.scss';
-import { Header } from '@/src/widgets/Header/Header';
-import { SidebarWrapper } from '@/src/widgets/SidebarWrapper/SidebarWrapper';
 
 export const metadata: Metadata = {
   title: 'Connect with friends and join communities with Vopp.me',
-  description: 'Connect with friends and join communities with Vopp.me'
+  description: 'Connect with friends and join communities with Vopp.me',
+  icons: { icon: '/favicon/favicon.svg' }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

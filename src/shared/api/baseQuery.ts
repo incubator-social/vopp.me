@@ -8,7 +8,6 @@ export const baseQuery = fetchBaseQuery({
     const token = typeof window !== 'undefined' ? localStorage.getItem(AUTH_KEYS.accessToken) : null;
     if (token) headers.set('Authorization', `Bearer ${token}`);
 
-    headers.set('Content-Type', 'application/json');
     return headers;
   }
 });

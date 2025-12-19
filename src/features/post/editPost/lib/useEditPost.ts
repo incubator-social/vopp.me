@@ -22,28 +22,26 @@ export const useEditPost = ({ post, setOpenPostModal, setIsEditModalOpen }: Edit
     setEditedDescription(post.description ?? '');
   }, [post]);
 
-  const closeEditor = () => {
+  const closeEditor = useCallback(() => {
     setIsEditModalOpen(false);
     setOpenPostModal(true);
-  };
+  }, [setOpenPostModal, setIsEditModalOpen]);
 
   const handleSaveChanges = useCallback(async () => {
     if (!post) return;
     const trimmed = editedDescription.trim();
     if (!trimmed) return;
 
-    try {
-      await updatePost({
-        postId: post.id,
-        data: { description: trimmed }
-      }).unwrap();
+    const result = await updatePost({
+      postId: post.id,
+      data: { description: trimmed }
+    });
 
+    if (result) {
       alert.success('The post has been edited');
       closeEditor();
-    } catch (e) {
-      // доп. обработка если необходимо будет
     }
-  }, [editedDescription, post, updatePost, setIsEditModalOpen]);
+  }, [editedDescription, post, updatePost, alert, closeEditor]);
 
   const handleCancelEdit = useCallback(() => {
     const original = post?.description ?? '';
@@ -67,7 +65,7 @@ export const useEditPost = ({ post, setOpenPostModal, setIsEditModalOpen }: Edit
         setEditedDescription(original);
       }
     });
-  }, [setIsEditModalOpen, editedDescription, post, openConfirm]);
+  }, [editedDescription, post, openConfirm, closeEditor]);
 
   return {
     editedDescription,

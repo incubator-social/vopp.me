@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Alert } from '@/src/shared/ui/Alerts/Alert';
 import { AlertProvider } from '@/src/shared/ui/Alerts/AlertProvider';
-import StoreProvider from '@/app/providers/store/StoreProvider';
+import StoreProvider from '@/app/model/StoreProvider';
 
 const meta = {
   title: 'UI/Alert',

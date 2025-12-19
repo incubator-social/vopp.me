@@ -4,7 +4,7 @@ import { KeyboardEvent } from 'react';
 import clsx from 'clsx';
 import { DOTS, PaginationItem, usePagination } from './model/usePagination';
 import ArrowIosForward from './../../assets/icons/arrow-ios-forward.svg';
-import ArrowIosBack from './../../assets/icons/arrow-ios-back.svg';
+import ArrowIosBack from './../../assets/icons/arrow-ios-back-outline.svg';
 import s from './pagination.module.scss';
 import { Select } from '@/src/shared/ui/Select/Select';
 

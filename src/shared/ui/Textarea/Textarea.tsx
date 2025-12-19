@@ -13,8 +13,10 @@ type Props = {
   errorMessage?: string;
   resize?: 'none' | 'both' | 'horizontal' | 'vertical';
   containerClassName?: string;
+  labelClassName?: string;
   containerStyle?: React.CSSProperties;
   containerProps?: Omit<ContainerProps, 'className' | 'style'>;
+  maxLength?: number | undefined;
 } & TextareaProps;
 
 /**
@@ -33,9 +35,11 @@ export const Textarea = ({
   resize = 'vertical',
   className,
   containerClassName,
+  labelClassName,
   containerStyle,
   containerProps,
   ref,
+  maxLength,
   ...props
 }: Props) => {
   const generatedId = useId();
@@ -48,10 +52,11 @@ export const Textarea = ({
     disabled && styles.disabled,
     className
   );
+
   return (
     <div className={clsx(styles.container, containerClassName)} style={containerStyle} {...containerProps}>
       {label && (
-        <label htmlFor={textareaId} className={clsx(styles.label, disabled && styles.labelDisabled)}>
+        <label htmlFor={textareaId} className={clsx(styles.label, disabled && styles.labelDisabled, labelClassName)}>
           {label}
         </label>
       )}
@@ -62,6 +67,7 @@ export const Textarea = ({
         placeholder={placeholder}
         disabled={disabled}
         className={textareaClasses}
+        maxLength={maxLength}
         {...props}
       />
 

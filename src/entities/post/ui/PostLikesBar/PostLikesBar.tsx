@@ -57,10 +57,10 @@ const mockLikes: PostLikesResponse = {
 };
 
 type Props = {
-  postId: number;
+  postId?: number;
 };
 
-export const PostLikesBar = ({ postId }: Props) => {
+export const PostLikesBar = ({}: Props) => {
   const data = mockLikes; // пока мок
   const users = data.items.slice(0, 3); // максимум 3 аватарки
   const total = data.totalCount;
