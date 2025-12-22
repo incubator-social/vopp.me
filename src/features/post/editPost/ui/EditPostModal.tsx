@@ -4,19 +4,23 @@ import { Modal } from '@/src/shared/ui/Modal';
 import { useEditPost } from '@/src/features/post/editPost/lib/useEditPost';
 import styles from './EditPostModal.module.scss';
 import { Carousel } from '@/src/shared/ui/Carousel';
-import { Post } from '@/src/entities/post/model/posts.schemas';
 import { Avatar } from '@/src/shared/ui/Avatar';
 import { Textarea } from '@/src/shared/ui/Textarea/Textarea';
 import { Button } from '@/src/shared/ui/Button';
+import { useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
+import { useMemo } from 'react';
 
 type Props = {
-  post: Post | undefined;
+  postId: number;
   open: boolean;
-  setOpen: (v: boolean) => void;
-  setOpenPostModal: (v: boolean) => void;
+  onClose: (v: boolean) => void;
 };
 
-export const EditPostModal = ({ post, open, setOpen, setOpenPostModal }: Props) => {
+export const EditPostModal = ({ postId, open, onClose }: Props) => {
+  console.log('rendet');
+
+  const { data: post } = useGetPostByIdQuery(postId);
+  const images = useMemo(() => post?.images ?? [], [post?.images]);
   const {
     editedDescription,
     isUpdating,
@@ -26,16 +30,13 @@ export const EditPostModal = ({ post, open, setOpen, setOpenPostModal }: Props) 
     ConfirmModalComponent: EditConfirmModal
   } = useEditPost({
     post,
-    setIsEditModalOpen: setOpen,
-    setOpenPostModal
+    setIsEditModalOpen: onClose
   });
 
   const handleModalOpenChange = (nextOpen: boolean) => {
-    if (nextOpen) {
-      setOpen(true);
-      return;
+    if (!nextOpen) {
+      handleCancelEdit();
     }
-    handleCancelEdit();
   };
 
   return (
@@ -52,7 +53,7 @@ export const EditPostModal = ({ post, open, setOpen, setOpenPostModal }: Props) 
       >
         <div className={styles.container}>
           <div className={styles.carouselWrapper}>
-            <Carousel images={post?.images ?? []} variant="large" />
+            <Carousel images={images} variant="large" />
           </div>
           <div className={styles.infoSection}>
             <div className={styles.header}>

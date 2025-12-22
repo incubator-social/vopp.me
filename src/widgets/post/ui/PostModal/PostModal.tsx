@@ -11,22 +11,25 @@ import { PostActions, PostLikesBar } from '@/src/entities/post/ui';
 import { DropdownMenu } from '@/src/shared/ui/DropdownMenu';
 import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from '../../lib/postMenuItems';
 import { useDeletePost } from '@/src/features/post/deletePost/lib/useDeletePost';
-import { useState } from 'react';
-import { EditPostModal } from '@/src/features/post/editPost/ui/EditPostModal';
+import { useEffect } from 'react';
 
 type Props = {
   open: boolean;
   setOpenPostModal: (open: boolean) => void;
   postId: number;
+  onEdit: () => void;
 };
-export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-  const { data: post } = useGetPostByIdQuery(postId);
+export const PostModal = ({ open, setOpenPostModal, postId, onEdit }: Props) => {
+  const { data: post, error } = useGetPostByIdQuery(postId, { skip: !open });
 
   const { isAuth, user } = useAuth();
   const { handleDeleteClick, ConfirmModalComponent: DeleteConfirmModal } = useDeletePost(postId, setOpenPostModal);
 
+  useEffect(() => {
+    if (error) {
+      setOpenPostModal(false);
+    }
+  }, [error, setOpenPostModal]);
   const handleUnfollow = async () => {
     console.log('Отписаться от пользователя', post?.ownerId);
   };
@@ -36,15 +39,10 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
     navigator.clipboard.writeText(url);
   };
 
-  const handleEditClick = () => {
-    setIsEditModalOpen(true);
-    setOpenPostModal(false);
-  };
-
   const menuItems =
     post?.ownerId === user?.userId
       ? getOwnPostMenuItems({
-          onEdit: handleEditClick,
+          onEdit,
           onDelete: handleDeleteClick
         })
       : getFollowedUserPostMenuItems({
@@ -101,13 +99,6 @@ export const PostModal = ({ open, setOpenPostModal, postId }: Props) => {
           {/* Нужно продумывать реализацию добавления комментариев и разграничения доступа */}
         </div>
       </Modal>
-      <EditPostModal
-        post={post}
-        open={isEditModalOpen}
-        setOpen={setIsEditModalOpen}
-        setOpenPostModal={setOpenPostModal}
-      />
-
       <DeleteConfirmModal />
     </>
   );

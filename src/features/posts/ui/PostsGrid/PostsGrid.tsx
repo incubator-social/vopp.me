@@ -11,11 +11,7 @@ type PostsGridProps = {
 
 export default function PostsGrid({ posts, isLoading, onPostClick }: PostsGridProps) {
   if (isLoading && posts.length === 0) {
-    return (
-      <div className={styles.grid}>
-        <PostsGridSkeleton />
-      </div>
-    );
+    return <PostsGridSkeleton />;
   }
 
   if (!posts.length && !isLoading) {

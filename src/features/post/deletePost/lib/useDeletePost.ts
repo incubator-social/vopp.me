@@ -18,10 +18,14 @@ export const useDeletePost = (postId: number, setOpenPostModal: (v: boolean) => 
       confirmText: 'Delete',
       cancelText: 'Cancel',
       onConfirm: async () => {
-        await deletePost(postId).unwrap();
-        alert.success('The post has been successfully deleted.');
-        setOpenPostModal(false);
-        router.push(`/profile/${user?.userId}`);
+        setOpenPostModal(false); // закрыть/убрать postId из URL
+
+        try {
+          await deletePost({ postId, userId: user!.userId }).unwrap();
+          alert.success('The post has been successfully deleted.');
+        } catch {
+          alert.error('Failed to delete post');
+        }
       }
     });
   };
