@@ -22,7 +22,11 @@ export function usePostModalQuery() {
       mutate(sp);
       const qs = sp.toString();
       const url = qs ? `${pathname}?${qs}` : pathname;
-      method === 'push' ? router.push(url, { scroll: false }) : router.replace(url, { scroll: false });
+      if (method === 'push') {
+        router.push(url, { scroll: false });
+      } else {
+        router.replace(url, { scroll: false });
+      }
     },
     [router, pathname, searchParams]
   );

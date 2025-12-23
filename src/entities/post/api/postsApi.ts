@@ -1,8 +1,6 @@
 import { Post, PostsResponse, PostImageResponse, PostsResponseSchema, PostSchema } from '../model/posts.schemas';
-
 import { baseApi } from '@/src/shared/api/baseApi';
 import { GetPublicPostsArgs, PostsQueryParams } from '../model/posts.types';
-import { ar } from 'zod/v4/locales/index.cjs';
 
 export const postsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -23,16 +21,11 @@ export const postsApi = baseApi.injectEndpoints({
         return `user-${queryArgs.userId}`;
       },
       merge: (currentCache, newItems, { arg }) => {
-        // обновляем totalCount (важно при delete)
         currentCache.totalCount = newItems.totalCount;
-
-        // первая страница — заменить
         if (!arg.endCursorPostId) {
           currentCache.items = newItems.items;
           return;
         }
-
-        // следующие — дописать, но без дублей
         const existing = new Set(currentCache.items.map((p) => p.id));
         const toAdd = newItems.items.filter((p) => !existing.has(p.id));
         currentCache.items.push(...toAdd);
