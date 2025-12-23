@@ -10,7 +10,7 @@ import { PostTime } from '@/src/shared/ui/PostTime/PostTime';
 import { PostActions, PostLikesBar } from '@/src/entities/post/ui';
 import { DropdownMenu } from '@/src/shared/ui/DropdownMenu';
 import { getFollowedUserPostMenuItems, getOwnPostMenuItems } from '../../lib/postMenuItems';
-import { useDeletePost } from '@/src/features/post/deletePost/lib/useDeletePost';
+import { useDeletePost } from '@/src/features/post/delete-post/lib/useDeletePost';
 import { useEffect } from 'react';
 
 type Props = {

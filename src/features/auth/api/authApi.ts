@@ -17,7 +17,7 @@ import {
   CreateNewPasswordResponse,
   ForgotPasswordRequest,
   ForgotPasswordResponse
-} from '@/src/features/auth/lib/types/api.types';
+} from '@/src/features/auth/api/api.types';
 import { ROUTES } from '@/src/shared/config/routes';
 
 export const authApi = baseApi.injectEndpoints({

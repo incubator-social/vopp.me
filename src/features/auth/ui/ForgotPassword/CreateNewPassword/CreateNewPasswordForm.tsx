@@ -13,7 +13,7 @@ import {
   CreateNewPasswordFormValues,
   createNewPasswordSchema
 } from '@/src/features/auth/ui/ForgotPassword/CreateNewPassword/createNewPasswordFormSchema';
-import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
+import { ErrorResponse } from '@/src/features/auth/api/api.types';
 import { use, useEffect } from 'react';
 import { useAlert } from '@/src/shared/hooks/useAlert';
 

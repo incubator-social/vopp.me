@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
 import { useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
-import { PostModal } from '@/src/widgets/post/ui/PostModal/PostModal';
-import { EditPostModal } from '@/src/features/post/editPost/ui/EditPostModal';
+import { PostModal } from '@/src/widgets/post-modal/ui/PostModal/PostModal';
+import { EditPostModal } from '@/src/features/post/edit-post/ui/EditPostModal';
 import { usePostModalQuery } from '@/src/shared/hooks/usePostModalQuery';
 
 export const PostModalController = () => {

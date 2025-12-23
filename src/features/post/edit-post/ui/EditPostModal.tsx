@@ -1,7 +1,7 @@
 'use client';
 
 import { Modal } from '@/src/shared/ui/Modal';
-import { useEditPost } from '@/src/features/post/editPost/lib/useEditPost';
+import { useEditPost } from '@/src/features/post/edit-post/lib/useEditPost';
 import styles from './EditPostModal.module.scss';
 import { Carousel } from '@/src/shared/ui/Carousel';
 import { Avatar } from '@/src/shared/ui/Avatar';
@@ -16,9 +16,9 @@ type Props = {
   onClose: (v: boolean) => void;
 };
 
-export const EditPostModal = ({ postId, open, onClose }: Props) => {
-  console.log('rendet');
+const MAX_LEN = 500;
 
+export const EditPostModal = ({ postId, open, onClose }: Props) => {
   const { data: post } = useGetPostByIdQuery(postId);
   const images = useMemo(() => post?.images ?? [], [post?.images]);
   const {
@@ -37,6 +37,10 @@ export const EditPostModal = ({ postId, open, onClose }: Props) => {
     if (!nextOpen) {
       handleCancelEdit();
     }
+  };
+
+  const handleDescriptionChange = (value: string) => {
+    setEditedDescription(value.length > MAX_LEN ? value.slice(0, MAX_LEN) : value);
   };
 
   return (
@@ -63,9 +67,19 @@ export const EditPostModal = ({ postId, open, onClose }: Props) => {
               </div>
             </div>
             <div className={styles.wrapperEditing}>
-              <Textarea value={editedDescription} onChange={(e) => setEditedDescription(e.target.value)} />
-              {/* заменить textarea на переиспользуемый компонент */}
-
+              <div className={styles.textareaWrapper}>
+                <Textarea
+                  className={styles.textarea}
+                  labelClassName={styles.labelTextAria}
+                  label={'Add publication descriptions'}
+                  value={editedDescription}
+                  onChange={(e) => handleDescriptionChange(e.target.value)}
+                  maxLength={MAX_LEN}
+                />
+                <span className={`${styles.captionLength} regular-text-14`}>
+                  {editedDescription.length}/{MAX_LEN}
+                </span>
+              </div>
               <div className={styles.buttonsEditing}>
                 <Button
                   variant="buttonOutline"

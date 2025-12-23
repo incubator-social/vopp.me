@@ -1,17 +1,13 @@
 'use client';
 
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import InfinitePosts from '@/src/features/posts/ui/InfinityPosts/InfinityPosts';
 import styles from './page.module.scss';
 import { useAuth } from '@/src/features/auth/lib/useAuth';
-import { PostModal } from '@/src/widgets/post/ui/PostModal/PostModal';
 import { ProfileHeader } from '@/src/features/profile/ui/ProfileHeader/ProfileHeader';
 import { usePublicProfile } from '@/src/features/profile/lib/usePublicProfile';
-import { EditPostModal } from '@/src/features/post/editPost/ui/EditPostModal';
-import { useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
-import { useEffect } from 'react';
 import { usePostModalQuery } from '@/src/shared/hooks/usePostModalQuery';
-import { PostModalController } from '@/src/widgets/post/ui/PostModalController/PostModalController';
+import { PostModalController } from '@/src/widgets/post-modal/';
 
 export default function UserProfilePage() {
   const params = useParams<{ id: string }>();

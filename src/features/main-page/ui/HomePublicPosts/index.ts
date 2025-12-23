@@ -1,1 +1,1 @@
-export { HomePublicPosts } from './ui/HomePublicPosts';
+export { HomePublicPosts } from './ui';
