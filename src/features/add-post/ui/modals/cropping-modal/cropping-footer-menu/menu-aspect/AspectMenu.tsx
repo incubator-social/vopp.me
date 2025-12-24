@@ -5,7 +5,6 @@ import { Button } from '@/src/shared/ui/Button';
 
 import ImageOutline from '@/src/shared/assets/icons/image-outline.svg';
 import clsx from 'clsx';
-
 import styles from './AspectMenu.module.scss';
 
 type AspectMenuPropsType = {
