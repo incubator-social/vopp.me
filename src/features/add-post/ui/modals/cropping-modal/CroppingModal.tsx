@@ -1,22 +1,22 @@
 'use client';
 
-import { CroppingFooterMenu } from '../footer-menu/ui/footer-menu-main';
-import { ImageCropper } from '@/src/features/add-post/ui/modals/cropping-modal/ui/image-cropper';
+import { PreviewImageAspect } from '../../preview-image-aspect/PreviewImageAspect';
+import { CroppingFooterMenu } from './cropping-footer-menu/CroppingFooterMenu';
+import { ImageCropper } from './image-cropper/ImageCropper';
 
-import { CroppingConfirmModalHeader } from '../cropping-confirm-modal-header/CroppingConfirmModalHeader';
-import Image from 'next/image';
+import { CroppingConfirmModalHeader } from './cropping-confirm-modal-header/CroppingConfirmModalHeader';
 import { useRef, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 
-import { removeImages } from '@/src/features/add-post/model';
+import { removeImages, setCurrentStep } from '@/src/features/add-post/model';
 
 import { Modal } from '@/src/shared/ui/Modal';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal';
 
 import { closeAddPost, setActiveButton } from '@/src/widgets/sidebar-wrapper/model';
 
-import { Steps } from '../../../../../model';
+import { Steps } from '../../../model';
 
 import styles from './CroppingModal.module.scss';
 
@@ -30,8 +30,7 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
   const previousActiveButton = useAppSelector((state) => state.sidebar.previousActiveButton);
   const images = useAppSelector((state) => state.addPost.images);
 
-  // const [imageCropper, setImageCropper] = useState<boolean>(false);
-  const imageCropper = false;
+  const [imageCropper, setImageCropper] = useState<boolean>(false);
 
   const [toConfirm, setToConfirm] = useState<boolean>(false);
 
@@ -78,26 +77,17 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
         noPadding={true}
         setToConfirm={setToConfirm}
       >
-        <div className={styles.containerImage}>
-          {images && (
-            <>
-              {imageCropper ? (
-                <ImageCropper imageUrl={previewURL.current} />
-              ) : (
-                <Image
-                  src={previewURL.current}
-                  alt="preview uploaded image"
-                  className={styles.image}
-                  width={490}
-                  height={504}
-                />
-              )}
-            </>
-          )}
-          <CroppingFooterMenu
-          // setImageCropper={setImageCropper}
-          />
-        </div>
+        {images &&
+          images.map((image) => (
+            <div key={image.id} className={styles.containerImage}>
+              <PreviewImageAspect aspect={image.crop.aspect} previewUrl={image.previewURL} />
+              {imageCropper && <ImageCropper imageUrl={previewURL.current} id={image.id} aspect={image.crop.aspect} />}
+              <CroppingFooterMenu
+                imageId={image.id}
+                setImageCropper={() => setImageCropper((prevState) => !prevState)}
+              />
+            </div>
+          ))}
       </Modal>
       {toConfirm && (
         <ConfirmModal

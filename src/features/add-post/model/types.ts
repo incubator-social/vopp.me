@@ -14,10 +14,9 @@ export type CropImageType = {
 
 export type ImageDataType = {
   id: string;
-  file: File;
   previewURL: string;
   filters?: object;
-  crop?: CropImageType;
+  crop: CropImageType;
 };
 
 export type AddPostStateType = {

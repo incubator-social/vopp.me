@@ -1,3 +1,5 @@
+'use client';
+
 import { useAppDispatch } from '@/app/lib/hooks';
 
 import { Button } from '@/src/shared/ui/Button';
