@@ -1,8 +1,5 @@
 'use client';
 
-import { onConfirmDiscard } from '@/src/features/add-post/ui/modals/description-modal/onConfirmDiscard';
-import { DescriptionForm } from '../description-form/DescriptionForm';
-import { DescriptionConfirmModalHeader } from '@/src/features/add-post/ui/modals/description-modal/description-confirm-modal-header/DescriptionConfirmModalHeader';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -17,9 +14,13 @@ import { ConfirmModal } from '@/src/shared/ui/ConfirmModal';
 
 import { OptionId } from '@/src/widgets/sidebar/config';
 import { closeAddPost, setActiveButton, setPreviousActiveButton } from '@/src/widgets/sidebar-wrapper/model';
-import { AddPostDescriptionValue, addPostSchema } from '../../../../model';
 
-import { useOnSubmit } from '../useOnSubmit';
+import { AddPostDescriptionValue, addPostSchema } from '../../../model';
+
+import { useOnSubmit } from './useOnSubmit';
+import { onConfirmDiscard } from './onConfirmDiscard';
+import { DescriptionForm } from './description-form/DescriptionForm';
+import { DescriptionConfirmModalHeader } from './description-confirm-modal-header/DescriptionConfirmModalHeader';
 
 import styles from './DescriptionModal.module.scss';
 

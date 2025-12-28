@@ -3,12 +3,9 @@
 }
 
 .containerImage {
+  width: 490px;
   height: 504px;
-  overflow: hidden;
-}
-
-.image {
-  object-fit: cover;
+  position: relative;
 }
 
 .confirmModalButtons {

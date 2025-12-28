@@ -1,17 +1,22 @@
 'use client';
 
-import { CroppingConfirmModalHeader } from '../cropping-confirm-modal-header/CroppingConfirmModalHeader';
-import Image from 'next/image';
+import { PreviewImageAspect } from '../../preview-image-aspect/PreviewImageAspect';
+import { CroppingFooterMenu } from './cropping-footer-menu/CroppingFooterMenu';
+import { ImageCropper } from './image-cropper/ImageCropper';
+
+import { CroppingConfirmModalHeader } from './cropping-confirm-modal-header/CroppingConfirmModalHeader';
 import { useRef, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 
-import { removeImages } from '@/src/features/add-post/model';
+import { removeImages, setCurrentStep } from '@/src/features/add-post/model';
 
 import { Modal } from '@/src/shared/ui/Modal';
 import { ConfirmModal } from '@/src/shared/ui/ConfirmModal';
 
 import { closeAddPost, setActiveButton } from '@/src/widgets/sidebar-wrapper/model';
+
+import { Steps } from '../../../model';
 
 import styles from './CroppingModal.module.scss';
 
@@ -24,6 +29,9 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
   const isOpenAddPost = useAppSelector((state) => state.sidebar.isOpenAddPost);
   const previousActiveButton = useAppSelector((state) => state.sidebar.previousActiveButton);
   const images = useAppSelector((state) => state.addPost.images);
+
+  const [imageCropper, setImageCropper] = useState<boolean>(false);
+
   const [toConfirm, setToConfirm] = useState<boolean>(false);
 
   const previewURL = useRef<string>('');
@@ -41,7 +49,7 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
       dispatch(removeImages());
     }
     setToConfirm(false);
-    dispatch(closeAddPost());
+    dispatch(setCurrentStep(Steps.UploadImage));
     dispatch(setActiveButton(previousActiveButton));
   };
 
@@ -69,17 +77,17 @@ export const CroppingModal = ({ handleOpenClose }: CroppingModal) => {
         noPadding={true}
         setToConfirm={setToConfirm}
       >
-        <div className={styles.containerImage}>
-          {images && (
-            <Image
-              src={previewURL.current}
-              alt="preview uploaded image"
-              className={styles.image}
-              width={490}
-              height={504}
-            />
-          )}
-        </div>
+        {images &&
+          images.map((image) => (
+            <div key={image.id} className={styles.containerImage}>
+              <PreviewImageAspect aspect={image.crop.aspect} previewUrl={image.previewURL} />
+              {imageCropper && <ImageCropper imageUrl={previewURL.current} id={image.id} aspect={image.crop.aspect} />}
+              <CroppingFooterMenu
+                imageId={image.id}
+                setImageCropper={() => setImageCropper((prevState) => !prevState)}
+              />
+            </div>
+          ))}
       </Modal>
       {toConfirm && (
         <ConfirmModal

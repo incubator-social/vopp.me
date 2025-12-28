@@ -1,0 +1,59 @@
+.aspectMenuContainer {
+  width: 156px;
+  height: 152px;
+  background-color: var(--color-dark-opacity-500);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    list-style: none;
+  }
+}
+
+.aspectMenuButton {
+  color: var(--color-light-900);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  justify-content: space-between;
+  border: none;
+
+  &:hover {
+    color: var(--color-light-100);
+
+    .iconSquare,
+    .iconPortrait,
+    .iconLandscape {
+      border-color: var(--color-light-100);
+    }
+  }
+}
+
+.buttonIcon {
+  border-radius: 3px;
+  border: 2px solid var(--color-light-900);
+  margin-right: 3px;
+}
+
+.iconSquare {
+  width: 18px;
+  height: 18px;
+}
+
+.iconPortrait {
+  width: 18px;
+  height: 26px;
+}
+
+.iconLandscape {
+  width: 26px;
+  height: 20px;
+}

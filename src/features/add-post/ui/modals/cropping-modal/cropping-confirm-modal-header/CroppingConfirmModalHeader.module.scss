@@ -15,3 +15,17 @@
 .croppingNext {
   border: none !important;
 }
+
+.containerImage {
+  height: 504px;
+  overflow: hidden;
+  position: relative;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.confirmModalButtons {
+  justify-content: space-between;
+}

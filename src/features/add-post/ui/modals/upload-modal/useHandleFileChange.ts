@@ -1,10 +1,11 @@
+import { ASPECTS } from '@/src/features/add-post/ui/modals/cropping-modal/config/constants';
 import { ChangeEvent, useId } from 'react';
 
 import { useAppDispatch } from '@/app/lib/hooks';
 
 import { addImage, setCurrentStep } from '@/src/features/add-post/model/addPostSlice';
 
-import { Steps } from './types';
+import { Steps } from '../../../model';
 
 type HandleFileChange = {
   setUploadError: (isError: boolean) => void;
@@ -28,12 +29,19 @@ export const useHandleFileChange = ({ setUploadError }: HandleFileChange) => {
         imageError = true;
       }
       if (imageError) return;
+
       const previewURL = URL.createObjectURL(file);
       const newImage = {
         id: `${id}-${index}`,
-        file,
         previewURL,
-        filters: {}
+        filters: {},
+        crop: {
+          aspect: ASPECTS.ORIGINAL,
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0
+        }
       };
       dispatch(addImage(newImage));
     });

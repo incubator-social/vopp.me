@@ -11,7 +11,7 @@ import ImageIcon from '@/src/shared/assets/icons/image-outline.svg';
 
 import { Steps } from '../../../model/types';
 import { setCurrentStep } from '../../../model';
-import { useHandleFileChange } from '../../../model';
+import { useHandleFileChange } from './useHandleFileChange';
 
 import styles from './UploadModal.module.scss';
 

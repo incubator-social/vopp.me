@@ -1,0 +1,26 @@
+.imageAspectPreview {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+
+  &[data-aspect='0.9722222222222222'] {
+    aspect-ratio: 490/504;
+  }
+
+  &[data-aspect='0.8'] {
+    aspect-ratio: 4/5;
+    height: inherit;
+  }
+
+  &[data-aspect='1'] {
+    aspect-ratio: 1/1;
+  }
+
+  &[data-aspect='1.7777777777777777'] {
+    aspect-ratio: 16/9;
+  }
+}
+
+.image {
+  object-fit: cover;
+}
