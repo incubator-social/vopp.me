@@ -14,9 +14,9 @@ import {
   forgotPasswordFormSchema,
   ForgotPasswordFormValues
 } from '@/src/features/auth/ui/ForgotPassword/ForgotPasswordForm/forgotPasswordFormSchema';
-import { ErrorResponse } from '@/src/features/auth/lib/types/api.types';
+import { ErrorResponse } from '@/src/features/auth/api/api.types';
 import { Recaptcha } from '@/src/shared/ui/Recaptcha/Recaptcha';
-import { ForgotPasswordStatus } from '@/src/features/auth/lib/types/auth.types';
+import { ForgotPasswordStatus } from '@/src/features/auth/api/auth.types';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 type Props = {

@@ -1,19 +1,19 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   width: 100%;
   max-width: 972px;
+  grid-template-columns: repeat(auto-fit, 234px);
+  justify-content: center;
 }
 
 .gridItem {
-  aspect-ratio: 228 / 234;
-  background-color: #fafafa;
+  width: 234px;
+  height: 228px;
+  background-color: var(--color-light-300);
   cursor: pointer;
   border-radius: 1px;
   overflow: hidden;
-
-  // position: relative;
 
   &:hover {
     opacity: 0.9;

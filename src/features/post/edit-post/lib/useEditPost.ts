@@ -7,10 +7,9 @@ import { useAlert } from '@/src/shared/hooks/useAlert';
 type EditPostProps = {
   post: Post | undefined;
   setIsEditModalOpen: (v: boolean) => void;
-  setOpenPostModal: (v: boolean) => void;
 };
 
-export const useEditPost = ({ post, setOpenPostModal, setIsEditModalOpen }: EditPostProps) => {
+export const useEditPost = ({ post, setIsEditModalOpen }: EditPostProps) => {
   const alert = useAlert();
   const [editedDescription, setEditedDescription] = useState('');
 
@@ -19,13 +18,13 @@ export const useEditPost = ({ post, setOpenPostModal, setIsEditModalOpen }: Edit
 
   useEffect(() => {
     if (!post) return;
-    setEditedDescription(post.description ?? '');
+    const next = post?.description ?? '';
+    setEditedDescription((prev) => (prev === next ? prev : next));
   }, [post]);
 
   const closeEditor = useCallback(() => {
     setIsEditModalOpen(false);
-    setOpenPostModal(true);
-  }, [setOpenPostModal, setIsEditModalOpen]);
+  }, [setIsEditModalOpen]);
 
   const handleSaveChanges = useCallback(async () => {
     if (!post) return;

@@ -1,5 +1,5 @@
 import { PostsResponse, PostsResponseSchema } from '@/src/entities/post/model/posts.schemas';
-import MainPage from '@/src/features/main-page/ui/MainPage';
+import { MainPage } from '@/src/features/main-page';
 
 export default async function HomePage() {
   const responsePulicPosts = await fetch(

@@ -58,3 +58,31 @@
   flex-direction: row;
   justify-content: flex-end;
 }
+
+.textarea {
+  width: 433px;
+  height: 120px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  cursor: text;
+}
+
+.labelTextAria {
+  margin-bottom: 0;
+}
+
+.captionLength {
+  margin-left: auto;
+  color: var(--color-light-900);
+}
+
+.textareaWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.errorText {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #d00;
+}

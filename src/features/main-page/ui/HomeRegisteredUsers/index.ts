@@ -1,1 +1,1 @@
-export { HomeRegisteredUsers } from './ui/HomeRegisteredUsers';
+export { HomeRegisteredUsers } from './ui';

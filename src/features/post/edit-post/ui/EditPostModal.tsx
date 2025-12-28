@@ -1,41 +1,46 @@
 'use client';
 
 import { Modal } from '@/src/shared/ui/Modal';
-import { useEditPost } from '@/src/features/post/editPost/lib/useEditPost';
+import { useEditPost } from '@/src/features/post/edit-post/lib/useEditPost';
 import styles from './EditPostModal.module.scss';
 import { Carousel } from '@/src/shared/ui/Carousel';
-import { Post } from '@/src/entities/post/model/posts.schemas';
 import { Avatar } from '@/src/shared/ui/Avatar';
 import { Textarea } from '@/src/shared/ui/Textarea/Textarea';
 import { Button } from '@/src/shared/ui/Button';
+import { useGetPostByIdQuery } from '@/src/entities/post/api/postsApi';
+import { useMemo } from 'react';
 
 type Props = {
-  post: Post | undefined;
+  postId: number;
   open: boolean;
-  setOpen: (v: boolean) => void;
-  setOpenPostModal: (v: boolean) => void;
+  onClose: (v: boolean) => void;
 };
 
-export const EditPostModal = ({ post, open, setOpen, setOpenPostModal }: Props) => {
+const MAX_LEN = 500;
+
+export const EditPostModal = ({ postId, open, onClose }: Props) => {
+  const { data: post } = useGetPostByIdQuery(postId);
+  const images = useMemo(() => post?.images ?? [], [post?.images]);
   const {
     editedDescription,
     isUpdating,
     setEditedDescription,
     handleCancelEdit,
     handleSaveChanges,
-    ConfirmModalComponent: EditConfirmModal
+    ConfirmModalComponent: EditPostConfirmModal
   } = useEditPost({
     post,
-    setIsEditModalOpen: setOpen,
-    setOpenPostModal
+    setIsEditModalOpen: onClose
   });
 
   const handleModalOpenChange = (nextOpen: boolean) => {
-    if (nextOpen) {
-      setOpen(true);
-      return;
+    if (!nextOpen) {
+      handleCancelEdit();
     }
-    handleCancelEdit();
+  };
+
+  const handleDescriptionChange = (value: string) => {
+    setEditedDescription(value.length > MAX_LEN ? value.slice(0, MAX_LEN) : value);
   };
 
   return (
@@ -52,7 +57,7 @@ export const EditPostModal = ({ post, open, setOpen, setOpenPostModal }: Props) 
       >
         <div className={styles.container}>
           <div className={styles.carouselWrapper}>
-            <Carousel images={post?.images ?? []} variant="large" />
+            <Carousel images={images} variant="large" />
           </div>
           <div className={styles.infoSection}>
             <div className={styles.header}>
@@ -62,9 +67,19 @@ export const EditPostModal = ({ post, open, setOpen, setOpenPostModal }: Props) 
               </div>
             </div>
             <div className={styles.wrapperEditing}>
-              <Textarea value={editedDescription} onChange={(e) => setEditedDescription(e.target.value)} />
-              {/* заменить textarea на переиспользуемый компонент */}
-
+              <div className={styles.textareaWrapper}>
+                <Textarea
+                  className={styles.textarea}
+                  labelClassName={styles.labelTextAria}
+                  label={'Add publication descriptions'}
+                  value={editedDescription}
+                  onChange={(e) => handleDescriptionChange(e.target.value)}
+                  maxLength={MAX_LEN}
+                />
+                <span className={`${styles.captionLength} regular-text-14`}>
+                  {editedDescription.length}/{MAX_LEN}
+                </span>
+              </div>
               <div className={styles.buttonsEditing}>
                 <Button
                   variant="buttonOutline"
@@ -87,7 +102,7 @@ export const EditPostModal = ({ post, open, setOpen, setOpenPostModal }: Props) 
           </div>
         </div>
       </Modal>
-      <EditConfirmModal />
+      <EditPostConfirmModal />
     </>
   );
 };

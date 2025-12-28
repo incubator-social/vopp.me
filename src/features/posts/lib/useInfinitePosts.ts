@@ -1,65 +1,37 @@
-import { useAppSelector } from '@/app/lib/hooks';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { postsApi, useGetUserPostsQuery } from '@/src/entities/post/api/postsApi';
+import { useState, useEffect, useCallback } from 'react';
+import { useGetUserPostsQuery } from '@/src/entities/post/api/postsApi';
+import { Post } from '@/src/entities/post/model/posts.schemas';
 
+const EMPTY_POSTS: Post[] = [];
 export const useInfinitePosts = (userId: number) => {
   const PAGE_SIZE = 8;
 
-  const cachedCursor = useAppSelector(
-    (state) =>
-      postsApi.endpoints.getUserPosts
-        .select({
-          userId,
-          endCursorPostId: undefined
-        })(state)
-        .data?.items?.slice(-1)[0]?.id
-  );
+  const [cursor, setCursor] = useState<number | undefined>(undefined);
 
-  const [currentCursor, setCurrentCursor] = useState<number | undefined>(cachedCursor);
-  const initialLoadRef = useRef(false);
+  const { data, isLoading, isFetching, error } = useGetUserPostsQuery({
+    userId,
+    endCursorPostId: cursor,
+    pageSize: PAGE_SIZE,
+    sortDirection: 'desc'
+  });
 
-  const {
-    data: postsData,
-    isLoading,
-    isFetching,
-    error
-  } = useGetUserPostsQuery(
-    {
-      userId,
-      endCursorPostId: currentCursor,
-      pageSize: currentCursor ? PAGE_SIZE + 1 : PAGE_SIZE
-    },
-    {
-      skip: currentCursor === undefined && initialLoadRef.current
-    }
-  );
-
+  // при смене userId сбрасываем курсор
   useEffect(() => {
-    setCurrentCursor(undefined);
-    initialLoadRef.current = false;
+    setCursor(undefined);
   }, [userId]);
 
-  useEffect(() => {
-    if (postsData?.items && currentCursor === undefined) {
-      initialLoadRef.current = true;
-    }
-  }, [postsData, currentCursor]);
+  const posts = data?.items ?? EMPTY_POSTS;
+  const totalCount = data?.totalCount ?? 0;
 
-  const hasMore = postsData
-    ? currentCursor
-      ? postsData.items.length === PAGE_SIZE + 1
-      : postsData.items.length === PAGE_SIZE
-    : true;
+  const hasMore = totalCount === 0 ? true : posts.length < totalCount;
 
   const loadMore = useCallback(() => {
-    if (postsData?.items.length && !isFetching && hasMore) {
-      const newCursorPost = postsData.items[postsData.items.length - 1].id;
-      setCurrentCursor(newCursorPost);
-    }
-  }, [postsData, isFetching, hasMore]);
+    if (!hasMore || isFetching || posts.length === 0) return;
+    setCursor(posts[posts.length - 1].id);
+  }, [hasMore, isFetching, posts]);
 
   return {
-    posts: postsData?.items || [],
+    posts,
     isLoading,
     isFetching,
     error,

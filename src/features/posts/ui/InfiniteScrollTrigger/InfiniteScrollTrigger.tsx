@@ -18,7 +18,7 @@ export default function InfiniteScrollTrigger({ onIntersect, isFetching, hasMore
           onIntersect();
         }
       },
-      { threshold: 0.1, rootMargin: '200px' }
+      { threshold: 0.1, rootMargin: '100px' }
     );
 
     if (observerRef.current) {

@@ -52,7 +52,7 @@ export const Carousel = ({ images, variant = 'small', options }: Props) => {
       <div className={styles.viewport} ref={emblaRef}>
         <div className={styles.container}>
           {images.map((image, idx) => (
-            <div className={styles.slide} key={image.uploadId ?? idx}>
+            <div className={styles.slide} key={image.uploadId ?? image.url}>
               <Image
                 src={image.url}
                 alt={`slide-${idx}`}
@@ -60,7 +60,7 @@ export const Carousel = ({ images, variant = 'small', options }: Props) => {
                 sizes={`(max-width: 600px) 100vw, ${config.image.w}px`}
                 priority={idx === 0}
                 className={styles.image}
-                onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
+                //  onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
               />
             </div>
           ))}

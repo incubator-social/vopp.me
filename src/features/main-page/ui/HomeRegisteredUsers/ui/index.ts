@@ -1,0 +1,1 @@
+export { HomeRegisteredUsers } from './HomeRegisteredUsers';

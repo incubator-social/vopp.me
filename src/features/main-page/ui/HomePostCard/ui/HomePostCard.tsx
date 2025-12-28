@@ -1,3 +1,4 @@
+'use client';
 import { Post } from '@/src/entities/post/model/posts.schemas';
 import styles from './HomePostCard.module.scss';
 import { formatRelativeTime } from '@/src/shared/lib/utils/formatRelativeTime';
