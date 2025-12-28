@@ -20,7 +20,7 @@ export const useEditPost = ({ post, setIsEditModalOpen }: EditPostProps) => {
     if (!post) return;
     const next = post?.description ?? '';
     setEditedDescription((prev) => (prev === next ? prev : next));
-  }, [post?.id, post?.description]);
+  }, [post]);
 
   const closeEditor = useCallback(() => {
     setIsEditModalOpen(false);

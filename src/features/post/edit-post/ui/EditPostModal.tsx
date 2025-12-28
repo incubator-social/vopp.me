@@ -27,7 +27,7 @@ export const EditPostModal = ({ postId, open, onClose }: Props) => {
     setEditedDescription,
     handleCancelEdit,
     handleSaveChanges,
-    ConfirmModalComponent: EditConfirmModal
+    ConfirmModalComponent: EditPostConfirmModal
   } = useEditPost({
     post,
     setIsEditModalOpen: onClose
@@ -102,7 +102,7 @@ export const EditPostModal = ({ postId, open, onClose }: Props) => {
           </div>
         </div>
       </Modal>
-      <EditConfirmModal />
+      <EditPostConfirmModal />
     </>
   );
 };
